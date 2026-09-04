@@ -11,6 +11,7 @@ import type {
 } from '@/types/trading'
 import type { ExchangeRateCache, PriceSnapshot } from '@/types/pricing'
 import type { SharedFolderMeta } from '@/lib/folder-sync'
+import { hasNewListings } from '@/lib/watchlist'
 
 export const STORAGE_KEY = 'exile-trade-companion-state'
 export const DEFAULT_FOLDER_ID = 'watchlist'
@@ -40,6 +41,7 @@ export function createDefaultState(): TradeState {
     snapshots: [],
     exchangeRate: null,
     hiddenSearchIds: [],
+    watchlistState: {},
   }
 }
 
@@ -66,6 +68,9 @@ function sanitizeState(value: unknown): TradeState {
     snapshots: Array.isArray(candidate.snapshots) ? candidate.snapshots : [],
     exchangeRate: candidate.exchangeRate ?? null,
     hiddenSearchIds: Array.isArray(candidate.hiddenSearchIds) ? candidate.hiddenSearchIds : [],
+    watchlistState: candidate.watchlistState && typeof candidate.watchlistState === 'object'
+      ? candidate.watchlistState
+      : {},
   }
 }
 
@@ -119,6 +124,10 @@ export async function removeSearch(id: string) {
   }
 
   state.searches = state.searches.filter((entry) => entry.id !== id)
+  if (id in state.watchlistState) {
+    const { [id]: _removed, ...rest } = state.watchlistState
+    state.watchlistState = rest
+  }
   return writeState(state)
 }
 
@@ -213,6 +222,32 @@ export async function recordSnapshot(input: Omit<PriceSnapshot, 'id'>) {
     .sort((a, b) => b.capturedAt - a.capturedAt)
     .slice(0, MAX_SNAPSHOTS_PER_QUERY)
   state.snapshots = [...others, ...nextForQuery]
+  return writeState(state)
+}
+
+// Cập nhật baseline listing count của một search đang theo dõi. Trả kèm `isNew` để nơi gọi
+// (background.ts) quyết định có bắn desktop notification hay không, tránh phải đọc lại state.
+export async function recordWatchlistCount(searchId: string, count: number) {
+  const state = await readState()
+  const previous = state.watchlistState[searchId]
+  const isNew = hasNewListings(previous?.lastCount, count)
+  state.watchlistState = {
+    ...state.watchlistState,
+    [searchId]: {
+      lastCount: count,
+      lastNotifiedAt: isNew ? Date.now() : previous?.lastNotifiedAt ?? 0,
+      seen: isNew ? false : previous?.seen ?? true,
+    },
+  }
+  const next = await writeState(state)
+  return { isNew, state: next }
+}
+
+export async function markWatchlistSeen(searchId: string) {
+  const state = await readState()
+  const entry = state.watchlistState[searchId]
+  if (!entry || entry.seen) return state
+  state.watchlistState = { ...state.watchlistState, [searchId]: { ...entry, seen: true } }
   return writeState(state)
 }
 

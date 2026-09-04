@@ -10,6 +10,7 @@
     "tabSaved": "Saved",
     "tabSavedCount": "Saved ({count})",
     "tabHistory": "Recent",
+    "tabWatchlist": "Watching",
     "tabSettings": "Settings",
     "backLabel": "Back",
     "discordLabel": "Join our Discord community",
@@ -81,11 +82,22 @@
     "titleInputLabel": "Search title",
     "saveTitleLabel": "Save title",
     "cancelEditTitleLabel": "Cancel rename",
-    "medianPrice": "Median: {price}"
+    "medianPrice": "Median: {price}",
+    "watch": "Watch for new listings",
+    "unwatch": "Stop watching"
   },
   "history": {
     "empty": "No recent searches yet. Every trade page you open gets recorded here.",
     "clear": "Clear history"
+  },
+  "watchlist": {
+    "empty": "Nothing watched yet. Use the eye icon on a saved search to watch it.",
+    "pending": "Starting up…",
+    "listingCount": "{count} listings",
+    "hasNew": "New listings",
+    "limitReached": "You can watch at most {max} searches at once. Stop watching one to add another.",
+    "notificationTitle": "New listing found",
+    "notificationBody": "{title} has new listings on the trade site."
   },
   "priceHistory": {
     "menuItem": "Price history",

@@ -48,6 +48,9 @@ export interface SavedSearch extends TradePage {
   note: string
   createdAt: number
   updatedAt: number
+  // undefined/false = không theo dõi. Khi true, background mở một tab nền chạy đúng search này
+  // qua UI thật của site (xem entrypoints/background.ts) và báo cáo số lượng listing về watchlistState.
+  watching?: boolean
 }
 
 export interface HistoryEntry extends TradePage {
@@ -64,6 +67,15 @@ export interface TradeSettings {
   priceLabelsEnabled: boolean
 }
 
+export interface WatchlistEntryState {
+  // Số listing ở lần content script report gần nhất — baseline để so sánh phát hiện listing mới
+  // (xem lib/watchlist.ts hasNewListings).
+  lastCount: number
+  lastNotifiedAt: number
+  // false khi vừa có listing mới chưa được user xem qua sidebar (xem lib/storage.ts markWatchlistSeen).
+  seen: boolean
+}
+
 export interface TradeState {
   version: 1
   folders: SearchFolder[]
@@ -76,11 +88,14 @@ export interface TradeState {
   // ở máy người khác, nên chỉ ẩn cục bộ — search vẫn còn trong `searches` để không phá diff đẩy
   // lên room, chỉ lọc khỏi mọi nơi hiển thị.
   hiddenSearchIds: string[]
+  // Baseline + trạng thái "đã xem" của từng search đang theo dõi, keyed theo SavedSearch.id.
+  watchlistState: Record<string, WatchlistEntryState>
 }
 
 export interface SaveSearchInput extends TradePage {
   folderId?: string
   note?: string
+  watching?: boolean
 }
 
 export type ExtensionMessage =
@@ -91,3 +106,12 @@ export type ExtensionMessage =
   | { type: 'OPEN_PANEL' }
   | { type: 'SAVE_ACTIVE_SEARCH'; page: TradePage }
   | { type: 'GET_CURRENT_PAGE' }
+  // Content script (bất kỳ tab trade nào, kể cả tab watchlist tự mở) báo số lượng listing hiện tại
+  // của một search đang theo dõi mà nó phát hiện khớp trang đang xem.
+  | { type: 'WATCHLIST_REPORT'; searchId: string; count: number }
+  // Sidebar yêu cầu background focus đúng tab nền đang chạy search này.
+  | { type: 'FOCUS_WATCHLIST_TAB'; searchId: string }
+  // Content script hỏi background "tab này (theo sender.tab.id) có phải tab nền dành riêng cho một
+  // search đang theo dõi không" — trade site tự viết lại URL sau khi tab load nên không thể tự nhận
+  // diện chỉ bằng queryId/URL hiện tại của trang (xem lib/watchlist.ts searchIdForTab).
+  | { type: 'WATCHLIST_TAB_IDENTIFY' }

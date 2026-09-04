@@ -10,6 +10,7 @@
     "tabSaved": "Đã lưu",
     "tabSavedCount": "Đã lưu ({count})",
     "tabHistory": "Gần đây",
+    "tabWatchlist": "Đang theo dõi",
     "tabSettings": "Cài đặt",
     "backLabel": "Quay lại",
     "discordLabel": "Tham gia cộng đồng Discord",
@@ -81,11 +82,22 @@
     "titleInputLabel": "Tên search",
     "saveTitleLabel": "Lưu tên search",
     "cancelEditTitleLabel": "Hủy đổi tên",
-    "medianPrice": "Trung vị: {price}"
+    "medianPrice": "Trung vị: {price}",
+    "watch": "Theo dõi listing mới",
+    "unwatch": "Ngừng theo dõi"
   },
   "history": {
     "empty": "Chưa có search nào gần đây. Mỗi trang trade mở ra sẽ được ghi lại ở đây.",
     "clear": "Xóa lịch sử"
+  },
+  "watchlist": {
+    "empty": "Chưa theo dõi search nào. Bấm icon con mắt trên một search đã lưu để bắt đầu theo dõi.",
+    "pending": "Đang khởi động…",
+    "listingCount": "{count} listing",
+    "hasNew": "Có listing mới",
+    "limitReached": "Chỉ theo dõi tối đa {max} search cùng lúc. Ngừng theo dõi bớt một cái để thêm cái khác.",
+    "notificationTitle": "Có listing mới",
+    "notificationBody": "{title} vừa có listing mới trên trade site."
   },
   "priceHistory": {
     "menuItem": "Lịch sử giá",
