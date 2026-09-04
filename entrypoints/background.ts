@@ -43,6 +43,11 @@ export default defineBackground(() => {
     })
   })
 
+  browser.action.onClicked.addListener((tab) => {
+    if (!tab.id || !parseTradeUrl(tab.url ?? '')) return
+    void browser.tabs.sendMessage(tab.id, { type: 'OPEN_PANEL' } satisfies ExtensionMessage).catch(() => undefined)
+  })
+
   browser.runtime.onMessage.addListener((message: ExtensionMessage, sender) => {
     if (message.type === 'OPEN_URL' && parseTradeUrl(message.url)) {
       if (sender.tab?.id) {

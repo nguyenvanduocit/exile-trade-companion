@@ -3,7 +3,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { browser } from 'wxt/browser'
 import type { ContentScriptContext } from 'wxt/utils/content-script-context'
 import { i18n } from '#i18n'
-import { Bookmark, HelpCircle, Plus, Users } from 'lucide-vue-next'
+import { Bookmark, Download, Plus, Settings, Upload, Users } from 'lucide-vue-next'
 import DiscordIcon from '@/components/DiscordIcon.vue'
 import FolderSection from '@/components/FolderSection.vue'
 import JoinFolderModal from '@/components/JoinFolderModal.vue'
@@ -19,12 +19,12 @@ import type { ExtensionMessage, TradePage } from '@/types/trading'
 
 const UI_STATE_KEY = 'trade-companion-ui-state'
 
-function loadUiState(): { open: boolean; tab: 'saved' | 'history' } {
+function loadUiState(): { open: boolean; tab: 'saved' | 'history' | 'settings' } {
   try {
     const raw = window.sessionStorage.getItem(UI_STATE_KEY)
     if (!raw) return { open: false, tab: 'saved' }
-    const parsed = JSON.parse(raw) as Partial<{ open: boolean; tab: 'saved' | 'history' }>
-    const tab = parsed.tab === 'history' ? parsed.tab : 'saved'
+    const parsed = JSON.parse(raw) as Partial<{ open: boolean; tab: 'saved' | 'history' | 'settings' }>
+    const tab = parsed.tab === 'history' || parsed.tab === 'settings' ? parsed.tab : 'saved'
     return { open: parsed.open ?? false, tab }
   } catch {
     return { open: false, tab: 'saved' }
@@ -38,7 +38,9 @@ const store = useTradeStore()
 const folderSync = useFolderSync()
 const priceSnapshot = usePriceSnapshot(props.ctx)
 const open = ref(uiState.open)
-const tab = ref<'saved' | 'history'>(uiState.tab)
+const tab = ref<'saved' | 'history' | 'settings'>(uiState.tab)
+const previousTab = ref<'saved' | 'history'>(uiState.tab === 'settings' ? 'saved' : uiState.tab)
+const importing = ref(false)
 const rawPage = ref<TradePage | null>(null)
 const detectedLabel = ref<string | null>(null)
 const showFolderCreator = ref(false)
@@ -149,6 +151,7 @@ async function createNewFolder() {
 
 function onMessage(message: ExtensionMessage) {
   if (message.type === 'TOGGLE_PANEL') open.value = !open.value
+  if (message.type === 'OPEN_PANEL') open.value = true
 }
 
 async function openHistory(url: string) {
@@ -161,6 +164,38 @@ async function openDiscord() {
 
 async function openOnboarding() {
   await browser.runtime.sendMessage({ type: 'OPEN_ONBOARDING' } satisfies ExtensionMessage)
+}
+
+function toggleSettings() {
+  if (tab.value === 'settings') {
+    tab.value = previousTab.value
+  } else {
+    previousTab.value = tab.value
+    tab.value = 'settings'
+  }
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(store.state.value, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `exile-trade-companion-${new Date().toISOString().slice(0, 10)}.json`
+  link.click()
+  URL.revokeObjectURL(url)
+}
+
+async function importData(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
+  importing.value = true
+  try {
+    await store.importState(JSON.parse(await file.text()))
+  } finally {
+    importing.value = false
+    input.value = ''
+  }
 }
 
 watch([open, tab], ([openValue, tabValue]) => {
@@ -245,16 +280,16 @@ onBeforeUnmount(() => {
           <button
             class="icon-btn"
             type="button"
-            :aria-label="i18n.t('settings.viewOnboarding')"
-            :title="i18n.t('settings.viewOnboarding')"
-            @click="openOnboarding"
+            :aria-label="i18n.t('panel.tabSettings')"
+            :title="i18n.t('panel.tabSettings')"
+            @click="toggleSettings"
           >
-            <HelpCircle />
+            <Settings />
           </button>
         </div>
       </header>
 
-      <nav class="flex shrink-0 border-b border-bronze" :aria-label="i18n.t('panel.viewNavLabel')">
+      <nav v-if="tab !== 'settings'" class="flex shrink-0 border-b border-bronze" :aria-label="i18n.t('panel.viewNavLabel')">
         <button
           v-for="item in [
             { id: 'saved', label: savedCount ? i18n.t('panel.tabSavedCount', { count: savedCount }) : i18n.t('panel.tabSaved') },
@@ -300,7 +335,7 @@ onBeforeUnmount(() => {
           <JoinFolderModal v-model:open="showJoinModal" />
         </template>
 
-        <template v-else>
+        <template v-else-if="tab === 'history'">
           <button
             v-for="entry in history"
             :key="entry.id"
@@ -318,6 +353,86 @@ onBeforeUnmount(() => {
           <p v-if="!history.length" class="px-4 py-6 text-[13px] leading-5 text-dim">
             {{ i18n.t('history.empty') }}
           </p>
+        </template>
+
+        <template v-else-if="tab === 'settings'">
+          <div class="flex flex-col gap-6 px-4 py-4">
+            <label class="flex items-start justify-between gap-4">
+              <span>
+                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.autoRecordTitle') }}</span>
+                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.autoRecordDesc') }}</span>
+              </span>
+              <input
+                type="checkbox"
+                class="mt-1 size-4 accent-[var(--bronze-strong)]"
+                :checked="store.state.value.settings.captureHistory"
+                @change="store.updateSettings({ captureHistory: ($event.target as HTMLInputElement).checked })"
+              >
+            </label>
+
+            <label class="flex items-start justify-between gap-4">
+              <span>
+                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.statFilterButtonsTitle') }}</span>
+                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.statFilterButtonsDesc') }}</span>
+              </span>
+              <input
+                type="checkbox"
+                class="mt-1 size-4 accent-[var(--bronze-strong)]"
+                :checked="store.state.value.settings.statFilterButtonsEnabled"
+                @change="store.updateSettings({ statFilterButtonsEnabled: ($event.target as HTMLInputElement).checked })"
+              >
+            </label>
+
+            <label class="flex items-start justify-between gap-4">
+              <span>
+                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.propertyFilterButtonsTitle') }}</span>
+                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.propertyFilterButtonsDesc') }}</span>
+              </span>
+              <input
+                type="checkbox"
+                class="mt-1 size-4 accent-[var(--bronze-strong)]"
+                :checked="store.state.value.settings.propertyFilterButtonsEnabled"
+                @change="store.updateSettings({ propertyFilterButtonsEnabled: ($event.target as HTMLInputElement).checked })"
+              >
+            </label>
+
+            <label class="flex items-start justify-between gap-4">
+              <span>
+                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.priceSnapshotTitle') }}</span>
+                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.priceSnapshotDesc') }}</span>
+              </span>
+              <input
+                type="checkbox"
+                class="mt-1 size-4 accent-[var(--bronze-strong)]"
+                :checked="store.state.value.settings.priceSnapshotEnabled"
+                @change="store.updateSettings({ priceSnapshotEnabled: ($event.target as HTMLInputElement).checked })"
+              >
+            </label>
+
+            <div>
+              <p class="font-display text-[16px] text-cream">{{ i18n.t('settings.backupTitle') }}</p>
+              <p class="mt-0.5 leading-5 text-dim">{{ i18n.t('settings.backupDesc') }}</p>
+              <div class="mt-3 flex gap-2">
+                <button class="poe-btn" type="button" @click="exportData">
+                  <Download /> {{ i18n.t('settings.exportJson') }}
+                </button>
+                <label class="poe-btn">
+                  <Upload /> {{ importing ? i18n.t('settings.importing') : i18n.t('settings.importJson') }}
+                  <input class="hidden" type="file" accept="application/json" :disabled="importing" @change="importData">
+                </label>
+              </div>
+            </div>
+
+            <p class="leading-5 text-dim">
+              {{ i18n.t('settings.shortcutHintBefore') }}
+              <kbd class="border border-rule bg-row px-1.5 py-0.5 font-display text-[13px] text-cream">Alt Shift B</kbd>
+              {{ i18n.t('settings.shortcutHintAfter') }}
+            </p>
+
+            <button class="poe-btn self-start" type="button" @click="openOnboarding">
+              {{ i18n.t('settings.viewOnboarding') }}
+            </button>
+          </div>
         </template>
       </div>
     </section>

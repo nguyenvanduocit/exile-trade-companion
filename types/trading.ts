@@ -67,4 +67,5 @@ export type ExtensionMessage =
   | { type: 'OPEN_DISCORD' }
   | { type: 'OPEN_ONBOARDING' }
   | { type: 'TOGGLE_PANEL' }
+  | { type: 'OPEN_PANEL' }
   | { type: 'SAVE_ACTIVE_SEARCH'; page: TradePage }
