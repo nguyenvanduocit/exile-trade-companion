@@ -46,7 +46,9 @@ const syncStatus = reactive<Record<string, FolderSyncStatus>>({})
 let watching = false
 
 function readRemoteSearches(root: LiveObject<FolderRoomStorage>, folderId: string) {
-  return [...root.get('searches').entries()].map(([id, fields]) => buildSavedSearch(id, folderId, fields.toJSON()))
+  // toJSON() trả về nested object dạng ReadonlyJsonObject — chỉ khác Json ở tính readonly trên type,
+  // dữ liệu runtime vẫn JSON hợp lệ, cast thẳng cho khớp SharedSearchFields.
+  return [...root.get('searches').entries()].map(([id, fields]) => buildSavedSearch(id, folderId, fields.toJSON() as SharedSearchFields))
 }
 
 // Search đã bị "xoá" (ẩn) cục bộ không bao giờ được đẩy lên room — dù là share lần đầu hay heal
@@ -212,7 +214,7 @@ export function useFolderSync() {
         leave()
         return { ok: false, reason: 'error' }
       }
-      const searchFields: [string, SharedSearchFields][] = [...root.get('searches').entries()].map(([id, fields]) => [id, fields.toJSON()])
+      const searchFields: [string, SharedSearchFields][] = [...root.get('searches').entries()].map(([id, fields]) => [id, fields.toJSON() as SharedSearchFields])
 
       return { ok: true, inspection: { shareKey, mode: resolveShareMode(meta), meta, searchFields, room, root, leave } }
     } catch {

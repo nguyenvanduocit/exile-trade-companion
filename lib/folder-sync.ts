@@ -1,6 +1,11 @@
+import type { Json } from '@liveblocks/client'
 import type { SavedSearch, SearchFolder } from '@/types/trading'
 
-export type SharedSearchFields = Omit<SavedSearch, 'id' | 'folderId'>
+// Liveblocks yêu cầu mọi field lưu trong LiveObject là Json (có index signature) — TradeQuery là
+// interface có shape cụ thể nên không tự thoả structural constraint đó dù giá trị runtime của nó
+// luôn là JSON hợp lệ (chính là payload JSON.stringify được trong lib/trade-url.ts). Ép kiểu ở đúng
+// ranh giới serialize này (toSharedSearchFields/buildSavedSearch) thay vì nới lỏng type toàn app.
+export type SharedSearchFields = Omit<SavedSearch, 'id' | 'folderId' | 'query'> & { query?: Json }
 
 export type ShareMode = 'live' | 'once'
 
@@ -21,12 +26,13 @@ export function generateShareKey(): string {
 }
 
 export function toSharedSearchFields(search: SavedSearch): SharedSearchFields {
-  const { id: _id, folderId: _folderId, ...fields } = search
-  return fields
+  const { id: _id, folderId: _folderId, query, ...fields } = search
+  return { ...fields, query: query as Json | undefined }
 }
 
 export function buildSavedSearch(id: string, folderId: string, fields: SharedSearchFields): SavedSearch {
-  return { ...fields, id, folderId }
+  const { query, ...rest } = fields
+  return { ...rest, id, folderId, query: query as SavedSearch['query'] }
 }
 
 export function toSharedFolderMeta(folder: SearchFolder, mode: ShareMode): SharedFolderMeta {

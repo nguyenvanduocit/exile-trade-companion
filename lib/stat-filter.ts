@@ -8,9 +8,18 @@ export interface StatFilterValue {
   disabled: boolean
 }
 
+// Shape đầy đủ của một dòng filter đã tồn tại trong group (đọc từ state.persistent.stats) — khác
+// StatFilterValue (chỉ dùng khi TẠO filter mới, value luôn rỗng), filter đã tồn tại có thể mang
+// value {min,max} người dùng đã nhập.
+export interface StatFilterEntry {
+  id: string
+  value?: { min?: number; max?: number }
+  disabled?: boolean
+}
+
 export interface StatGroup {
   type: string
-  filters: { id: string }[]
+  filters: StatFilterEntry[]
 }
 
 export type AddStatPlan =

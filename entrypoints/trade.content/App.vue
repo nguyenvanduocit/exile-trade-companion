@@ -12,10 +12,10 @@ import { useTradeStore } from '@/composables/useTradeStore'
 import { usePriceSnapshot } from '@/composables/usePriceSnapshot'
 import { pageLabel, relativeTime } from '@/lib/relative-time'
 import { recordHistory } from '@/lib/storage'
-import { parseTradeUrl } from '@/lib/trade-url'
-import { QUERY_LABEL_EVENT } from '@/lib/query-label'
+import { buildDurableUrl, parseTradeUrl } from '@/lib/trade-url'
+import { QUERY_STATE_EVENT, type QueryStateDetail } from '@/lib/query-label'
 import { SAVE_TOAST_EVENT } from '@/lib/save-toast'
-import type { ExtensionMessage, TradePage } from '@/types/trading'
+import type { ExtensionMessage, TradePage, TradeQuery } from '@/types/trading'
 
 const UI_STATE_KEY = 'trade-companion-ui-state'
 
@@ -41,6 +41,7 @@ const open = ref(uiState.open)
 const tab = ref<'saved' | 'history'>(uiState.tab)
 const rawPage = ref<TradePage | null>(null)
 const detectedLabel = ref<string | null>(null)
+const detectedQuery = ref<TradeQuery | null>(null)
 const showFolderCreator = ref(false)
 const newFolderName = ref('')
 const showJoinModal = ref(false)
@@ -78,11 +79,17 @@ function stopPagePush() {
 
 const currentPage = computed<TradePage | null>(() => {
   if (!rawPage.value) return null
-  return detectedLabel.value ? { ...rawPage.value, title: detectedLabel.value } : rawPage.value
+  return {
+    ...rawPage.value,
+    title: detectedLabel.value || rawPage.value.title,
+    query: detectedQuery.value ?? undefined,
+  }
 })
 
-function onQueryLabel(event: Event) {
-  detectedLabel.value = (event as CustomEvent<string | null>).detail ?? null
+function onQueryState(event: Event) {
+  const detail = (event as CustomEvent<QueryStateDetail>).detail
+  detectedLabel.value = detail.label
+  detectedQuery.value = detail.query
 
   // Label detection chạy async (chờ window.app + DOM filter) nên có thể tới sau khi history đã
   // ghi title thô. Nếu label mới tới vẫn khớp URL vừa ghi, vá lại entry đó bằng title đẹp hơn —
@@ -148,10 +155,15 @@ async function createNewFolder() {
 }
 
 function onMessage(message: ExtensionMessage) {
-  if (message.type === 'TOGGLE_PANEL') open.value = !open.value
+  if (message.type === 'TOGGLE_PANEL') {
+    open.value = !open.value
+    return
+  }
+  if (message.type === 'GET_CURRENT_PAGE') return Promise.resolve(currentPage.value)
 }
 
-async function openHistory(url: string) {
+async function openHistory(entry: TradePage) {
+  const url = await buildDurableUrl(entry) ?? entry.url
   await browser.runtime.sendMessage({ type: 'OPEN_URL', url } satisfies ExtensionMessage)
 }
 
@@ -195,7 +207,7 @@ onMounted(async () => {
   await syncCurrentPage()
   locationTimer = props.ctx.setInterval(() => void syncCurrentPage(), 1200)
   browser.runtime.onMessage.addListener(onMessage)
-  props.ctx.addEventListener(window, QUERY_LABEL_EVENT, onQueryLabel)
+  props.ctx.addEventListener(window, QUERY_STATE_EVENT, onQueryState)
   stopWatchingResults = priceSnapshot.watchResultsForSnapshot(() => currentPage.value)
 })
 
@@ -307,7 +319,7 @@ onBeforeUnmount(() => {
             class="group flex w-full items-start gap-3 border-b border-rule px-4 py-2.5 text-left last:border-b-0 hover:bg-hover"
             type="button"
             :title="entry.url"
-            @click="openHistory(entry.url)"
+            @click="openHistory(entry)"
           >
             <span class="min-w-0 flex-1">
               <span class="line-clamp-2 text-[13px] leading-5 text-grey group-hover:text-cream">{{ entry.title }}</span>

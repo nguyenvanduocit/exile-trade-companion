@@ -1,7 +1,28 @@
+import type { PropertyFilterValue } from '@/lib/property-filter'
+import type { StatGroup } from '@/lib/stat-filter'
 import type { ExchangeRateCache, PriceSnapshot } from './pricing'
 
 export type Game = 'poe1' | 'poe2'
 export type TradeMode = 'search' | 'exchange'
+
+export interface TradeExchangeState {
+  want: Record<string, { amount: number | null } | undefined>
+  have: Record<string, { amount: number | null } | undefined>
+}
+
+// Bản sao state.persistent của Vuex store trên trade site (window.app), trừ các field route-derived
+// (id/tab/realm/league) — đây là phần thật sự mô tả nội dung search, dùng để dựng lại durable URL
+// (xem lib/trade-url.ts buildDurableUrl) khi queryId gốc do GGG cấp đã hết hạn.
+export interface TradeQuery {
+  status: string
+  name: string | null
+  type: string | null
+  term: string | null
+  disc: string | null
+  stats: StatGroup[]
+  filters: Record<string, { filters: Record<string, PropertyFilterValue> } | undefined>
+  exchange: TradeExchangeState
+}
 
 export interface TradePage {
   url: string
@@ -10,6 +31,7 @@ export interface TradePage {
   league: string
   mode: TradeMode
   queryId?: string
+  query?: TradeQuery
 }
 
 export interface SearchFolder {
@@ -65,3 +87,4 @@ export type ExtensionMessage =
   | { type: 'OPEN_ONBOARDING' }
   | { type: 'TOGGLE_PANEL' }
   | { type: 'SAVE_ACTIVE_SEARCH'; page: TradePage }
+  | { type: 'GET_CURRENT_PAGE' }

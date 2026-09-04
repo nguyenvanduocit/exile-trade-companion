@@ -10,7 +10,7 @@ import { useFolderSync } from '@/composables/useFolderSync'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { DISCORD_URL } from '@/lib/discord'
 import { pageLabel, relativeTime } from '@/lib/relative-time'
-import { parseTradeUrl } from '@/lib/trade-url'
+import { buildDurableUrl, parseTradeUrl } from '@/lib/trade-url'
 import type { ExtensionMessage, TradePage } from '@/types/trading'
 
 type View = 'saved' | 'history' | 'settings'
@@ -55,7 +55,13 @@ async function setFolderOpen(folderId: string, isOpen: boolean) {
 onMounted(async () => {
   await folderSync.init()
   const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
-  currentPage.value = tab?.url ? parseTradeUrl(tab.url, tab.title) : null
+  const fallback = tab?.url ? parseTradeUrl(tab.url, tab.title) : null
+
+  // Popup không có quyền vào MAIN world của tab đang mở, nên không tự đọc được raw query —
+  // phải hỏi content script (đã nghe QUERY_STATE_EVENT) để lấy currentPage kèm query.
+  currentPage.value = tab?.id && fallback
+    ? await browser.tabs.sendMessage(tab.id, { type: 'GET_CURRENT_PAGE' } satisfies ExtensionMessage).catch(() => null) as TradePage | null ?? fallback
+    : fallback
 })
 
 async function saveCurrent(folderId: string) {
@@ -63,7 +69,8 @@ async function saveCurrent(folderId: string) {
   await store.saveSearch({ ...currentPage.value, folderId })
 }
 
-async function openUrl(url: string) {
+async function openUrl(page: TradePage) {
+  const url = await buildDurableUrl(page) ?? page.url
   await browser.runtime.sendMessage({ type: 'OPEN_URL', url } satisfies ExtensionMessage)
 }
 
@@ -185,7 +192,7 @@ async function importData(event: Event) {
         class="group flex w-full items-start gap-3 border-b border-rule px-4 py-2.5 text-left hover:bg-hover"
         type="button"
         :title="entry.url"
-        @click="openUrl(entry.url)"
+        @click="openUrl(entry)"
       >
         <span class="min-w-0 flex-1">
           <span class="line-clamp-2 text-[13px] leading-5 text-grey group-hover:text-cream">{{ entry.title }}</span>

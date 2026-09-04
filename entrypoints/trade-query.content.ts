@@ -3,9 +3,10 @@
 // cho content script chính (isolated world) dùng làm title khi lưu search.
 // Đồng thời nghe chiều ngược lại: sidebar (isolated world) bắn SAVE_TOAST_EVENT khi lưu search,
 // script này hiện toast bằng toastr có sẵn của site thay vì tự vẽ UI thông báo.
-import { buildQueryLabel, QUERY_LABEL_EVENT } from '@/lib/query-label'
+import { buildQueryLabel, QUERY_STATE_EVENT, type QueryStateDetail } from '@/lib/query-label'
 import { SAVE_TOAST_EVENT } from '@/lib/save-toast'
 import type { TradeApp } from '@/lib/trade-app'
+import type { TradeQuery } from '@/types/trading'
 
 function categoryLabel(): string | null {
   const title = [...document.querySelectorAll('.filter-title')]
@@ -55,6 +56,13 @@ function currentLabel(app: TradeApp): string | null {
   })
 }
 
+// Bản sao thuần dữ liệu của state.persistent, không kèm id/tab/realm/league (route-derived, không
+// thuộc nội dung query) — dùng để lưu kèm bookmark và dựng lại durable URL sau này.
+function currentQuery(app: TradeApp): TradeQuery {
+  const { status, name, type, term, disc, stats, filters, exchange } = app.$store.state.persistent
+  return { status, name, type, term, disc, stats, filters, exchange }
+}
+
 function waitForApp(): Promise<TradeApp> {
   return new Promise((resolve) => {
     const check = () => (window.app?.$store ? resolve(window.app) : setTimeout(check, 200))
@@ -74,14 +82,18 @@ export default defineContentScript({
 
   async main() {
     const app = await waitForApp()
-    let last: string | null | undefined
     let pending: number | undefined
+    let lastSerialized: string | undefined
 
     function emit() {
-      const label = currentLabel(app)
-      if (label === last) return
-      last = label
-      window.dispatchEvent(new CustomEvent<string | null>(QUERY_LABEL_EVENT, { detail: label }))
+      const detail: QueryStateDetail = { label: currentLabel(app), query: currentQuery(app) }
+      // So sánh cả query (không chỉ label) trước khi bắn event — MutationObserver/store watch bắn
+      // rất thường xuyên, tránh dispatch (và kéo theo recordHistory ở phía nghe) khi state thật ra
+      // chưa đổi gì so với lần emit trước.
+      const serialized = JSON.stringify(detail)
+      if (serialized === lastSerialized) return
+      lastSerialized = serialized
+      window.dispatchEvent(new CustomEvent<QueryStateDetail>(QUERY_STATE_EVENT, { detail }))
     }
 
     function scheduleEmit() {
