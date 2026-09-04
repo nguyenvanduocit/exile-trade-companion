@@ -198,21 +198,27 @@ export default defineContentScript({
     let highlightObserver: MutationObserver | undefined
     let unwatchStats: (() => void) | undefined
 
+    // `window.app` có thể đã tồn tại nhưng `$store` chưa kịp gắn vào (Vue root dựng trước, Vuex
+    // wiring sau) — root cause thật của bug "highlight không bao giờ chạy" tối nay: check `!app`
+    // không đủ, `app.$store` truy cập tiếp sẽ throw. Exception đó (khi xảy ra ở lần gọi ĐỒNG BỘ
+    // đầu tiên trong startHighlight(), trước dòng myObserver.observe()) làm cả observer lẫn
+    // waitForApp().then() phía sau KHÔNG BAO GIỜ được thiết lập, còn highlightObserver thì đã gán
+    // nên mọi lần startHighlight() gọi lại sau đó (SETTINGS_EVENT bắn nhiều lần lúc trang hydrate)
+    // đều bị guard `if (highlightObserver) return` chặn vĩnh viễn — verify bằng live test 2026-09-05
+    // (log cho thấy 6 lần gọi đều bị chặn bởi đúng guard này). Check `$store` thay vì chỉ check `app`.
     function scanHighlight(root: ParentNode) {
       const app = window.app
-      if (!app) return
+      if (!app?.$store) return
       applyHighlight(root, activeStatIds(app.$store.state.persistent.stats))
     }
 
     function startHighlight() {
       if (highlightObserver) return
-      const myObserver = new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-          for (const node of mutation.addedNodes) {
-            if (node instanceof HTMLElement) scanHighlight(node)
-          }
-        }
-      })
+      // Rescan toàn document (không chỉ node vừa thêm) mỗi lần có mutation — kết quả search trên
+      // trang trade thường tới sau một hard navigation (bấm Search điều hướng URL thật, không phải
+      // SPA push-state), nên tại lúc mutation xảy ra window.app có thể mới sẵn sàng ngay trước đó;
+      // scan lại toàn bộ đảm bảo không bỏ sót dòng nào bất kể node cụ thể nào được thêm vào DOM.
+      const myObserver = new MutationObserver(() => scanHighlight(document))
       highlightObserver = myObserver
       scanHighlight(document)
       myObserver.observe(document.body, { childList: true, subtree: true })
