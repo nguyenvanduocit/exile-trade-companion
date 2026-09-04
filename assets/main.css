@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/* Bảng màu lấy từ computed style của pathofexile.com/trade (đo 2026-09-03):
+   nền #0e1115 · ô #1a1d22 · viền đồng #634928 · tan #a38d6d · kem #fff8e1 · xám #e2e2e2.
+   Khai báo cả :host vì panel trade nằm trong shadow root, ở đó :root không match. */
+:root,
+:host {
+  --bg: #0e1115;
+  --bg-raised: #171a1f;
+  --bg-row: #1c2026;
+  --bg-hover: #242930;
+  --bronze: #634928;
+  --bronze-strong: #8a6a3a;
+  --rule: #2b2f36;
+  --tan: #a38d6d;
+  --cream: #fff8e1;
+  --grey: #e2e2e2;
+  --dim: #7d8794;
+  --danger: #d9534f;
+  --font-display: FontinSmallCaps, "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: Verdana, Geneva, "DejaVu Sans", sans-serif;
+}
+
+@theme inline {
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --spacing: 4px;
+  --color-bg: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-row: var(--bg-row);
+  --color-hover: var(--bg-hover);
+  --color-bronze: var(--bronze);
+  --color-bronze-strong: var(--bronze-strong);
+  --color-rule: var(--rule);
+  --color-tan: var(--tan);
+  --color-cream: var(--cream);
+  --color-grey: var(--grey);
+  --color-dim: var(--dim);
+  --color-danger: var(--danger);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+/* Nút icon vuông dùng chung: 24px, không nền, sáng lên khi hover. */
+@utility icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  color: var(--tan);
+  transition: color 120ms, background-color 120ms;
+
+  & > svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--cream);
+    background: var(--bg-hover);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--bronze-strong);
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+/* Nút chữ kiểu trade site: viền đồng, chữ small caps. */
+@utility poe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--bronze);
+  border-radius: 0;
+  background: var(--bg-row);
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1;
+  color: var(--cream);
+  transition: border-color 120ms, background-color 120ms;
+
+  & > svg {
+    width: 16px;
+    height: 16px;
+    color: var(--tan);
+  }
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--bronze-strong);
+    background: var(--bg-hover);
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--bronze-strong);
+    outline-offset: 1px;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+}
+
+@utility poe-btn-primary {
+  border-color: var(--bronze-strong);
+  background: linear-gradient(180deg, #3a2c17, #23190d);
+
+  &:hover,
+  &:focus-visible {
+    background: linear-gradient(180deg, #4a3a1f, #2c2011);
+  }
+}
+
+@utility poe-input {
+  height: 34px;
+  min-width: 0;
+  padding: 0 10px;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  background: var(--bg);
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--grey);
+
+  &::placeholder {
+    color: var(--dim);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--bronze-strong);
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "#i18n": ["./.wxt/i18n/index.ts"],
+      "#i18n/*": ["./.wxt/i18n/index.ts/*"]
+    },
+    "types": ["vitest/globals"]
+  },
+  "include": [".wxt/wxt.d.ts", "**/*.ts", "**/*.tsx", "**/*.vue"]
+}

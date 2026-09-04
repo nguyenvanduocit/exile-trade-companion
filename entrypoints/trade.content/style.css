@@ -1,0 +1,110 @@
+@import "../../assets/main.css";
+
+:host {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.trade-companion-shell {
+  --tc-top: 44px;
+  --tc-panel-width: min(420px, 100vw);
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--grey);
+}
+
+/* Tab dọc bám mép phải khi panel đóng. Nghỉ thì thụt vào 4px, hover trượt ra hết.
+   Khi panel mở, tab tịnh tiến sang trái để bám đúng mép trái panel — vẫn cùng một
+   nút, giờ đóng vai trigger đóng panel thay vì một nút X riêng. */
+.trade-companion-tab {
+  position: fixed;
+  z-index: 2147483000;
+  top: var(--tc-top);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 6px 10px 6px;
+  border: 1px solid var(--bronze);
+  border-right: 0;
+  border-radius: 0;
+  background: var(--bg-raised);
+  color: var(--tan);
+  box-shadow: -6px 0 18px rgb(0 0 0 / 45%);
+  transform: translateX(4px);
+  transition: right 160ms ease, transform 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.trade-companion-tab--open {
+  right: var(--tc-panel-width);
+  transform: translateX(0);
+}
+
+.trade-companion-tab > svg {
+  width: 14px;
+  height: 14px;
+}
+
+.trade-companion-tab:hover,
+.trade-companion-tab:focus-visible {
+  color: var(--cream);
+  border-color: var(--bronze-strong);
+  transform: translateX(0);
+}
+
+.trade-companion-tab:focus-visible {
+  outline: 1px solid var(--bronze-strong);
+  outline-offset: -3px;
+}
+
+.trade-companion-tab-label {
+  writing-mode: vertical-rl;
+  font-family: var(--font-display);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.trade-companion-panel {
+  position: fixed;
+  z-index: 2147483000;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: var(--tc-panel-width);
+  height: 100vh;
+  border: 1px solid var(--bronze);
+  border-top: 0;
+  border-right: 0;
+  border-radius: 0;
+  background: var(--bg);
+  box-shadow: 0 16px 48px rgb(0 0 0 / 60%);
+}
+
+.trade-companion-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.trade-companion-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.trade-companion-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 0;
+  background: var(--bronze);
+  background-clip: padding-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trade-companion-tab {
+    transition: none;
+  }
+}
