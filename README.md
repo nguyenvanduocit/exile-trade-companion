@@ -11,7 +11,7 @@ Extension quản lý Path of Exile trade searches cho Chrome và Firefox, lấy 
 - Nút `+` trên từng dòng mod trong kết quả trade: hover vào mod, bấm là stat đó vào Stat Filters của search hiện tại (group And đầu tiên, min/max để trống, không tự chạy search). Chạy trên cả trade và trade2.
 - Menu chuột phải và phím tắt `Alt+Shift+B`.
 - Nhập/xuất backup JSON.
-- Dữ liệu nằm trong `chrome.storage.local`; extension không gọi GGG Trade API.
+- Dữ liệu nằm trong `chrome.storage.local`. Extension không tự chạy search hay gọi API kết quả tìm kiếm — giá listing đọc trực tiếp từ DOM. Riêng tỷ giá quy đổi chaos/divine gọi endpoint public `GET/POST api/trade/exchange/<league>` của chính trade site, tối đa một lần mỗi 6 giờ cho mỗi league đang có search đã lưu (`lib/exchange-rate.ts`, `composables/usePriceSnapshot.ts`).
 
 ## Chạy local
 
