@@ -65,6 +65,7 @@ export interface TradeSettings {
   statFilterButtonsEnabled: boolean
   propertyFilterButtonsEnabled: boolean
   priceLabelsEnabled: boolean
+  highlightSearchedModsEnabled: boolean
 }
 
 export interface WatchlistEntryState {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseStatField, planAddStat, planAddStatNot } from './stat-filter'
+import { activeStatIds, parseStatField, planAddStat, planAddStatNot } from './stat-filter'
 
 describe('parseStatField', () => {
   it('bỏ tiền tố stat. và giữ nguyên id của trade API', () => {
@@ -88,5 +88,39 @@ describe('planAddStatNot', () => {
       action: 'add-group',
       value: { id: 'explicit.stat_9', value: {}, disabled: false },
     })
+  })
+})
+
+describe('activeStatIds', () => {
+  it('gom id từ mọi group lại thành một set', () => {
+    const groups = [
+      { type: 'and', filters: [{ id: 'explicit.stat_1' }] },
+      { type: 'not', filters: [{ id: 'explicit.stat_2' }] },
+    ]
+    expect(activeStatIds(groups)).toEqual(new Set(['explicit.stat_1', 'explicit.stat_2']))
+  })
+
+  it('loại id có disabled true, không tính là đang search', () => {
+    const groups = [
+      { type: 'and', filters: [{ id: 'explicit.stat_1', disabled: true }, { id: 'explicit.stat_2', disabled: false }] },
+    ]
+    expect(activeStatIds(groups)).toEqual(new Set(['explicit.stat_2']))
+  })
+
+  it('coi disabled undefined là đang active', () => {
+    const groups = [{ type: 'and', filters: [{ id: 'explicit.stat_1' }] }]
+    expect(activeStatIds(groups)).toEqual(new Set(['explicit.stat_1']))
+  })
+
+  it('id trùng ở nhiều group chỉ tính một lần', () => {
+    const groups = [
+      { type: 'and', filters: [{ id: 'explicit.stat_1' }] },
+      { type: 'weight', filters: [{ id: 'explicit.stat_1' }] },
+    ]
+    expect(activeStatIds(groups)).toEqual(new Set(['explicit.stat_1']))
+  })
+
+  it('trả về set rỗng khi không có group nào', () => {
+    expect(activeStatIds([])).toEqual(new Set())
   })
 })
