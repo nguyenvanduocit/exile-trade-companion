@@ -3,7 +3,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { browser } from 'wxt/browser'
 import type { ContentScriptContext } from 'wxt/utils/content-script-context'
 import { i18n } from '#i18n'
-import { Bookmark, Download, Plus, Settings, Upload, Users } from 'lucide-vue-next'
+import { ArrowLeft, Bookmark, Download, Plus, Settings, Upload, Users } from 'lucide-vue-next'
 import DiscordIcon from '@/components/DiscordIcon.vue'
 import FolderSection from '@/components/FolderSection.vue'
 import JoinFolderModal from '@/components/JoinFolderModal.vue'
@@ -308,11 +308,12 @@ onBeforeUnmount(() => {
           <button
             class="icon-btn"
             type="button"
-            :aria-label="i18n.t('panel.tabSettings')"
-            :title="i18n.t('panel.tabSettings')"
+            :aria-label="tab === 'settings' ? i18n.t('panel.backLabel') : i18n.t('panel.tabSettings')"
+            :title="tab === 'settings' ? i18n.t('panel.backLabel') : i18n.t('panel.tabSettings')"
             @click="toggleSettings"
           >
-            <Settings />
+            <ArrowLeft v-if="tab === 'settings'" />
+            <Settings v-else />
           </button>
         </div>
       </header>
