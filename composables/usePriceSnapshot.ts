@@ -14,6 +14,7 @@ export function usePriceSnapshot(ctx: ContentScriptContext) {
   const store = useTradeStore()
 
   async function maybeCaptureSnapshot(page: TradePage | null) {
+    if (!store.state.value.settings.priceSnapshotEnabled) return
     if (!page || page.mode !== 'search' || !page.queryId) return
 
     const queryId = page.queryId

@@ -95,6 +95,12 @@
   "settings": {
     "autoRecordTitle": "Tự ghi lại trang trade",
     "autoRecordDesc": "Chỉ lưu URL, tiêu đề và thời gian trên máy này.",
+    "statFilterButtonsTitle": "Nút thêm nhanh stat filter",
+    "statFilterButtonsDesc": "Hiện nút + / − cạnh mỗi dòng mod trong kết quả để thêm vào Stat Filters.",
+    "propertyFilterButtonsTitle": "Nút thêm nhanh property filter",
+    "propertyFilterButtonsDesc": "Hiện nút + / − cạnh thuộc tính armor & weapon trên item để lọc theo giá trị đó.",
+    "priceSnapshotTitle": "Chụp lịch sử giá",
+    "priceSnapshotDesc": "Tự chụp snapshot giá trung vị mỗi khi mở lại một search đã lưu.",
     "backupTitle": "Sao lưu",
     "backupDesc": "Xuất toàn bộ folder, bookmark và lịch sử ra một file JSON. Nhập lại sẽ thay thế dữ liệu hiện tại.",
     "exportJson": "Xuất JSON",
