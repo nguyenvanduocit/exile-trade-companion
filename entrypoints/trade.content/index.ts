@@ -3,6 +3,7 @@ import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { SETTINGS_EVENT } from '@/lib/settings-bridge'
 import { PRICE_LABEL_CLASS } from '@/lib/price-labels'
+import { BULK_SELLER_BADGE_CLASS, BULK_SELLER_ROW_CLASS } from '@/composables/useSellerGrouping'
 import App from './App.vue'
 import cssText from './style.css?inline'
 
@@ -27,6 +28,17 @@ export default defineContentScript({
     priceLabelStyle.dataset.exileTradeCompanion = 'price-labels'
     priceLabelStyle.textContent = `.${PRICE_LABEL_CLASS} { margin-left: 6px; font: 13px/1.4 Verdana, Geneva, "DejaVu Sans", sans-serif; color: #a38d6d; white-space: nowrap; }`
     document.head.append(priceLabelStyle)
+
+    // Cùng lý do như price-labels ở trên: đánh dấu row/badge nằm ngoài shadow root nên phải
+    // style bằng giá trị cứng thay vì biến CSS (--bronze-strong, --cream) khai báo trên :host.
+    const bulkSellerStyle = document.createElement('style')
+    bulkSellerStyle.dataset.exileTradeCompanion = 'bulk-seller-grouping'
+    // box-shadow inset thay vì border-left: trang trade đã có sẵn rule border trên .row, cùng
+    // specificity (một class) thì thắng-thua phụ thuộc thứ tự nạp CSS — verify sống 2026-09-05 cho
+    // thấy border-left của mình bị site đè trên một phần row dù cùng selector. box-shadow là
+    // property riêng, không đụng rule border của site nên luôn thắng.
+    bulkSellerStyle.textContent = `.${BULK_SELLER_ROW_CLASS} { box-shadow: inset 3px 0 0 0 #8a6a3a; } .${BULK_SELLER_BADGE_CLASS} { margin-left: 6px; padding: 0 5px; font: 11px/1.6 Verdana, Geneva, "DejaVu Sans", sans-serif; color: #fff8e1; background: #8a6a3a; border-radius: 3px; white-space: nowrap; }`
+    document.head.append(bulkSellerStyle)
 
     const store = useTradeStore()
     await store.init()

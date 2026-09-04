@@ -114,6 +114,8 @@
     "priceLabelsDesc": "Hiện giá quy đổi ra chaos/divine ngay cạnh mỗi listing trong kết quả tìm kiếm.",
     "highlightSearchedModsTitle": "Tô sáng mod đang search",
     "highlightSearchedModsDesc": "Tô sáng dòng mod trong kết quả khớp với Stat Filters hiện tại của search, giúp quét kết quả nhanh hơn.",
+    "bulkSellerHighlightTitle": "Đánh dấu seller bán nhiều item",
+    "bulkSellerHighlightDesc": "Đánh dấu mọi listing của seller có từ 2 item trở lên trong kết quả đang xem, để teleport một lần mua hết.",
     "backupTitle": "Sao lưu",
     "backupDesc": "Xuất toàn bộ folder, bookmark và lịch sử ra một file JSON. Nhập lại sẽ thay thế dữ liệu hiện tại.",
     "exportJson": "Xuất JSON",
