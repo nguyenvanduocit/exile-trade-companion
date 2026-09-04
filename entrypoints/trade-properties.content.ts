@@ -3,7 +3,9 @@
 // của item — khác Stat Filters (trade-stats.content.ts), các dòng này set thẳng vào ô min/max của
 // filter tương ứng bên sidebar trái: "+" set min = giá trị dòng, "-" set max = 0.
 import { parsePropertyField, parsePropertyValue, planSetPropertyMaxZero, planSetPropertyMin, resolvePropertyGroup } from '@/lib/property-filter'
+import { SETTINGS_EVENT } from '@/lib/settings-bridge'
 import type { TradeApp } from '@/lib/trade-app'
+import type { TradeSettings } from '@/types/trading'
 
 // Chạy trong MAIN world nên không có browser.i18n; chọn locale qua navigator.language của trang.
 const MESSAGES = {
@@ -153,15 +155,34 @@ export default defineContentScript({
 
   main() {
     injectStyle()
-    decorateWithin(document)
 
-    const observer = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        for (const node of mutation.addedNodes) {
-          if (node instanceof HTMLElement) decorateWithin(node)
+    let observer: MutationObserver | undefined
+
+    function start() {
+      if (observer) return
+      decorateWithin(document)
+      observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          for (const node of mutation.addedNodes) {
+            if (node instanceof HTMLElement) decorateWithin(node)
+          }
         }
-      }
+      })
+      observer.observe(document.body, { childList: true, subtree: true })
+    }
+
+    function stop() {
+      observer?.disconnect()
+      observer = undefined
+    }
+
+    // MAIN world không có browser.storage — chờ trade.content (isolated world) bắn setting hiện
+    // tại qua CustomEvent rồi mới quyết định chạy; tắt setting thì decorateWithin/observer không
+    // bao giờ chạy, không phải chạy rồi ẩn UI bằng CSS.
+    window.addEventListener(SETTINGS_EVENT, (event) => {
+      const settings = (event as CustomEvent<TradeSettings>).detail
+      if (settings.propertyFilterButtonsEnabled) start()
+      else stop()
     })
-    observer.observe(document.body, { childList: true, subtree: true })
   },
 })

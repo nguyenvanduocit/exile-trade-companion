@@ -95,6 +95,12 @@
   "settings": {
     "autoRecordTitle": "Auto-record trade pages",
     "autoRecordDesc": "Only saves the URL, title, and timestamp locally on this device.",
+    "statFilterButtonsTitle": "Quick stat filter buttons",
+    "statFilterButtonsDesc": "Show +/− buttons next to each mod line in results to add it to Stat Filters.",
+    "propertyFilterButtonsTitle": "Quick property filter buttons",
+    "propertyFilterButtonsDesc": "Show +/− buttons next to armour & weapon properties on an item to filter by that value.",
+    "priceSnapshotTitle": "Price history capture",
+    "priceSnapshotDesc": "Automatically captures a median price snapshot each time a saved search is reopened.",
     "backupTitle": "Backup",
     "backupDesc": "Export every folder, bookmark, and history entry to a JSON file. Importing replaces the current data.",
     "exportJson": "Export JSON",

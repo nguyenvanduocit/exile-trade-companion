@@ -215,6 +215,45 @@ async function importData(event: Event) {
         >
       </label>
 
+      <label class="flex items-start justify-between gap-4">
+        <span>
+          <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.statFilterButtonsTitle') }}</span>
+          <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.statFilterButtonsDesc') }}</span>
+        </span>
+        <input
+          type="checkbox"
+          class="mt-1 size-4 accent-[var(--bronze-strong)]"
+          :checked="store.state.value.settings.statFilterButtonsEnabled"
+          @change="store.updateSettings({ statFilterButtonsEnabled: ($event.target as HTMLInputElement).checked })"
+        >
+      </label>
+
+      <label class="flex items-start justify-between gap-4">
+        <span>
+          <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.propertyFilterButtonsTitle') }}</span>
+          <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.propertyFilterButtonsDesc') }}</span>
+        </span>
+        <input
+          type="checkbox"
+          class="mt-1 size-4 accent-[var(--bronze-strong)]"
+          :checked="store.state.value.settings.propertyFilterButtonsEnabled"
+          @change="store.updateSettings({ propertyFilterButtonsEnabled: ($event.target as HTMLInputElement).checked })"
+        >
+      </label>
+
+      <label class="flex items-start justify-between gap-4">
+        <span>
+          <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.priceSnapshotTitle') }}</span>
+          <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.priceSnapshotDesc') }}</span>
+        </span>
+        <input
+          type="checkbox"
+          class="mt-1 size-4 accent-[var(--bronze-strong)]"
+          :checked="store.state.value.settings.priceSnapshotEnabled"
+          @change="store.updateSettings({ priceSnapshotEnabled: ($event.target as HTMLInputElement).checked })"
+        >
+      </label>
+
       <div>
         <p class="font-display text-[16px] text-cream">{{ i18n.t('settings.backupTitle') }}</p>
         <p class="mt-0.5 leading-5 text-dim">{{ i18n.t('settings.backupDesc') }}</p>

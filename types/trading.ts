@@ -38,6 +38,9 @@ export interface TradeSettings {
   maxHistory: number
   collapsedFolderIds: string[]
   hasOpenedPanel: boolean
+  statFilterButtonsEnabled: boolean
+  propertyFilterButtonsEnabled: boolean
+  priceSnapshotEnabled: boolean
 }
 
 export interface TradeState {
