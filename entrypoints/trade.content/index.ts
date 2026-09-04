@@ -2,6 +2,7 @@ import { createApp, watch } from 'vue'
 import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { SETTINGS_EVENT } from '@/lib/settings-bridge'
+import { PRICE_LABEL_CLASS } from '@/lib/price-labels'
 import App from './App.vue'
 import cssText from './style.css?inline'
 
@@ -19,6 +20,13 @@ export default defineContentScript({
     badgeStyle.dataset.exileTradeCompanion = 'hide-liveblocks-badge'
     badgeStyle.textContent = '#liveblocks-badge { display: none !important; }'
     document.head.append(badgeStyle)
+
+    // Nhãn quy đổi chèn thẳng vào light DOM của trang trade — nằm ngoài shadow root nên không
+    // thấy được biến CSS (--bronze, --tan...) khai báo trên :host, phải style bằng giá trị cứng.
+    const priceLabelStyle = document.createElement('style')
+    priceLabelStyle.dataset.exileTradeCompanion = 'price-labels'
+    priceLabelStyle.textContent = `.${PRICE_LABEL_CLASS} { margin-left: 6px; font: 13px/1.4 Verdana, Geneva, "DejaVu Sans", sans-serif; color: #a38d6d; white-space: nowrap; }`
+    document.head.append(priceLabelStyle)
 
     const store = useTradeStore()
     await store.init()

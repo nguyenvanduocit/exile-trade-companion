@@ -37,6 +37,7 @@ export function createDefaultState(): TradeState {
       statFilterButtonsEnabled: true,
       propertyFilterButtonsEnabled: true,
       priceSnapshotEnabled: true,
+      priceLabelsEnabled: true,
     },
     snapshots: [],
     exchangeRate: null,

@@ -10,6 +10,7 @@ import JoinFolderModal from '@/components/JoinFolderModal.vue'
 import { useFolderSync } from '@/composables/useFolderSync'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { usePriceSnapshot } from '@/composables/usePriceSnapshot'
+import { usePriceLabels } from '@/composables/usePriceLabels'
 import { pageLabel, relativeTime } from '@/lib/relative-time'
 import { recordHistory } from '@/lib/storage'
 import { parseTradeUrl } from '@/lib/trade-url'
@@ -37,6 +38,7 @@ const uiState = loadUiState()
 const store = useTradeStore()
 const folderSync = useFolderSync()
 const priceSnapshot = usePriceSnapshot(props.ctx)
+const priceLabels = usePriceLabels(props.ctx)
 const open = ref(uiState.open)
 const tab = ref<'saved' | 'history'>(uiState.tab)
 const rawPage = ref<TradePage | null>(null)
@@ -48,6 +50,7 @@ const panelRef = ref<HTMLElement | null>(null)
 let lastRecordedUrl = ''
 let locationTimer: number | undefined
 let stopWatchingResults: (() => void) | undefined
+let stopWatchingLabels: (() => void) | undefined
 let pushObserver: ResizeObserver | undefined
 
 // Panel là position:fixed (viewport, không nằm trong luồng trang) nên tự nó không đẩy được
@@ -167,6 +170,11 @@ watch([open, tab], ([openValue, tabValue]) => {
   window.sessionStorage.setItem(UI_STATE_KEY, JSON.stringify({ open: openValue, tab: tabValue }))
 })
 
+watch(() => store.state.value.settings.priceLabelsEnabled, (enabled) => {
+  if (enabled) void priceLabels.applyLabels(currentPage.value)
+  else priceLabels.removeLabels()
+})
+
 watch(open, async (isOpen) => {
   if (isOpen) {
     await nextTick()
@@ -197,12 +205,15 @@ onMounted(async () => {
   browser.runtime.onMessage.addListener(onMessage)
   props.ctx.addEventListener(window, QUERY_LABEL_EVENT, onQueryLabel)
   stopWatchingResults = priceSnapshot.watchResultsForSnapshot(() => currentPage.value)
+  stopWatchingLabels = priceLabels.watchResultsForLabels(() => currentPage.value)
+  void priceLabels.applyLabels(currentPage.value)
 })
 
 onBeforeUnmount(() => {
   if (locationTimer) window.clearInterval(locationTimer)
   browser.runtime.onMessage.removeListener(onMessage)
   stopWatchingResults?.()
+  stopWatchingLabels?.()
   stopPagePush()
   document.documentElement.style.removeProperty('transition')
 })

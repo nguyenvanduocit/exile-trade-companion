@@ -42,6 +42,10 @@ export function computeSnapshot(
   }
 }
 
+export interface ListingRow extends RawListing {
+  el: Element
+}
+
 // Đọc trực tiếp từ DOM trang kết quả trade — chạy được từ isolated-world content script
 // (DOM dùng chung giữa MAIN world và isolated world dù JS context tách biệt).
 // Cấu trúc đã verify trên pathofexile.com/trade2 (2026-09-04):
@@ -51,14 +55,23 @@ export function computeSnapshot(
 //     <span class="currency-text currency-image"><img alt="regal">...</span>
 //   </span>
 // [data-field="fee"] (Gold sink riêng của POE2) bị loại vì nó không mang [data-field="price"].
+function parseListingRow(el: Element): ListingRow | null {
+  const img = el.querySelector('img')
+  const amountEl = [...el.querySelectorAll(':scope > span')]
+    .find((span) => !span.classList.contains('price-label'))
+  const amount = amountEl ? Number(amountEl.textContent) : Number.NaN
+  if (!img?.alt || Number.isNaN(amount)) return null
+  return { el, amount, currency: img.alt }
+}
+
 export function readListingPrices(root: ParentNode = document): RawListing[] {
-  const listings: RawListing[] = []
-  root.querySelectorAll('[data-field="price"]').forEach((el) => {
-    const img = el.querySelector('img')
-    const amountEl = [...el.querySelectorAll(':scope > span')]
-      .find((span) => !span.classList.contains('price-label'))
-    const amount = amountEl ? Number(amountEl.textContent) : Number.NaN
-    if (img?.alt && !Number.isNaN(amount)) listings.push({ amount, currency: img.alt })
-  })
-  return listings
+  return readListingRows(root).map(({ amount, currency }) => ({ amount, currency }))
+}
+
+// Biến thể trả thêm element gốc — dùng để chèn nhãn quy đổi cạnh từng dòng giá thay vì chỉ
+// tổng hợp số liệu như readListingPrices.
+export function readListingRows(root: ParentNode = document): ListingRow[] {
+  return [...root.querySelectorAll('[data-field="price"]')]
+    .map(parseListingRow)
+    .filter((row): row is ListingRow => row != null)
 }

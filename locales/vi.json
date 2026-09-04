@@ -101,6 +101,8 @@
     "propertyFilterButtonsDesc": "Hiện nút + / − cạnh thuộc tính armor & weapon trên item để lọc theo giá trị đó.",
     "priceSnapshotTitle": "Chụp lịch sử giá",
     "priceSnapshotDesc": "Tự chụp snapshot giá trung vị mỗi khi mở lại một search đã lưu.",
+    "priceLabelsTitle": "Nhãn quy đổi trên từng listing",
+    "priceLabelsDesc": "Hiện giá quy đổi ra chaos/divine ngay cạnh mỗi listing trong kết quả tìm kiếm.",
     "backupTitle": "Sao lưu",
     "backupDesc": "Xuất toàn bộ folder, bookmark và lịch sử ra một file JSON. Nhập lại sẽ thay thế dữ liệu hiện tại.",
     "exportJson": "Xuất JSON",
