@@ -5,7 +5,10 @@ description: Dùng khi user gõ /release-extension, hoặc yêu cầu "publish l
 
 # /release-extension — Exile Trade Companion → Chrome Web Store
 
-**Bạn là agent release.** Extension build bằng WXT + Vue3, publish thủ công qua Chrome Web Store Developer Dashboard (không có CLI/CI cho bước publish — Google không có API public cho việc này).
+**Bạn là agent release.** Extension build bằng WXT + Vue3. Hai đường release tồn tại song song — chọn đúng đường theo việc cần làm, đừng trộn lẫn:
+
+- **Build + upload draft** (bump version, zip, đẩy lên CWS làm draft) → **tự động hoá được** qua GitHub Actions khi push git tag. Xem `## 0. Release tự động qua git tag`.
+- **Screenshot / icon / store listing / Submit for review** → vẫn **thủ công** qua Chrome Web Store Developer Dashboard bằng ego-browser (Google không có API public cho các bước này). Xem `## 1-4`.
 
 ## Project state — verify trước khi action
 
@@ -16,13 +19,56 @@ Item ID:           lmdfepkngckhbmcjbaijloakinneodfd
 Publisher:         AI Ocean
 Google account:    Essie Vaill (essievaill2013u@gmail.com) — KHÔNG phải nguyenvanduocit
 Dev console URL:   https://chrome.google.com/u/3/webstore/devconsole/0638d497-b4c6-4643-9f09-e46e21b32c90/lmdfepkngckhbmcjbaijloakinneodfd/edit
+GitHub repo:       https://github.com/nguyenvanduocit/exile-trade-companion (public, Apache-2.0)
 Build tool:        WXT (bun run build → .output/chrome-mv3, bun run zip → .output/exile-trade-companion-<ver>-chrome.zip)
 Icon slot:         public/icon/{16,32,48,96,128}.png — WXT tự detect, không cần khai trong wxt.config.ts
 ```
 
 `/u/3/` trong URL là account index 3 trong Chrome profile của ego-browser task space — không phải publisher ID, đừng nhầm sang account khác nếu profile đổi thứ tự đăng nhập. Nếu URL trên trỏ nhầm project khác (đã từng xảy ra — trỏ nhầm sang "AI Annotator") → STOP, xác nhận lại với user trước khi làm gì, đừng tự suy đoán item nào đúng.
 
-## Flow tổng quát
+## 0. Release tự động qua git tag
+
+```bash
+git tag v0.2.0
+git push origin v0.2.0
+```
+
+Push tag `v*.*.*` kích hoạt `.github/workflows/release.yml`: bump `package.json` version theo tag → `bun run test` + `bun run typecheck` → `bun run zip` (build lại nên version trong manifest đúng tag) → upload **draft** lên Chrome Web Store qua action `mnao305/chrome-extension-upload@v6.0.0` (`publish: false` — KHÔNG tự Submit for review) → tạo GitHub Release đính kèm zip.
+
+`wxt.config.ts` **không hardcode `manifest.version`** — cố tình bỏ để WXT tự lấy version từ `package.json`; đừng thêm lại field này vào manifest config, sẽ làm version tag bơm vào vô nghĩa (build sẽ luôn dùng số hardcode thay vì version thật của tag).
+
+**4 GitHub Secrets bắt buộc** (repo Settings → Secrets and variables → Actions), toàn bộ đã set sẵn — chỉ cần biết để debug khi action fail:
+
+```text
+CWS_EXTENSION_ID     lmdfepkngckhbmcjbaijloakinneodfd
+CWS_CLIENT_ID        OAuth Web application client "exile-trade-companion-ci"
+CWS_CLIENT_SECRET    (client secret tương ứng)
+CWS_REFRESH_TOKEN    authorize dưới account essievaill2013u@gmail.com (đúng publisher), KHÔNG phải nguyenvanduocit
+```
+
+Credentials sống ở Google Cloud project `aiocean-fns` (project chung, không tách riêng — đã đụng project-limit lúc tạo nên dùng project có sẵn). OAuth consent screen ở chế độ **Testing** (External), test user gồm cả `nguyenvanduocit@gmail.com` lẫn `essievaill2013u@gmail.com`. Client type là **Web application** với Authorized redirect URI `https://developers.google.com/oauthplayground` — **không phải Desktop app**: Desktop app chỉ chấp nhận loopback redirect nên OAuth Playground báo `redirect_uri_mismatch`, đã tốn một vòng debug vì việc này.
+
+**Refresh token có thể hết hạn/bị revoke** (Google âm thầm revoke refresh token không dùng >6 tháng, hoặc app OAuth bị đổi cấu hình). Regenerate khi action báo lỗi 401/invalid_grant ở bước upload:
+
+1. Google Cloud Console → project `aiocean-fns` → APIs & Services → Google Auth Platform → Clients → mở client `exile-trade-companion-ci` lấy lại Client ID/Secret (hoặc tạo Web application client mới với đúng redirect URI trên nếu client cũ bị xoá).
+2. `https://developers.google.com/oauthplayground/` → gear icon (góc phải) → tick "Use your own OAuth credentials" → điền Client ID/Secret → Close.
+3. Ô scope → `https://www.googleapis.com/auth/chromewebstore` → Authorize APIs → **chọn đúng account `essievaill2013u@gmail.com`** (màn hình chọn account dễ mặc định sang account khác đang login sẵn — verify kỹ trước khi bấm) → Continue qua cảnh báo "hasn't verified this app" (bình thường vì app ở Testing mode) → Continue cấp quyền.
+4. Step 2 "Exchange authorization code for tokens" → copy `refresh_token`.
+5. `gh secret set CWS_REFRESH_TOKEN --repo nguyenvanduocit/exile-trade-companion --body "<token>"`.
+6. Verify trước khi coi là xong (đừng chỉ tin dialog Playground):
+   ```bash
+   curl -s -X POST https://oauth2.googleapis.com/token \
+     -d "client_id=$CLIENT_ID" -d "client_secret=$CLIENT_SECRET" \
+     -d "refresh_token=$REFRESH_TOKEN" -d "grant_type=refresh_token"
+   # lấy access_token từ response, gọi thử:
+   curl -s "https://www.googleapis.com/chromewebstore/v1.1/items/lmdfepkngckhbmcjbaijloakinneodfd?projection=DRAFT" \
+     -H "Authorization: Bearer $ACCESS_TOKEN" -H "x-goog-api-version: 2"
+   # phải trả về JSON có "id": "lmdfepkngckhbmcjbaijloakinneodfd", không phải lỗi 401
+   ```
+
+Sau khi action chạy xong (draft đã lên CWS), flow tiếp theo vẫn quay lại thủ công: mở Dev Console, kiểm tra listing/screenshot còn hợp lệ không, rồi mới **Submit for review** — action không tự làm bước này (xem `## Submit — điểm dừng bắt buộc`).
+
+## Flow tổng quát (đường thủ công — icon/screenshot/listing/submit)
 
 1. Thiết kế/update icon (nếu cần) → build → screenshot thật → Save draft → **STOP xin user duyệt** → Submit for review.
 2. Đừng bao giờ bấm "Submit for review" mà chưa có xác nhận rõ ràng của user trong lượt hội thoại đó — đây là thao tác external-visible, kích hoạt Google review, không tự quyết.
@@ -135,5 +181,6 @@ Sau khi Save draft, nút "Submit for review" chuyển từ xám sang xanh khi h�
 Khi user gõ `/release-extension` không kèm chi tiết cụ thể, default action:
 
 1. Chạy `bun run check`, báo pass/fail.
-2. Hỏi có cần đổi icon/screenshot không, hay chỉ bump version + re-upload zip cho bản hiện tại.
-3. Sau khi build+upload+điền listing xong → Save draft, báo user tóm tắt đã đổi gì, dừng chờ xác nhận trước khi Submit for review.
+2. Hỏi user: chỉ bump version (không đổi icon/screenshot/listing) → đề xuất đi đường `git tag` ở `## 0` (nhanh, tự động, không cần ego-browser); có đổi icon/screenshot/listing → đi đường thủ công `## 1-4`.
+3. Đường tag: sau khi push tag và action chạy xanh, báo user draft đã lên CWS, hỏi có muốn mở Dev Console kiểm tra + Submit for review luôn không.
+4. Đường thủ công: build+upload+điền listing xong → Save draft, báo user tóm tắt đã đổi gì, dừng chờ xác nhận trước khi Submit for review.

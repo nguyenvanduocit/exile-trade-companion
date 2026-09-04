@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { browser } from 'wxt/browser'
 import { i18n } from '#i18n'
-import { Check, ChartLine, Copy, MoreHorizontal, Pencil, RefreshCw, Trash2, X } from 'lucide-vue-next'
+import { Check, ChartLine, Copy, MoreHorizontal, Pencil, Replace, Trash2, X } from 'lucide-vue-next'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import PriceHistoryModal from '@/components/PriceHistoryModal.vue'
 import { useTradeStore } from '@/composables/useTradeStore'
@@ -124,7 +124,7 @@ async function overwriteWithCurrent() {
           @click="overwriteWithCurrent"
         >
           <Check v-if="overwritten" />
-          <RefreshCw v-else />
+          <Replace v-else />
         </button>
         <button
           class="icon-btn"

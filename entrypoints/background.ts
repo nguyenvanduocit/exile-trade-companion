@@ -1,5 +1,6 @@
 import { browser } from 'wxt/browser'
 import { i18n } from '#i18n'
+import { DISCORD_URL } from '@/lib/discord'
 import { parseTradeUrl } from '@/lib/trade-url'
 import { saveSearch } from '@/lib/storage'
 import type { ExtensionMessage } from '@/types/trading'
@@ -7,7 +8,7 @@ import type { ExtensionMessage } from '@/types/trading'
 const SAVE_MENU_ID = 'save-exile-trade-search'
 
 export default defineBackground(() => {
-  browser.runtime.onInstalled.addListener(() => {
+  browser.runtime.onInstalled.addListener((details) => {
     void browser.contextMenus.removeAll().then(() => {
       browser.contextMenus.create({
         id: SAVE_MENU_ID,
@@ -21,6 +22,10 @@ export default defineBackground(() => {
         ],
       })
     })
+
+    if (details.reason === 'install') {
+      void browser.tabs.create({ url: browser.runtime.getURL('/onboarding.html') })
+    }
   })
 
   browser.contextMenus.onClicked.addListener((info, tab) => {
@@ -47,6 +52,14 @@ export default defineBackground(() => {
           .query({ active: true, currentWindow: true })
           .then(([tab]) => (tab?.id ? browser.tabs.update(tab.id, { url: message.url }) : browser.tabs.create({ url: message.url })))
       }
+    }
+
+    if (message.type === 'OPEN_DISCORD') {
+      void browser.tabs.create({ url: DISCORD_URL })
+    }
+
+    if (message.type === 'OPEN_ONBOARDING') {
+      void browser.tabs.create({ url: browser.runtime.getURL('/onboarding.html') })
     }
 
     if (message.type === 'SAVE_ACTIVE_SEARCH') {

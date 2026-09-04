@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { browser } from 'wxt/browser'
 import {
   STORAGE_KEY,
@@ -8,6 +8,7 @@ import {
   createDefaultState,
   createFolder as createStoredFolder,
   importState as importStoredState,
+  isSearchVisible,
   readState,
   recordSnapshot as recordStoredSnapshot,
   removeFolder as removeStoredFolder,
@@ -55,6 +56,9 @@ async function run(operation: Promise<TradeState>) {
 export function useTradeStore() {
   return {
     state,
+    // Dùng cái này ở mọi nơi hiển thị (đếm, danh sách, trạng thái "đã lưu"). `state.searches` giữ
+    // nguyên bản thô (kể cả search đã ẩn) vì useFolderSync cần nó để diff đúng khi đẩy lên room.
+    visibleSearches: computed(() => state.value.searches.filter((search) => isSearchVisible(state.value, search))),
     ready,
     init,
     saveSearch: (input: SaveSearchInput) => run(saveStoredSearch(input)),

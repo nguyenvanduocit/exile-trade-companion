@@ -1,0 +1,42 @@
+@import "../../assets/main.css";
+
+html,
+body,
+#app {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgb(99 73 40 / 18%), transparent 60%),
+    var(--bg);
+}
+
+.onboarding-step-enter-active,
+.onboarding-step-leave-active {
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.onboarding-step-enter-from {
+  opacity: 0;
+  transform: translateX(24px);
+}
+
+.onboarding-step-leave-to {
+  opacity: 0;
+  transform: translateX(-24px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-step-enter-active,
+  .onboarding-step-leave-active {
+    transition: none;
+  }
+}

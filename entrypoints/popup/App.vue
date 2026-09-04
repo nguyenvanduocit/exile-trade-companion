@@ -3,10 +3,12 @@ import { onMounted, ref } from 'vue'
 import { browser } from 'wxt/browser'
 import { i18n } from '#i18n'
 import { Bookmark, Download, Plus, Upload, Users } from 'lucide-vue-next'
+import DiscordIcon from '@/components/DiscordIcon.vue'
 import FolderSection from '@/components/FolderSection.vue'
 import JoinFolderModal from '@/components/JoinFolderModal.vue'
 import { useFolderSync } from '@/composables/useFolderSync'
 import { useTradeStore } from '@/composables/useTradeStore'
+import { DISCORD_URL } from '@/lib/discord'
 import { pageLabel, relativeTime } from '@/lib/relative-time'
 import { parseTradeUrl } from '@/lib/trade-url'
 import type { ExtensionMessage, TradePage } from '@/types/trading'
@@ -24,12 +26,12 @@ const importing = ref(false)
 
 function currentSavedFolderId() {
   return currentPage.value
-    ? store.state.value.searches.find((search) => search.url === currentPage.value?.url)?.folderId
+    ? store.visibleSearches.value.find((search) => search.url === currentPage.value?.url)?.folderId
     : undefined
 }
 
 function searchesForFolder(folderId: string) {
-  return store.state.value.searches
+  return store.visibleSearches.value
     .filter((search) => search.folderId === folderId)
     .sort((a, b) => b.updatedAt - a.updatedAt)
 }
@@ -83,6 +85,14 @@ function exportData() {
   URL.revokeObjectURL(url)
 }
 
+async function openOnboarding() {
+  await browser.tabs.create({ url: browser.runtime.getURL('/onboarding.html') })
+}
+
+async function openDiscord() {
+  await browser.tabs.create({ url: DISCORD_URL })
+}
+
 async function importData(event: Event) {
   const input = event.target as HTMLInputElement
   const file = input.files?.[0]
@@ -100,23 +110,32 @@ async function importData(event: Event) {
 <template>
   <main class="flex min-h-[580px] flex-col bg-bg font-body text-[13px] text-grey">
     <header class="flex h-10 shrink-0 items-center gap-2 border-b border-bronze pr-2 pl-3">
-      <Bookmark class="size-[14px] text-tan" />
-      <h1 class="flex-1 font-display text-[16px] leading-none text-cream">{{ i18n.t('panel.title') }}</h1>
       <button
-        v-if="view === 'saved'"
-        class="icon-btn"
+        class="discord-badge"
         type="button"
-        :aria-label="i18n.t('folder.newFolder')"
-        @click="showFolderCreator = true"
+        :aria-label="i18n.t('panel.discordLabel')"
+        :title="i18n.t('panel.discordLabel')"
+        @click="openDiscord"
       >
-        <Plus />
+        <DiscordIcon />
+        {{ i18n.t('panel.discordBadge') }}
       </button>
+      <Bookmark class="size-[14px] text-tan" />
+      <h1 class="flex-1 truncate font-display text-[16px] leading-none text-cream">{{ i18n.t('panel.title') }}</h1>
+      <template v-if="view === 'saved'">
+        <button class="poe-btn poe-btn-primary poe-btn-sm" type="button" @click="showFolderCreator = true">
+          <Plus /> {{ i18n.t('folder.newFolder') }}
+        </button>
+        <button class="poe-btn poe-btn-sm" type="button" @click="showJoinModal = true">
+          <Users /> {{ i18n.t('folder.joinByKey') }}
+        </button>
+      </template>
     </header>
 
     <nav class="flex shrink-0 border-b border-bronze" :aria-label="i18n.t('panel.viewNavLabel')">
       <button
         v-for="item in [
-          { id: 'saved', label: store.state.value.searches.length ? i18n.t('panel.tabSavedCount', { count: store.state.value.searches.length }) : i18n.t('panel.tabSaved') },
+          { id: 'saved', label: store.visibleSearches.value.length ? i18n.t('panel.tabSavedCount', { count: store.visibleSearches.value.length }) : i18n.t('panel.tabSaved') },
           { id: 'history', label: i18n.t('panel.tabHistory') },
           { id: 'settings', label: i18n.t('panel.tabSettings') },
         ]"
@@ -134,6 +153,12 @@ async function importData(event: Event) {
     </nav>
 
     <section v-if="view === 'saved'">
+      <form v-if="showFolderCreator" class="flex gap-2 border-b border-dashed border-bronze bg-row px-3 py-2" @submit.prevent="addFolder">
+        <input v-model="newFolderName" class="poe-input flex-1" maxlength="32" autofocus :placeholder="i18n.t('folder.namePlaceholder')" :aria-label="i18n.t('folder.newNameLabel')">
+        <button class="poe-btn poe-btn-primary" type="submit" :disabled="!newFolderName.trim()">{{ i18n.t('folder.create') }}</button>
+        <button class="poe-btn" type="button" @click="showFolderCreator = false">{{ i18n.t('folder.cancel') }}</button>
+      </form>
+
       <FolderSection
         v-for="folder in store.state.value.folders"
         :key="folder.id"
@@ -150,27 +175,6 @@ async function importData(event: Event) {
         @save="saveCurrent"
       />
 
-      <form v-if="showFolderCreator" class="flex gap-2 px-3 py-3" @submit.prevent="addFolder">
-        <input v-model="newFolderName" class="poe-input flex-1" maxlength="32" autofocus :placeholder="i18n.t('folder.namePlaceholder')" :aria-label="i18n.t('folder.newNameLabel')">
-        <button class="poe-btn poe-btn-primary" type="submit" :disabled="!newFolderName.trim()">{{ i18n.t('folder.create') }}</button>
-        <button class="poe-btn" type="button" @click="showFolderCreator = false">{{ i18n.t('folder.cancel') }}</button>
-      </form>
-      <button
-        v-else
-        class="flex h-9 w-full items-center justify-center gap-2 border-t border-dashed border-bronze bg-row font-display text-[14px] text-tan transition-colors hover:border-bronze-strong hover:bg-hover hover:text-cream"
-        type="button"
-        @click="showFolderCreator = true"
-      >
-        <Plus class="size-4" /> {{ i18n.t('folder.newFolder') }}
-      </button>
-
-      <button
-        class="flex h-8 w-full items-center justify-center gap-2 border-t border-dashed border-bronze bg-row text-[12px] text-tan transition-colors hover:border-bronze-strong hover:bg-hover hover:text-cream"
-        type="button"
-        @click="showJoinModal = true"
-      >
-        <Users class="size-3.5" /> {{ i18n.t('folder.joinByKey') }}
-      </button>
       <JoinFolderModal v-model:open="showJoinModal" />
     </section>
 
@@ -230,6 +234,10 @@ async function importData(event: Event) {
         <kbd class="border border-rule bg-row px-1.5 py-0.5 font-display text-[13px] text-cream">Alt Shift B</kbd>
         {{ i18n.t('settings.shortcutHintAfter') }}
       </p>
+
+      <button class="poe-btn self-start" type="button" @click="openOnboarding">
+        {{ i18n.t('settings.viewOnboarding') }}
+      </button>
     </section>
   </main>
 </template>

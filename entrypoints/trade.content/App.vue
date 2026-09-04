@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { browser } from 'wxt/browser'
+import type { ContentScriptContext } from 'wxt/utils/content-script-context'
 import { i18n } from '#i18n'
-import { Bookmark, Plus, Users } from 'lucide-vue-next'
+import { Bookmark, HelpCircle, Plus, Users } from 'lucide-vue-next'
+import DiscordIcon from '@/components/DiscordIcon.vue'
 import FolderSection from '@/components/FolderSection.vue'
 import JoinFolderModal from '@/components/JoinFolderModal.vue'
 import { useFolderSync } from '@/composables/useFolderSync'
@@ -29,10 +31,12 @@ function loadUiState(): { open: boolean; tab: 'saved' | 'history' } {
   }
 }
 
+const props = defineProps<{ ctx: ContentScriptContext }>()
+
 const uiState = loadUiState()
 const store = useTradeStore()
 const folderSync = useFolderSync()
-const priceSnapshot = usePriceSnapshot()
+const priceSnapshot = usePriceSnapshot(props.ctx)
 const open = ref(uiState.open)
 const tab = ref<'saved' | 'history'>(uiState.tab)
 const rawPage = ref<TradePage | null>(null)
@@ -89,13 +93,13 @@ function onQueryLabel(event: Event) {
 }
 
 const history = computed(() => store.state.value.history.slice(0, 15))
-const savedCount = computed(() => store.state.value.searches.length)
+const savedCount = computed(() => store.visibleSearches.value.length)
 const currentSavedFolderId = computed(() => currentPage.value
-  ? store.state.value.searches.find((item) => item.url === currentPage.value?.url)?.folderId
+  ? store.visibleSearches.value.find((item) => item.url === currentPage.value?.url)?.folderId
   : undefined)
 
 function searchesForFolder(folderId: string) {
-  return store.state.value.searches
+  return store.visibleSearches.value
     .filter((item) => item.folderId === folderId)
     .sort((a, b) => b.updatedAt - a.updatedAt)
 }
@@ -151,6 +155,14 @@ async function openHistory(url: string) {
   await browser.runtime.sendMessage({ type: 'OPEN_URL', url } satisfies ExtensionMessage)
 }
 
+async function openDiscord() {
+  await browser.runtime.sendMessage({ type: 'OPEN_DISCORD' } satisfies ExtensionMessage)
+}
+
+async function openOnboarding() {
+  await browser.runtime.sendMessage({ type: 'OPEN_ONBOARDING' } satisfies ExtensionMessage)
+}
+
 watch([open, tab], ([openValue, tabValue]) => {
   window.sessionStorage.setItem(UI_STATE_KEY, JSON.stringify({ open: openValue, tab: tabValue }))
 })
@@ -166,22 +178,30 @@ watch(open, async (isOpen) => {
 
 onMounted(async () => {
   document.documentElement.style.setProperty('transition', 'margin-right 200ms ease')
+  await folderSync.init()
+
+  // Lần đầu tiên cài extension (chưa từng mở panel) — tự mở panel ngay để user thấy được
+  // tính năng thay vì phải tự bấm tab dọc, bất kể họ vào trade site qua nút CTA của onboarding
+  // hay tự điều hướng sau khi bấm Skip.
+  if (!store.state.value.settings.hasOpenedPanel) {
+    open.value = true
+    void store.updateSettings({ hasOpenedPanel: true })
+  }
+
   if (open.value) {
     await nextTick()
     if (panelRef.value) startPagePush(panelRef.value)
   }
-  await folderSync.init()
   await syncCurrentPage()
-  locationTimer = window.setInterval(() => void syncCurrentPage(), 1200)
+  locationTimer = props.ctx.setInterval(() => void syncCurrentPage(), 1200)
   browser.runtime.onMessage.addListener(onMessage)
-  window.addEventListener(QUERY_LABEL_EVENT, onQueryLabel)
+  props.ctx.addEventListener(window, QUERY_LABEL_EVENT, onQueryLabel)
   stopWatchingResults = priceSnapshot.watchResultsForSnapshot(() => currentPage.value)
 })
 
 onBeforeUnmount(() => {
   if (locationTimer) window.clearInterval(locationTimer)
   browser.runtime.onMessage.removeListener(onMessage)
-  window.removeEventListener(QUERY_LABEL_EVENT, onQueryLabel)
   stopWatchingResults?.()
   stopPagePush()
   document.documentElement.style.removeProperty('transition')
@@ -202,16 +222,36 @@ onBeforeUnmount(() => {
     </button>
 
     <section v-if="open" ref="panelRef" class="trade-companion-panel" :aria-label="i18n.t('panel.title')">
-      <header class="flex h-10 shrink-0 items-center justify-end gap-2 border-b border-bronze pr-2 pl-1">
+      <header class="flex h-10 shrink-0 items-center justify-between gap-2 border-b border-bronze pr-2 pl-1">
         <button
-          v-if="tab === 'saved'"
-          class="icon-btn"
+          class="discord-badge"
           type="button"
-          :aria-label="i18n.t('folder.newFolder')"
-          @click="showFolderCreator = true"
+          :aria-label="i18n.t('panel.discordLabel')"
+          :title="i18n.t('panel.discordLabel')"
+          @click="openDiscord"
         >
-          <Plus />
+          <DiscordIcon />
+          {{ i18n.t('panel.discordBadge') }}
         </button>
+        <div class="flex items-center gap-1.5">
+          <template v-if="tab === 'saved'">
+            <button class="poe-btn poe-btn-primary poe-btn-sm" type="button" @click="showFolderCreator = true">
+              <Plus /> {{ i18n.t('folder.newFolder') }}
+            </button>
+            <button class="poe-btn poe-btn-sm" type="button" @click="showJoinModal = true">
+              <Users /> {{ i18n.t('folder.joinByKey') }}
+            </button>
+          </template>
+          <button
+            class="icon-btn"
+            type="button"
+            :aria-label="i18n.t('settings.viewOnboarding')"
+            :title="i18n.t('settings.viewOnboarding')"
+            @click="openOnboarding"
+          >
+            <HelpCircle />
+          </button>
+        </div>
       </header>
 
       <nav class="flex shrink-0 border-b border-bronze" :aria-label="i18n.t('panel.viewNavLabel')">
@@ -235,6 +275,12 @@ onBeforeUnmount(() => {
 
       <div class="trade-companion-scroll">
         <template v-if="tab === 'saved'">
+          <form v-if="showFolderCreator" class="flex gap-2 border-b border-dashed border-bronze bg-row px-3 py-2" @submit.prevent="createNewFolder">
+            <input v-model="newFolderName" class="poe-input flex-1" maxlength="32" autofocus :placeholder="i18n.t('folder.namePlaceholder')" :aria-label="i18n.t('folder.newNameLabel')">
+            <button class="poe-btn poe-btn-primary" type="submit" :disabled="!newFolderName.trim()">{{ i18n.t('folder.create') }}</button>
+            <button class="poe-btn" type="button" @click="showFolderCreator = false">{{ i18n.t('folder.cancel') }}</button>
+          </form>
+
           <FolderSection
             v-for="folder in store.state.value.folders"
             :key="folder.id"
@@ -251,27 +297,6 @@ onBeforeUnmount(() => {
             @save="saveCurrent"
           />
 
-          <form v-if="showFolderCreator" class="flex gap-2 px-3 py-3" @submit.prevent="createNewFolder">
-            <input v-model="newFolderName" class="poe-input flex-1" maxlength="32" autofocus :placeholder="i18n.t('folder.namePlaceholder')" :aria-label="i18n.t('folder.newNameLabel')">
-            <button class="poe-btn poe-btn-primary" type="submit" :disabled="!newFolderName.trim()">{{ i18n.t('folder.create') }}</button>
-            <button class="poe-btn" type="button" @click="showFolderCreator = false">{{ i18n.t('folder.cancel') }}</button>
-          </form>
-          <button
-            v-else
-            class="flex h-9 w-full items-center justify-center gap-2 border-t border-dashed border-bronze bg-row font-display text-[14px] text-tan transition-colors hover:border-bronze-strong hover:bg-hover hover:text-cream"
-            type="button"
-            @click="showFolderCreator = true"
-          >
-            <Plus class="size-4" /> {{ i18n.t('folder.newFolder') }}
-          </button>
-
-          <button
-            class="flex h-8 w-full items-center justify-center gap-2 border-t border-dashed border-bronze bg-row text-[12px] text-tan transition-colors hover:border-bronze-strong hover:bg-hover hover:text-cream"
-            type="button"
-            @click="showJoinModal = true"
-          >
-            <Users class="size-3.5" /> {{ i18n.t('folder.joinByKey') }}
-          </button>
           <JoinFolderModal v-model:open="showJoinModal" />
         </template>
 

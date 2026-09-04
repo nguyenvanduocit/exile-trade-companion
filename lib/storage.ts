@@ -33,9 +33,11 @@ export function createDefaultState(): TradeState {
       captureHistory: true,
       maxHistory: 50,
       collapsedFolderIds: [],
+      hasOpenedPanel: false,
     },
     snapshots: [],
     exchangeRate: null,
+    hiddenSearchIds: [],
   }
 }
 
@@ -61,6 +63,7 @@ function sanitizeState(value: unknown): TradeState {
     },
     snapshots: Array.isArray(candidate.snapshots) ? candidate.snapshots : [],
     exchangeRate: candidate.exchangeRate ?? null,
+    hiddenSearchIds: Array.isArray(candidate.hiddenSearchIds) ? candidate.hiddenSearchIds : [],
   }
 }
 
@@ -85,6 +88,8 @@ export async function saveSearch(input: SaveSearchInput) {
       note: input.note ?? existing.note,
       updatedAt: now,
     })
+    // Lưu lại đúng URL vừa "xoá" (ẩn) trước đó — coi như người dùng chủ động mang nó trở lại.
+    state.hiddenSearchIds = state.hiddenSearchIds.filter((id) => id !== existing.id)
   } else {
     state.searches.unshift({
       ...input,
@@ -101,8 +106,22 @@ export async function saveSearch(input: SaveSearchInput) {
 
 export async function removeSearch(id: string) {
   const state = await readState()
-  state.searches = state.searches.filter((search) => search.id !== id)
+  const search = state.searches.find((entry) => entry.id === id)
+  const folder = search ? state.folders.find((entry) => entry.id === search.folderId) : undefined
+
+  if (folder?.shareKey) {
+    // Folder đang share-live: xoá thật khỏi `searches` sẽ bị diff đẩy lên room và xoá luôn ở máy
+    // người khác. Chỉ ẩn cục bộ — search vẫn còn trong storage, chỉ không hiển thị nữa.
+    if (!state.hiddenSearchIds.includes(id)) state.hiddenSearchIds = [...state.hiddenSearchIds, id]
+    return writeState(state)
+  }
+
+  state.searches = state.searches.filter((entry) => entry.id !== id)
   return writeState(state)
+}
+
+export function isSearchVisible(state: TradeState, search: SavedSearch): boolean {
+  return !state.hiddenSearchIds.includes(search.id)
 }
 
 export async function updateSearch(id: string, patch: Partial<SaveSearchInput>) {

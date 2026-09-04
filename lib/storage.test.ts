@@ -21,9 +21,12 @@ import {
   STORAGE_KEY,
   addSharedFolder,
   applyRemoteFolderState,
+  isSearchVisible,
   recordSnapshot,
   removeFolder,
+  removeSearch,
   renameFolder,
+  saveSearch,
   setExchangeRateCache,
   setFolderShareKey,
 } from './storage'
@@ -52,9 +55,11 @@ function makeState(): TradeState {
       captureHistory: true,
       maxHistory: 50,
       collapsedFolderIds: ['gear'],
+      hasOpenedPanel: false,
     },
     snapshots: [],
     exchangeRate: null,
+    hiddenSearchIds: [],
   }
 }
 
@@ -85,6 +90,57 @@ describe('folder storage actions', () => {
 
     const state = await removeFolder(DEFAULT_FOLDER_ID)
     expect(state.folders).toHaveLength(1)
+  })
+})
+
+describe('removeSearch', () => {
+  it('xoá thật khi folder không share', async () => {
+    const state = await removeSearch('search-1')
+    expect(state.searches).toHaveLength(0)
+    expect(state.hiddenSearchIds).toEqual([])
+  })
+
+  it('chỉ ẩn cục bộ khi folder đang share-live, không xoá khỏi searches', async () => {
+    storage.value = {
+      [STORAGE_KEY]: {
+        ...makeState(),
+        folders: [
+          makeState().folders[0]!,
+          { ...makeState().folders[1]!, shareKey: 'share_a' },
+        ],
+      },
+    }
+
+    const state = await removeSearch('search-1')
+    expect(state.searches.map((s) => s.id)).toEqual(['search-1'])
+    expect(state.hiddenSearchIds).toEqual(['search-1'])
+    expect(isSearchVisible(state, state.searches[0]!)).toBe(false)
+  })
+})
+
+describe('saveSearch', () => {
+  it('un-hide lại khi lưu đè đúng URL đã bị ẩn trước đó', async () => {
+    storage.value = {
+      [STORAGE_KEY]: {
+        ...makeState(),
+        folders: [
+          makeState().folders[0]!,
+          { ...makeState().folders[1]!, shareKey: 'share_a' },
+        ],
+        hiddenSearchIds: ['search-1'],
+      },
+    }
+
+    const state = await saveSearch({
+      url: 'https://www.pathofexile.com/trade/search/Standard/abc',
+      title: 'Boots (updated)',
+      game: 'poe1',
+      league: 'Standard',
+      mode: 'search',
+    })
+
+    expect(state.hiddenSearchIds).toEqual([])
+    expect(isSearchVisible(state, state.searches[0]!)).toBe(true)
   })
 })
 

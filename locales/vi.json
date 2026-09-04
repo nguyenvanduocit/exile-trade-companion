@@ -10,7 +10,9 @@
     "tabSaved": "Đã lưu",
     "tabSavedCount": "Đã lưu ({count})",
     "tabHistory": "Gần đây",
-    "tabSettings": "Cài đặt"
+    "tabSettings": "Cài đặt",
+    "discordLabel": "Tham gia cộng đồng Discord",
+    "discordBadge": "Discord"
   },
   "folder": {
     "namePlaceholder": "Tên folder",
@@ -42,6 +44,7 @@
     "rotateShareKey": "Đổi key mới",
     "stopSharing": "Ngừng chia sẻ",
     "joinByKey": "Tham gia bằng key",
+    "joinModalDesc": "Người chia sẻ folder gửi cho bạn một share key (lấy từ hộp thoại Chia sẻ của họ). Dán key đó vào đây để xem hoặc đồng bộ folder của họ.",
     "joinKeyPlaceholder": "Dán share key vào đây",
     "joinKeyInputLabel": "Share key",
     "joinModalTitle": "Tham gia folder",
@@ -98,10 +101,53 @@
     "importJson": "Nhập JSON",
     "importing": "Đang nhập…",
     "shortcutHintBefore": "Phím tắt",
-    "shortcutHintAfter": "bật hoặc tắt panel ngay trên trang trade. Extension không gửi query hay dữ liệu tài khoản ra ngoài."
+    "shortcutHintAfter": "bật hoặc tắt panel ngay trên trang trade. Extension không gửi query hay dữ liệu tài khoản ra ngoài.",
+    "viewOnboarding": "Xem lại hướng dẫn"
   },
   "background": {
     "saveContextMenu": "Lưu vào Trade Companion"
+  },
+  "onboarding": {
+    "skip": "Bỏ qua",
+    "back": "Quay lại",
+    "next": "Tiếp",
+    "start": "Bắt đầu giao dịch",
+    "stepLabel": "Bước {current}/{total}",
+    "goToStep": "Đi tới bước {step}",
+    "steps": {
+      "welcome": {
+        "title": "Chào mừng tới Exile Trade Companion",
+        "body": "Extension lưu, sắp xếp và mở nhanh các tìm kiếm trên Path of Exile Trade — giao diện dùng lại font và bảng màu của chính trang trade nên panel nhìn như một phần của site. Đi qua vài bước sau để nắm hết các chức năng chính."
+      },
+      "save": {
+        "title": "Lưu search đang mở vào folder",
+        "body": "Mở một tìm kiếm trên pathofexile.com/trade, bấm icon extension rồi chọn folder muốn lưu — search được ghim lại kèm giá trung vị, mở lại bất cứ lúc nào chỉ với một click."
+      },
+      "panel": {
+        "title": "Panel nổi ngay trên trang trade",
+        "body": "Tab dọc bám mép phải trang trade mở ra panel đầy đủ folder, lịch sử tìm kiếm gần đây và cài đặt — không cần rời trang để quản lý search. Phím tắt Alt+Shift+B bật tắt panel bất cứ lúc nào."
+      },
+      "statFilter": {
+        "title": "Thêm nhanh stat filter từ kết quả",
+        "body": "Hover vào một dòng mod trong kết quả trade, bấm nút + hiện ra là stat đó được thêm ngay vào Stat Filters của search hiện tại — không cần gõ lại tên mod."
+      },
+      "propertyFilter": {
+        "title": "Lọc theo thuộc tính armor & weapon",
+        "body": "Cùng cơ chế nút + áp dụng cho thuộc tính vũ khí và giáp trên trang item — thêm điều kiện lọc trực tiếp từ kết quả đang xem thay vì mò trong bảng filter dài."
+      },
+      "priceHistory": {
+        "title": "Theo dõi lịch sử giá",
+        "body": "Mỗi lần search được mở lại, giá trung vị được chụp lại một snapshot. Biểu đồ lịch sử giá cho thấy xu hướng lên xuống của thị trường theo thời gian, ngay trong search đã lưu."
+      },
+      "shareFolder": {
+        "title": "Chia sẻ folder với bạn bè",
+        "body": "Chia sẻ trực tiếp để đồng bộ hai chiều real-time, hoặc chia sẻ một lần để gửi một bản chụp tĩnh — không cần tài khoản, chỉ cần gửi share key."
+      },
+      "shortcut": {
+        "title": "Sẵn sàng giao dịch",
+        "body": "Alt+Shift+B bật tắt panel mọi lúc, dữ liệu chỉ nằm trên máy bạn (chrome.storage.local), có thể sao lưu/khôi phục JSON trong Cài đặt. Bắt đầu tìm kiếm ngay thôi."
+      }
+    }
   },
   "time": {
     "justNow": "vừa xong",

@@ -37,6 +37,7 @@ export interface TradeSettings {
   captureHistory: boolean
   maxHistory: number
   collapsedFolderIds: string[]
+  hasOpenedPanel: boolean
 }
 
 export interface TradeState {
@@ -47,6 +48,10 @@ export interface TradeState {
   settings: TradeSettings
   snapshots: PriceSnapshot[]
   exchangeRate: ExchangeRateCache | null
+  // Search bị "xoá" trong lúc folder đang share-live: xoá thật sẽ propagate lên room và mất luôn
+  // ở máy người khác, nên chỉ ẩn cục bộ — search vẫn còn trong `searches` để không phá diff đẩy
+  // lên room, chỉ lọc khỏi mọi nơi hiển thị.
+  hiddenSearchIds: string[]
 }
 
 export interface SaveSearchInput extends TradePage {
@@ -56,5 +61,7 @@ export interface SaveSearchInput extends TradePage {
 
 export type ExtensionMessage =
   | { type: 'OPEN_URL'; url: string }
+  | { type: 'OPEN_DISCORD' }
+  | { type: 'OPEN_ONBOARDING' }
   | { type: 'TOGGLE_PANEL' }
   | { type: 'SAVE_ACTIVE_SEARCH'; page: TradePage }

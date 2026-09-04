@@ -116,16 +116,16 @@ async function copyKey(key: string) {
       </template>
 
       <template v-else>
-        <div class="mt-3 flex flex-col gap-3">
-          <div>
+        <div class="mt-3 grid grid-cols-2 divide-x divide-rule">
+          <div class="flex flex-col justify-between gap-2 pr-3">
             <p class="text-[13px] leading-5 text-grey">{{ i18n.t('folder.shareLiveDesc') }}</p>
-            <button class="poe-btn poe-btn-primary mt-2 w-full" type="button" @click="startLiveSharing">
+            <button class="poe-btn poe-btn-primary w-full" type="button" @click="startLiveSharing">
               <Share2 /> {{ i18n.t('folder.shareLive') }}
             </button>
           </div>
-          <div>
+          <div class="flex flex-col justify-between gap-2 pl-3">
             <p class="text-[13px] leading-5 text-grey">{{ i18n.t('folder.shareOnceDesc') }}</p>
-            <button class="poe-btn mt-2 w-full" type="button" @click="startOnceSharing">
+            <button class="poe-btn w-full" type="button" @click="startOnceSharing">
               {{ i18n.t('folder.shareOnce') }}
             </button>
           </div>

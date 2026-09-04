@@ -2,11 +2,13 @@ import { reactive, watch } from 'vue'
 import { LiveObject } from '@liveblocks/client'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { enterFolderRoom, type FolderRoomStorage, type Room } from '@/lib/liveblocks-room'
+import { isSearchVisible } from '@/lib/storage'
 import {
   buildSavedSearch,
   diffFolderMeta,
   diffSearchesForFolder,
   generateShareKey,
+  isBlankFolderMeta,
   isShareKeyInUse,
   planRoomChanges,
   resolveShareMode,
@@ -47,6 +49,12 @@ function readRemoteSearches(root: LiveObject<FolderRoomStorage>, folderId: strin
   return [...root.get('searches').entries()].map(([id, fields]) => buildSavedSearch(id, folderId, fields.toJSON()))
 }
 
+// Search đã bị "xoá" (ẩn) cục bộ không bao giờ được đẩy lên room — dù là share lần đầu hay heal
+// lại room bị mất — coi như client này không còn subscribe/đóng góp item đó nữa.
+function syncableSearchesForFolder(state: TradeState, folderId: string): SavedSearch[] {
+  return state.searches.filter((entry) => entry.folderId === folderId && isSearchVisible(state, entry))
+}
+
 async function connectRoom(folderId: string, shareKey: string, store: ReturnType<typeof useTradeStore>) {
   if (activeRooms.has(shareKey)) return
   syncStatus[folderId] = 'connecting'
@@ -55,23 +63,8 @@ async function connectRoom(folderId: string, shareKey: string, store: ReturnType
     const { root } = await room.getStorage()
     activeRooms.set(shareKey, { folderId, leave, root })
 
-    syncStatus[folderId] = 'syncing'
-    await store.applyRemoteFolderState(folderId, root.get('folder').toJSON(), readRemoteSearches(root, folderId))
-    syncStatus[folderId] = 'idle'
-
-    room.subscribe(
-      root,
-      async () => {
-        syncStatus[folderId] = 'syncing'
-        try {
-          await store.applyRemoteFolderState(folderId, root.get('folder').toJSON(), readRemoteSearches(root, folderId))
-          syncStatus[folderId] = 'idle'
-        } catch {
-          syncStatus[folderId] = 'error'
-        }
-      },
-      { isDeep: true },
-    )
+    await applyRemoteOrHeal(folderId, root, store)
+    room.subscribe(root, () => void applyRemoteOrHeal(folderId, root, store), { isDeep: true })
   } catch {
     syncStatus[folderId] = 'error'
   }
@@ -83,6 +76,37 @@ function disconnectRoom(shareKey: string) {
   handle.leave()
   activeRooms.delete(shareKey)
   delete syncStatus[handle.folderId]
+}
+
+// Nếu room báo về blank (xem isBlankFolderMeta), coi local là nguồn thật và ghi ngược lại room
+// thay vì để applyRemoteFolderState xoá sạch local — tránh mất search khi room bị xoá rồi
+// Liveblocks âm thầm tạo lại rỗng lúc reconnect.
+async function applyRemoteOrHeal(folderId: string, root: LiveObject<FolderRoomStorage>, store: ReturnType<typeof useTradeStore>) {
+  const meta = root.get('folder').toJSON()
+
+  if (isBlankFolderMeta(meta)) {
+    const folder = store.state.value.folders.find((entry) => entry.id === folderId)
+    if (!folder) {
+      syncStatus[folderId] = 'error'
+      return
+    }
+
+    root.get('folder').update(toSharedFolderMeta(folder, 'live'))
+    const searchesMap = root.get('searches')
+    for (const search of syncableSearchesForFolder(store.state.value, folderId)) {
+      searchesMap.set(search.id, new LiveObject(toSharedSearchFields(search)))
+    }
+    syncStatus[folderId] = 'idle'
+    return
+  }
+
+  syncStatus[folderId] = 'syncing'
+  try {
+    await store.applyRemoteFolderState(folderId, meta, readRemoteSearches(root, folderId))
+    syncStatus[folderId] = 'idle'
+  } catch {
+    syncStatus[folderId] = 'error'
+  }
 }
 
 function pushLocalChangesToRoom(folder: SearchFolder, prevState: TradeState, nextState: TradeState) {
@@ -140,8 +164,7 @@ export function useFolderSync() {
 
     const shareKey = generateShareKey()
     const seedSearches = Object.fromEntries(
-      store.state.value.searches
-        .filter((search) => search.folderId === folderId)
+      syncableSearchesForFolder(store.state.value, folderId)
         .map((search) => [search.id, toSharedSearchFields(search)]),
     )
 
@@ -150,19 +173,7 @@ export function useFolderSync() {
       const { room, leave } = enterFolderRoom(shareKey, { folder: toSharedFolderMeta(folder, 'live'), searches: seedSearches })
       const { root } = await room.getStorage()
       activeRooms.set(shareKey, { folderId, leave, root })
-      room.subscribe(
-        root,
-        async () => {
-          syncStatus[folderId] = 'syncing'
-          try {
-            await store.applyRemoteFolderState(folderId, root.get('folder').toJSON(), readRemoteSearches(root, folderId))
-            syncStatus[folderId] = 'idle'
-          } catch {
-            syncStatus[folderId] = 'error'
-          }
-        },
-        { isDeep: true },
-      )
+      room.subscribe(root, () => void applyRemoteOrHeal(folderId, root, store), { isDeep: true })
 
       await store.setFolderShareKey(folderId, shareKey)
       syncStatus[folderId] = 'idle'
@@ -178,8 +189,7 @@ export function useFolderSync() {
 
     const shareKey = generateShareKey()
     const seedSearches = Object.fromEntries(
-      store.state.value.searches
-        .filter((search) => search.folderId === folderId)
+      syncableSearchesForFolder(store.state.value, folderId)
         .map((search) => [search.id, toSharedSearchFields(search)]),
     )
 
@@ -198,6 +208,10 @@ export function useFolderSync() {
       const { room, leave } = enterFolderRoom(shareKey)
       const { root } = await room.getStorage()
       const meta = root.get('folder').toJSON()
+      if (isBlankFolderMeta(meta)) {
+        leave()
+        return { ok: false, reason: 'error' }
+      }
       const searchFields: [string, SharedSearchFields][] = [...root.get('searches').entries()].map(([id, fields]) => [id, fields.toJSON()])
 
       return { ok: true, inspection: { shareKey, mode: resolveShareMode(meta), meta, searchFields, room, root, leave } }
@@ -229,19 +243,7 @@ export function useFolderSync() {
       const { folder, searches } = buildFolderFromInspection(inspection, inspection.shareKey)
       syncStatus[folder.id] = 'connecting'
       activeRooms.set(inspection.shareKey, { folderId: folder.id, leave: inspection.leave, root: inspection.root })
-      inspection.room.subscribe(
-        inspection.root,
-        async () => {
-          syncStatus[folder.id] = 'syncing'
-          try {
-            await store.applyRemoteFolderState(folder.id, inspection.root.get('folder').toJSON(), readRemoteSearches(inspection.root, folder.id))
-            syncStatus[folder.id] = 'idle'
-          } catch {
-            syncStatus[folder.id] = 'error'
-          }
-        },
-        { isDeep: true },
-      )
+      inspection.room.subscribe(inspection.root, () => void applyRemoteOrHeal(folder.id, inspection.root, store), { isDeep: true })
 
       await store.addSharedFolder(folder, searches)
       syncStatus[folder.id] = 'idle'

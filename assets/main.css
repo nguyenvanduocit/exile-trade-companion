@@ -11,6 +11,7 @@
   --bg-hover: #242930;
   --bronze: #634928;
   --bronze-strong: #8a6a3a;
+  --bronze-active: #5a3806;
   --rule: #2b2f36;
   --tan: #a38d6d;
   --cream: #fff8e1;
@@ -124,13 +125,62 @@
   }
 }
 
+/* Modifier thu nhỏ poe-btn cho chỗ chật (header) — kết hợp cùng poe-btn/poe-btn-primary. */
+@utility poe-btn-sm {
+  height: 22px;
+  padding: 0 8px;
+  gap: 4px;
+  font-size: 11px;
+
+  & > svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Site dùng flat fill, không gradient/box-shadow (đo lại 2026-09-04 trên .livesearch-btn). */
 @utility poe-btn-primary {
   border-color: var(--bronze-strong);
-  background: linear-gradient(180deg, #3a2c17, #23190d);
+  background: var(--bronze-active);
 
   &:hover,
   &:focus-visible {
-    background: linear-gradient(180deg, #4a3a1f, #2c2011);
+    background: var(--bronze-strong);
+  }
+}
+
+/* Badge Discord: nổi bật có chủ đích (gradient blurple) giữa bảng màu bronze/tan còn lại. */
+@utility discord-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px;
+  padding: 0 8px;
+  border: 1px solid #4752c4;
+  border-radius: 0;
+  background: linear-gradient(135deg, #5865f2, #7983f5 55%, #4752c4);
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  color: #fff;
+  transition: filter 120ms, box-shadow 120ms;
+
+  & > svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+
+  &:hover,
+  &:focus-visible {
+    filter: brightness(1.12);
+    box-shadow: 0 0 0 1px #7983f5;
+  }
+
+  &:focus-visible {
+    outline: 1px solid #fff;
+    outline-offset: 1px;
   }
 }
 

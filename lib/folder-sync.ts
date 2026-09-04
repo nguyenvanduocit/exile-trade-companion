@@ -37,6 +37,13 @@ export function resolveShareMode(meta: { mode?: ShareMode }): ShareMode {
   return meta.mode === 'once' ? 'once' : 'live'
 }
 
+// createFolder/renameFolder đều trim-guard tên rỗng nên folder local không bao giờ mang tên rỗng —
+// tên rỗng đến từ room nghĩa là Liveblocks vừa tự tạo lại room trống (room bị xoá hoặc chưa từng
+// tồn tại), không phải một lần đồng bộ hợp lệ.
+export function isBlankFolderMeta(meta: { name: string }): boolean {
+  return meta.name.trim() === ''
+}
+
 export function diffSearchesForFolder(folderId: string, prev: SavedSearch[], next: SavedSearch[]): SearchDiff {
   const prevById = new Map(prev.filter((search) => search.folderId === folderId).map((search) => [search.id, search]))
   const nextById = new Map(next.filter((search) => search.folderId === folderId).map((search) => [search.id, search]))

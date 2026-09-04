@@ -31,20 +31,25 @@ const STYLE = `
 .${LINE_CLASS} { position: relative; }
 .${BUTTON_CLASS}, .${BUTTON_NOT_CLASS} {
   display: inline-grid; place-items: center; vertical-align: middle; overflow: hidden;
+  position: relative; z-index: 5;
   width: 0; height: 18px; margin-left: 0; padding: 0;
-  border: 1px solid transparent; border-radius: 3px;
+  border: 1px solid transparent;
   background: #1c2026; color: #fff8e1; font: 14px/1 FontinSmallCaps, sans-serif;
   cursor: pointer; opacity: 0;
   transition: width 120ms, margin-left 120ms, opacity 120ms, background-color 120ms, border-color 120ms;
 }
-.${LINE_CLASS}:hover .${BUTTON_CLASS}, .${BUTTON_CLASS}:focus-visible,
-.${LINE_CLASS}:hover .${BUTTON_NOT_CLASS}, .${BUTTON_NOT_CLASS}:focus-visible {
+.${BUTTON_CLASS} { border-radius: 3px 0 0 3px; }
+.${BUTTON_NOT_CLASS} { border-radius: 0 3px 3px 0; }
+.${LINE_CLASS}:hover .${BUTTON_CLASS}, .${BUTTON_CLASS}:focus-visible {
   width: 18px; margin-left: 6px; opacity: 1; border-color: #634928;
 }
-.${BUTTON_CLASS}:hover, .${BUTTON_CLASS}:focus-visible { border-color: #a38d6d; background: #2c2011; outline: none; }
-.${BUTTON_NOT_CLASS}:hover, .${BUTTON_NOT_CLASS}:focus-visible { border-color: #af5a4a; background: #2c1111; outline: none; }
+.${LINE_CLASS}:hover .${BUTTON_NOT_CLASS}, .${BUTTON_NOT_CLASS}:focus-visible {
+  width: 18px; margin-left: -1px; opacity: 1; border-color: #634928;
+}
+.${BUTTON_CLASS}:hover, .${BUTTON_CLASS}:focus-visible { border-color: #a38d6d; background: #2c2011; outline: none; z-index: 6; }
+.${BUTTON_NOT_CLASS}:hover, .${BUTTON_NOT_CLASS}:focus-visible { border-color: #af5a4a; background: #2c1111; outline: none; z-index: 6; }
 .${BUTTON_CLASS}[data-added="true"] { width: 18px; margin-left: 6px; opacity: 1; border-color: #8a6a3a; color: #a38d6d; cursor: default; }
-.${BUTTON_NOT_CLASS}[data-added="true"] { width: 18px; margin-left: 6px; opacity: 1; border-color: #8a4a3a; color: #c08a7a; cursor: default; }
+.${BUTTON_NOT_CLASS}[data-added="true"] { width: 18px; margin-left: -1px; opacity: 1; border-color: #8a4a3a; color: #c08a7a; cursor: default; }
 `
 
 function injectStyle() {

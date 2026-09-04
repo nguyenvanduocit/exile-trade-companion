@@ -10,7 +10,9 @@
     "tabSaved": "Saved",
     "tabSavedCount": "Saved ({count})",
     "tabHistory": "Recent",
-    "tabSettings": "Settings"
+    "tabSettings": "Settings",
+    "discordLabel": "Join our Discord community",
+    "discordBadge": "Discord"
   },
   "folder": {
     "namePlaceholder": "Folder name",
@@ -42,6 +44,7 @@
     "rotateShareKey": "Rotate key",
     "stopSharing": "Stop sharing",
     "joinByKey": "Join by key",
+    "joinModalDesc": "Whoever shared the folder sent you a share key (from their Share dialog). Paste it here to view or sync their folder.",
     "joinKeyPlaceholder": "Paste a share key",
     "joinKeyInputLabel": "Share key",
     "joinModalTitle": "Join a folder",
@@ -98,10 +101,53 @@
     "importJson": "Import JSON",
     "importing": "Importing…",
     "shortcutHintBefore": "The",
-    "shortcutHintAfter": "shortcut toggles the panel right on the trade page. The extension never sends your queries or account data anywhere."
+    "shortcutHintAfter": "shortcut toggles the panel right on the trade page. The extension never sends your queries or account data anywhere.",
+    "viewOnboarding": "View onboarding again"
   },
   "background": {
     "saveContextMenu": "Save to Trade Companion"
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "back": "Back",
+    "next": "Next",
+    "start": "Start trading",
+    "stepLabel": "Step {current}/{total}",
+    "goToStep": "Go to step {step}",
+    "steps": {
+      "welcome": {
+        "title": "Welcome to Exile Trade Companion",
+        "body": "This extension saves, organizes, and quickly reopens your Path of Exile Trade searches — the UI reuses the trade site's own font and colors, so the panel feels like part of the site. Walk through a few steps to see what it can do."
+      },
+      "save": {
+        "title": "Save the search you have open into a folder",
+        "body": "Open a search on pathofexile.com/trade, click the extension icon, then pick a folder — the search gets pinned with its median price, one click away whenever you need it again."
+      },
+      "panel": {
+        "title": "A floating panel right on the trade page",
+        "body": "A vertical tab docked to the right edge of the trade page opens a full panel with folders, recent search history, and settings — no need to leave the page to manage searches. Alt+Shift+B toggles it any time."
+      },
+      "statFilter": {
+        "title": "Add stat filters straight from results",
+        "body": "Hover a mod line in the trade results and click the + that appears — that stat gets added to Stat Filters on your current search instantly, no retyping the mod name."
+      },
+      "propertyFilter": {
+        "title": "Filter by armour & weapon properties",
+        "body": "The same + button works on weapon and armour properties on an item's row — add a filter condition straight from what you're already looking at instead of hunting through a long filter list."
+      },
+      "priceHistory": {
+        "title": "Track price history",
+        "body": "Every time a saved search is reopened, its median price gets captured as a snapshot. The price history chart shows how the market moved over time, right inside the saved search."
+      },
+      "shareFolder": {
+        "title": "Share a folder with friends",
+        "body": "Live share keeps both sides in sync in real time, or one-time share sends a static snapshot — no account needed, just a share key."
+      },
+      "shortcut": {
+        "title": "Ready to trade",
+        "body": "Alt+Shift+B toggles the panel any time; your data stays on this device (chrome.storage.local) and can be backed up or restored as JSON from Settings. Time to start searching."
+      }
+    }
   },
   "time": {
     "justNow": "just now",

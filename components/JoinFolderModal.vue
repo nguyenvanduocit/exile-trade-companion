@@ -96,7 +96,8 @@ async function confirmJoin() {
       <p v-if="loading" class="mt-3 px-1 py-6 text-center leading-5 text-dim">{{ i18n.t('folder.shareLoading') }}</p>
 
       <template v-else-if="!inspection">
-        <form class="mt-3 flex flex-col gap-2" @submit.prevent="inspectKey">
+        <p class="mt-3 text-[13px] leading-5 text-grey">{{ i18n.t('folder.joinModalDesc') }}</p>
+        <form class="mt-2 flex flex-col gap-2" @submit.prevent="inspectKey">
           <input
             v-model="joinKey"
             class="poe-input"

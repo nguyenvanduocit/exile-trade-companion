@@ -27,7 +27,7 @@ export default defineContentScript({
       onMount(container) {
         const mountPoint = document.createElement('div')
         container.append(mountPoint)
-        const app = createApp(App)
+        const app = createApp(App, { ctx })
         app.mount(mountPoint)
         return app
       },
