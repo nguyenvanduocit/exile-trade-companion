@@ -114,6 +114,8 @@
     "priceLabelsDesc": "Show the chaos/divine equivalent right next to every listing in the search results.",
     "highlightSearchedModsTitle": "Highlight searched mods",
     "highlightSearchedModsDesc": "Highlight mod lines in results that match your current Stat Filters, so you can scan results faster.",
+    "bulkSellerHighlightTitle": "Highlight bulk sellers",
+    "bulkSellerHighlightDesc": "Mark every listing from a seller who has 2+ items in the current results, so you can teleport to them once and buy it all.",
     "backupTitle": "Backup",
     "backupDesc": "Export every folder, bookmark, and history entry to a JSON file. Importing replaces the current data.",
     "exportJson": "Export JSON",

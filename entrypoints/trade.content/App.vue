@@ -11,6 +11,7 @@ import { useFolderSync } from '@/composables/useFolderSync'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { usePriceSnapshot } from '@/composables/usePriceSnapshot'
 import { usePriceLabels } from '@/composables/usePriceLabels'
+import { useSellerGrouping } from '@/composables/useSellerGrouping'
 import { useWatchlist } from '@/composables/useWatchlist'
 import { pageLabel, relativeTime } from '@/lib/relative-time'
 import { recordHistory } from '@/lib/storage'
@@ -41,6 +42,7 @@ const store = useTradeStore()
 const folderSync = useFolderSync()
 const priceSnapshot = usePriceSnapshot(props.ctx)
 const priceLabels = usePriceLabels(props.ctx)
+const sellerGrouping = useSellerGrouping(props.ctx)
 const watchlist = useWatchlist(props.ctx)
 const open = ref(uiState.open)
 const tab = ref<PanelTab>(uiState.tab)
@@ -57,6 +59,7 @@ let lastRecordedUrl = ''
 let locationTimer: number | undefined
 let stopWatchingResults: (() => void) | undefined
 let stopWatchingLabels: (() => void) | undefined
+let stopWatchingSellerGrouping: (() => void) | undefined
 let stopWatchingWatchlist: (() => void) | undefined
 let pushObserver: ResizeObserver | undefined
 
@@ -250,6 +253,11 @@ watch(() => store.state.value.settings.priceLabelsEnabled, (enabled) => {
   else priceLabels.removeLabels()
 })
 
+watch(() => store.state.value.settings.bulkSellerHighlightEnabled, (enabled) => {
+  if (enabled) sellerGrouping.applyGrouping(currentPage.value)
+  else sellerGrouping.removeGrouping()
+})
+
 watch(open, async (isOpen) => {
   if (isOpen) {
     await nextTick()
@@ -281,8 +289,10 @@ onMounted(async () => {
   props.ctx.addEventListener(window, QUERY_STATE_EVENT, onQueryState)
   stopWatchingResults = priceSnapshot.watchResultsForSnapshot(() => currentPage.value)
   stopWatchingLabels = priceLabels.watchResultsForLabels(() => currentPage.value)
+  stopWatchingSellerGrouping = sellerGrouping.watchResultsForGrouping(() => currentPage.value)
   stopWatchingWatchlist = watchlist.watchResultsForWatchlist(() => currentPage.value)
   void priceLabels.applyLabels(currentPage.value)
+  sellerGrouping.applyGrouping(currentPage.value)
 })
 
 onBeforeUnmount(() => {
@@ -290,6 +300,7 @@ onBeforeUnmount(() => {
   browser.runtime.onMessage.removeListener(onMessage)
   stopWatchingResults?.()
   stopWatchingLabels?.()
+  stopWatchingSellerGrouping?.()
   stopWatchingWatchlist?.()
   stopPagePush()
   document.documentElement.style.removeProperty('transition')
@@ -492,6 +503,19 @@ onBeforeUnmount(() => {
                 class="mt-1 size-4 accent-[var(--bronze-strong)]"
                 :checked="store.state.value.settings.highlightSearchedModsEnabled"
                 @change="store.updateSettings({ highlightSearchedModsEnabled: ($event.target as HTMLInputElement).checked })"
+              >
+            </label>
+
+            <label class="flex items-start justify-between gap-4">
+              <span>
+                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.bulkSellerHighlightTitle') }}</span>
+                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.bulkSellerHighlightDesc') }}</span>
+              </span>
+              <input
+                type="checkbox"
+                class="mt-1 size-4 accent-[var(--bronze-strong)]"
+                :checked="store.state.value.settings.bulkSellerHighlightEnabled"
+                @change="store.updateSettings({ bulkSellerHighlightEnabled: ($event.target as HTMLInputElement).checked })"
               >
             </label>
 
