@@ -93,7 +93,10 @@ export default defineContentScript({
       const serialized = JSON.stringify(detail)
       if (serialized === lastSerialized) return
       lastSerialized = serialized
-      window.dispatchEvent(new CustomEvent<QueryStateDetail>(QUERY_STATE_EVENT, { detail }))
+      // CustomEvent#detail dạng object bị trình duyệt null hoá khi băng qua ranh giới MAIN/ISOLATED
+      // world của content script thật (verify bằng CDP isolated world 2026-09-05) — string thì
+      // qua nguyên vẹn. Bắn JSON string, bên nghe (trade.content/App.vue) tự JSON.parse lại.
+      window.dispatchEvent(new CustomEvent<string>(QUERY_STATE_EVENT, { detail: serialized }))
     }
 
     function scheduleEmit() {

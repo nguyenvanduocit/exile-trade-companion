@@ -6,8 +6,8 @@ describe('buildPriceLabel', () => {
     expect(buildPriceLabel(180, 'chaos', { divine: 180 })).toBe('180c (≈1.00 div)')
   })
 
-  it('converts a non-chaos currency to chaos before formatting', () => {
-    expect(buildPriceLabel(2, 'divine', { divine: 200 })).toBe('400c (≈2.00 div)')
+  it('converts a divine-priced listing to chaos without a redundant divine suffix', () => {
+    expect(buildPriceLabel(2, 'divine', { divine: 200 })).toBe('400c')
   })
 
   it('returns null when the listing currency has no known rate', () => {

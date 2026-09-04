@@ -32,7 +32,11 @@ export default defineContentScript({
     await store.init()
     watch(
       () => store.state.value.settings,
-      (settings) => window.dispatchEvent(new CustomEvent(SETTINGS_EVENT, { detail: settings })),
+      // CustomEvent#detail dạng object bị trình duyệt null hoá khi băng qua ranh giới MAIN/ISOLATED
+      // world của content script thật (verify bằng CDP isolated world 2026-09-05, khác CDP tự tạo
+      // isolated world dùng cho devtools/automation) — string thì qua nguyên vẹn. Bắn JSON string,
+      // bên nghe (trade-stats.content.ts, trade-properties.content.ts) tự JSON.parse lại.
+      (settings) => window.dispatchEvent(new CustomEvent(SETTINGS_EVENT, { detail: JSON.stringify(settings) })),
       { immediate: true, deep: true },
     )
 

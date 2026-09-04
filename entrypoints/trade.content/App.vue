@@ -92,7 +92,9 @@ const currentPage = computed<TradePage | null>(() => {
 })
 
 function onQueryState(event: Event) {
-  const detail = (event as CustomEvent<QueryStateDetail>).detail
+  // CustomEvent#detail dạng object bị null hoá khi băng qua ranh giới MAIN/ISOLATED world thật —
+  // trade-query.content.ts (MAIN world) bắn JSON string, tự parse lại ở đây.
+  const detail = JSON.parse((event as CustomEvent<string>).detail) as QueryStateDetail
   detectedLabel.value = detail.label
   detectedQuery.value = detail.query
 

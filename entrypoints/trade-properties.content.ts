@@ -179,8 +179,10 @@ export default defineContentScript({
     // MAIN world không có browser.storage — chờ trade.content (isolated world) bắn setting hiện
     // tại qua CustomEvent rồi mới quyết định chạy; tắt setting thì decorateWithin/observer không
     // bao giờ chạy, không phải chạy rồi ẩn UI bằng CSS.
+    // CustomEvent#detail dạng object bị null hoá khi băng qua ranh giới MAIN/ISOLATED world thật —
+    // isolated world (trade.content/index.ts) bắn JSON string, tự parse lại ở đây.
     window.addEventListener(SETTINGS_EVENT, (event) => {
-      const settings = (event as CustomEvent<TradeSettings>).detail
+      const settings = JSON.parse((event as CustomEvent<string>).detail) as TradeSettings
       if (settings.propertyFilterButtonsEnabled) start()
       else stop()
     })
