@@ -101,7 +101,7 @@ function onQueryState(event: Event) {
   // Label detection chạy async (chờ window.app + DOM filter) nên có thể tới sau khi history đã
   // ghi title thô. Nếu label mới tới vẫn khớp URL vừa ghi, vá lại entry đó bằng title đẹp hơn —
   // recordHistory tự dedupe theo url nên gọi lại không tạo entry trùng.
-  if (currentPage.value && currentPage.value.url === lastRecordedUrl && store.state.value.settings.captureHistory) {
+  if (currentPage.value && currentPage.value.url === lastRecordedUrl) {
     void recordHistory(currentPage.value)
   }
 }
@@ -140,7 +140,7 @@ async function syncCurrentPage() {
   if (!parsed || parsed.url === lastRecordedUrl) return
 
   lastRecordedUrl = parsed.url
-  if (store.state.value.settings.captureHistory) await recordHistory(currentPage.value ?? parsed)
+  await recordHistory(currentPage.value ?? parsed)
 }
 
 async function saveCurrent(folderId: string) {
@@ -387,19 +387,6 @@ onBeforeUnmount(() => {
           <div class="flex flex-col gap-6 px-4 py-4">
             <label class="flex items-start justify-between gap-4">
               <span>
-                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.autoRecordTitle') }}</span>
-                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.autoRecordDesc') }}</span>
-              </span>
-              <input
-                type="checkbox"
-                class="mt-1 size-4 accent-[var(--bronze-strong)]"
-                :checked="store.state.value.settings.captureHistory"
-                @change="store.updateSettings({ captureHistory: ($event.target as HTMLInputElement).checked })"
-              >
-            </label>
-
-            <label class="flex items-start justify-between gap-4">
-              <span>
                 <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.statFilterButtonsTitle') }}</span>
                 <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.statFilterButtonsDesc') }}</span>
               </span>
@@ -421,19 +408,6 @@ onBeforeUnmount(() => {
                 class="mt-1 size-4 accent-[var(--bronze-strong)]"
                 :checked="store.state.value.settings.propertyFilterButtonsEnabled"
                 @change="store.updateSettings({ propertyFilterButtonsEnabled: ($event.target as HTMLInputElement).checked })"
-              >
-            </label>
-
-            <label class="flex items-start justify-between gap-4">
-              <span>
-                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.priceSnapshotTitle') }}</span>
-                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.priceSnapshotDesc') }}</span>
-              </span>
-              <input
-                type="checkbox"
-                class="mt-1 size-4 accent-[var(--bronze-strong)]"
-                :checked="store.state.value.settings.priceSnapshotEnabled"
-                @change="store.updateSettings({ priceSnapshotEnabled: ($event.target as HTMLInputElement).checked })"
               >
             </label>
 

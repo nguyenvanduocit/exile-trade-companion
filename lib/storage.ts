@@ -30,13 +30,11 @@ export function createDefaultState(): TradeState {
     searches: [],
     history: [],
     settings: {
-      captureHistory: true,
       maxHistory: 50,
       collapsedFolderIds: [],
       hasOpenedPanel: false,
       statFilterButtonsEnabled: true,
       propertyFilterButtonsEnabled: true,
-      priceSnapshotEnabled: true,
       priceLabelsEnabled: true,
     },
     snapshots: [],
@@ -137,7 +135,6 @@ export async function updateSearch(id: string, patch: Partial<SaveSearchInput>) 
 
 export async function recordHistory(page: TradePage) {
   const state = await readState()
-  if (!state.settings.captureHistory) return state
 
   const entry: HistoryEntry = {
     ...page,

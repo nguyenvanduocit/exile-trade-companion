@@ -32,8 +32,8 @@ describe('formatChaosWithDivine', () => {
     expect(formatChaosWithDivine(50)).toBe('50c')
   })
 
-  it('omits the divine suffix when the divine-equivalent rounds to under 0.01', () => {
-    expect(formatChaosWithDivine(1, 1000)).toBe('1c')
+  it('keeps the divine-equivalent visible even when it is a tiny fraction', () => {
+    expect(formatChaosWithDivine(1, 1000)).toBe('1c (≈0.0010 div)')
   })
 })
 

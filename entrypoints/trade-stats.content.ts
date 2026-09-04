@@ -165,6 +165,10 @@ export default defineContentScript({
     function stop() {
       observer?.disconnect()
       observer = undefined
+      // Gỡ hẳn nút đã chèn khi tắt — guard trong decorate() dựa trên sự tồn tại của nút
+      // (host.querySelector('.etc-add-stat')), nên gỡ nút cũng tự reset guard cho lần bật lại.
+      document.querySelectorAll(`.${BUTTON_CLASS}, .${BUTTON_NOT_CLASS}`).forEach((el) => el.remove())
+      document.querySelectorAll(`.${LINE_CLASS}`).forEach((el) => el.classList.remove(LINE_CLASS))
     }
 
     // MAIN world không có browser.storage — chờ trade.content (isolated world) bắn setting hiện

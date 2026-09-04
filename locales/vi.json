@@ -93,14 +93,10 @@
     "chartLabel": "Biểu đồ giá trung vị theo thời gian"
   },
   "settings": {
-    "autoRecordTitle": "Tự ghi lại trang trade",
-    "autoRecordDesc": "Chỉ lưu URL, tiêu đề và thời gian trên máy này.",
     "statFilterButtonsTitle": "Nút thêm nhanh stat filter",
     "statFilterButtonsDesc": "Hiện nút + / − cạnh mỗi dòng mod trong kết quả để thêm vào Stat Filters.",
     "propertyFilterButtonsTitle": "Nút thêm nhanh property filter",
     "propertyFilterButtonsDesc": "Hiện nút + / − cạnh thuộc tính armor & weapon trên item để lọc theo giá trị đó.",
-    "priceSnapshotTitle": "Chụp lịch sử giá",
-    "priceSnapshotDesc": "Tự chụp snapshot giá trung vị mỗi khi mở lại một search đã lưu.",
     "priceLabelsTitle": "Nhãn quy đổi trên từng listing",
     "priceLabelsDesc": "Hiện giá quy đổi ra chaos/divine ngay cạnh mỗi listing trong kết quả tìm kiếm.",
     "backupTitle": "Sao lưu",

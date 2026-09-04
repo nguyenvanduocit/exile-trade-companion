@@ -56,13 +56,11 @@ export interface HistoryEntry extends TradePage {
 }
 
 export interface TradeSettings {
-  captureHistory: boolean
   maxHistory: number
   collapsedFolderIds: string[]
   hasOpenedPanel: boolean
   statFilterButtonsEnabled: boolean
   propertyFilterButtonsEnabled: boolean
-  priceSnapshotEnabled: boolean
   priceLabelsEnabled: boolean
 }
 

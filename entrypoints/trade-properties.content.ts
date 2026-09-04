@@ -174,6 +174,12 @@ export default defineContentScript({
     function stop() {
       observer?.disconnect()
       observer = undefined
+      // Gỡ hẳn nút đã chèn khi tắt — DOM của các dòng property (Armour/ES/Damage/APS...) hiếm khi
+      // bị site tự render lại, nên nếu chỉ disconnect observer thì nút cũ nằm lại vĩnh viễn dù đã
+      // tắt setting (khác dòng Requirements, hay bị site re-render nên "tự" mất trông như đã tắt).
+      document.querySelectorAll(`.${BUTTON_CLASS}, .${BUTTON_NOT_CLASS}`).forEach((el) => el.remove())
+      document.querySelectorAll(`.${LINE_CLASS}`).forEach((el) => el.classList.remove(LINE_CLASS))
+      document.querySelectorAll<HTMLElement>('[data-etc-prop-decorated]').forEach((el) => delete el.dataset[DECORATED_ATTR])
     }
 
     // MAIN world không có browser.storage — chờ trade.content (isolated world) bắn setting hiện

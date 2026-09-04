@@ -34,10 +34,23 @@ export function usePriceLabels(ctx: ContentScriptContext) {
     let rates: Record<CurrencyId, number> = cacheFresh ? { ...cache!.rates } : {}
     if (missing.length) {
       const fetched = await fetchExchangeRates(page.game, page.league, missing)
-      for (const currency of missing) {
-        if (!(currency in fetched)) unresolvedCurrencies.add(currency)
-      }
       rates = { ...rates, ...fetched }
+
+      // Currency thanh khoản thấp (mirror, hinekora's lock...) hiếm khi có offer đổi thẳng
+      // sang chaos — bulk exchange của chúng thường chỉ thanh khoản qua divine. Fallback: quy
+      // đổi những currency còn thiếu qua divine rồi nhân lại chaos-per-divine đã có.
+      const stillMissing = missing.filter((currency) => currency !== 'divine' && !(currency in fetched))
+      if (stillMissing.length && rates['divine']) {
+        const viaDivine = await fetchExchangeRates(page.game, page.league, stillMissing, 'divine')
+        for (const currency of stillMissing) {
+          const divinePerUnit = viaDivine[currency]
+          if (divinePerUnit != null) rates[currency] = divinePerUnit * rates['divine']!
+        }
+      }
+
+      for (const currency of missing) {
+        if (!(currency in rates)) unresolvedCurrencies.add(currency)
+      }
       await store.setExchangeRateCache({ league: page.league, fetchedAt: now, rates })
     }
     return rates

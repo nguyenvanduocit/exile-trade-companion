@@ -52,13 +52,11 @@ function makeState(): TradeState {
     }],
     history: [],
     settings: {
-      captureHistory: true,
       maxHistory: 50,
       collapsedFolderIds: ['gear'],
       hasOpenedPanel: false,
       statFilterButtonsEnabled: true,
       propertyFilterButtonsEnabled: true,
-      priceSnapshotEnabled: true,
       priceLabelsEnabled: true,
     },
     snapshots: [],

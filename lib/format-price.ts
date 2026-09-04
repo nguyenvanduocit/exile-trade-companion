@@ -5,14 +5,19 @@ export function formatChaos(amount: number): string {
   return amount.toFixed(2).replace(/\.?0+$/, '')
 }
 
+function formatDivine(amount: number): string {
+  if (amount >= 1) return amount.toFixed(2)
+  // Dưới 1 divine, toFixed(2) làm tròn về "0.00" với currency rẻ (vd 1 chaos ≈ 0.003 div) —
+  // giữ đủ 2 chữ số có nghĩa để luôn thấy quy đổi, không hiện số giả "0.00".
+  return amount.toPrecision(2)
+}
+
 export function formatChaosWithDivine(chaosAmount: number, divineRate?: number): string {
   const base = `${formatChaos(chaosAmount)}c`
   if (!divineRate || divineRate <= 0) return base
 
   const divineAmount = chaosAmount / divineRate
-  if (divineAmount < 0.01) return base
-
-  return `${base} (≈${divineAmount.toFixed(2)} div)`
+  return `${base} (≈${formatDivine(divineAmount)} div)`
 }
 
 export function formatDelta(current: number, previous: number): string | null {

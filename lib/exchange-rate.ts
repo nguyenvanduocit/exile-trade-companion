@@ -20,19 +20,22 @@ export function buildExchangeUrl(game: Game, league: string): string {
   return `https://www.pathofexile.com/api/${root}/exchange/${encodeURIComponent(league)}`
 }
 
-export function buildExchangeBody(currencies: CurrencyId[]) {
+export function buildExchangeBody(currencies: CurrencyId[], want: CurrencyId = 'chaos') {
   return {
-    query: { status: { option: 'online' }, have: currencies, want: ['chaos'] },
+    query: { status: { option: 'online' }, have: currencies, want: [want] },
     sort: { have: 'asc' },
   }
 }
 
-export function parseExchangeRatios(response: ExchangeApiResponse): Record<CurrencyId, number> {
+export function parseExchangeRatios(
+  response: ExchangeApiResponse,
+  want: CurrencyId = 'chaos',
+): Record<CurrencyId, number> {
   const byCurrency = new Map<CurrencyId, number[]>()
 
   for (const entry of Object.values(response.result ?? {})) {
     const offer = entry.listing?.offers?.[0]
-    if (!offer || offer.item.currency !== 'chaos' || offer.exchange.amount <= 0) continue
+    if (!offer || offer.item.currency !== want || offer.exchange.amount <= 0) continue
 
     const ratio = offer.item.amount / offer.exchange.amount
     const list = byCurrency.get(offer.exchange.currency) ?? []
@@ -51,6 +54,7 @@ export async function fetchExchangeRates(
   game: Game,
   league: string,
   currencies: CurrencyId[],
+  want: CurrencyId = 'chaos',
 ): Promise<Record<CurrencyId, number>> {
   if (!currencies.length) return {}
 
@@ -58,10 +62,10 @@ export async function fetchExchangeRates(
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(buildExchangeBody(currencies)),
+    body: JSON.stringify(buildExchangeBody(currencies, want)),
   })
   if (!res.ok) return {}
 
   const json = await res.json() as ExchangeApiResponse
-  return parseExchangeRatios(json)
+  return parseExchangeRatios(json, want)
 }
