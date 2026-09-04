@@ -53,7 +53,11 @@ export default defineBackground(() => {
     })
   })
 
-  browser.action.onClicked.addListener((tab) => {
+  // Chrome MV3 cấp API qua `action`, Firefox MV2 (xem `wxt build:firefox`) qua `browser_action` —
+  // wxt/browser không tự map namespace (chỉ trỏ thẳng globalThis.browser/chrome), nên tự chọn cái
+  // nào tồn tại lúc runtime thay vì gọi cứng `browser.action`.
+  const toolbarAction = browser.action ?? browser.browserAction
+  toolbarAction.onClicked.addListener((tab) => {
     if (!tab.id || !parseTradeUrl(tab.url ?? '')) return
     void browser.tabs.sendMessage(tab.id, { type: 'OPEN_PANEL' } satisfies ExtensionMessage).catch(() => undefined)
   })
