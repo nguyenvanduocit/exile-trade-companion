@@ -41,6 +41,7 @@ export interface TradeSettings {
   statFilterButtonsEnabled: boolean
   propertyFilterButtonsEnabled: boolean
   priceSnapshotEnabled: boolean
+  priceLabelsEnabled: boolean
 }
 
 export interface TradeState {
