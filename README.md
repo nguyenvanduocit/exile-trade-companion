@@ -57,5 +57,6 @@ Sau khi workflow chạy xong, vào [Chrome Web Store Developer Dashboard](https:
 - `assets/main.css`: bảng màu, font và các utility `poe-btn`, `poe-input`, `icon-btn` dùng chung cho popup lẫn panel.
 - `lib/storage.ts`: schema và toàn bộ thao tác local storage.
 - `lib/trade-url.ts`: nhận diện URL trade POE1/POE2.
+- `docs/research/`: bản đồ đối thủ và phân tích KANO, nguồn cho thứ tự feature.
 
 Better Trading là dự án độc lập của exile-center. Repository này không sao chép source, logo hoặc tên thương mại của Better Trading.
