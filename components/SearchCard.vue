@@ -2,13 +2,15 @@
 import { computed, ref, watch } from 'vue'
 import { browser } from 'wxt/browser'
 import { i18n } from '#i18n'
-import { Check, ChartLine, Copy, MoreHorizontal, Pencil, Replace, Trash2, X } from 'lucide-vue-next'
+import { Check, ChartLine, Copy, Eye, EyeOff, MoreHorizontal, Pencil, Replace, Trash2, X } from 'lucide-vue-next'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import PriceHistoryModal from '@/components/PriceHistoryModal.vue'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { resolveEditedTitle } from '@/lib/edit-title'
 import { formatChaosWithDivine, formatDelta } from '@/lib/format-price'
+import { SAVE_TOAST_EVENT } from '@/lib/save-toast'
 import { buildDurableUrl } from '@/lib/trade-url'
+import { MAX_WATCHED_SEARCHES, canEnableWatching } from '@/lib/watchlist'
 import type { ExtensionMessage, SavedSearch, TradePage } from '@/types/trading'
 
 const props = defineProps<{
@@ -81,6 +83,17 @@ async function overwriteWithCurrent() {
   overwritten.value = true
   window.setTimeout(() => (overwritten.value = false), 1200)
 }
+
+async function toggleWatching() {
+  if (!props.search.watching) {
+    const watchingCount = store.state.value.searches.filter((search) => search.watching).length
+    if (!canEnableWatching(watchingCount)) {
+      window.dispatchEvent(new CustomEvent(SAVE_TOAST_EVENT, { detail: i18n.t('watchlist.limitReached', { max: MAX_WATCHED_SEARCHES }) }))
+      return
+    }
+  }
+  await store.updateSearch(props.search.id, { watching: !props.search.watching })
+}
 </script>
 
 <template>
@@ -127,6 +140,17 @@ async function overwriteWithCurrent() {
         >
           <Check v-if="overwritten" />
           <Replace v-else />
+        </button>
+        <button
+          class="icon-btn"
+          type="button"
+          :class="{ 'text-tan': search.watching }"
+          :aria-label="search.watching ? i18n.t('search.unwatch') : i18n.t('search.watch')"
+          :title="search.watching ? i18n.t('search.unwatch') : i18n.t('search.watch')"
+          @click="toggleWatching"
+        >
+          <Eye v-if="search.watching" />
+          <EyeOff v-else />
         </button>
         <button
           class="icon-btn"

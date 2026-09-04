@@ -11,6 +11,7 @@ import { useFolderSync } from '@/composables/useFolderSync'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { usePriceSnapshot } from '@/composables/usePriceSnapshot'
 import { usePriceLabels } from '@/composables/usePriceLabels'
+import { useWatchlist } from '@/composables/useWatchlist'
 import { pageLabel, relativeTime } from '@/lib/relative-time'
 import { recordHistory } from '@/lib/storage'
 import { buildDurableUrl, parseTradeUrl } from '@/lib/trade-url'
@@ -19,13 +20,14 @@ import { SAVE_TOAST_EVENT } from '@/lib/save-toast'
 import type { ExtensionMessage, TradePage, TradeQuery } from '@/types/trading'
 
 const UI_STATE_KEY = 'trade-companion-ui-state'
+type PanelTab = 'saved' | 'history' | 'watchlist' | 'settings'
 
-function loadUiState(): { open: boolean; tab: 'saved' | 'history' | 'settings' } {
+function loadUiState(): { open: boolean; tab: PanelTab } {
   try {
     const raw = window.sessionStorage.getItem(UI_STATE_KEY)
     if (!raw) return { open: false, tab: 'saved' }
-    const parsed = JSON.parse(raw) as Partial<{ open: boolean; tab: 'saved' | 'history' | 'settings' }>
-    const tab = parsed.tab === 'history' || parsed.tab === 'settings' ? parsed.tab : 'saved'
+    const parsed = JSON.parse(raw) as Partial<{ open: boolean; tab: PanelTab }>
+    const tab = parsed.tab === 'history' || parsed.tab === 'watchlist' || parsed.tab === 'settings' ? parsed.tab : 'saved'
     return { open: parsed.open ?? false, tab }
   } catch {
     return { open: false, tab: 'saved' }
@@ -39,9 +41,10 @@ const store = useTradeStore()
 const folderSync = useFolderSync()
 const priceSnapshot = usePriceSnapshot(props.ctx)
 const priceLabels = usePriceLabels(props.ctx)
+const watchlist = useWatchlist(props.ctx)
 const open = ref(uiState.open)
-const tab = ref<'saved' | 'history' | 'settings'>(uiState.tab)
-const previousTab = ref<'saved' | 'history'>(uiState.tab === 'settings' ? 'saved' : uiState.tab)
+const tab = ref<PanelTab>(uiState.tab)
+const previousTab = ref<'saved' | 'history' | 'watchlist'>(uiState.tab === 'settings' ? 'saved' : uiState.tab)
 const importing = ref(false)
 const rawPage = ref<TradePage | null>(null)
 const detectedLabel = ref<string | null>(null)
@@ -54,6 +57,7 @@ let lastRecordedUrl = ''
 let locationTimer: number | undefined
 let stopWatchingResults: (() => void) | undefined
 let stopWatchingLabels: (() => void) | undefined
+let stopWatchingWatchlist: (() => void) | undefined
 let pushObserver: ResizeObserver | undefined
 
 // Panel là position:fixed (viewport, không nằm trong luồng trang) nên tự nó không đẩy được
@@ -108,6 +112,11 @@ function onQueryState(event: Event) {
 
 const history = computed(() => store.state.value.history.slice(0, 15))
 const savedCount = computed(() => store.visibleSearches.value.length)
+const watchedSearches = computed(() => store.visibleSearches.value
+  .filter((search) => search.watching)
+  .sort((a, b) => b.updatedAt - a.updatedAt))
+const hasUnseenWatchlist = computed(() => watchedSearches.value
+  .some((search) => store.state.value.watchlistState[search.id]?.seen === false))
 const currentSavedFolderId = computed(() => currentPage.value
   ? store.visibleSearches.value.find((item) => item.url === currentPage.value?.url)?.folderId
   : undefined)
@@ -178,6 +187,19 @@ async function openHistory(entry: TradePage) {
   await browser.runtime.sendMessage({ type: 'OPEN_URL', url } satisfies ExtensionMessage)
 }
 
+async function jumpToWatchlistTab(searchId: string) {
+  await browser.runtime.sendMessage({ type: 'FOCUS_WATCHLIST_TAB', searchId } satisfies ExtensionMessage)
+}
+
+function watchlistCountLabel(searchId: string) {
+  const entry = store.state.value.watchlistState[searchId]
+  return entry ? i18n.t('watchlist.listingCount', { count: entry.lastCount }) : i18n.t('watchlist.pending')
+}
+
+function watchlistHasUnseen(searchId: string) {
+  return store.state.value.watchlistState[searchId]?.seen === false
+}
+
 async function openDiscord() {
   await browser.runtime.sendMessage({ type: 'OPEN_DISCORD' } satisfies ExtensionMessage)
 }
@@ -187,10 +209,11 @@ async function openOnboarding() {
 }
 
 function toggleSettings() {
-  if (tab.value === 'settings') {
+  const current = tab.value
+  if (current === 'settings') {
     tab.value = previousTab.value
   } else {
-    previousTab.value = tab.value
+    previousTab.value = current
     tab.value = 'settings'
   }
 }
@@ -258,6 +281,7 @@ onMounted(async () => {
   props.ctx.addEventListener(window, QUERY_STATE_EVENT, onQueryState)
   stopWatchingResults = priceSnapshot.watchResultsForSnapshot(() => currentPage.value)
   stopWatchingLabels = priceLabels.watchResultsForLabels(() => currentPage.value)
+  stopWatchingWatchlist = watchlist.watchResultsForWatchlist(() => currentPage.value)
   void priceLabels.applyLabels(currentPage.value)
 })
 
@@ -266,6 +290,7 @@ onBeforeUnmount(() => {
   browser.runtime.onMessage.removeListener(onMessage)
   stopWatchingResults?.()
   stopWatchingLabels?.()
+  stopWatchingWatchlist?.()
   stopPagePush()
   document.documentElement.style.removeProperty('transition')
 })
@@ -322,9 +347,10 @@ onBeforeUnmount(() => {
           v-for="item in [
             { id: 'saved', label: savedCount ? i18n.t('panel.tabSavedCount', { count: savedCount }) : i18n.t('panel.tabSaved') },
             { id: 'history', label: i18n.t('panel.tabHistory') },
+            { id: 'watchlist', label: i18n.t('panel.tabWatchlist') },
           ]"
           :key="item.id"
-          class="h-8 flex-1 font-display text-[14px] transition-colors"
+          class="relative h-8 flex-1 font-display text-[14px] transition-colors"
           :class="tab === item.id
             ? 'bg-[#5a3806] text-[#e9cf9f]'
             : 'text-[#e9cf9f] hover:bg-hover'"
@@ -333,6 +359,11 @@ onBeforeUnmount(() => {
           @click="tab = item.id as typeof tab"
         >
           {{ item.label }}
+          <span
+            v-if="item.id === 'watchlist' && hasUnseenWatchlist"
+            class="absolute top-1.5 right-2 size-1.5 rounded-full bg-danger"
+            :aria-label="i18n.t('watchlist.hasNew')"
+          />
         </button>
       </nav>
 
@@ -380,6 +411,32 @@ onBeforeUnmount(() => {
           </button>
           <p v-if="!history.length" class="px-4 py-6 text-[13px] leading-5 text-dim">
             {{ i18n.t('history.empty') }}
+          </p>
+        </template>
+
+        <template v-else-if="tab === 'watchlist'">
+          <button
+            v-for="search in watchedSearches"
+            :key="search.id"
+            class="group flex w-full items-center gap-3 border-b border-rule px-4 py-2.5 text-left last:border-b-0 hover:bg-hover"
+            type="button"
+            :title="search.url"
+            @click="jumpToWatchlistTab(search.id)"
+          >
+            <span class="min-w-0 flex-1">
+              <span class="line-clamp-2 text-[13px] leading-5 text-grey group-hover:text-cream">{{ search.title }}</span>
+              <span class="mt-0.5 block font-display text-[14px] leading-5 text-tan">
+                {{ watchlistCountLabel(search.id) }}
+              </span>
+            </span>
+            <span
+              v-if="watchlistHasUnseen(search.id)"
+              class="size-2 shrink-0 rounded-full bg-danger"
+              :aria-label="i18n.t('watchlist.hasNew')"
+            />
+          </button>
+          <p v-if="!watchedSearches.length" class="px-4 py-6 text-[13px] leading-5 text-dim">
+            {{ i18n.t('watchlist.empty') }}
           </p>
         </template>
 
