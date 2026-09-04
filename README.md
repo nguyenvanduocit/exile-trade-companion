@@ -1,6 +1,6 @@
 # Exile Trade Companion
 
-Chrome extension quản lý Path of Exile trade searches, lấy cảm hứng từ luồng bookmark của Better Trading nhưng được viết mới bằng WXT, Vue 3 và Tailwind. Giao diện dùng lại font FontinSmallCaps và bảng màu của chính trang trade nên panel nhìn như một phần của site.
+Extension quản lý Path of Exile trade searches cho Chrome và Firefox, lấy cảm hứng từ luồng bookmark của Better Trading nhưng được viết mới bằng WXT, Vue 3 và Tailwind. Giao diện dùng lại font FontinSmallCaps và bảng màu của chính trang trade nên panel nhìn như một phần của site.
 
 ## Có gì trong bản đầu
 
@@ -15,6 +15,8 @@ Chrome extension quản lý Path of Exile trade searches, lấy cảm hứng t�
 
 ## Chạy local
 
+### Chrome
+
 ```bash
 bun install
 bun run dev
@@ -28,13 +30,27 @@ bun run build
 
 Mở `chrome://extensions`, bật **Developer mode**, chọn **Load unpacked**, rồi trỏ tới `.output/chrome-mv3` (dev và build đều ghi vào đây).
 
+### Firefox
+
+```bash
+bun run dev:firefox
+```
+
+WXT sẽ mở một profile Firefox dev và load extension tự động. Nếu muốn load thủ công:
+
+```bash
+bun run build:firefox
+```
+
+Mở `about:debugging#/runtime/this-firefox`, bấm **Load Temporary Add-on**, chọn file `.output/firefox-mv2/manifest.json`. WXT tự build Firefox dưới dạng manifest v2 (mặc định của WXT cho Firefox); content script `world: MAIN` (nút `+` thêm stat filter) cần Firefox 128 trở lên. Add-on tạm sẽ mất khi đóng Firefox, phải load lại mỗi lần khởi động.
+
 ## Kiểm tra
 
 ```bash
 bun run check
 ```
 
-Lệnh trên chạy unit test, Vue typecheck và production build. Tạo gói để phát hành bằng `bun run zip`.
+Lệnh trên chạy unit test, Vue typecheck và production build Chrome. Tạo gói để phát hành bằng `bun run zip` (Chrome) hoặc `bun run zip:firefox` (Firefox).
 
 ## Phát hành
 
@@ -46,6 +62,8 @@ git push origin v0.2.0
 ```
 
 Sau khi workflow chạy xong, vào [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) bấm **Submit for review** thủ công. Workflow cần bốn secret trong repo settings: `CWS_EXTENSION_ID`, `CWS_CLIENT_ID`, `CWS_CLIENT_SECRET`, `CWS_REFRESH_TOKEN`.
+
+Workflow trên chỉ build và upload bản Chrome. Bản Firefox (`bun run zip:firefox`) hiện đóng gói thủ công, chưa có bước nào tự động upload lên [addons.mozilla.org](https://addons.mozilla.org).
 
 ## Cấu trúc chính
 
