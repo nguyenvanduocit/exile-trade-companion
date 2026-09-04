@@ -3,7 +3,7 @@ import { i18n } from '#i18n'
 import { DISCORD_URL } from '@/lib/discord'
 import { parseTradeUrl } from '@/lib/trade-url'
 import { saveSearch } from '@/lib/storage'
-import type { ExtensionMessage } from '@/types/trading'
+import type { ExtensionMessage, TradePage } from '@/types/trading'
 
 const SAVE_MENU_ID = 'save-exile-trade-search'
 
@@ -30,8 +30,18 @@ export default defineBackground(() => {
 
   browser.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId !== SAVE_MENU_ID || !tab?.url) return
-    const page = parseTradeUrl(tab.url, tab.title)
-    if (page) void saveSearch(page)
+    const url = tab.url
+    const fallback = parseTradeUrl(url, tab.title)
+
+    // Background không có quyền vào MAIN world của tab, nên phải hỏi content script (đã nghe
+    // QUERY_STATE_EVENT) để lấy currentPage kèm query thay vì chỉ parse URL.
+    const pagePromise = tab.id
+      ? browser.tabs.sendMessage(tab.id, { type: 'GET_CURRENT_PAGE' } satisfies ExtensionMessage).catch(() => null) as Promise<TradePage | null>
+      : Promise.resolve(null)
+
+    void pagePromise.then((page) => page ?? fallback).then((page) => {
+      if (page) void saveSearch(page)
+    })
   })
 
   browser.commands.onCommand.addListener((command) => {

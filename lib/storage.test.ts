@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { TradeState } from '@/types/trading'
+import type { TradeQuery, TradeState } from '@/types/trading'
 
 const storage = vi.hoisted(() => ({
   value: {} as Record<string, unknown>,
@@ -145,6 +145,30 @@ describe('saveSearch', () => {
 
     expect(state.hiddenSearchIds).toEqual([])
     expect(isSearchVisible(state, state.searches[0]!)).toBe(true)
+  })
+
+  it('lưu kèm raw query để dựng lại durable URL sau này, kể cả khi queryId hết hạn', async () => {
+    const query: TradeQuery = {
+      status: 'any',
+      name: 'Tabula Rasa',
+      type: null,
+      term: null,
+      disc: null,
+      stats: [{ type: 'and', filters: [] }],
+      filters: {},
+      exchange: { want: {}, have: {} },
+    }
+
+    const state = await saveSearch({
+      url: 'https://www.pathofexile.com/trade/search/Standard/new',
+      title: 'Tabula Rasa',
+      game: 'poe1',
+      league: 'Standard',
+      mode: 'search',
+      query,
+    })
+
+    expect(state.searches[0]?.query).toEqual(query)
   })
 })
 

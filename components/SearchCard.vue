@@ -8,6 +8,7 @@ import PriceHistoryModal from '@/components/PriceHistoryModal.vue'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { resolveEditedTitle } from '@/lib/edit-title'
 import { formatChaosWithDivine, formatDelta } from '@/lib/format-price'
+import { buildDurableUrl } from '@/lib/trade-url'
 import type { ExtensionMessage, SavedSearch, TradePage } from '@/types/trading'
 
 const props = defineProps<{
@@ -63,7 +64,8 @@ function cancelEditTitle() {
 }
 
 async function openSearch() {
-  await browser.runtime.sendMessage({ type: 'OPEN_URL', url: props.search.url } satisfies ExtensionMessage)
+  const url = await buildDurableUrl(props.search) ?? props.search.url
+  await browser.runtime.sendMessage({ type: 'OPEN_URL', url } satisfies ExtensionMessage)
 }
 
 async function copyUrl() {
@@ -74,8 +76,8 @@ async function copyUrl() {
 
 async function overwriteWithCurrent() {
   if (!props.currentPage) return
-  const { url, title, game, league, mode, queryId } = props.currentPage
-  await store.updateSearch(props.search.id, { url, title, game, league, mode, queryId })
+  const { url, title, game, league, mode, queryId, query } = props.currentPage
+  await store.updateSearch(props.search.id, { url, title, game, league, mode, queryId, query })
   overwritten.value = true
   window.setTimeout(() => (overwritten.value = false), 1200)
 }
