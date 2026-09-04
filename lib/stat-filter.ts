@@ -56,3 +56,16 @@ export function planAddStatNot(groups: StatGroup[], id: string): AddStatPlan {
   if (index >= 0) return { action: 'exists', group: groupIndex, index }
   return { action: 'add', group: groupIndex, value }
 }
+
+// Id của mọi filter đang thực sự "đang search" trên toàn bộ group (and/not/weight…), dùng để
+// highlight đúng dòng mod khớp Stat Filters hiện tại. filter.disabled=true nghĩa là user đã tắt
+// điều kiện đó trong query, không tính là đang search dù vẫn còn nằm trong danh sách filters.
+export function activeStatIds(groups: StatGroup[]): Set<string> {
+  const ids = new Set<string>()
+  for (const group of groups) {
+    for (const filter of group.filters) {
+      if (!filter.disabled) ids.add(filter.id)
+    }
+  }
+  return ids
+}

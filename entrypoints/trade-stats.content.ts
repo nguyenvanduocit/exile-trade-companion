@@ -1,7 +1,7 @@
 // Chạy trong MAIN world để với tới window.app (Vue 2 + Vuex của trade site).
 // Gắn nút "+"/"-" vào từng dòng mod trong kết quả; "+" thêm stat vào group đầu tiên của Stat
 // Filters, "-" thêm vào group "not" đầu tiên tìm thấy (tự tạo group "not" nếu chưa có).
-import { parseStatField, planAddStat, planAddStatNot, type AddStatPlan } from '@/lib/stat-filter'
+import { activeStatIds, parseStatField, planAddStat, planAddStatNot, type AddStatPlan } from '@/lib/stat-filter'
 import { SETTINGS_EVENT } from '@/lib/settings-bridge'
 import type { TradeApp } from '@/lib/trade-app'
 import type { TradeSettings } from '@/types/trading'
@@ -27,6 +27,7 @@ const t = MESSAGES[navigator.language.toLowerCase().startsWith('vi') ? 'vi' : 'e
 const BUTTON_CLASS = 'etc-add-stat'
 const BUTTON_NOT_CLASS = 'etc-not-stat'
 const LINE_CLASS = 'etc-stat-line'
+const HIGHLIGHT_CLASS = 'etc-stat-highlight'
 const STAT_LINE_SELECTOR = '.lc.s[data-field^="stat."], .lc.s[data-field^="statgroup."]'
 
 const STYLE = `
@@ -52,6 +53,7 @@ const STYLE = `
 .${BUTTON_NOT_CLASS}:hover, .${BUTTON_NOT_CLASS}:focus-visible { border-color: #af5a4a; background: #2c1111; outline: none; z-index: 6; }
 .${BUTTON_CLASS}[data-added="true"] { width: 18px; margin-left: 6px; opacity: 1; border-color: #8a6a3a; color: #a38d6d; cursor: default; }
 .${BUTTON_NOT_CLASS}[data-added="true"] { width: 18px; margin-left: -1px; opacity: 1; border-color: #8a4a3a; color: #c08a7a; cursor: default; }
+.${HIGHLIGHT_CLASS} { background: rgba(163, 141, 109, 0.22); box-shadow: inset 0 0 0 1px rgba(138, 106, 58, 0.65); border-radius: 2px; }
 `
 
 function injectStyle() {
@@ -134,6 +136,25 @@ function decorateWithin(root: ParentNode) {
   root.querySelectorAll<HTMLElement>(STAT_LINE_SELECTOR).forEach(decorate)
 }
 
+// Tô sáng những dòng mod khớp statId đang thực sự active trong Stat Filters hiện tại — activeIds
+// tính sẵn một lần cho cả root (tránh đọc lại $store mỗi dòng), so trực tiếp bằng parseStatField
+// để chắc chắn cùng cách tách id với nút +/− ở decorate().
+function applyHighlight(root: ParentNode, activeIds: Set<string>) {
+  root.querySelectorAll<HTMLElement>(STAT_LINE_SELECTOR).forEach((line) => {
+    const id = parseStatField(line.dataset.field)
+    line.classList.toggle(HIGHLIGHT_CLASS, id !== null && activeIds.has(id))
+  })
+}
+
+// window.app có thể chưa sẵn sàng ngay tại document_idle (site còn đang khởi tạo Vue root) — poll
+// tới khi $store xuất hiện, cùng pattern với trade-query.content.ts.
+function waitForApp(): Promise<TradeApp> {
+  return new Promise((resolve) => {
+    const check = () => (window.app?.$store ? resolve(window.app) : setTimeout(check, 200))
+    check()
+  })
+}
+
 export default defineContentScript({
   matches: [
     'https://www.pathofexile.com/trade/*',
@@ -171,6 +192,52 @@ export default defineContentScript({
       document.querySelectorAll(`.${LINE_CLASS}`).forEach((el) => el.classList.remove(LINE_CLASS))
     }
 
+    // Subsystem highlight tách riêng khỏi start()/stop() của nút +/− ở trên — hai setting độc lập
+    // nhau, bật/tắt cái này không được đổi hành vi cái kia. Cùng convention "mỗi feature một
+    // MutationObserver riêng" đã dùng ở usePriceLabels/useWatchlist/usePriceSnapshot.
+    let highlightObserver: MutationObserver | undefined
+    let unwatchStats: (() => void) | undefined
+
+    function scanHighlight(root: ParentNode) {
+      const app = window.app
+      if (!app) return
+      applyHighlight(root, activeStatIds(app.$store.state.persistent.stats))
+    }
+
+    function startHighlight() {
+      if (highlightObserver) return
+      const myObserver = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          for (const node of mutation.addedNodes) {
+            if (node instanceof HTMLElement) scanHighlight(node)
+          }
+        }
+      })
+      highlightObserver = myObserver
+      scanHighlight(document)
+      myObserver.observe(document.body, { childList: true, subtree: true })
+
+      // Stat Filters có thể đổi mà không kèm DOM mutation (user thêm/xoá filter trong panel bên
+      // trái mà chưa bấm Search lại) — Vuex 2 $store.watch báo lại để re-scan toàn document.
+      void waitForApp().then((app) => {
+        // stopHighlight() có thể đã chạy (và startHighlight() khác đã thay highlightObserver)
+        // trước khi promise này resolve — bỏ qua, đừng gắn watch cho một lượt bật đã lỗi thời.
+        if (highlightObserver !== myObserver) return
+        unwatchStats = app.$store.watch((state) => state.persistent.stats, () => scanHighlight(document), { deep: true })
+        scanHighlight(document)
+      })
+    }
+
+    function stopHighlight() {
+      highlightObserver?.disconnect()
+      highlightObserver = undefined
+      unwatchStats?.()
+      unwatchStats = undefined
+      // Gỡ retroactive như stop() ở trên — tắt setting không chỉ ngừng thêm mới mà phải dọn sạch
+      // highlight đã gắn từ trước.
+      document.querySelectorAll(`.${HIGHLIGHT_CLASS}`).forEach((el) => el.classList.remove(HIGHLIGHT_CLASS))
+    }
+
     // MAIN world không có browser.storage — chờ trade.content (isolated world) bắn setting hiện
     // tại qua CustomEvent rồi mới quyết định chạy; tắt setting thì decorateWithin/observer không
     // bao giờ chạy, không phải chạy rồi ẩn UI bằng CSS.
@@ -180,6 +247,9 @@ export default defineContentScript({
       const settings = JSON.parse((event as CustomEvent<string>).detail) as TradeSettings
       if (settings.statFilterButtonsEnabled) start()
       else stop()
+
+      if (settings.highlightSearchedModsEnabled) startHighlight()
+      else stopHighlight()
     })
   },
 })

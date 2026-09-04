@@ -8,7 +8,7 @@ export interface TradeApp {
       persistent: TradeQuery
     }
     commit: (type: string, payload?: unknown) => void
-    watch: (getter: (state: TradeApp['$store']['state']) => unknown, cb: () => void, opts?: { deep?: boolean }) => void
+    watch: (getter: (state: TradeApp['$store']['state']) => unknown, cb: () => void, opts?: { deep?: boolean }) => () => void
   }
   $refs: { toastr?: { Add: (toast: { msg: string; progressbar: boolean; timeout: number }) => void } }
   save: (dirty?: boolean) => void

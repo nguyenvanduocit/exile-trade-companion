@@ -60,6 +60,7 @@ function makeState(): TradeState {
       statFilterButtonsEnabled: true,
       propertyFilterButtonsEnabled: true,
       priceLabelsEnabled: true,
+      highlightSearchedModsEnabled: true,
     },
     snapshots: [],
     exchangeRate: null,

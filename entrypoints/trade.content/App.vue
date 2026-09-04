@@ -482,6 +482,19 @@ onBeforeUnmount(() => {
               >
             </label>
 
+            <label class="flex items-start justify-between gap-4">
+              <span>
+                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.highlightSearchedModsTitle') }}</span>
+                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.highlightSearchedModsDesc') }}</span>
+              </span>
+              <input
+                type="checkbox"
+                class="mt-1 size-4 accent-[var(--bronze-strong)]"
+                :checked="store.state.value.settings.highlightSearchedModsEnabled"
+                @change="store.updateSettings({ highlightSearchedModsEnabled: ($event.target as HTMLInputElement).checked })"
+              >
+            </label>
+
             <div>
               <p class="font-display text-[16px] text-cream">{{ i18n.t('settings.backupTitle') }}</p>
               <p class="mt-0.5 leading-5 text-dim">{{ i18n.t('settings.backupDesc') }}</p>
