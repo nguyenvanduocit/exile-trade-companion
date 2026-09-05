@@ -194,7 +194,7 @@ export default defineContentScript({
 
     // Subsystem highlight tách riêng khỏi start()/stop() của nút +/− ở trên — hai setting độc lập
     // nhau, bật/tắt cái này không được đổi hành vi cái kia. Cùng convention "mỗi feature một
-    // MutationObserver riêng" đã dùng ở usePriceLabels/useWatchlist/usePriceSnapshot.
+    // MutationObserver riêng" đã dùng ở usePriceLabels/usePriceSnapshot.
     let highlightObserver: MutationObserver | undefined
     let unwatchStats: (() => void) | undefined
 

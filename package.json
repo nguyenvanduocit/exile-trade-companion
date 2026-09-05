@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@liveblocks/client": "^3.24.1",
+    "@webext-core/messaging": "^4.0.0",
     "@wxt-dev/i18n": "^0.2.7",
     "lucide-vue-next": "^1.0.0",
     "reka-ui": "^2.10.4",

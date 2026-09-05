@@ -1,20 +1,25 @@
 import { describe, expect, it } from 'vitest'
-import { buildPriceLabel } from './price-labels'
+import { buildPriceLabelParts } from './price-labels'
 
-describe('buildPriceLabel', () => {
+describe('buildPriceLabelParts', () => {
   it('formats a chaos-priced listing with its divine equivalent', () => {
-    expect(buildPriceLabel(180, 'chaos', { divine: 180 })).toBe('180c (≈1.00 div)')
+    expect(buildPriceLabelParts(180, 'chaos', { divine: 180 })).toEqual([
+      { currency: 'chaos', text: '180' },
+      { currency: 'divine', text: '1.00' },
+    ])
   })
 
-  it('converts a divine-priced listing to chaos without a redundant divine suffix', () => {
-    expect(buildPriceLabel(2, 'divine', { divine: 200 })).toBe('400c')
+  it('converts a divine-priced listing to chaos without a redundant divine part', () => {
+    expect(buildPriceLabelParts(2, 'divine', { divine: 200 })).toEqual([
+      { currency: 'chaos', text: '400' },
+    ])
   })
 
   it('returns null when the listing currency has no known rate', () => {
-    expect(buildPriceLabel(3, 'mystery-currency', { divine: 180 })).toBeNull()
+    expect(buildPriceLabelParts(3, 'mystery-currency', { divine: 180 })).toBeNull()
   })
 
-  it('omits the divine suffix when no divine rate is available', () => {
-    expect(buildPriceLabel(50, 'chaos', {})).toBe('50c')
+  it('omits the divine part when no divine rate is available', () => {
+    expect(buildPriceLabelParts(50, 'chaos', {})).toEqual([{ currency: 'chaos', text: '50' }])
   })
 })

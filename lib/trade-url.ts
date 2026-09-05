@@ -79,7 +79,7 @@ function buildQueryPayload(mode: TradeMode, query: TradeQuery): Record<string, u
   if (query.type) payload.type = query.type
   if (query.term) payload.term = query.term
   if (query.disc) payload.disc = query.disc
-  if (query.stats.some((group) => group.filters.length)) payload.stats = query.stats
+  if (Array.isArray(query.stats) && query.stats.some((group) => group.filters.length)) payload.stats = query.stats
   if (Object.keys(query.filters).length) payload.filters = query.filters
   return payload
 }

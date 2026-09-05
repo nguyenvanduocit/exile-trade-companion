@@ -105,4 +105,15 @@ describe('buildDurableUrl', () => {
     const decoded = await decodeDurableSegment(url!)
     expect(decoded).toEqual({ status: { option: 'any' } })
   })
+
+  it('tolerates a non-array stats captured from the site\'s own state (window.app is third-party, not contract-guaranteed)', async () => {
+    const page: TradePage = {
+      ...basePage,
+      query: makeQuery({ stats: {} as unknown as TradeQuery['stats'] }),
+    }
+
+    const url = await buildDurableUrl(page)
+    const decoded = await decodeDurableSegment(url!)
+    expect(decoded).toEqual({ status: { option: 'any' } })
+  })
 })

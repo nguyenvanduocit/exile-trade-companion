@@ -22,9 +22,7 @@ import {
   addSharedFolder,
   applyRemoteFolderState,
   isSearchVisible,
-  markWatchlistSeen,
   recordSnapshot,
-  recordWatchlistCount,
   removeFolder,
   removeSearch,
   renameFolder,
@@ -66,7 +64,6 @@ function makeState(): TradeState {
     snapshots: [],
     exchangeRate: null,
     hiddenSearchIds: [],
-    watchlistState: {},
   }
 }
 
@@ -105,16 +102,6 @@ describe('removeSearch', () => {
     const state = await removeSearch('search-1')
     expect(state.searches).toHaveLength(0)
     expect(state.hiddenSearchIds).toEqual([])
-  })
-
-  it('dọn watchlistState khi xoá thật search', async () => {
-    storage.value[STORAGE_KEY] = {
-      ...makeState(),
-      watchlistState: { 'search-1': { lastCount: 5, lastNotifiedAt: 100, seen: true } },
-    }
-
-    const state = await removeSearch('search-1')
-    expect(state.watchlistState).toEqual({})
   })
 
   it('chỉ ẩn cục bộ khi folder đang share-live, không xoá khỏi searches', async () => {
@@ -293,56 +280,6 @@ describe('applyRemoteFolderState', () => {
   it('bỏ qua nếu folder không còn tồn tại local', async () => {
     const before = storage.value[STORAGE_KEY]
     const state = await applyRemoteFolderState('khong-ton-tai', { name: 'x', color: '#000' }, [])
-    expect(state).toEqual(before)
-  })
-})
-
-describe('recordWatchlistCount', () => {
-  it('thiết lập baseline cho lần report đầu tiên, không báo isNew', async () => {
-    const { isNew, state } = await recordWatchlistCount('search-1', 7)
-    expect(isNew).toBe(false)
-    expect(state.watchlistState['search-1']).toEqual({ lastCount: 7, lastNotifiedAt: 0, seen: true })
-  })
-
-  it('báo isNew và đánh dấu chưa xem khi số listing tăng so với lần trước', async () => {
-    storage.value[STORAGE_KEY] = {
-      ...makeState(),
-      watchlistState: { 'search-1': { lastCount: 5, lastNotifiedAt: 50, seen: true } },
-    }
-
-    const { isNew, state } = await recordWatchlistCount('search-1', 8)
-    expect(isNew).toBe(true)
-    expect(state.watchlistState['search-1']?.lastCount).toBe(8)
-    expect(state.watchlistState['search-1']?.seen).toBe(false)
-    expect(state.watchlistState['search-1']?.lastNotifiedAt).toBeGreaterThan(50)
-  })
-
-  it('không báo isNew và giữ nguyên seen/lastNotifiedAt khi số listing không tăng', async () => {
-    storage.value[STORAGE_KEY] = {
-      ...makeState(),
-      watchlistState: { 'search-1': { lastCount: 5, lastNotifiedAt: 50, seen: true } },
-    }
-
-    const { isNew, state } = await recordWatchlistCount('search-1', 3)
-    expect(isNew).toBe(false)
-    expect(state.watchlistState['search-1']).toEqual({ lastCount: 3, lastNotifiedAt: 50, seen: true })
-  })
-})
-
-describe('markWatchlistSeen', () => {
-  it('đánh dấu đã xem', async () => {
-    storage.value[STORAGE_KEY] = {
-      ...makeState(),
-      watchlistState: { 'search-1': { lastCount: 5, lastNotifiedAt: 50, seen: false } },
-    }
-
-    const state = await markWatchlistSeen('search-1')
-    expect(state.watchlistState['search-1']?.seen).toBe(true)
-  })
-
-  it('không làm gì nếu search chưa từng có watchlistState', async () => {
-    const before = storage.value[STORAGE_KEY]
-    const state = await markWatchlistSeen('khong-ton-tai')
     expect(state).toEqual(before)
   })
 })

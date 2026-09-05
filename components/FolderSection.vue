@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { i18n } from '#i18n'
 import { BookmarkCheck, BookmarkPlus, Check, ChevronRight, MoreHorizontal, Pencil, Share2, Trash2, X } from 'lucide-vue-next'
 import SearchCard from '@/components/SearchCard.vue'
@@ -28,6 +28,7 @@ const emit = defineEmits<{
 
 const action = ref<'closed' | 'rename' | 'delete'>('closed')
 const renameValue = ref(props.folder.name)
+const renameInputRef = ref<HTMLInputElement | null>(null)
 const showShareModal = ref(false)
 const folderSync = useFolderSync()
 
@@ -50,6 +51,10 @@ watch(() => props.folder.name, (name) => {
 function startRename() {
   renameValue.value = props.folder.name
   action.value = 'rename'
+  nextTick(() => {
+    renameInputRef.value?.focus()
+    renameInputRef.value?.select()
+  })
 }
 
 function submitRename() {
@@ -128,10 +133,10 @@ function confirmDelete() {
 
     <form v-if="action === 'rename'" class="flex items-center gap-2 border-t border-rule bg-raised px-3 py-2" @submit.prevent="submitRename">
       <input
+        ref="renameInputRef"
         v-model="renameValue"
         class="poe-input flex-1"
         maxlength="32"
-        autofocus
         :aria-label="i18n.t('folder.renameInputLabel')"
         @keydown.escape="action = 'closed'"
       >

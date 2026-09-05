@@ -2,7 +2,7 @@ import { createApp, watch } from 'vue'
 import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { SETTINGS_EVENT } from '@/lib/settings-bridge'
-import { PRICE_LABEL_CLASS } from '@/lib/price-labels'
+import { PRICE_LABEL_CLASS, PRICE_LABEL_ICON_CLASS } from '@/lib/price-labels'
 import { BULK_SELLER_BADGE_CLASS, BULK_SELLER_ROW_CLASS } from '@/composables/useSellerGrouping'
 import App from './App.vue'
 import cssText from './style.css?inline'
@@ -26,7 +26,7 @@ export default defineContentScript({
     // thấy được biến CSS (--bronze, --tan...) khai báo trên :host, phải style bằng giá trị cứng.
     const priceLabelStyle = document.createElement('style')
     priceLabelStyle.dataset.exileTradeCompanion = 'price-labels'
-    priceLabelStyle.textContent = `.${PRICE_LABEL_CLASS} { margin-left: 6px; font: 13px/1.4 Verdana, Geneva, "DejaVu Sans", sans-serif; color: #a38d6d; white-space: nowrap; }`
+    priceLabelStyle.textContent = `.${PRICE_LABEL_CLASS} { margin-left: 6px; font: 13px/1.4 Verdana, Geneva, "DejaVu Sans", sans-serif; color: #a38d6d; white-space: nowrap; } .${PRICE_LABEL_ICON_CLASS} { height: 1em; width: auto; vertical-align: -0.15em; margin: 0 1px; }`
     document.head.append(priceLabelStyle)
 
     // Cùng lý do như price-labels ở trên: đánh dấu row/badge nằm ngoài shadow root nên phải

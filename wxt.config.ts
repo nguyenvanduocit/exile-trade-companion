@@ -16,9 +16,7 @@ export default defineConfig({
     // cấp API `action` (Chrome MV3) / `browser_action` (Firefox MV2, WXT tự backfill từ field này)
     // cho toolbar icon, nếu không `browser.action`/`browser.browserAction` sẽ undefined lúc runtime.
     action: {},
-    // 'notifications' không được WXT tự detect-add như tabs/scripting — browser.notifications.create
-    // (watchlist-live) cần khai tường minh, xác nhận qua .output/chrome-mv3/manifest.json sau build.
-    permissions: ['storage', 'activeTab', 'contextMenus', 'notifications'],
+    permissions: ['storage', 'activeTab', 'contextMenus'],
     host_permissions: ['https://api.liveblocks.io/*', 'wss://api.liveblocks.io/*'],
     commands: {
       'toggle-trade-companion': {

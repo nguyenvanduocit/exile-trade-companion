@@ -5,7 +5,7 @@ export function formatChaos(amount: number): string {
   return amount.toFixed(2).replace(/\.?0+$/, '')
 }
 
-function formatDivine(amount: number): string {
+export function formatDivine(amount: number): string {
   if (amount >= 1) return amount.toFixed(2)
   // Dưới 1 divine, toFixed(2) làm tròn về "0.00" với currency rẻ (vd 1 chaos ≈ 0.003 div) —
   // giữ đủ 2 chữ số có nghĩa để luôn thấy quy đổi, không hiện số giả "0.00".
