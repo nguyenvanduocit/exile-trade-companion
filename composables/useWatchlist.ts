@@ -19,6 +19,7 @@ export function useWatchlist(ctx: ContentScriptContext) {
   // đời tab, nên là nguồn tin cậy chính; khớp theo URL chỉ còn dùng làm fallback cho tab user tự mở.
   const dedicatedSearchId = ref<string | null>(null)
   let identified = false
+  let liveSearchActivated = false
 
   async function identifyTab() {
     if (identified) return
@@ -27,6 +28,22 @@ export function useWatchlist(ctx: ContentScriptContext) {
       .sendMessage({ type: 'WATCHLIST_TAB_IDENTIFY' } satisfies ExtensionMessage)
       .catch(() => null) as { searchId: string | null } | null
     dedicatedSearchId.value = response?.searchId ?? null
+  }
+
+  // Site có chế độ "Live Search" riêng (nút "Activate Live Search" trong thanh action của form
+  // search, xem tmp/research/trade.js — component method toggleLive() giữ một kết nối mở với
+  // server để đẩy listing mới về ngay, khác hẳn trang search tĩnh chỉ có đúng kết quả lúc load).
+  // Tab nền watchlist PHẢI bật cái này thì mới thật sự "theo dõi" — nếu không, trang chỉ là ảnh
+  // chụp một lần, không bao giờ tự có thêm listing mới để MutationObserver bắt được. Bấm nút DOM
+  // thật (không đụng $store/component instance nội bộ, đã minified và có thể đổi theo patch) —
+  // chỉ bấm đúng 1 lần cho tab này, và chỉ khi nút đang ở trạng thái "Activate" (chưa bật).
+  function tryActivateLiveSearch() {
+    if (liveSearchActivated || !dedicatedSearchId.value) return
+    const button = [...document.querySelectorAll('button')]
+      .find((el) => el.textContent?.trim() === 'Activate Live Search') as HTMLButtonElement | undefined
+    if (!button) return
+    liveSearchActivated = true
+    button.click()
   }
 
   function matchWatchedSearch(page: TradePage) {
@@ -54,10 +71,13 @@ export function useWatchlist(ctx: ContentScriptContext) {
   }
 
   function watchResultsForWatchlist(getPage: () => TradePage | null) {
-    void identifyTab()
+    void identifyTab().then(tryActivateLiveSearch)
 
     let debounceTimer: number | undefined
     const observer = new MutationObserver(() => {
+      // Thử bật Live Search ngay mỗi lần DOM đổi (rẻ, tự guard chỉ chạy 1 lần) — nút có thể chưa
+      // tồn tại lúc identifyTab() vừa resolve nếu trang còn đang render kết quả.
+      tryActivateLiveSearch()
       window.clearTimeout(debounceTimer)
       debounceTimer = ctx.setTimeout(() => reportListingCount(getPage()), OBSERVER_DEBOUNCE_MS)
     })

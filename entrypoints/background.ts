@@ -2,7 +2,7 @@ import { browser } from 'wxt/browser'
 import { i18n } from '#i18n'
 import { DISCORD_URL } from '@/lib/discord'
 import { buildDurableUrl, parseTradeUrl } from '@/lib/trade-url'
-import { STORAGE_KEY, isSearchVisible, markWatchlistSeen, readState, recordWatchlistCount, saveSearch } from '@/lib/storage'
+import { STORAGE_KEY, isSearchVisible, markWatchlistSeen, readState, recordWatchlistCount, saveSearch, updateSearch } from '@/lib/storage'
 import { diffWatchlistTabs, searchIdForTab } from '@/lib/watchlist'
 import type { ExtensionMessage, TradePage } from '@/types/trading'
 
@@ -200,10 +200,19 @@ export default defineBackground(() => {
     void browser.notifications.clear(notificationId)
   })
 
-  // Tab nền có thể bị đóng ngoài ý muốn (user tự đóng, browser dọn tab) — reconcile lại để tự mở
-  // lại đúng search vẫn đang `watching`, không để watchlist "chết lặng".
-  browser.tabs.onRemoved.addListener(() => {
-    void scheduleWatchlistReconcile()
+  // Tab watchlist mất đi có 2 nguồn hoàn toàn khác nghĩa, phải phân biệt trước khi reconcile:
+  // (a) chính reconcile vừa browser.tabs.remove() nó (do watching đã tắt/bookmark đã xoá) — lúc
+  //     đó search tương ứng cũng đã watching:false rồi, không cần làm gì thêm;
+  // (b) user tự tay đóng tab, hoặc tab crash ngoài dự kiến — searchIdForTab vẫn map tới tabId này
+  //     vì KHÔNG có lượt reconcile nào chủ động xoá nó khỏi tabMap. Trường hợp (b) trước đây bị
+  //     coi như "tab chết, mở lại" (đúng ý service worker restart) nhưng lại khiến user đóng tab
+  //     tay là bị tự mở lại ngay — sai với ý định thật của user. Coi (b) là "user muốn dừng theo
+  //     dõi", tắt watching thay vì mở tab mới.
+  browser.tabs.onRemoved.addListener((tabId) => {
+    void getWatchlistTabMap().then((tabMap) => {
+      const searchId = searchIdForTab(tabMap, tabId)
+      return searchId ? updateSearch(searchId, { watching: false }) : undefined
+    }).then(() => scheduleWatchlistReconcile())
   })
 
   browser.storage.onChanged.addListener((changes, areaName) => {
