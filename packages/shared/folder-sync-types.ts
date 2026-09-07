@@ -5,7 +5,7 @@ export type SharedSearchFields = Omit<SharedResolvedSearch, 'id' | 'folderId' | 
 
 export type ShareMode = 'live' | 'once'
 
-export interface SharedFolderMeta {
+export type SharedFolderMeta = {
   name: string
   color: string
   note?: string

@@ -1,20 +1,14 @@
 import type { Json } from '@liveblocks/client'
 import type { SavedSearch, SearchFolder } from '@/types/trading'
+import type { SharedFolderMeta, SharedSearchFields, ShareMode } from 'shared/folder-sync-types'
+
+export type { SharedFolderMeta, SharedSearchFields, ShareMode }
 
 // Liveblocks yêu cầu mọi field lưu trong LiveObject là Json (có index signature) — TradeQuery là
 // interface có shape cụ thể nên không tự thoả structural constraint đó dù giá trị runtime của nó
 // luôn là JSON hợp lệ (chính là payload JSON.stringify được trong lib/trade-url.ts). Ép kiểu ở đúng
 // ranh giới serialize này (toSharedSearchFields/buildSavedSearch) thay vì nới lỏng type toàn app.
-export type SharedSearchFields = Omit<SavedSearch, 'id' | 'folderId' | 'query' | 'order' | 'purchased'> & { query?: Json }
-
-export type ShareMode = 'live' | 'once'
-
-export type SharedFolderMeta = {
-  name: string
-  color: string
-  note?: string
-  mode: ShareMode
-}
+export { resolveShareMode, isBlankFolderMeta } from 'shared/folder-sync-types'
 
 export interface SearchDiff {
   added: SavedSearch[]
@@ -38,17 +32,6 @@ export function buildSavedSearch(id: string, folderId: string, fields: SharedSea
 
 export function toSharedFolderMeta(folder: SearchFolder, mode: ShareMode): SharedFolderMeta {
   return { name: folder.name, color: folder.color, note: folder.note ?? '', mode }
-}
-
-export function resolveShareMode(meta: { mode?: ShareMode }): ShareMode {
-  return meta.mode === 'once' ? 'once' : 'live'
-}
-
-// createFolder/updateFolder đều trim-guard tên rỗng nên folder local không bao giờ mang tên rỗng —
-// tên rỗng đến từ room nghĩa là Liveblocks vừa tự tạo lại room trống (room bị xoá hoặc chưa từng
-// tồn tại), không phải một lần đồng bộ hợp lệ.
-export function isBlankFolderMeta(meta: { name: string }): boolean {
-  return meta.name.trim() === ''
 }
 
 export function diffSearchesForFolder(folderId: string, prev: SavedSearch[], next: SavedSearch[]): SearchDiff {
