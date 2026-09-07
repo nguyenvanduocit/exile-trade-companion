@@ -50,6 +50,8 @@
     "shareActiveText": "This folder is being shared. Anyone with the key below has full read/write access.",
     "shareKeyLabel": "Share key",
     "copyShareKey": "Copy share key",
+    "shareHotlinkLabel": "Share link",
+    "copyShareHotlink": "Copy share link",
     "rotateShareKey": "Rotate key",
     "stopSharing": "Stop sharing",
     "joinByKey": "Join by key",

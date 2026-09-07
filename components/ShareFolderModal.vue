@@ -4,6 +4,7 @@ import { i18n } from '#i18n'
 import { Copy, RefreshCw, Share2, X } from 'lucide-vue-next'
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { useFolderSync } from '@/composables/useFolderSync'
+import { buildShareHotlinkUrl } from '@/lib/share-hotlink'
 import type { SearchFolder } from '@/types/trading'
 
 const props = defineProps<{
@@ -18,6 +19,10 @@ const emit = defineEmits<{
 const folderSync = useFolderSync()
 const loading = ref(false)
 const onceKey = ref<string | null>(null)
+
+function hotlinkFor(key: string) {
+  return buildShareHotlinkUrl(key)
+}
 
 watch(() => props.open, (isOpen) => {
   if (!isOpen) onceKey.value = null
@@ -92,6 +97,12 @@ async function copyKey(key: string) {
             <Copy />
           </button>
         </div>
+        <div class="mt-2 flex items-center gap-2">
+          <input class="poe-input flex-1" readonly :value="hotlinkFor(folder.shareKey!)" :aria-label="i18n.t('folder.shareHotlinkLabel')">
+          <button class="icon-btn" type="button" :aria-label="i18n.t('folder.copyShareHotlink')" @click="copyKey(hotlinkFor(folder.shareKey!))">
+            <Copy />
+          </button>
+        </div>
         <div class="mt-3 flex justify-end gap-2">
           <button class="poe-btn" type="button" @click="rotateKey">
             <RefreshCw /> {{ i18n.t('folder.rotateShareKey') }}
@@ -107,6 +118,12 @@ async function copyKey(key: string) {
         <div class="mt-2 flex items-center gap-2">
           <input class="poe-input flex-1" readonly :value="onceKey" :aria-label="i18n.t('folder.shareKeyLabel')">
           <button class="icon-btn" type="button" :aria-label="i18n.t('folder.copyShareKey')" @click="copyKey(onceKey)">
+            <Copy />
+          </button>
+        </div>
+        <div class="mt-2 flex items-center gap-2">
+          <input class="poe-input flex-1" readonly :value="hotlinkFor(onceKey)" :aria-label="i18n.t('folder.shareHotlinkLabel')">
+          <button class="icon-btn" type="button" :aria-label="i18n.t('folder.copyShareHotlink')" @click="copyKey(hotlinkFor(onceKey))">
             <Copy />
           </button>
         </div>

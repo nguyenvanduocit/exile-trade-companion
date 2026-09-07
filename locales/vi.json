@@ -50,6 +50,8 @@
     "shareActiveText": "Folder này đang được chia sẻ. Ai có key dưới đây có toàn quyền đọc/ghi.",
     "shareKeyLabel": "Share key",
     "copyShareKey": "Sao chép share key",
+    "shareHotlinkLabel": "Link chia sẻ",
+    "copyShareHotlink": "Sao chép link chia sẻ",
     "rotateShareKey": "Đổi key mới",
     "stopSharing": "Ngừng chia sẻ",
     "joinByKey": "Tham gia bằng key",
