@@ -1,0 +1,19 @@
+{
+  "name": "shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@liveblocks/client": "^3.24.1",
+    "vue": "^3.5.42"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.0",
+    "vue-tsc": "^3.3.11"
+  }
+}

@@ -5,5 +5,6 @@ export default defineConfig({
   plugins: [WxtVitest()],
   test: {
     setupFiles: ['./vitest.setup.ts'],
+    exclude: ['**/node_modules/**', 'packages/**'],
   },
 })

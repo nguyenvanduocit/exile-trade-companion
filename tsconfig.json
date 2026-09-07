@@ -10,5 +10,5 @@
     "types": ["vitest/globals"]
   },
   "include": [".wxt/wxt.d.ts", "**/*.ts", "**/*.tsx", "**/*.vue"],
-  "exclude": ["tmp", "scripts", "node_modules", ".output"]
+  "exclude": ["tmp", "scripts", "node_modules", ".output", "packages"]
 }
