@@ -12,7 +12,10 @@ let store: ReturnType<typeof useTradeStore>
 let sync: ReturnType<typeof useFolderSync>
 let root: LiveObject<FolderRoomStorage>
 let notifyRemoteChange: () => void
+let notifyStorageStatus: ((status: 'synchronizing' | 'synchronized') => void) | undefined
+let storageStatus: 'synchronizing' | 'synchronized'
 const leave = vi.fn()
+const unsubscribeStorageStatus = vi.fn()
 
 beforeAll(async () => {
   store = (await import('./useTradeStore')).useTradeStore()
@@ -27,12 +30,23 @@ beforeEach(async () => {
     searches: new LiveMap(),
   })
   leave.mockClear()
+  unsubscribeStorageStatus.mockClear()
+  notifyStorageStatus = undefined
+  storageStatus = 'synchronized'
   vi.mocked(enterFolderRoom).mockImplementation((_key, seed) => {
     if (seed) root.get('folder').update(seed.folder)
     return {
       room: {
         getStorage: async () => ({ root }),
-        subscribe: (_target: unknown, callback: () => void) => { notifyRemoteChange = callback },
+        getStorageStatus: () => storageStatus,
+        subscribe: (target: unknown, callback: ((status: 'synchronizing' | 'synchronized') => void) | (() => void)) => {
+          if (target === 'storage-status') {
+            notifyStorageStatus = callback as (status: 'synchronizing' | 'synchronized') => void
+            return unsubscribeStorageStatus
+          }
+          notifyRemoteChange = callback as () => void
+          return vi.fn()
+        },
       },
       leave,
     } as unknown as ReturnType<typeof enterFolderRoom>
@@ -71,6 +85,47 @@ describe('folder note sync', () => {
     expect(root.get('folder').toJSON()).toMatchObject({ note: 'Snapshot note', mode: 'once' })
     expect(store.state.value.folders.find((folder) => folder.id === 'gear')?.shareKey).toBeUndefined()
     expect(leave).toHaveBeenCalledOnce()
+  })
+
+  it('waits for a one-time seed to synchronize before leaving or exposing its key', async () => {
+    storageStatus = 'synchronizing'
+    let settled = false
+    const resultPromise = sync.shareFolderOnce('gear').finally(() => { settled = true })
+
+    await vi.waitFor(() => expect(notifyStorageStatus).toBeTypeOf('function'))
+    notifyStorageStatus?.('synchronizing')
+    await Promise.resolve()
+    expect(settled).toBe(false)
+    expect(leave).not.toHaveBeenCalled()
+    expect(unsubscribeStorageStatus).not.toHaveBeenCalled()
+
+    storageStatus = 'synchronized'
+    notifyStorageStatus?.('synchronized')
+
+    await expect(resultPromise).resolves.toMatch(/^share_/)
+    expect(unsubscribeStorageStatus).toHaveBeenCalledOnce()
+    expect(leave).toHaveBeenCalledOnce()
+  })
+
+  it('does not expose a live share key until its seed is synchronized', async () => {
+    storageStatus = 'synchronizing'
+    let settled = false
+    const resultPromise = sync.shareFolderLive('gear').finally(() => { settled = true })
+
+    await vi.waitFor(() => expect(notifyStorageStatus).toBeTypeOf('function'))
+    notifyStorageStatus?.('synchronizing')
+    await Promise.resolve()
+    expect(settled).toBe(false)
+    expect(store.state.value.folders.find((folder) => folder.id === 'gear')?.shareKey).toBeUndefined()
+    expect(unsubscribeStorageStatus).not.toHaveBeenCalled()
+
+    storageStatus = 'synchronized'
+    notifyStorageStatus?.('synchronized')
+
+    const shareKey = await resultPromise
+    expect(shareKey).toMatch(/^share_/)
+    expect(store.state.value.folders.find((folder) => folder.id === 'gear')?.shareKey).toBe(shareKey)
+    expect(unsubscribeStorageStatus).toHaveBeenCalledOnce()
   })
 
   it.each(['join', 'fork'] as const)('preserves the remote note when choosing %s', async (action) => {

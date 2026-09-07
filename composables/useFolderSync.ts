@@ -57,6 +57,29 @@ function syncableSearchesForFolder(state: TradeState, folderId: string): SavedSe
   return state.searches.filter((entry) => entry.folderId === folderId && isSearchVisible(state, entry))
 }
 
+function waitForStorageSynchronized(room: Room): Promise<void> {
+  if (room.getStorageStatus() === 'synchronized') return Promise.resolve()
+
+  return new Promise((resolve) => {
+    let completed = false
+    let unsubscribe = () => {}
+    const complete = () => {
+      if (completed) return
+      completed = true
+      unsubscribe()
+      resolve()
+    }
+
+    unsubscribe = room.subscribe('storage-status', (status) => {
+      if (status === 'synchronized') complete()
+    })
+
+    // Do not miss an ACK that arrived between the initial check and subscription.
+    if (completed) unsubscribe()
+    else if (room.getStorageStatus() === 'synchronized') complete()
+  })
+}
+
 async function connectRoom(folderId: string, shareKey: string, store: ReturnType<typeof useTradeStore>) {
   if (activeRooms.has(shareKey)) return
   syncStatus[folderId] = 'connecting'
@@ -174,6 +197,7 @@ export function useFolderSync() {
     try {
       const { room, leave } = enterFolderRoom(shareKey, { folder: toSharedFolderMeta(folder, 'live'), searches: seedSearches })
       const { root } = await room.getStorage()
+      await waitForStorageSynchronized(room)
       activeRooms.set(shareKey, { folderId, leave, root })
       room.subscribe(root, () => void applyRemoteOrHeal(folderId, root, store), { isDeep: true })
 
@@ -198,6 +222,7 @@ export function useFolderSync() {
     try {
       const { room, leave } = enterFolderRoom(shareKey, { folder: toSharedFolderMeta(folder, 'once'), searches: seedSearches })
       await room.getStorage()
+      await waitForStorageSynchronized(room)
       leave()
       return shareKey
     } catch {
