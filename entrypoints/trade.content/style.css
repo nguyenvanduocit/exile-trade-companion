@@ -108,3 +108,27 @@
     transition: none;
   }
 }
+
+.bookmark-drop-row {
+  position: relative;
+}
+
+.bookmark-drop-row[data-drop="inside"] {
+  background: var(--bronze-active);
+  box-shadow: inset 0 0 0 1px var(--tan);
+}
+
+.bookmark-drop-row[data-drop="before"]::before,
+.bookmark-drop-row[data-drop="after"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--tan);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bookmark-drop-row[data-drop="before"]::before { top: 0; }
+.bookmark-drop-row[data-drop="after"]::after { bottom: 0; }

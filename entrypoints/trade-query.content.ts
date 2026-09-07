@@ -1,10 +1,10 @@
 // Chạy trong MAIN world để với tới window.app (Vue 2 + Vuex của trade site).
-// Suy ra nhãn "đang mua gì" từ state.persistent.name/type + DOM filter, bắn qua CustomEvent
+// Suy ra nhãn "đang mua gì" từ state.persistent.name/type + DOM filter, bắn qua window-messaging
 // cho content script chính (isolated world) dùng làm title khi lưu search.
-// Đồng thời nghe chiều ngược lại: sidebar (isolated world) bắn SAVE_TOAST_EVENT khi lưu search,
+// Đồng thời nghe chiều ngược lại: sidebar (isolated world) bắn message 'saveToast' khi lưu search,
 // script này hiện toast bằng toastr có sẵn của site thay vì tự vẽ UI thông báo.
-import { buildQueryLabel, QUERY_STATE_EVENT, type QueryStateDetail } from '@/lib/query-label'
-import { SAVE_TOAST_EVENT } from '@/lib/save-toast'
+import { buildQueryLabel } from '@/lib/query-label'
+import { onMessage, sendMessage, type QueryStateDetail } from '@/lib/window-messaging'
 import type { TradeApp } from '@/lib/trade-app'
 import type { TradeQuery } from '@/types/trading'
 
@@ -87,16 +87,13 @@ export default defineContentScript({
 
     function emit() {
       const detail: QueryStateDetail = { label: currentLabel(app), query: currentQuery(app) }
-      // So sánh cả query (không chỉ label) trước khi bắn event — MutationObserver/store watch bắn
-      // rất thường xuyên, tránh dispatch (và kéo theo recordHistory ở phía nghe) khi state thật ra
+      // So sánh cả query (không chỉ label) trước khi bắn message — MutationObserver/store watch bắn
+      // rất thường xuyên, tránh gửi (và kéo theo recordHistory ở phía nghe) khi state thật ra
       // chưa đổi gì so với lần emit trước.
       const serialized = JSON.stringify(detail)
       if (serialized === lastSerialized) return
       lastSerialized = serialized
-      // CustomEvent#detail dạng object bị trình duyệt null hoá khi băng qua ranh giới MAIN/ISOLATED
-      // world của content script thật (verify bằng CDP isolated world 2026-09-05) — string thì
-      // qua nguyên vẹn. Bắn JSON string, bên nghe (trade.content/App.vue) tự JSON.parse lại.
-      window.dispatchEvent(new CustomEvent<string>(QUERY_STATE_EVENT, { detail: serialized }))
+      void sendMessage('queryStateChanged', detail).catch(() => undefined)
     }
 
     function scheduleEmit() {
@@ -110,8 +107,7 @@ export default defineContentScript({
     const observer = new MutationObserver(scheduleEmit)
     observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'placeholder'] })
 
-    window.addEventListener(SAVE_TOAST_EVENT, (event) => {
-      const msg = (event as CustomEvent<string>).detail
+    onMessage('saveToast', ({ data: msg }) => {
       if (msg) app.$refs.toastr?.Add({ msg, progressbar: false, timeout: 2000 })
     })
   },

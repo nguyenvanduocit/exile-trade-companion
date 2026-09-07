@@ -36,7 +36,7 @@ Càng nhiều càng hài lòng.
 - Giá quy đổi chaos/div trên từng listing. Đã có `lib/exchange-rate.ts` cho snapshot, chưa hiển thị per listing. Rẻ.
 - Highlight mod đã search: chưa có.
 - Độ sâu tổ chức bookmark: folder lồng, icon, category, layout, middle-click mở tab nền. Mới ở mức cơ bản.
-- Sync giữa máy: Liveblocks share folder (`docs/superpowers/specs/2026-09-04-folder-share-sync-design.md`) tái dùng được làm sync cá nhân.
+- Sync giữa máy: Liveblocks share folder ([features/folder-share.md](../features/folder-share.md)) tái dùng được làm sync cá nhân.
 - Thêm mod từ kết quả một click: đã có, Poe Trade Plus có, TFT không.
 
 ### Attractive
@@ -47,7 +47,7 @@ Không có không ai trách, có thì user nhớ.
 - Tier picker: lợi thế data pipeline `data/poedb` ở workspace poe.
 - Gom listing theo seller.
 - Chỉ hiện affix hợp item class, preset waystone/tablet.
-- Price history theo bookmark: chỉ mình có (`docs/superpowers/specs/2026-09-04-price-snapshot-analysis-design.md`).
+- Price history theo bookmark: chỉ mình có ([features/price-history.md](../features/price-history.md)).
 - Share folder live: chỉ mình có, là request từ 2020 "guide có thể ship gearing folder".
 - Paste item vào để search: nhu cầu đang giảm vì POE2 có price check in-game, parser gãy mỗi patch. Không làm.
 

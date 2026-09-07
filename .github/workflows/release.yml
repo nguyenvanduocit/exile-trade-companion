@@ -37,6 +37,11 @@ jobs:
         run: bun run typecheck
 
       - name: Build + zip extension
+        # VITE_* được Vite inline vào bundle lúc build — thiếu thì folder share (Liveblocks) và telemetry chết trong bản store.
+        env:
+          VITE_LIVEBLOCKS_PUBLIC_KEY: ${{ secrets.VITE_LIVEBLOCKS_PUBLIC_KEY }}
+          VITE_DATADOG_CLIENT_TOKEN: ${{ secrets.VITE_DATADOG_CLIENT_TOKEN }}
+          VITE_DATADOG_SITE: ${{ secrets.VITE_DATADOG_SITE }}
         run: bun run zip
 
       - name: Locate zip

@@ -1,80 +1,55 @@
 # Exile Trade Companion
 
-Extension quản lý Path of Exile trade searches cho Chrome và Firefox, lấy cảm hứng từ luồng bookmark của Better Trading nhưng được viết mới bằng WXT, Vue 3 và Tailwind. Giao diện dùng lại font FontinSmallCaps và bảng màu của chính trang trade nên panel nhìn như một phần của site.
+Extension Chrome và Firefox cho trang trade của Path of Exile 1 (`pathofexile.com/trade`) và Path of Exile 2 (`pathofexile.com/trade2`). Panel nằm ngay trên trang trade, dùng font và bảng màu của chính site. Viết bằng WXT, Vue 3 và Tailwind; mã nguồn mở theo Apache-2.0.
 
-## Có gì trong bản đầu
+Extension không tự chạy search và không gọi API tìm kiếm của GGG. Dữ liệu của bạn nằm trong `chrome.storage.local`; chỉ folder bạn chủ động chia sẻ mới rời khỏi máy.
 
-- Lưu search đang mở vào thư mục.
-- Panel nổi trên `pathofexile.com/trade` và `trade2` với Shadow DOM cô lập CSS.
-- Popup quản lý bookmark, ghim search, lọc nhanh và mở lại trong tab mới.
-- Ghi lịch sử search khi URL thay đổi trên SPA.
-- Nút `+` trên từng dòng mod trong kết quả trade: hover vào mod, bấm là stat đó vào Stat Filters của search hiện tại (group And đầu tiên, min/max để trống, không tự chạy search). Chạy trên cả trade và trade2.
-- Menu chuột phải và phím tắt `Alt+Shift+B`.
-- Nhập/xuất backup JSON.
-- Dữ liệu nằm trong `chrome.storage.local`. Extension không tự chạy search hay gọi API kết quả tìm kiếm — giá listing đọc trực tiếp từ DOM. Riêng tỷ giá quy đổi chaos/divine gọi endpoint public `GET/POST api/trade/exchange/<league>` của chính trade site, tối đa một lần mỗi 6 giờ cho mỗi league đang có search đã lưu (`lib/exchange-rate.ts`, `composables/usePriceSnapshot.ts`).
+## Tính năng
 
-## Chạy local
+- **Bookmark theo folder**: lưu search đang mở bằng một cú bấm, đặt tên tự động theo nội dung search, ghi chú, đánh dấu đã mua, kéo thả, lịch sử trang đã xem, sao lưu JSON.
+- **Bookmark không chết**: lưu kèm query và dựng lại URL khi mở, nên bookmark vẫn đúng bộ lọc sau khi search ID của GGG hết hạn.
+- **Nút + / − trên kết quả**: rê chuột vào dòng mod hoặc thuộc tính của item để đặt min/max vào filter mà không gõ lại. Mod đang search được tô sáng.
+- **Tier picker (PoE2)**: chọn T1, T2… trên stat filter để điền ngưỡng, thu hẹp theo category, base hoặc unique đang chọn.
+- **Giá quy đổi**: mỗi listing hiện thêm giá chaos hoặc divine với icon thật; tỷ giá lấy từ bulk exchange của league, cache 6 giờ.
+- **Lịch sử giá**: search đã bookmark được chụp trung vị giá mỗi lần bạn mở, có biểu đồ.
+- **Seller bán nhiều**: đánh dấu listing của seller có từ 2 item trong kết quả để mua gộp.
+- **Chia sẻ folder**: chia sẻ trực tiếp đồng bộ hai chiều hoặc gửi bản chụp một lần, chỉ cần một share key, không tài khoản.
+- **Import build**: dán link character poe.ninja, link pobb.in hoặc code Path of Building; gear, jewel, flask thành các search trong folder, mod được map sang stat filter của trade.
+- Giao diện tiếng Việt và tiếng Anh, phím tắt `Alt+Shift+B`, menu chuột phải, onboarding khi cài.
 
-### Chrome
+Hướng dẫn chi tiết: [docs/user-guide.md](docs/user-guide.md).
+
+## Cài đặt
+
+Bản Chrome đang chờ duyệt trên Chrome Web Store. Trong lúc đó, hoặc với Firefox, build từ mã nguồn:
 
 ```bash
 bun install
-bun run dev
+bun run build            # Chrome  → .output/chrome-mv3
+bun run build:firefox    # Firefox → .output/firefox-mv2
 ```
 
-WXT sẽ mở một profile Chrome dev và load extension tự động. Nếu muốn load thủ công:
+Chrome: `chrome://extensions` → Developer mode → Load unpacked → `.output/chrome-mv3`. Firefox (128+): `about:debugging#/runtime/this-firefox` → Load Temporary Add-on → `.output/firefox-mv2/manifest.json`.
+
+Chia sẻ folder và thống kê sử dụng cần key trong `.env` (xem `.env.example`); thiếu key thì hai phần đó tự tắt, phần còn lại chạy bình thường.
+
+## Phát triển
 
 ```bash
-bun run build
+bun run dev      # Chrome profile dev, hot reload
+bun run check    # test + typecheck + build
 ```
 
-Mở `chrome://extensions`, bật **Developer mode**, chọn **Load unpacked**, rồi trỏ tới `.output/chrome-mv3` (dev và build đều ghi vào đây).
+Kiến trúc, quy ước, cách verify trên trade site và quy trình phát hành: [docs/architecture.md](docs/architecture.md) và [docs/development.md](docs/development.md). Mỗi tính năng có tài liệu riêng trong [docs/features/](docs/features/README.md); lý do đằng sau các lựa chọn ở [docs/decisions.md](docs/decisions.md).
 
-### Firefox
+## Quyền riêng tư
 
-```bash
-bun run dev:firefox
-```
+Extension gửi thống kê sử dụng ẩn danh (tính năng được dùng, số đếm, mã lỗi, text mod mà import không map được) tới Datadog qua background của extension; không gửi account, query, bookmark hay lịch sử duyệt. Tắt trong Cài đặt. Chi tiết: [PRIVACY.md](PRIVACY.md).
 
-WXT sẽ mở một profile Firefox dev và load extension tự động. Nếu muốn load thủ công:
+Request duy nhất tới `pathofexile.com` ngoài trang bạn đang mở là endpoint bulk exchange công khai để lấy tỷ giá, tối đa một lần mỗi 6 giờ cho mỗi league có bookmark.
 
-```bash
-bun run build:firefox
-```
+## Ghi nhận
 
-Mở `about:debugging#/runtime/this-firefox`, bấm **Load Temporary Add-on**, chọn file `.output/firefox-mv2/manifest.json`. WXT tự build Firefox dưới dạng manifest v2 (mặc định của WXT cho Firefox); content script `world: MAIN` (nút `+` thêm stat filter) cần Firefox 128 trở lên. Add-on tạm sẽ mất khi đóng Firefox, phải load lại mỗi lần khởi động.
-
-## Kiểm tra
-
-```bash
-bun run check
-```
-
-Lệnh trên chạy unit test, Vue typecheck và production build Chrome. Tạo gói để phát hành bằng `bun run zip` (Chrome) hoặc `bun run zip:firefox` (Firefox).
-
-## Phát hành
-
-Push tag dạng `vX.Y.Z` sẽ chạy workflow `.github/workflows/release.yml`: bump version trong `package.json` theo tag, chạy test + typecheck + build, zip extension, upload draft lên Chrome Web Store (không tự publish) và tạo GitHub Release đính kèm zip.
-
-```bash
-git tag v0.2.0
-git push origin v0.2.0
-```
-
-Sau khi workflow chạy xong, vào [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) bấm **Submit for review** thủ công. Workflow cần bốn secret trong repo settings: `CWS_EXTENSION_ID`, `CWS_CLIENT_ID`, `CWS_CLIENT_SECRET`, `CWS_REFRESH_TOKEN`.
-
-Workflow trên chỉ build và upload bản Chrome. Bản Firefox (`bun run zip:firefox`) hiện đóng gói thủ công, chưa có bước nào tự động upload lên [addons.mozilla.org](https://addons.mozilla.org).
-
-## Cấu trúc chính
-
-- `entrypoints/popup/`: popup quản lý đầy đủ.
-- `entrypoints/trade.content/`: panel inject vào trang trade.
-- `entrypoints/trade-stats.content.ts`: content script `world: MAIN`, gắn nút `+` vào dòng mod và commit vào Vuex store của site (`window.app.$store`, mutation `setStatFilter`). Logic thuần ở `lib/stat-filter.ts`.
-- `entrypoints/background.ts`: menu chuột phải, phím tắt và mở tab.
-- `components/`: `CurrentSearch` (khối lưu search đang mở), `FolderSection`, `SearchCard`; `components/ui/collapsible` bọc reka-ui.
-- `assets/main.css`: bảng màu, font và các utility `poe-btn`, `poe-input`, `icon-btn` dùng chung cho popup lẫn panel.
-- `lib/storage.ts`: schema và toàn bộ thao tác local storage.
-- `lib/trade-url.ts`: nhận diện URL trade POE1/POE2.
-- `docs/research/`: bản đồ đối thủ và phân tích KANO, nguồn cho thứ tự feature.
-
-Better Trading là dự án độc lập của exile-center. Repository này không sao chép source, logo hoặc tên thương mại của Better Trading.
+- Dữ liệu tier PoE2 là snapshot của [TierFill](https://github.com/Sknoww/tierfill) (MIT), notice ở `public/licenses/TierFill.txt`; base types từ [RePoE](https://repoe-fork.github.io/poe2/).
+- Luồng bookmark lấy cảm hứng từ Better Trading của exile-center. Repository này không sao chép source, logo hay tên thương mại của họ.
+- Cộng đồng: [Discord](https://discord.gg/CQp5MhdQK).

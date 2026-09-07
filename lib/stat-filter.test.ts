@@ -1,5 +1,68 @@
 import { describe, expect, it } from 'vitest'
-import { activeStatIds, parseStatField, planAddStat, planAddStatNot } from './stat-filter'
+import { activeStatIds, parseStatField, parseStatValue, planAddStat, planAddStatNot } from './stat-filter'
+
+describe('modifier values', () => {
+  it.each([
+    ['+21 to Strength', 21],
+    ['+40 to maximum Life', 40],
+    ['26% increased Damage', 26],
+    ['-12% to Fire Resistance', -12],
+    ['−1.5% to Critical Hit Chance', -1.5],
+    ['Adds 12 to 24 Physical Damage', 18],
+    ['When you kill a Rare monster, gain its Modifiers', null],
+    ['10% chance to gain a charge for 4 seconds', null],
+  ])('reads %s', (label, value) => {
+    expect(parseStatValue(label)).toBe(value)
+  })
+
+  it('uses catalog placeholders without treating fixed durations as rolls', () => {
+    expect(parseStatValue('10% chance to gain a charge for 4 seconds', {
+      text: '#% chance to gain a charge for 4 seconds',
+    })).toBe(10)
+    expect(parseStatValue('+21 to Strength', { text: '+# to Strength' })).toBe(21)
+    expect(parseStatValue('Adds 12 to 24 Physical Damage', { text: 'Adds # to # Physical Damage' })).toBe(18)
+  })
+
+  it('does not put fixed or option values into numeric filters', () => {
+    expect(parseStatValue('Grants Level 20 Skill', { text: 'Grants Level 20 Skill' })).toBeNull()
+    expect(parseStatValue('Allocates Skill 12', { text: 'Allocates #', option: { options: [] } })).toBeNull()
+    expect(parseStatValue('+21 to Strength', { text: '+# to Dexterity' })).toBeNull()
+  })
+
+  it('converts reduced rolls to negative values for increased catalog stats', () => {
+    expect(parseStatValue('30% reduced Charges per use', { text: '#% increased Charges per use' })).toBe(-30)
+    expect(parseStatValue('12% less Damage', { text: '#% more Damage' })).toBe(-12)
+  })
+
+  it('preserves a weighted filter while replacing its bounds', () => {
+    const groups = [{ type: 'weight', filters: [{ id: 'explicit.stat_1', value: { min: 10, max: 50, weight: 2 } }] }]
+    expect(planAddStat(groups, 'explicit.stat_1', { min: 21 })).toEqual({
+      action: 'update', group: 0, index: 0,
+      value: { id: 'explicit.stat_1', value: { min: 21, weight: 2 }, disabled: false },
+    })
+  })
+
+  it('keeps zero as an explicit bound when adding to an existing group', () => {
+    expect(planAddStat([{ type: 'and', filters: [] }], 'explicit.stat_1', { max: 0 })).toEqual({
+      action: 'add', group: 0, value: { id: 'explicit.stat_1', value: { max: 0 }, disabled: false },
+    })
+  })
+
+  it.each(['min', 'max'] as const)('adds the clicked value as %s', (bound) => {
+    expect(planAddStat([], 'explicit.stat_1', { [bound]: 21 })).toEqual({
+      action: 'add-group', value: { id: 'explicit.stat_1', value: { [bound]: 21 }, disabled: false },
+    })
+  })
+
+  it.each(['min', 'max'] as const)('updates an existing filter and clears the opposite of %s', (bound) => {
+    const groups = [{ type: 'and', filters: [{ id: 'explicit.stat_1', value: { min: 10, max: 50 }, disabled: true }] }]
+    expect(planAddStat(groups, 'explicit.stat_1', { [bound]: 21 })).toEqual({
+      action: 'update', group: 0, index: 0,
+      value: { id: 'explicit.stat_1', value: { [bound]: 21 }, disabled: false },
+    })
+    expect(groups[0]!.filters[0]!.value).toEqual({ min: 10, max: 50 })
+  })
+})
 
 describe('parseStatField', () => {
   it('bỏ tiền tố stat. và giữ nguyên id của trade API', () => {

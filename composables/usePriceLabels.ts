@@ -1,25 +1,36 @@
 import type { ContentScriptContext } from 'wxt/utils/content-script-context'
 import { fetchExchangeRates } from '@/lib/exchange-rate'
-import { buildPriceLabelParts, PRICE_LABEL_CLASS, PRICE_LABEL_ICON_CLASS } from '@/lib/price-labels'
+import { buildPriceLabelParts, PRICE_LABEL_CLASS, PRICE_LABEL_ICON_CLASS, PRICE_LABELED_ATTR } from '@/lib/price-labels'
 import type { PriceLabelPart } from '@/lib/price-labels'
 import { readListingRows } from '@/lib/price-snapshot'
+import { sendCurrencyIconMessage } from '@/lib/window-messaging'
 import { useTradeStore } from '@/composables/useTradeStore'
 import type { CurrencyId } from '@/types/pricing'
 import type { TradePage } from '@/types/trading'
 
 const RATE_CACHE_TTL_MS = 6 * 60 * 60 * 1000
 const OBSERVER_DEBOUNCE_MS = 500
-const DECORATED_ATTR = 'data-etc-price-labeled'
 
 export function usePriceLabels(ctx: ContentScriptContext) {
   const store = useTradeStore()
   // Currency đã fetch mà API không trả rate (không có offer nào trên league) — nhớ trong phiên
   // này để pagination/infinite scroll không lặp lại request cho cùng currency vô ích.
   const unresolvedCurrencies = new Set<CurrencyId>()
-  // Icon thật của từng currency, "mượn" từ chính ảnh trang đã render cho listing khác — tích
-  // luỹ dần qua các lần applyLabels nên không cần tự host asset. Currency nào trang chưa từng
-  // hiện (hiếm khi xảy ra, thường trang có đủ chaos/divine ngay từ trang đầu) thì fallback chữ.
+  // Icon thật của từng currency từ catalog của site (MAIN world trả về qua window-messaging),
+  // hỏi một lần rồi giữ cho cả phiên. Catalog chưa load thì hỏi lại ở lần applyLabels sau;
+  // currency không có trong catalog thì fallback chữ.
   const iconCache = new Map<CurrencyId, string>()
+
+  async function ensureIcons(currencies: CurrencyId[]) {
+    const missing = [...new Set(currencies)].filter((currency) => !iconCache.has(currency))
+    if (!missing.length) return
+    const urls = await sendCurrencyIconMessage('resolveCurrencyIcons', missing).catch(() => null)
+    if (!urls) return
+    for (const currency of missing) {
+      const url = urls[currency]
+      if (url) iconCache.set(currency, url)
+    }
+  }
 
   function appendPricePart(container: HTMLElement, part: PriceLabelPart) {
     container.append(document.createTextNode(part.text))
@@ -35,13 +46,13 @@ export function usePriceLabels(ctx: ContentScriptContext) {
     }
   }
 
+  // Mọi phần trong nhãn đều là quy đổi (giá gốc nằm ở dòng của trang) nên phần nào cũng mang
+  // "≈" và cùng một format, dù là một phần (listing chaos/divine) hay hai (currency khác).
   function renderPriceLabel(container: HTMLElement, parts: PriceLabelPart[]) {
-    const [primary, secondary] = parts as [PriceLabelPart, PriceLabelPart?]
-    appendPricePart(container, primary)
-    if (!secondary) return
-    container.append(document.createTextNode(' (≈'))
-    appendPricePart(container, secondary)
-    container.append(document.createTextNode(')'))
+    parts.forEach((part, index) => {
+      container.append(document.createTextNode(index === 0 ? '≈' : ' ≈'))
+      appendPricePart(container, part)
+    })
   }
 
   async function ensureRates(page: TradePage, currencies: CurrencyId[]): Promise<Record<CurrencyId, number>> {
@@ -86,32 +97,30 @@ export function usePriceLabels(ctx: ContentScriptContext) {
 
   function removeLabels() {
     document.querySelectorAll(`.${PRICE_LABEL_CLASS}`).forEach((el) => el.remove())
-    document.querySelectorAll(`[${DECORATED_ATTR}]`).forEach((el) => el.removeAttribute(DECORATED_ATTR))
+    document.querySelectorAll(`[${PRICE_LABELED_ATTR}]`).forEach((el) => el.removeAttribute(PRICE_LABELED_ATTR))
   }
 
   async function applyLabels(page: TradePage | null) {
     if (!page || page.mode !== 'search') return
     if (!store.state.value.settings.priceLabelsEnabled) return
 
-    const allRows = readListingRows()
-    for (const row of allRows) {
-      if (!iconCache.has(row.currency)) iconCache.set(row.currency, row.iconSrc)
-    }
-
-    const rows = allRows.filter((row) => !row.el.hasAttribute(DECORATED_ATTR))
+    const rows = readListingRows().filter((row) => !row.el.hasAttribute(PRICE_LABELED_ATTR))
     if (!rows.length) return
 
     const rates = await ensureRates(page, rows.map((row) => row.currency))
+    await ensureIcons(['chaos', 'divine'])
 
     for (const row of rows) {
-      row.el.setAttribute(DECORATED_ATTR, 'true')
+      row.el.setAttribute(PRICE_LABELED_ATTR, 'true')
       const parts = buildPriceLabelParts(row.amount, row.currency, rates)
       if (!parts) continue
 
       const span = document.createElement('span')
       span.className = PRICE_LABEL_CLASS
       renderPriceLabel(span, parts)
-      row.el.after(span)
+      // Chèn vào trong [data-field="price"] (display: block, amount + icon nằm sau <br>) để nhãn
+      // đứng ngay cạnh icon currency trên cùng dòng thay vì rớt xuống dòng riêng.
+      row.el.append(span)
     }
   }
 

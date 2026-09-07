@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parsePropertyField, parsePropertyValue, planSetPropertyMaxZero, planSetPropertyMin, resolvePropertyGroup } from './property-filter'
+import { parsePropertyField, parsePropertyValue, planSetPropertyMax, planSetPropertyMin, resolvePropertyGroup } from './property-filter'
 
 describe('parsePropertyField', () => {
   it('nhận field property đã biết (không prefix stat.)', () => {
@@ -70,8 +70,8 @@ describe('parsePropertyValue', () => {
 })
 
 describe('planSetPropertyMin', () => {
-  it('set min, giữ nguyên max đã có', () => {
-    expect(planSetPropertyMin({ max: 500 }, 331)).toEqual({ max: 500, min: 331 })
+  it('set min và xóa max đã có', () => {
+    expect(planSetPropertyMin({ max: 500 }, 331)).toEqual({ min: 331 })
   })
 
   it('set min khi chưa có filter nào', () => {
@@ -79,12 +79,12 @@ describe('planSetPropertyMin', () => {
   })
 })
 
-describe('planSetPropertyMaxZero', () => {
-  it('set max = 0, giữ nguyên min đã có', () => {
-    expect(planSetPropertyMaxZero({ min: 10 })).toEqual({ min: 10, max: 0 })
+describe('planSetPropertyMax', () => {
+  it('set max bằng giá trị trên dòng và xóa min đã có', () => {
+    expect(planSetPropertyMax({ min: 10 }, 331)).toEqual({ max: 331 })
   })
 
-  it('set max = 0 khi chưa có filter nào', () => {
-    expect(planSetPropertyMaxZero(undefined)).toEqual({ max: 0 })
+  it('set max khi chưa có filter nào', () => {
+    expect(planSetPropertyMax(undefined, 0)).toEqual({ max: 0 })
   })
 })

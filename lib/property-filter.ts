@@ -55,12 +55,11 @@ export function parsePropertyValue(text: string): number | null {
   return match ? Number(match[0]) : null
 }
 
-// Mutation setPropertyFilter GHI ĐÈ nguyên object {min,max} chứ không merge — phải tự giữ lại
-// nhánh còn lại (max khi set min, min khi set max) để không xoá mất filter đã set trước đó.
-export function planSetPropertyMin(existing: PropertyFilterValue | undefined, value: number): PropertyFilterValue {
-  return { ...existing, min: value }
+// Quick buttons replace both bounds so switching direction clears the previous constraint.
+export function planSetPropertyMin(_existing: PropertyFilterValue | undefined, value: number): PropertyFilterValue {
+  return { min: value }
 }
 
-export function planSetPropertyMaxZero(existing: PropertyFilterValue | undefined): PropertyFilterValue {
-  return { ...existing, max: 0 }
+export function planSetPropertyMax(_existing: PropertyFilterValue | undefined, value: number): PropertyFilterValue {
+  return { max: value }
 }

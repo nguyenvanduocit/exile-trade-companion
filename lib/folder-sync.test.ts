@@ -54,8 +54,8 @@ describe('toSharedSearchFields / buildSavedSearch', () => {
 
 describe('toSharedFolderMeta', () => {
   it('lấy name, color và mode được truyền vào', () => {
-    expect(toSharedFolderMeta(makeFolder({ name: 'Gear', color: '#fff' }), 'live')).toEqual({ name: 'Gear', color: '#fff', mode: 'live' })
-    expect(toSharedFolderMeta(makeFolder({ name: 'Gear', color: '#fff' }), 'once')).toEqual({ name: 'Gear', color: '#fff', mode: 'once' })
+    expect(toSharedFolderMeta(makeFolder({ name: 'Gear', color: '#fff' }), 'live')).toEqual({ name: 'Gear', color: '#fff', note: '', mode: 'live' })
+    expect(toSharedFolderMeta(makeFolder({ name: 'Gear', color: '#fff', note: 'Budget: 20 div\nUpgrade boots' }), 'once')).toEqual({ name: 'Gear', color: '#fff', note: 'Budget: 20 div\nUpgrade boots', mode: 'once' })
   })
 })
 
@@ -122,7 +122,18 @@ describe('diffFolderMeta', () => {
 
   it('trả meta mới khi name hoặc color đổi', () => {
     const next = makeFolder({ name: 'Renamed' })
-    expect(diffFolderMeta(makeFolder(), next)).toEqual({ name: 'Renamed', color: '#aaa' })
+    expect(diffFolderMeta(makeFolder(), next)).toEqual({ name: 'Renamed' })
+  })
+
+  it('syncs note edits and deletion without overwriting other metadata', () => {
+    const before = makeFolder({ note: 'Old note' })
+    expect(diffFolderMeta(before, makeFolder({ note: 'New note\nSecond line' }))).toEqual({ note: 'New note\nSecond line' })
+    expect(diffFolderMeta(before, makeFolder({ note: '' }))).toEqual({ note: '' })
+    expect(diffFolderMeta(before, makeFolder())).toEqual({ note: '' })
+  })
+
+  it('treats a missing legacy note as empty and ignores local folder fields', () => {
+    expect(diffFolderMeta(makeFolder(), makeFolder({ note: '', order: 3, shareKey: 'share_new' }))).toBeNull()
   })
 })
 

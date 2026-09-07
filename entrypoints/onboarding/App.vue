@@ -98,6 +98,8 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           {{ isLast ? i18n.t('onboarding.start') : i18n.t('onboarding.next') }} <ArrowRight />
         </button>
       </div>
+
+      <p class="mt-6 text-center text-[12px] leading-5 text-dim">{{ i18n.t('onboarding.privacyNote') }}</p>
     </div>
   </main>
 </template>

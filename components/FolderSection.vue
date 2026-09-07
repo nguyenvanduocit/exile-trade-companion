@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { i18n } from '#i18n'
-import { BookmarkCheck, BookmarkPlus, Check, ChevronRight, MoreHorizontal, Pencil, Share2, Trash2, X } from 'lucide-vue-next'
+import { BookmarkCheck, BookmarkPlus, Download, MoreHorizontal, Pencil, Share2, Trash2 } from 'lucide-vue-next'
+import BookmarkDragHandle from '@/components/BookmarkDragHandle.vue'
+import FolderFormModal from '@/components/FolderFormModal.vue'
+import ImportNinjaModal from '@/components/ImportNinjaModal.vue'
+import { useBookmarkDrop } from '@/composables/useBookmarkDrag'
 import SearchCard from '@/components/SearchCard.vue'
 import ShareFolderModal from '@/components/ShareFolderModal.vue'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -21,16 +25,16 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update:open': [value: boolean]
-  'rename': [folderId: string, name: string]
   'delete': [folderId: string]
   'save': [folderId: string]
 }>()
 
-const action = ref<'closed' | 'rename' | 'delete'>('closed')
-const renameValue = ref(props.folder.name)
-const renameInputRef = ref<HTMLInputElement | null>(null)
+const confirmingDelete = ref(false)
+const showEditModal = ref(false)
 const showShareModal = ref(false)
+const showImportModal = ref(false)
 const folderSync = useFolderSync()
+const dropTarget = useBookmarkDrop('folder', () => props.folder.id)
 
 const shareStatus = computed(() => (props.folder.shareKey ? folderSync.syncStatus[props.folder.id] ?? 'idle' : undefined))
 
@@ -44,39 +48,25 @@ const shareStatusLabel = computed(() => {
   }
 })
 
-watch(() => props.folder.name, (name) => {
-  renameValue.value = name
-})
-
-function startRename() {
-  renameValue.value = props.folder.name
-  action.value = 'rename'
-  nextTick(() => {
-    renameInputRef.value?.focus()
-    renameInputRef.value?.select()
-  })
-}
-
-function submitRename() {
-  const name = renameValue.value.trim()
-  if (!name) return
-  emit('rename', props.folder.id, name)
-  action.value = 'closed'
-}
-
 function confirmDelete() {
   if (!props.canDelete) return
   emit('delete', props.folder.id)
-  action.value = 'closed'
+  confirmingDelete.value = false
 }
 </script>
 
 <template>
   <Collapsible :open="open" class="border-b border-rule" @update:open="emit('update:open', $event)">
-    <div class="flex items-center bg-row pr-2">
+    <div
+      class="bookmark-drop-row flex items-center bg-row pr-2 pl-1"
+      :data-drop="dropTarget.placement.value"
+      @dragover="dropTarget.dragOver"
+      @dragleave="dropTarget.dragLeave"
+      @drop="dropTarget.drop"
+    >
+      <BookmarkDragHandle kind="folder" :id="folder.id" :label="i18n.t('folder.drag')" />
       <CollapsibleTrigger as-child>
-        <button class="flex h-8 min-w-0 flex-1 items-center gap-2 pl-3 text-left hover:bg-hover" type="button">
-          <ChevronRight class="size-3.5 shrink-0 text-tan transition-transform duration-150" :class="open ? 'rotate-90' : ''" />
+        <button class="flex h-8 min-w-0 flex-1 items-center gap-2 pl-1 text-left hover:bg-hover" type="button">
           <span class="size-2 shrink-0" :style="{ backgroundColor: folder.color }" />
           <span class="min-w-0 flex-1 truncate font-display text-[14px] text-cream">{{ folder.name }}</span>
         </button>
@@ -114,41 +104,27 @@ function confirmDelete() {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem @select="startRename">
-            <Pencil class="size-4 text-tan" /> {{ i18n.t('folder.rename') }}
+          <DropdownMenuItem @select="showEditModal = true">
+            <Pencil class="size-4 text-tan" /> {{ i18n.t('folder.edit') }}
           </DropdownMenuItem>
           <DropdownMenuItem
             :disabled="!canDelete"
             :title="canDelete ? undefined : i18n.t('folder.deleteDisabledTitle')"
-            @select="action = 'delete'"
+            @select="confirmingDelete = true"
           >
             <Trash2 class="size-4 text-tan" /> {{ i18n.t('folder.delete') }}
           </DropdownMenuItem>
           <DropdownMenuItem @select="showShareModal = true">
             <Share2 class="size-4 text-tan" /> {{ folder.shareKey ? i18n.t('folder.shareSettings') : i18n.t('folder.share') }}
           </DropdownMenuItem>
+          <DropdownMenuItem @select="showImportModal = true">
+            <Download class="size-4 text-tan" /> {{ i18n.t('folder.importNinja') }}
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
 
-    <form v-if="action === 'rename'" class="flex items-center gap-2 border-t border-rule bg-raised px-3 py-2" @submit.prevent="submitRename">
-      <input
-        ref="renameInputRef"
-        v-model="renameValue"
-        class="poe-input flex-1"
-        maxlength="32"
-        :aria-label="i18n.t('folder.renameInputLabel')"
-        @keydown.escape="action = 'closed'"
-      >
-      <button class="icon-btn" type="submit" :disabled="!renameValue.trim()" :aria-label="i18n.t('folder.saveRenameLabel')">
-        <Check />
-      </button>
-      <button class="icon-btn" type="button" :aria-label="i18n.t('folder.cancelRenameLabel')" @click="action = 'closed'">
-        <X />
-      </button>
-    </form>
-
-    <div v-else-if="action === 'delete'" class="border-t border-rule bg-raised px-3 py-3">
+    <div v-if="confirmingDelete" class="border-t border-rule bg-raised px-3 py-3">
       <p class="text-[13px] leading-5 text-grey">
         {{ i18n.t('folder.confirmDeleteText', { folder: folder.name }) }}
         <template v-if="searches.length">
@@ -156,7 +132,7 @@ function confirmDelete() {
         </template>
       </p>
       <div class="mt-3 flex justify-end gap-2">
-        <button class="poe-btn" type="button" @click="action = 'closed'">{{ i18n.t('folder.keep') }}</button>
+        <button class="poe-btn" type="button" @click="confirmingDelete = false">{{ i18n.t('folder.keep') }}</button>
         <button class="poe-btn text-danger" type="button" @click="confirmDelete">
           <Trash2 /> {{ i18n.t('folder.deleteFolder') }}
         </button>
@@ -164,6 +140,7 @@ function confirmDelete() {
     </div>
 
     <CollapsibleContent>
+      <p v-if="folder.note" class="whitespace-pre-wrap break-words border-b border-rule bg-raised px-3 py-2 text-[11px] leading-4 text-grey">{{ folder.note }}</p>
       <div v-if="searches.length">
         <SearchCard v-for="searchItem in searches" :key="searchItem.id" :search="searchItem" :current-page="currentPage" />
       </div>
@@ -172,6 +149,8 @@ function confirmDelete() {
       </p>
     </CollapsibleContent>
 
+    <FolderFormModal v-model:open="showEditModal" :folder="folder" />
     <ShareFolderModal v-model:open="showShareModal" :folder="folder" />
+    <ImportNinjaModal v-model:open="showImportModal" :folder="folder" />
   </Collapsible>
 </template>

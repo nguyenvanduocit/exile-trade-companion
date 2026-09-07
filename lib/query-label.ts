@@ -1,15 +1,5 @@
 // Suy ra nhãn mô tả món đồ đang search từ state Vuex + DOM của trade site.
 // Ưu tiên: unique/item name > base type > rarity + category filter đang chọn > stat filter đầu tiên > cặp currency đang exchange.
-import type { TradeQuery } from '@/types/trading'
-
-// Bắn kèm cả label hiển thị lẫn raw query (state.persistent) trong cùng một event — content script
-// isolated world (trade.content/App.vue) cần query để dựng durable URL khi lưu bookmark.
-export const QUERY_STATE_EVENT = 'etc:query-state'
-
-export interface QueryStateDetail {
-  label: string | null
-  query: TradeQuery
-}
 
 export interface QueryLabelInput {
   name?: string | null

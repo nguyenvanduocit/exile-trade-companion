@@ -1,0 +1,5166 @@
+{
+  "Aberrant Sledge": [
+    "two-hand-mace"
+  ],
+  "Absent Amulet": [
+    "amulet"
+  ],
+  "Abyssal Cuirass": [
+    "body-armour"
+  ],
+  "Abyssal Flail": [
+    "flail"
+  ],
+  "Abyssal Signet": [
+    "ring"
+  ],
+  "Acrid Wand": [
+    "wand"
+  ],
+  "Adherent Bow": [
+    "bow"
+  ],
+  "Adherent Cuffs": [
+    "gloves"
+  ],
+  "Adherent Leggings": [
+    "boots"
+  ],
+  "Adherent's Raiment": [
+    "body-armour"
+  ],
+  "Adorned Gloves": [
+    "gloves"
+  ],
+  "Adorned Wraps": [
+    "gloves"
+  ],
+  "Aegis Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Aged Cuffs": [
+    "gloves"
+  ],
+  "Aged Tower Shield": [
+    "shield"
+  ],
+  "Akoyan Club": [
+    "one-hand-mace"
+  ],
+  "Akoyan Spear": [
+    "spear"
+  ],
+  "Alloy Crossbow": [
+    "crossbow"
+  ],
+  "Altar Robe": [
+    "body-armour"
+  ],
+  "Amber Amulet": [
+    "amulet"
+  ],
+  "Amethyst Charm": [
+    "charm"
+  ],
+  "Amethyst Ring": [
+    "ring"
+  ],
+  "Ancestor Tower Shield": [
+    "shield"
+  ],
+  "Ancestral Mail": [
+    "body-armour"
+  ],
+  "Ancestral Tiara": [
+    "helmet"
+  ],
+  "Anchorite Garb": [
+    "body-armour"
+  ],
+  "Ancient Cuffs": [
+    "gloves"
+  ],
+  "Ancient Gauntlets": [
+    "gloves"
+  ],
+  "Ancient Greatblade": [
+    "two-hand-sword"
+  ],
+  "Ancient Leggings": [
+    "boots"
+  ],
+  "Ancient Mail": [
+    "body-armour"
+  ],
+  "Ancient Mitts": [
+    "gloves"
+  ],
+  "Ancient Visor": [
+    "helmet"
+  ],
+  "Anima Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Antidote Charm": [
+    "charm"
+  ],
+  "Antler Focus": [
+    "focus"
+  ],
+  "Anvil Maul": [
+    "two-hand-mace"
+  ],
+  "Apostle Leggings": [
+    "boots"
+  ],
+  "Arcane Dirk": [
+    "dagger"
+  ],
+  "Arcane Raiment": [
+    "body-armour"
+  ],
+  "Arced Claw": [
+    "claw"
+  ],
+  "Arced Longsword": [
+    "two-hand-sword"
+  ],
+  "Arched Greataxe": [
+    "two-hand-axe"
+  ],
+  "Archon Crown": [
+    "helmet"
+  ],
+  "Arcing Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Armoured Cap": [
+    "helmet"
+  ],
+  "Armoured Claw": [
+    "claw"
+  ],
+  "Armoured Vest": [
+    "body-armour"
+  ],
+  "Aromatic Sceptre": [
+    "sceptre"
+  ],
+  "Arrayed Focus": [
+    "focus"
+  ],
+  "Artillery Bow": [
+    "bow"
+  ],
+  "Ascetic Garb": [
+    "body-armour"
+  ],
+  "Ashen Staff": [
+    "staff"
+  ],
+  "Assassin Garb": [
+    "body-armour"
+  ],
+  "Attuned Focus": [
+    "focus"
+  ],
+  "Attuned Wand": [
+    "wand"
+  ],
+  "Aureate Targe": [
+    "shield"
+  ],
+  "Austere Garb": [
+    "body-armour"
+  ],
+  "Avian Mask": [
+    "helmet"
+  ],
+  "Avian Robe": [
+    "body-armour"
+  ],
+  "Avian Targe": [
+    "shield"
+  ],
+  "Avian Tiara": [
+    "helmet"
+  ],
+  "Azure Amulet": [
+    "amulet"
+  ],
+  "Bandage Wraps": [
+    "gloves"
+  ],
+  "Bandit Hatchet": [
+    "one-hand-axe"
+  ],
+  "Bandit Mace": [
+    "one-hand-mace"
+  ],
+  "Bandit Mask": [
+    "helmet"
+  ],
+  "Bangled Sandals": [
+    "boots"
+  ],
+  "Barbarian Plate": [
+    "body-armour"
+  ],
+  "Barbarous Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Barbed Bracers": [
+    "gloves"
+  ],
+  "Barbed Spear": [
+    "spear"
+  ],
+  "Baroque Gloves": [
+    "gloves"
+  ],
+  "Baroque Targe": [
+    "shield"
+  ],
+  "Barricade Tower Shield": [
+    "shield"
+  ],
+  "Barrier Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Bastion Sabatons": [
+    "boots"
+  ],
+  "Battle Axe": [
+    "one-hand-axe"
+  ],
+  "Battle Pick": [
+    "one-hand-mace"
+  ],
+  "Beaded Circlet": [
+    "helmet"
+  ],
+  "Bearded Axe": [
+    "one-hand-axe"
+  ],
+  "Bearskin Mantle": [
+    "body-armour"
+  ],
+  "Biostatic Ring": [
+    "ring"
+  ],
+  "Blackfire Crossbow": [
+    "crossbow"
+  ],
+  "Blacksmith Maul": [
+    "two-hand-mace"
+  ],
+  "Blacksteel Crest Shield": [
+    "shield"
+  ],
+  "Blacksteel Gauntlets": [
+    "gloves"
+  ],
+  "Blacksteel Sabatons": [
+    "boots"
+  ],
+  "Blacksteel Tower Shield": [
+    "shield"
+  ],
+  "Bladed Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Bladed Shoes": [
+    "boots"
+  ],
+  "Blazon Crest Shield": [
+    "shield"
+  ],
+  "Bleak Crossbow": [
+    "crossbow"
+  ],
+  "Blessed Claymore": [
+    "two-hand-sword"
+  ],
+  "Bloodletting Dagger": [
+    "dagger"
+  ],
+  "Bloodstone Amulet": [
+    "amulet"
+  ],
+  "Blunt Quiver": [
+    "quiver"
+  ],
+  "Boarding Hatchet": [
+    "one-hand-axe"
+  ],
+  "Bold Sabatons": [
+    "boots"
+  ],
+  "Bolstered Mitts": [
+    "gloves"
+  ],
+  "Bolting Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Bombard Crossbow": [
+    "crossbow"
+  ],
+  "Bone Raiment": [
+    "body-armour"
+  ],
+  "Bone Wand": [
+    "wand"
+  ],
+  "Bound Boots": [
+    "boots"
+  ],
+  "Bound Bracers": [
+    "gloves"
+  ],
+  "Bound Cuffs": [
+    "gloves"
+  ],
+  "Bound Leggings": [
+    "boots"
+  ],
+  "Bound Sandals": [
+    "boots"
+  ],
+  "Braced Sabatons": [
+    "boots"
+  ],
+  "Braced Tower Shield": [
+    "shield"
+  ],
+  "Braided Cuffs": [
+    "gloves"
+  ],
+  "Branched Spear": [
+    "spear"
+  ],
+  "Breach Ring": [
+    "ring"
+  ],
+  "Brigand Mace": [
+    "one-hand-mace"
+  ],
+  "Brigand Mask": [
+    "helmet"
+  ],
+  "Brimmed Helm": [
+    "helmet"
+  ],
+  "Broad Greatsword": [
+    "two-hand-sword"
+  ],
+  "Broad Spear": [
+    "spear"
+  ],
+  "Broadhead Quiver": [
+    "quiver"
+  ],
+  "Broadsword": [
+    "one-hand-sword"
+  ],
+  "Bronze Greaves": [
+    "boots"
+  ],
+  "Buckled Wraps": [
+    "gloves"
+  ],
+  "Bulwark Greaves": [
+    "boots"
+  ],
+  "Bulwark Tower Shield": [
+    "shield"
+  ],
+  "Burnished Gauntlets": [
+    "gloves"
+  ],
+  "Cabalist Helm": [
+    "helmet"
+  ],
+  "Calescent Hammer": [
+    "one-hand-mace"
+  ],
+  "Cambric Wraps": [
+    "gloves"
+  ],
+  "Cannonade Crossbow": [
+    "crossbow"
+  ],
+  "Captain Gauntlets": [
+    "gloves"
+  ],
+  "Carved Greaves": [
+    "boots"
+  ],
+  "Carved Targe": [
+    "shield"
+  ],
+  "Carving Hatchet": [
+    "one-hand-axe"
+  ],
+  "Cassis Helm": [
+    "helmet"
+  ],
+  "Cavalry Boots": [
+    "boots"
+  ],
+  "Cavalry Bow": [
+    "bow"
+  ],
+  "Ceremonial Halberd": [
+    "two-hand-axe"
+  ],
+  "Ceremonial Robe": [
+    "body-armour"
+  ],
+  "Chain Flail": [
+    "flail"
+  ],
+  "Chain Mail": [
+    "body-armour"
+  ],
+  "Chain Tiara": [
+    "helmet"
+  ],
+  "Chain Vestments": [
+    "body-armour"
+  ],
+  "Champion Cuirass": [
+    "body-armour"
+  ],
+  "Champion Helm": [
+    "helmet"
+  ],
+  "Charmed Shoes": [
+    "boots"
+  ],
+  "Charred Shortsword": [
+    "one-hand-sword"
+  ],
+  "Chieftain Cuirass": [
+    "body-armour"
+  ],
+  "Chiming Staff": [
+    "staff"
+  ],
+  "Chiseled Targe": [
+    "shield"
+  ],
+  "Cinched Boots": [
+    "boots"
+  ],
+  "Cinquedea": [
+    "dagger"
+  ],
+  "Clandestine Jacket": [
+    "body-armour"
+  ],
+  "Clasped Sceptre": [
+    "sceptre"
+  ],
+  "Cleansing Charm": [
+    "charm"
+  ],
+  "Cleric Vestments": [
+    "body-armour"
+  ],
+  "Cloaked Mail": [
+    "body-armour"
+  ],
+  "Closed Helm": [
+    "helmet"
+  ],
+  "Colossal Life Flask": [
+    "life-flask"
+  ],
+  "Colossal Mana Flask": [
+    "mana-flask"
+  ],
+  "Colosseum Plate": [
+    "body-armour"
+  ],
+  "Commander Gauntlets": [
+    "gloves"
+  ],
+  "Commander Greathelm": [
+    "helmet"
+  ],
+  "Commander Sword": [
+    "one-hand-sword"
+  ],
+  "Composite Bow": [
+    "bow"
+  ],
+  "Conjurer Mantle": [
+    "body-armour"
+  ],
+  "Conqueror Plate": [
+    "body-armour"
+  ],
+  "Construct Crossbow": [
+    "crossbow"
+  ],
+  "Construct Hammer": [
+    "one-hand-mace"
+  ],
+  "Corona Amulet": [
+    "amulet"
+  ],
+  "Corroded Greathelm": [
+    "helmet"
+  ],
+  "Corroded Longsword": [
+    "two-hand-sword"
+  ],
+  "Corsair Cap": [
+    "helmet"
+  ],
+  "Corsair Coat": [
+    "body-armour"
+  ],
+  "Corsair Vest": [
+    "body-armour"
+  ],
+  "Corvus Mantle": [
+    "body-armour"
+  ],
+  "Coursing Spear": [
+    "spear"
+  ],
+  "Covered Sabatons": [
+    "boots"
+  ],
+  "Covert Hood": [
+    "helmet"
+  ],
+  "Cowled Helm": [
+    "helmet"
+  ],
+  "Crackling Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Crescent Axe": [
+    "one-hand-axe"
+  ],
+  "Crescent Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Crescent Targe": [
+    "shield"
+  ],
+  "Crimson Amulet": [
+    "amulet"
+  ],
+  "Critical Wand": [
+    "wand"
+  ],
+  "Crone Knife": [
+    "dagger"
+  ],
+  "Crossblade Spear": [
+    "spear"
+  ],
+  "Crown Mace": [
+    "one-hand-mace"
+  ],
+  "Crucible Tower Shield": [
+    "shield"
+  ],
+  "Crude Bow": [
+    "bow"
+  ],
+  "Crude Claw": [
+    "claw"
+  ],
+  "Crumbling Maul": [
+    "two-hand-mace"
+  ],
+  "Cryptic Crown": [
+    "helmet"
+  ],
+  "Cryptic Helm": [
+    "helmet"
+  ],
+  "Cryptic Leggings": [
+    "boots"
+  ],
+  "Crystal Focus": [
+    "focus"
+  ],
+  "Cultist Bow": [
+    "bow"
+  ],
+  "Cultist Crown": [
+    "helmet"
+  ],
+  "Cultist Focus": [
+    "focus"
+  ],
+  "Cultist Gauntlets": [
+    "gloves"
+  ],
+  "Cultist Greathammer": [
+    "two-hand-mace"
+  ],
+  "Cultist Tower Shield": [
+    "shield"
+  ],
+  "Cumbrous Crossbow": [
+    "crossbow"
+  ],
+  "Cursespeaker's Robe": [
+    "body-armour"
+  ],
+  "Cutlass": [
+    "one-hand-sword"
+  ],
+  "Daggerfoot Shoes": [
+    "boots"
+  ],
+  "Dark Blade": [
+    "one-hand-sword"
+  ],
+  "Dark Staff": [
+    "staff"
+  ],
+  "Dastard Armour": [
+    "body-armour"
+  ],
+  "Death Mail": [
+    "body-armour"
+  ],
+  "Death Mantle": [
+    "body-armour"
+  ],
+  "Death Mask": [
+    "helmet"
+  ],
+  "Decorated Helm": [
+    "helmet"
+  ],
+  "Dedalian Crossbow": [
+    "crossbow"
+  ],
+  "Deerstalker Hood": [
+    "helmet"
+  ],
+  "Defiant Tower Shield": [
+    "shield"
+  ],
+  "Deified Crest Shield": [
+    "shield"
+  ],
+  "Dekharan Crest Shield": [
+    "shield"
+  ],
+  "Descry Crest Shield": [
+    "shield"
+  ],
+  "Desert Cap": [
+    "helmet"
+  ],
+  "Desert Circlet": [
+    "helmet"
+  ],
+  "Desolate Crossbow": [
+    "crossbow"
+  ],
+  "Detailed Mitts": [
+    "gloves"
+  ],
+  "Devotional Sceptre": [
+    "sceptre"
+  ],
+  "Devouring Sceptre": [
+    "sceptre"
+  ],
+  "Devout Garb": [
+    "body-armour"
+  ],
+  "Diamond": [
+    "jewel"
+  ],
+  "Disintegrating Maul": [
+    "two-hand-mace"
+  ],
+  "Distorted Amulet": [
+    "amulet"
+  ],
+  "Divine Crown": [
+    "helmet"
+  ],
+  "Domed Helm": [
+    "helmet"
+  ],
+  "Double Belt": [
+    "belt"
+  ],
+  "Double Limb Bow": [
+    "bow"
+  ],
+  "Doubled Gauntlets": [
+    "gloves"
+  ],
+  "Dousing Charm": [
+    "charm"
+  ],
+  "Dragonscale Boots": [
+    "boots"
+  ],
+  "Drakeskin Boots": [
+    "boots"
+  ],
+  "Dread Hatchet": [
+    "one-hand-axe"
+  ],
+  "Dreaming Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Druidic Circlet": [
+    "helmet"
+  ],
+  "Druidic Crown": [
+    "helmet"
+  ],
+  "Druidic Focus": [
+    "focus"
+  ],
+  "Dualstring Bow": [
+    "bow"
+  ],
+  "Dueling Wand": [
+    "wand"
+  ],
+  "Dull Hatchet": [
+    "one-hand-axe"
+  ],
+  "Dunerunner Sandals": [
+    "boots"
+  ],
+  "Dusk Amulet": [
+    "amulet"
+  ],
+  "Dusk Ring": [
+    "ring"
+  ],
+  "Dyad Crossbow": [
+    "crossbow"
+  ],
+  "Edged Claw": [
+    "claw"
+  ],
+  "Effigial Tower Shield": [
+    "shield"
+  ],
+  "Elaborate Sandals": [
+    "boots"
+  ],
+  "Elegant Crossbow": [
+    "crossbow"
+  ],
+  "Elegant Focus": [
+    "focus"
+  ],
+  "Elegant Glaive": [
+    "two-hand-axe"
+  ],
+  "Elegant Greathelm": [
+    "helmet"
+  ],
+  "Elegant Greaves": [
+    "boots"
+  ],
+  "Elegant Mitts": [
+    "gloves"
+  ],
+  "Elegant Plate": [
+    "body-armour"
+  ],
+  "Elegant Slippers": [
+    "boots"
+  ],
+  "Elegant Wraps": [
+    "gloves"
+  ],
+  "Elementalist Robe": [
+    "body-armour"
+  ],
+  "Elite Greathelm": [
+    "helmet"
+  ],
+  "Embellished Gloves": [
+    "gloves"
+  ],
+  "Ember Greataxe": [
+    "two-hand-axe"
+  ],
+  "Emblem Crest Shield": [
+    "shield"
+  ],
+  "Embossed Boots": [
+    "boots"
+  ],
+  "Embroidered Boots": [
+    "boots"
+  ],
+  "Embroidered Gloves": [
+    "gloves"
+  ],
+  "Emerald": [
+    "jewel"
+  ],
+  "Emerald Ring": [
+    "ring"
+  ],
+  "Empyreal Crest Shield": [
+    "shield"
+  ],
+  "Energy Blade": [
+    "one-hand-sword",
+    "two-hand-sword"
+  ],
+  "Engraved Bracers": [
+    "gloves"
+  ],
+  "Engraved Crest Shield": [
+    "shield"
+  ],
+  "Engraved Crossbow": [
+    "crossbow"
+  ],
+  "Engraved Focus": [
+    "focus"
+  ],
+  "Engraved Helm": [
+    "helmet"
+  ],
+  "Engraved Knife": [
+    "dagger"
+  ],
+  "Enlightened Robe": [
+    "body-armour"
+  ],
+  "Esoteric Crossbow": [
+    "crossbow"
+  ],
+  "Ethereal Blade": [
+    "dagger"
+  ],
+  "Evangelist Garb": [
+    "body-armour"
+  ],
+  "Execratus Hammer": [
+    "one-hand-mace"
+  ],
+  "Executioner Greataxe": [
+    "two-hand-axe"
+  ],
+  "Explorer Armour": [
+    "body-armour"
+  ],
+  "Exquisite Vest": [
+    "body-armour"
+  ],
+  "Extended Cleaver": [
+    "one-hand-axe"
+  ],
+  "Face Mask": [
+    "helmet"
+  ],
+  "Faithful Leggings": [
+    "boots"
+  ],
+  "Falchion": [
+    "one-hand-sword"
+  ],
+  "Falconer's Jacket": [
+    "body-armour"
+  ],
+  "Fanatic Bow": [
+    "bow"
+  ],
+  "Fanatic Greathammer": [
+    "two-hand-mace"
+  ],
+  "Faridun Mask": [
+    "helmet"
+  ],
+  "Feathered Mitts": [
+    "gloves"
+  ],
+  "Feathered Raiment": [
+    "body-armour"
+  ],
+  "Feathered Robe": [
+    "body-armour"
+  ],
+  "Feathered Sandals": [
+    "boots"
+  ],
+  "Feathered Targe": [
+    "shield"
+  ],
+  "Feathered Tiara": [
+    "helmet"
+  ],
+  "Felled Greatclub": [
+    "two-hand-mace"
+  ],
+  "Felt Cap": [
+    "helmet"
+  ],
+  "Fierce Greathelm": [
+    "helmet"
+  ],
+  "Fine Belt": [
+    "belt"
+  ],
+  "Fine Bracers": [
+    "gloves"
+  ],
+  "Fire Quiver": [
+    "quiver"
+  ],
+  "Firm Bracers": [
+    "gloves"
+  ],
+  "Fists of Stone": [
+    "gloves"
+  ],
+  "Flanged Greatblade": [
+    "two-hand-sword"
+  ],
+  "Flanged Mace": [
+    "one-hand-mace"
+  ],
+  "Flared Boots": [
+    "boots"
+  ],
+  "Flared Mace": [
+    "one-hand-mace"
+  ],
+  "Flax Sandals": [
+    "boots"
+  ],
+  "Flexed Crossbow": [
+    "crossbow"
+  ],
+  "Flexile Sabatons": [
+    "boots"
+  ],
+  "Flowing Raiment": [
+    "body-armour"
+  ],
+  "Flying Spear": [
+    "spear"
+  ],
+  "Forest Crown": [
+    "helmet"
+  ],
+  "Forge Maul": [
+    "two-hand-mace"
+  ],
+  "Forked Claw": [
+    "claw"
+  ],
+  "Forked Spear": [
+    "spear"
+  ],
+  "Forking Belt": [
+    "belt"
+  ],
+  "Fortified Hammer": [
+    "one-hand-mace"
+  ],
+  "Fortress Sabatons": [
+    "boots"
+  ],
+  "Fortress Tower Shield": [
+    "shield"
+  ],
+  "Frayed Shoes": [
+    "boots"
+  ],
+  "Freebooter Cap": [
+    "helmet"
+  ],
+  "Frigid Wand": [
+    "wand"
+  ],
+  "Full Plate": [
+    "body-armour"
+  ],
+  "Fur Plate": [
+    "body-armour"
+  ],
+  "Fur-lined Targe": [
+    "shield"
+  ],
+  "Furtive Wraps": [
+    "gloves"
+  ],
+  "Fury Cleaver": [
+    "one-hand-axe"
+  ],
+  "Gallant Helm": [
+    "helmet"
+  ],
+  "Galvanic Wand": [
+    "wand"
+  ],
+  "Gargantuan Life Flask": [
+    "life-flask"
+  ],
+  "Gargantuan Mana Flask": [
+    "mana-flask"
+  ],
+  "Garment": [
+    "body-armour"
+  ],
+  "Gauze Wraps": [
+    "gloves"
+  ],
+  "Gelid Staff": [
+    "staff"
+  ],
+  "Gemini Bow": [
+    "bow"
+  ],
+  "Gemini Crossbow": [
+    "crossbow"
+  ],
+  "Giant Life Flask": [
+    "life-flask"
+  ],
+  "Giant Mana Flask": [
+    "mana-flask"
+  ],
+  "Giant Maul": [
+    "two-hand-mace"
+  ],
+  "Gilded Vestments": [
+    "body-armour"
+  ],
+  "Gilt Leggings": [
+    "boots"
+  ],
+  "Glacial Fortress": [
+    "shield"
+  ],
+  "Gladiator Armour": [
+    "body-armour"
+  ],
+  "Gladiatorial Helm": [
+    "helmet"
+  ],
+  "Glass Shank": [
+    "dagger"
+  ],
+  "Gleaming Cuffs": [
+    "gloves"
+  ],
+  "Gloam Amulet": [
+    "amulet"
+  ],
+  "Gloam Ring": [
+    "ring"
+  ],
+  "Glorious Plate": [
+    "body-armour"
+  ],
+  "Glowering Crest Shield": [
+    "shield"
+  ],
+  "Gold Amulet": [
+    "amulet"
+  ],
+  "Gold Circlet": [
+    "helmet"
+  ],
+  "Gold Gloves": [
+    "gloves"
+  ],
+  "Gold Ring": [
+    "ring"
+  ],
+  "Goldcast Cuffs": [
+    "gloves"
+  ],
+  "Golden Blade": [
+    "one-hand-sword"
+  ],
+  "Golden Bracers": [
+    "gloves"
+  ],
+  "Golden Caligae": [
+    "boots"
+  ],
+  "Golden Charm": [
+    "charm"
+  ],
+  "Golden Flame": [
+    "shield"
+  ],
+  "Golden Greaves": [
+    "boots"
+  ],
+  "Golden Hoop": [
+    "ring"
+  ],
+  "Golden Mail": [
+    "body-armour"
+  ],
+  "Golden Mantle": [
+    "body-armour"
+  ],
+  "Golden Obi": [
+    "belt"
+  ],
+  "Golden Plate": [
+    "body-armour"
+  ],
+  "Golden Shield": [
+    "shield"
+  ],
+  "Golden Targe": [
+    "shield"
+  ],
+  "Golden Visage": [
+    "helmet"
+  ],
+  "Golden Wreath": [
+    "helmet"
+  ],
+  "Goldwork Sabatons": [
+    "boots"
+  ],
+  "Goldworked Tower Shield": [
+    "shield"
+  ],
+  "Goliath Greathelm": [
+    "helmet"
+  ],
+  "Gothic Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Graceful Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Grand Bracers": [
+    "gloves"
+  ],
+  "Grand Cuisses": [
+    "boots"
+  ],
+  "Grand Life Flask": [
+    "life-flask"
+  ],
+  "Grand Mana Flask": [
+    "mana-flask"
+  ],
+  "Grand Manchettes": [
+    "gloves"
+  ],
+  "Grand Mitts": [
+    "gloves"
+  ],
+  "Grand Regalia": [
+    "body-armour"
+  ],
+  "Grand Spear": [
+    "spear"
+  ],
+  "Grand Targe": [
+    "shield"
+  ],
+  "Grand Visage": [
+    "helmet"
+  ],
+  "Grasping Mail": [
+    "body-armour"
+  ],
+  "Grasping Ring": [
+    "ring"
+  ],
+  "Great Flail": [
+    "flail"
+  ],
+  "Greatbow": [
+    "bow"
+  ],
+  "Greater Life Flask": [
+    "life-flask"
+  ],
+  "Greater Mana Flask": [
+    "mana-flask"
+  ],
+  "Greatmace": [
+    "two-hand-mace"
+  ],
+  "Grim Gloves": [
+    "gloves"
+  ],
+  "Grinning Mask": [
+    "helmet"
+  ],
+  "Grounding Charm": [
+    "charm"
+  ],
+  "Guarded Flail": [
+    "flail"
+  ],
+  "Guarded Helm": [
+    "helmet"
+  ],
+  "Guardian Bow": [
+    "bow"
+  ],
+  "Guardian Greathelm": [
+    "helmet"
+  ],
+  "Guardian Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Guardian Spear": [
+    "spear"
+  ],
+  "Hallowed Crown": [
+    "helmet"
+  ],
+  "Hallowed Focus": [
+    "focus"
+  ],
+  "Hallowed Sceptre": [
+    "sceptre"
+  ],
+  "Hardened Bracers": [
+    "gloves"
+  ],
+  "Hardleather Coat": [
+    "body-armour"
+  ],
+  "Hardwood Spear": [
+    "spear"
+  ],
+  "Hardwood Targe": [
+    "shield"
+  ],
+  "Hatungo Garb": [
+    "body-armour"
+  ],
+  "Havoc Raiment": [
+    "body-armour"
+  ],
+  "Hawker's Jacket": [
+    "body-armour"
+  ],
+  "Heartcarver Mantle": [
+    "body-armour"
+  ],
+  "Heartwood Shortbow": [
+    "bow"
+  ],
+  "Heavy Belt": [
+    "belt"
+  ],
+  "Heavy Bow": [
+    "bow"
+  ],
+  "Heavy Crown": [
+    "helmet"
+  ],
+  "Heavy Greathammer": [
+    "two-hand-mace"
+  ],
+  "Heavy Plate": [
+    "body-armour"
+  ],
+  "Hefty Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Heirloom Cuffs": [
+    "gloves"
+  ],
+  "Helix Spear": [
+    "spear"
+  ],
+  "Heraldric Tower Shield": [
+    "shield"
+  ],
+  "Hermit Garb": [
+    "body-armour"
+  ],
+  "Heroic Armour": [
+    "body-armour"
+  ],
+  "Hewn Mask": [
+    "helmet"
+  ],
+  "Hexer's Robe": [
+    "body-armour"
+  ],
+  "Holy Flail": [
+    "flail"
+  ],
+  "Homeguard Greathelm": [
+    "helmet"
+  ],
+  "Hooded Mask": [
+    "helmet"
+  ],
+  "Hook Axe": [
+    "one-hand-axe"
+  ],
+  "Hooked Claw": [
+    "claw"
+  ],
+  "Horned Crown": [
+    "helmet"
+  ],
+  "Hunter Hood": [
+    "helmet"
+  ],
+  "Hunting Bracers": [
+    "gloves"
+  ],
+  "Hunting Coat": [
+    "body-armour"
+  ],
+  "Hunting Shoes": [
+    "boots"
+  ],
+  "Hunting Spear": [
+    "spear"
+  ],
+  "Icicle Flail": [
+    "flail"
+  ],
+  "Icicle Staff": [
+    "staff"
+  ],
+  "Imperial Greathelm": [
+    "helmet"
+  ],
+  "Imperial Robe": [
+    "body-armour"
+  ],
+  "Inquisitor Crown": [
+    "helmet"
+  ],
+  "Intricate Crest Shield": [
+    "shield"
+  ],
+  "Intricate Gloves": [
+    "gloves"
+  ],
+  "Invoking Belt": [
+    "belt"
+  ],
+  "Iron Crown": [
+    "helmet"
+  ],
+  "Iron Cuirass": [
+    "body-armour"
+  ],
+  "Iron Flail": [
+    "flail"
+  ],
+  "Iron Greatsword": [
+    "two-hand-sword"
+  ],
+  "Iron Greaves": [
+    "boots"
+  ],
+  "Iron Ring": [
+    "ring"
+  ],
+  "Ironclad Vestments": [
+    "body-armour"
+  ],
+  "Ironhead Spear": [
+    "spear"
+  ],
+  "Ironmail Gauntlets": [
+    "gloves"
+  ],
+  "Ironwood Greathammer": [
+    "two-hand-mace"
+  ],
+  "Ironwood Shortbow": [
+    "bow"
+  ],
+  "Ironwood Targe": [
+    "shield"
+  ],
+  "Itinerant Jacket": [
+    "body-armour"
+  ],
+  "Jade Amulet": [
+    "amulet"
+  ],
+  "Jade Club": [
+    "one-hand-mace"
+  ],
+  "Jade Tiara": [
+    "helmet"
+  ],
+  "Jagged Greataxe": [
+    "two-hand-axe"
+  ],
+  "Jagged Spear": [
+    "spear"
+  ],
+  "Jewelled Gloves": [
+    "gloves"
+  ],
+  "Jingling Crest Shield": [
+    "shield"
+  ],
+  "Jingling Focus": [
+    "focus"
+  ],
+  "Juggernaut Plate": [
+    "body-armour"
+  ],
+  "Jungle Tiara": [
+    "helmet"
+  ],
+  "Kalguuran Cuffs": [
+    "gloves"
+  ],
+  "Kalguuran Forgehammer": [
+    "one-hand-mace"
+  ],
+  "Kamasan Tiara": [
+    "helmet"
+  ],
+  "Keen Greatsword": [
+    "two-hand-sword"
+  ],
+  "Keth Raiment": [
+    "body-armour"
+  ],
+  "Keyblade": [
+    "two-hand-sword"
+  ],
+  "Kinetic Ring": [
+    "ring"
+  ],
+  "Knight Armour": [
+    "body-armour"
+  ],
+  "Knightly Mitts": [
+    "gloves"
+  ],
+  "Kris Knife": [
+    "dagger"
+  ],
+  "Lace Hood": [
+    "helmet"
+  ],
+  "Laced Boots": [
+    "boots"
+  ],
+  "Laced Sandals": [
+    "boots"
+  ],
+  "Lamellar Mail": [
+    "body-armour"
+  ],
+  "Lament Amulet": [
+    "amulet"
+  ],
+  "Lapis Amulet": [
+    "amulet"
+  ],
+  "Lattice Sandals": [
+    "boots"
+  ],
+  "Lavish Crown": [
+    "helmet"
+  ],
+  "Layered Gauntlets": [
+    "gloves"
+  ],
+  "Layered Vest": [
+    "body-armour"
+  ],
+  "Lazuli Ring": [
+    "ring"
+  ],
+  "Leaden Greathammer": [
+    "two-hand-mace"
+  ],
+  "Leather Vest": [
+    "body-armour"
+  ],
+  "Leatherbound Hood": [
+    "helmet"
+  ],
+  "Leatherplate Boots": [
+    "boots"
+  ],
+  "Lesser Life Flask": [
+    "life-flask"
+  ],
+  "Lesser Mana Flask": [
+    "mana-flask"
+  ],
+  "Leyline Focus": [
+    "focus"
+  ],
+  "Light Halberd": [
+    "two-hand-axe"
+  ],
+  "Linen Belt": [
+    "belt"
+  ],
+  "Linen Wraps": [
+    "gloves"
+  ],
+  "Lionheart Greaves": [
+    "boots"
+  ],
+  "Lizardscale Boots": [
+    "boots"
+  ],
+  "Lizardscale Coat": [
+    "body-armour"
+  ],
+  "Long Belt": [
+    "belt"
+  ],
+  "Long Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Lumen Mace": [
+    "one-hand-mace"
+  ],
+  "Lunar Amulet": [
+    "amulet"
+  ],
+  "Lunar Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Lupine Sceptre": [
+    "sceptre"
+  ],
+  "Luxurious Robe": [
+    "body-armour"
+  ],
+  "Luxurious Slippers": [
+    "boots"
+  ],
+  "Magus Focus": [
+    "focus"
+  ],
+  "Magus Tiara": [
+    "helmet"
+  ],
+  "Mail Belt": [
+    "belt"
+  ],
+  "Mail Breaker": [
+    "dagger"
+  ],
+  "Mail Coat": [
+    "body-armour"
+  ],
+  "Mail Sabatons": [
+    "boots"
+  ],
+  "Mail Vestments": [
+    "body-armour"
+  ],
+  "Mailed Crown": [
+    "helmet"
+  ],
+  "Makeshift Crossbow": [
+    "crossbow"
+  ],
+  "Mammoth Targe": [
+    "shield"
+  ],
+  "Mantled Mail": [
+    "body-armour"
+  ],
+  "Marabout Garb": [
+    "body-armour"
+  ],
+  "Maraketh Cuirass": [
+    "body-armour"
+  ],
+  "Marauding Mace": [
+    "one-hand-mace"
+  ],
+  "Marching Mace": [
+    "one-hand-mace"
+  ],
+  "Martyr Crown": [
+    "helmet"
+  ],
+  "Masked Greathelm": [
+    "helmet"
+  ],
+  "Massive Greathammer": [
+    "two-hand-mace"
+  ],
+  "Massive Mitts": [
+    "gloves"
+  ],
+  "Massive Spear": [
+    "spear"
+  ],
+  "Medium Life Flask": [
+    "life-flask"
+  ],
+  "Medium Mana Flask": [
+    "mana-flask"
+  ],
+  "Mercenary Greathelm": [
+    "helmet"
+  ],
+  "Mercenary Targe": [
+    "shield"
+  ],
+  "Messer": [
+    "one-hand-sword"
+  ],
+  "Metalworked Tower Shield": [
+    "shield"
+  ],
+  "Militant Bow": [
+    "bow"
+  ],
+  "Mnemonic Ring": [
+    "ring"
+  ],
+  "Molten Hammer": [
+    "one-hand-mace"
+  ],
+  "Monastic Garb": [
+    "body-armour"
+  ],
+  "Monument Greataxe": [
+    "two-hand-axe"
+  ],
+  "Monument Greaves": [
+    "boots"
+  ],
+  "Moon Dagger": [
+    "dagger"
+  ],
+  "Morning Star": [
+    "one-hand-mace"
+  ],
+  "Mosaic Targe": [
+    "shield"
+  ],
+  "Moulded Mitts": [
+    "gloves"
+  ],
+  "Mystic Raiment": [
+    "body-armour"
+  ],
+  "Narrow Hood": [
+    "helmet"
+  ],
+  "Noble Circlet": [
+    "helmet"
+  ],
+  "Noble Greathelm": [
+    "helmet"
+  ],
+  "Noble Sabatons": [
+    "boots"
+  ],
+  "Noble Tower Shield": [
+    "shield"
+  ],
+  "Oak Greathammer": [
+    "two-hand-mace"
+  ],
+  "Oak Mask": [
+    "helmet"
+  ],
+  "Obliterator Bow": [
+    "bow"
+  ],
+  "Obsidian Dagger": [
+    "dagger"
+  ],
+  "Obsidian Greatsword": [
+    "two-hand-sword"
+  ],
+  "Occultist Mantle": [
+    "body-armour"
+  ],
+  "Ochre Sceptre": [
+    "sceptre"
+  ],
+  "Offering Wand": [
+    "wand"
+  ],
+  "Oiled Jacket": [
+    "body-armour"
+  ],
+  "Omen Crest Shield": [
+    "shield"
+  ],
+  "Omen Sceptre": [
+    "sceptre"
+  ],
+  "Ominous Gloves": [
+    "gloves"
+  ],
+  "Oneiric Ring": [
+    "ring"
+  ],
+  "Opulent Gloves": [
+    "gloves"
+  ],
+  "Orichalcum Spear": [
+    "spear"
+  ],
+  "Ornate Belt": [
+    "belt"
+  ],
+  "Ornate Cuffs": [
+    "gloves"
+  ],
+  "Ornate Gauntlets": [
+    "gloves"
+  ],
+  "Ornate Greaves": [
+    "boots"
+  ],
+  "Ornate Mitts": [
+    "gloves"
+  ],
+  "Ornate Plate": [
+    "body-armour"
+  ],
+  "Ornate Ringmail": [
+    "body-armour"
+  ],
+  "Padded Leggings": [
+    "boots"
+  ],
+  "Painted Crest Shield": [
+    "shield"
+  ],
+  "Painted Crossbow": [
+    "crossbow"
+  ],
+  "Painted Tower Shield": [
+    "shield"
+  ],
+  "Paragon Greathelm": [
+    "helmet"
+  ],
+  "Paralysing Staff": [
+    "staff"
+  ],
+  "Pariah Mask": [
+    "helmet"
+  ],
+  "Parrying Dagger": [
+    "dagger"
+  ],
+  "Patchwork Vest": [
+    "body-armour"
+  ],
+  "Pathfinder Coat": [
+    "body-armour"
+  ],
+  "Pauascale Gloves": [
+    "gloves"
+  ],
+  "Pearl Ring": [
+    "ring"
+  ],
+  "Pearlescent Amulet": [
+    "amulet"
+  ],
+  "Pelage Targe": [
+    "shield"
+  ],
+  "Pelt Leggings": [
+    "boots"
+  ],
+  "Pelt Mantle": [
+    "body-armour"
+  ],
+  "Penetrating Quiver": [
+    "quiver"
+  ],
+  "Penumbra Amulet": [
+    "amulet"
+  ],
+  "Penumbra Ring": [
+    "ring"
+  ],
+  "Perching Staff": [
+    "staff"
+  ],
+  "Permafrost Staff": [
+    "staff"
+  ],
+  "Phalanx Tower Shield": [
+    "shield"
+  ],
+  "Pict Claw": [
+    "claw"
+  ],
+  "Piercing Claw": [
+    "claw"
+  ],
+  "Piercing Crossbow": [
+    "crossbow"
+  ],
+  "Pilgrim Vestments": [
+    "body-armour"
+  ],
+  "Pious Leggings": [
+    "boots"
+  ],
+  "Pious Sceptre": [
+    "sceptre"
+  ],
+  "Plate Belt": [
+    "belt"
+  ],
+  "Plate Gauntlets": [
+    "gloves"
+  ],
+  "Plated Claw": [
+    "claw"
+  ],
+  "Plated Greaves": [
+    "boots"
+  ],
+  "Plated Mace": [
+    "one-hand-mace"
+  ],
+  "Plated Mitts": [
+    "gloves"
+  ],
+  "Plated Raiment": [
+    "body-armour"
+  ],
+  "Plated Vestments": [
+    "body-armour"
+  ],
+  "Plumed Focus": [
+    "focus"
+  ],
+  "Pointed Maul": [
+    "two-hand-mace"
+  ],
+  "Polished Bracers": [
+    "gloves"
+  ],
+  "Polished Targe": [
+    "shield"
+  ],
+  "Portent Amulet": [
+    "amulet"
+  ],
+  "Precise Greathammer": [
+    "two-hand-mace"
+  ],
+  "Primal Markings": [
+    "body-armour"
+  ],
+  "Primed Quiver": [
+    "quiver"
+  ],
+  "Primordial Wand": [
+    "wand"
+  ],
+  "Prismatic Ring": [
+    "ring"
+  ],
+  "Profane Cleaver": [
+    "one-hand-axe"
+  ],
+  "Pronged Spear": [
+    "spear"
+  ],
+  "Protector Bow": [
+    "bow"
+  ],
+  "Pyrophyte Staff": [
+    "staff"
+  ],
+  "Quartered Crest Shield": [
+    "shield"
+  ],
+  "Quickslip Shoes": [
+    "boots"
+  ],
+  "Quilted Vest": [
+    "body-armour"
+  ],
+  "Raider Plate": [
+    "body-armour"
+  ],
+  "Rambler Jacket": [
+    "body-armour"
+  ],
+  "Rampart Tower Shield": [
+    "shield"
+  ],
+  "Rattling Sceptre": [
+    "sceptre"
+  ],
+  "Ravenous Staff": [
+    "staff"
+  ],
+  "Rawhide Belt": [
+    "belt"
+  ],
+  "Rawhide Boots": [
+    "boots"
+  ],
+  "Razor Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Razorglass Claw": [
+    "claw"
+  ],
+  "Reaching Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Reaping Staff": [
+    "staff"
+  ],
+  "Reaver Glaive": [
+    "two-hand-axe"
+  ],
+  "Recurve Bow": [
+    "bow"
+  ],
+  "Reefsteel Greaves": [
+    "boots"
+  ],
+  "Refined Bracers": [
+    "gloves"
+  ],
+  "Refined Breach Ring": [
+    "ring"
+  ],
+  "Reflecting Staff": [
+    "staff"
+  ],
+  "Regalia Longsword": [
+    "two-hand-sword"
+  ],
+  "Rending Halberd": [
+    "two-hand-axe"
+  ],
+  "Rending Staff": [
+    "staff"
+  ],
+  "Revered Vestments": [
+    "body-armour"
+  ],
+  "Rhoahide Coat": [
+    "body-armour"
+  ],
+  "Rider Bow": [
+    "bow"
+  ],
+  "Riding Coat": [
+    "body-armour"
+  ],
+  "Righteous Cuffs": [
+    "gloves"
+  ],
+  "Ring": [
+    "ring"
+  ],
+  "Ring Flail": [
+    "flail"
+  ],
+  "Ring Mail": [
+    "body-armour"
+  ],
+  "Ringmail Gauntlets": [
+    "gloves"
+  ],
+  "Rippled Greatsword": [
+    "two-hand-sword"
+  ],
+  "River Raiment": [
+    "body-armour"
+  ],
+  "Riveted Mitts": [
+    "gloves"
+  ],
+  "Roaring Staff": [
+    "staff"
+  ],
+  "Robust Crossbow": [
+    "crossbow"
+  ],
+  "Rogue Armour": [
+    "body-armour"
+  ],
+  "Rope Cuffs": [
+    "gloves"
+  ],
+  "Rotted Hood": [
+    "helmet"
+  ],
+  "Rough Greaves": [
+    "boots"
+  ],
+  "Royal Tower Shield": [
+    "shield"
+  ],
+  "Ruby": [
+    "jewel"
+  ],
+  "Ruby Charm": [
+    "charm"
+  ],
+  "Ruby Ring": [
+    "ring"
+  ],
+  "Rugged Cuirass": [
+    "body-armour"
+  ],
+  "Ruination Maul": [
+    "two-hand-mace"
+  ],
+  "Runed Focus": [
+    "focus"
+  ],
+  "Runefather's Grasping Mail": [
+    "body-armour"
+  ],
+  "Runeforged Abyssal Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Adherent Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Adherent's Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Adorned Gloves": [
+    "gloves"
+  ],
+  "Runeforged Adorned Wraps": [
+    "gloves"
+  ],
+  "Runeforged Aged Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Altar Robe": [
+    "body-armour"
+  ],
+  "Runeforged Ancestor Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Ancestral Mail": [
+    "body-armour"
+  ],
+  "Runeforged Ancestral Tiara": [
+    "helmet"
+  ],
+  "Runeforged Anchorite Garb": [
+    "body-armour"
+  ],
+  "Runeforged Ancient Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Ancient Mitts": [
+    "gloves"
+  ],
+  "Runeforged Antler Focus": [
+    "focus"
+  ],
+  "Runeforged Apostle Leggings": [
+    "boots"
+  ],
+  "Runeforged Arcane Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Archon Crown": [
+    "helmet"
+  ],
+  "Runeforged Armoured Cap": [
+    "helmet"
+  ],
+  "Runeforged Armoured Vest": [
+    "body-armour"
+  ],
+  "Runeforged Arrayed Focus": [
+    "focus"
+  ],
+  "Runeforged Ascetic Garb": [
+    "body-armour"
+  ],
+  "Runeforged Assassin Garb": [
+    "body-armour"
+  ],
+  "Runeforged Attuned Focus": [
+    "focus"
+  ],
+  "Runeforged Aureate Targe": [
+    "shield"
+  ],
+  "Runeforged Austere Garb": [
+    "body-armour"
+  ],
+  "Runeforged Avian Mask": [
+    "helmet"
+  ],
+  "Runeforged Avian Targe": [
+    "shield"
+  ],
+  "Runeforged Barbed Bracers": [
+    "gloves"
+  ],
+  "Runeforged Barbed Spear": [
+    "spear"
+  ],
+  "Runeforged Baroque Gloves": [
+    "gloves"
+  ],
+  "Runeforged Baroque Targe": [
+    "shield"
+  ],
+  "Runeforged Barricade Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Bastion Sabatons": [
+    "boots"
+  ],
+  "Runeforged Beaded Circlet": [
+    "helmet"
+  ],
+  "Runeforged Blacksteel Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Blacksteel Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Blacksteel Sabatons": [
+    "boots"
+  ],
+  "Runeforged Blacksteel Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Bladed Shoes": [
+    "boots"
+  ],
+  "Runeforged Blazon Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Bold Sabatons": [
+    "boots"
+  ],
+  "Runeforged Bolstered Mitts": [
+    "gloves"
+  ],
+  "Runeforged Bombard Crossbow": [
+    "crossbow"
+  ],
+  "Runeforged Bone Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Bound Bracers": [
+    "gloves"
+  ],
+  "Runeforged Bound Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Bound Sandals": [
+    "boots"
+  ],
+  "Runeforged Braced Sabatons": [
+    "boots"
+  ],
+  "Runeforged Braced Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Brigand Mask": [
+    "helmet"
+  ],
+  "Runeforged Brimmed Helm": [
+    "helmet"
+  ],
+  "Runeforged Bronze Greaves": [
+    "boots"
+  ],
+  "Runeforged Buckled Wraps": [
+    "gloves"
+  ],
+  "Runeforged Bulwark Greaves": [
+    "boots"
+  ],
+  "Runeforged Bulwark Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Burnished Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Cabalist Helm": [
+    "helmet"
+  ],
+  "Runeforged Carved Greaves": [
+    "boots"
+  ],
+  "Runeforged Carved Targe": [
+    "shield"
+  ],
+  "Runeforged Cavalry Boots": [
+    "boots"
+  ],
+  "Runeforged Ceremonial Robe": [
+    "body-armour"
+  ],
+  "Runeforged Chain Mail": [
+    "body-armour"
+  ],
+  "Runeforged Chain Tiara": [
+    "helmet"
+  ],
+  "Runeforged Champion Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Champion Helm": [
+    "helmet"
+  ],
+  "Runeforged Charmed Shoes": [
+    "boots"
+  ],
+  "Runeforged Chieftain Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Chiseled Targe": [
+    "shield"
+  ],
+  "Runeforged Cinched Boots": [
+    "boots"
+  ],
+  "Runeforged Clandestine Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Cleric Vestments": [
+    "body-armour"
+  ],
+  "Runeforged Cloaked Mail": [
+    "body-armour"
+  ],
+  "Runeforged Closed Helm": [
+    "helmet"
+  ],
+  "Runeforged Colosseum Plate": [
+    "body-armour"
+  ],
+  "Runeforged Commander Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Commander Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Composite Bow": [
+    "bow"
+  ],
+  "Runeforged Conjurer Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Conqueror Plate": [
+    "body-armour"
+  ],
+  "Runeforged Corsair Cap": [
+    "helmet"
+  ],
+  "Runeforged Corsair Coat": [
+    "body-armour"
+  ],
+  "Runeforged Corsair Vest": [
+    "body-armour"
+  ],
+  "Runeforged Corvus Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Covered Sabatons": [
+    "boots"
+  ],
+  "Runeforged Covert Hood": [
+    "helmet"
+  ],
+  "Runeforged Cowled Helm": [
+    "helmet"
+  ],
+  "Runeforged Crescent Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Runeforged Crescent Targe": [
+    "shield"
+  ],
+  "Runeforged Crucible Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Crude Bow": [
+    "bow"
+  ],
+  "Runeforged Crumbling Maul": [
+    "two-hand-mace"
+  ],
+  "Runeforged Cryptic Crown": [
+    "helmet"
+  ],
+  "Runeforged Cryptic Helm": [
+    "helmet"
+  ],
+  "Runeforged Cryptic Leggings": [
+    "boots"
+  ],
+  "Runeforged Crystal Focus": [
+    "focus"
+  ],
+  "Runeforged Cultist Crown": [
+    "helmet"
+  ],
+  "Runeforged Cultist Focus": [
+    "focus"
+  ],
+  "Runeforged Cultist Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Cultist Greathammer": [
+    "two-hand-mace"
+  ],
+  "Runeforged Daggerfoot Shoes": [
+    "boots"
+  ],
+  "Runeforged Dastard Armour": [
+    "body-armour"
+  ],
+  "Runeforged Death Mail": [
+    "body-armour"
+  ],
+  "Runeforged Death Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Death Mask": [
+    "helmet"
+  ],
+  "Runeforged Decorated Helm": [
+    "helmet"
+  ],
+  "Runeforged Deerstalker Hood": [
+    "helmet"
+  ],
+  "Runeforged Defiant Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Deified Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Dekharan Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Desert Cap": [
+    "helmet"
+  ],
+  "Runeforged Detailed Mitts": [
+    "gloves"
+  ],
+  "Runeforged Devout Garb": [
+    "body-armour"
+  ],
+  "Runeforged Divine Crown": [
+    "helmet"
+  ],
+  "Runeforged Doubled Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Dragonscale Boots": [
+    "boots"
+  ],
+  "Runeforged Drakeskin Boots": [
+    "boots"
+  ],
+  "Runeforged Druidic Crown": [
+    "helmet"
+  ],
+  "Runeforged Druidic Focus": [
+    "focus"
+  ],
+  "Runeforged Dualstring Bow": [
+    "bow"
+  ],
+  "Runeforged Dunerunner Sandals": [
+    "boots"
+  ],
+  "Runeforged Dyad Crossbow": [
+    "crossbow"
+  ],
+  "Runeforged Effigial Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Elaborate Sandals": [
+    "boots"
+  ],
+  "Runeforged Elegant Focus": [
+    "focus"
+  ],
+  "Runeforged Elegant Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Elegant Greaves": [
+    "boots"
+  ],
+  "Runeforged Elegant Plate": [
+    "body-armour"
+  ],
+  "Runeforged Elegant Slippers": [
+    "boots"
+  ],
+  "Runeforged Elegant Wraps": [
+    "gloves"
+  ],
+  "Runeforged Elementalist Robe": [
+    "body-armour"
+  ],
+  "Runeforged Elite Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Emblem Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Embossed Boots": [
+    "boots"
+  ],
+  "Runeforged Embroidered Boots": [
+    "boots"
+  ],
+  "Runeforged Embroidered Gloves": [
+    "gloves"
+  ],
+  "Runeforged Empyreal Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Engraved Bracers": [
+    "gloves"
+  ],
+  "Runeforged Engraved Focus": [
+    "focus"
+  ],
+  "Runeforged Enlightened Robe": [
+    "body-armour"
+  ],
+  "Runeforged Explorer Armour": [
+    "body-armour"
+  ],
+  "Runeforged Exquisite Vest": [
+    "body-armour"
+  ],
+  "Runeforged Face Mask": [
+    "helmet"
+  ],
+  "Runeforged Faithful Leggings": [
+    "boots"
+  ],
+  "Runeforged Falconer's Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Faridun Mask": [
+    "helmet"
+  ],
+  "Runeforged Feathered Mitts": [
+    "gloves"
+  ],
+  "Runeforged Feathered Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Feathered Robe": [
+    "body-armour"
+  ],
+  "Runeforged Feathered Sandals": [
+    "boots"
+  ],
+  "Runeforged Feathered Targe": [
+    "shield"
+  ],
+  "Runeforged Feathered Tiara": [
+    "helmet"
+  ],
+  "Runeforged Felled Greatclub": [
+    "two-hand-mace"
+  ],
+  "Runeforged Felt Cap": [
+    "helmet"
+  ],
+  "Runeforged Fierce Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Fine Bracers": [
+    "gloves"
+  ],
+  "Runeforged Firm Bracers": [
+    "gloves"
+  ],
+  "Runeforged Fists of Stone": [
+    "gloves"
+  ],
+  "Runeforged Flared Boots": [
+    "boots"
+  ],
+  "Runeforged Flax Sandals": [
+    "boots"
+  ],
+  "Runeforged Flexile Sabatons": [
+    "boots"
+  ],
+  "Runeforged Flowing Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Forge Maul": [
+    "two-hand-mace"
+  ],
+  "Runeforged Forked Spear": [
+    "spear"
+  ],
+  "Runeforged Fortress Sabatons": [
+    "boots"
+  ],
+  "Runeforged Fortress Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Frayed Shoes": [
+    "boots"
+  ],
+  "Runeforged Freebooter Cap": [
+    "helmet"
+  ],
+  "Runeforged Full Plate": [
+    "body-armour"
+  ],
+  "Runeforged Fur Plate": [
+    "body-armour"
+  ],
+  "Runeforged Furtive Wraps": [
+    "gloves"
+  ],
+  "Runeforged Gallant Helm": [
+    "helmet"
+  ],
+  "Runeforged Garment": [
+    "body-armour"
+  ],
+  "Runeforged Gauze Wraps": [
+    "gloves"
+  ],
+  "Runeforged Gilded Vestments": [
+    "body-armour"
+  ],
+  "Runeforged Gilt Leggings": [
+    "boots"
+  ],
+  "Runeforged Gladiator Armour": [
+    "body-armour"
+  ],
+  "Runeforged Gladiatorial Helm": [
+    "helmet"
+  ],
+  "Runeforged Gleaming Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Glorious Plate": [
+    "body-armour"
+  ],
+  "Runeforged Glowering Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Gold Circlet": [
+    "helmet"
+  ],
+  "Runeforged Gold Gloves": [
+    "gloves"
+  ],
+  "Runeforged Goldcast Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Golden Mail": [
+    "body-armour"
+  ],
+  "Runeforged Golden Targe": [
+    "shield"
+  ],
+  "Runeforged Goldworked Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Goliath Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Gothic Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Runeforged Grand Bracers": [
+    "gloves"
+  ],
+  "Runeforged Grand Cuisses": [
+    "boots"
+  ],
+  "Runeforged Grand Manchettes": [
+    "gloves"
+  ],
+  "Runeforged Grand Mitts": [
+    "gloves"
+  ],
+  "Runeforged Grand Regalia": [
+    "body-armour"
+  ],
+  "Runeforged Grand Targe": [
+    "shield"
+  ],
+  "Runeforged Grand Visage": [
+    "helmet"
+  ],
+  "Runeforged Grasping Mail": [
+    "body-armour"
+  ],
+  "Runeforged Grim Gloves": [
+    "gloves"
+  ],
+  "Runeforged Grinning Mask": [
+    "helmet"
+  ],
+  "Runeforged Guarded Helm": [
+    "helmet"
+  ],
+  "Runeforged Guardian Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Hallowed Crown": [
+    "helmet"
+  ],
+  "Runeforged Hallowed Focus": [
+    "focus"
+  ],
+  "Runeforged Hardened Bracers": [
+    "gloves"
+  ],
+  "Runeforged Hardleather Coat": [
+    "body-armour"
+  ],
+  "Runeforged Hardwood Spear": [
+    "spear"
+  ],
+  "Runeforged Hardwood Targe": [
+    "shield"
+  ],
+  "Runeforged Hatungo Garb": [
+    "body-armour"
+  ],
+  "Runeforged Havoc Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Hawker's Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Heartcarver Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Heavy Crown": [
+    "helmet"
+  ],
+  "Runeforged Heavy Plate": [
+    "body-armour"
+  ],
+  "Runeforged Heraldric Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Hermit Garb": [
+    "body-armour"
+  ],
+  "Runeforged Heroic Armour": [
+    "body-armour"
+  ],
+  "Runeforged Hewn Mask": [
+    "helmet"
+  ],
+  "Runeforged Hexer's Robe": [
+    "body-armour"
+  ],
+  "Runeforged Hooded Mask": [
+    "helmet"
+  ],
+  "Runeforged Horned Crown": [
+    "helmet"
+  ],
+  "Runeforged Hunter Hood": [
+    "helmet"
+  ],
+  "Runeforged Hunting Shoes": [
+    "boots"
+  ],
+  "Runeforged Hunting Spear": [
+    "spear"
+  ],
+  "Runeforged Imperial Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Imperial Robe": [
+    "body-armour"
+  ],
+  "Runeforged Inquisitor Crown": [
+    "helmet"
+  ],
+  "Runeforged Intricate Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Intricate Gloves": [
+    "gloves"
+  ],
+  "Runeforged Iron Crown": [
+    "helmet"
+  ],
+  "Runeforged Iron Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Iron Greaves": [
+    "boots"
+  ],
+  "Runeforged Ironclad Vestments": [
+    "body-armour"
+  ],
+  "Runeforged Ironhead Spear": [
+    "spear"
+  ],
+  "Runeforged Itinerant Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Jade Tiara": [
+    "helmet"
+  ],
+  "Runeforged Jewelled Gloves": [
+    "gloves"
+  ],
+  "Runeforged Jingling Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Juggernaut Plate": [
+    "body-armour"
+  ],
+  "Runeforged Jungle Tiara": [
+    "helmet"
+  ],
+  "Runeforged Kalguuran Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Kalguuran Forgehammer": [
+    "one-hand-mace"
+  ],
+  "Runeforged Kamasan Tiara": [
+    "helmet"
+  ],
+  "Runeforged Keth Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Knight Armour": [
+    "body-armour"
+  ],
+  "Runeforged Knightly Mitts": [
+    "gloves"
+  ],
+  "Runeforged Lace Hood": [
+    "helmet"
+  ],
+  "Runeforged Laced Boots": [
+    "boots"
+  ],
+  "Runeforged Lamellar Mail": [
+    "body-armour"
+  ],
+  "Runeforged Lattice Sandals": [
+    "boots"
+  ],
+  "Runeforged Lavish Crown": [
+    "helmet"
+  ],
+  "Runeforged Layered Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Layered Vest": [
+    "body-armour"
+  ],
+  "Runeforged Leaden Greathammer": [
+    "two-hand-mace"
+  ],
+  "Runeforged Leather Vest": [
+    "body-armour"
+  ],
+  "Runeforged Leatherbound Hood": [
+    "helmet"
+  ],
+  "Runeforged Leatherplate Boots": [
+    "boots"
+  ],
+  "Runeforged Leyline Focus": [
+    "focus"
+  ],
+  "Runeforged Linen Wraps": [
+    "gloves"
+  ],
+  "Runeforged Lizardscale Boots": [
+    "boots"
+  ],
+  "Runeforged Lizardscale Coat": [
+    "body-armour"
+  ],
+  "Runeforged Long Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Runeforged Luxurious Slippers": [
+    "boots"
+  ],
+  "Runeforged Magus Focus": [
+    "focus"
+  ],
+  "Runeforged Magus Tiara": [
+    "helmet"
+  ],
+  "Runeforged Mail Coat": [
+    "body-armour"
+  ],
+  "Runeforged Mail Sabatons": [
+    "boots"
+  ],
+  "Runeforged Mail Vestments": [
+    "body-armour"
+  ],
+  "Runeforged Makeshift Crossbow": [
+    "crossbow"
+  ],
+  "Runeforged Mammoth Targe": [
+    "shield"
+  ],
+  "Runeforged Mantled Mail": [
+    "body-armour"
+  ],
+  "Runeforged Marabout Garb": [
+    "body-armour"
+  ],
+  "Runeforged Maraketh Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Marching Mace": [
+    "one-hand-mace"
+  ],
+  "Runeforged Martyr Crown": [
+    "helmet"
+  ],
+  "Runeforged Masked Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Massive Mitts": [
+    "gloves"
+  ],
+  "Runeforged Monastic Garb": [
+    "body-armour"
+  ],
+  "Runeforged Monument Greaves": [
+    "boots"
+  ],
+  "Runeforged Morning Star": [
+    "one-hand-mace"
+  ],
+  "Runeforged Mosaic Targe": [
+    "shield"
+  ],
+  "Runeforged Moulded Mitts": [
+    "gloves"
+  ],
+  "Runeforged Mystic Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Noble Circlet": [
+    "helmet"
+  ],
+  "Runeforged Noble Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Noble Sabatons": [
+    "boots"
+  ],
+  "Runeforged Noble Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Oak Greathammer": [
+    "two-hand-mace"
+  ],
+  "Runeforged Occultist Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Omen Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Opulent Gloves": [
+    "gloves"
+  ],
+  "Runeforged Ornate Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Ornate Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Ornate Greaves": [
+    "boots"
+  ],
+  "Runeforged Ornate Mitts": [
+    "gloves"
+  ],
+  "Runeforged Ornate Plate": [
+    "body-armour"
+  ],
+  "Runeforged Padded Leggings": [
+    "boots"
+  ],
+  "Runeforged Painted Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Paragon Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Pariah Mask": [
+    "helmet"
+  ],
+  "Runeforged Pathfinder Coat": [
+    "body-armour"
+  ],
+  "Runeforged Pauascale Gloves": [
+    "gloves"
+  ],
+  "Runeforged Pelage Targe": [
+    "shield"
+  ],
+  "Runeforged Pelt Leggings": [
+    "boots"
+  ],
+  "Runeforged Pelt Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Phalanx Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Pilgrim Vestments": [
+    "body-armour"
+  ],
+  "Runeforged Pious Leggings": [
+    "boots"
+  ],
+  "Runeforged Plate Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Plated Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Plated Vestments": [
+    "body-armour"
+  ],
+  "Runeforged Plumed Focus": [
+    "focus"
+  ],
+  "Runeforged Pointed Maul": [
+    "two-hand-mace"
+  ],
+  "Runeforged Polished Bracers": [
+    "gloves"
+  ],
+  "Runeforged Polished Targe": [
+    "shield"
+  ],
+  "Runeforged Primal Markings": [
+    "body-armour"
+  ],
+  "Runeforged Quartered Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Quickslip Shoes": [
+    "boots"
+  ],
+  "Runeforged Quilted Vest": [
+    "body-armour"
+  ],
+  "Runeforged Raider Plate": [
+    "body-armour"
+  ],
+  "Runeforged Rambler Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Rampart Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Rawhide Boots": [
+    "boots"
+  ],
+  "Runeforged Recurve Bow": [
+    "bow"
+  ],
+  "Runeforged Reefsteel Greaves": [
+    "boots"
+  ],
+  "Runeforged Refined Bracers": [
+    "gloves"
+  ],
+  "Runeforged Revered Vestments": [
+    "body-armour"
+  ],
+  "Runeforged Rhoahide Coat": [
+    "body-armour"
+  ],
+  "Runeforged Righteous Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Ringmail Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged River Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Riveted Mitts": [
+    "gloves"
+  ],
+  "Runeforged Rogue Armour": [
+    "body-armour"
+  ],
+  "Runeforged Rope Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Rough Greaves": [
+    "boots"
+  ],
+  "Runeforged Royal Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Runed Focus": [
+    "focus"
+  ],
+  "Runeforged Runner Vest": [
+    "body-armour"
+  ],
+  "Runeforged Rusted Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Rusted Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Sacramental Robe": [
+    "body-armour"
+  ],
+  "Runeforged Sacred Focus": [
+    "focus"
+  ],
+  "Runeforged Sacrificial Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Sacrificial Regalia": [
+    "body-armour"
+  ],
+  "Runeforged Saintly Crown": [
+    "helmet"
+  ],
+  "Runeforged Sandsworn Sandals": [
+    "boots"
+  ],
+  "Runeforged Sandsworn Tiara": [
+    "helmet"
+  ],
+  "Runeforged Scale Mail": [
+    "body-armour"
+  ],
+  "Runeforged Scalper's Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Scoundrel Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Scout's Vest": [
+    "body-armour"
+  ],
+  "Runeforged Seastorm Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Sectarian Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Sectioned Bracers": [
+    "gloves"
+  ],
+  "Runeforged Secured Leggings": [
+    "boots"
+  ],
+  "Runeforged Secured Wraps": [
+    "gloves"
+  ],
+  "Runeforged Seer Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Sekhema Sandals": [
+    "boots"
+  ],
+  "Runeforged Sekheman Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Sentinel Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Serpentscale Boots": [
+    "boots"
+  ],
+  "Runeforged Serpentscale Coat": [
+    "body-armour"
+  ],
+  "Runeforged Shabby Hood": [
+    "helmet"
+  ],
+  "Runeforged Shaded Mask": [
+    "helmet"
+  ],
+  "Runeforged Shaman Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Shamanistic Leggings": [
+    "boots"
+  ],
+  "Runeforged Shielded Helm": [
+    "helmet"
+  ],
+  "Runeforged Shortbow": [
+    "bow"
+  ],
+  "Runeforged Shrouded Mail": [
+    "body-armour"
+  ],
+  "Runeforged Shrouded Vest": [
+    "body-armour"
+  ],
+  "Runeforged Sigil Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Signet Cuffs": [
+    "gloves"
+  ],
+  "Runeforged Silk Robe": [
+    "body-armour"
+  ],
+  "Runeforged Silk Slippers": [
+    "boots"
+  ],
+  "Runeforged Sirenscale Gloves": [
+    "gloves"
+  ],
+  "Runeforged Skycrown Tiara": [
+    "helmet"
+  ],
+  "Runeforged Slayer Armour": [
+    "body-armour"
+  ],
+  "Runeforged Sleek Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Slim Mace": [
+    "one-hand-mace"
+  ],
+  "Runeforged Slipstrike Vest": [
+    "body-armour"
+  ],
+  "Runeforged Smuggler Coat": [
+    "body-armour"
+  ],
+  "Runeforged Soaring Mask": [
+    "helmet"
+  ],
+  "Runeforged Soaring Targe": [
+    "shield"
+  ],
+  "Runeforged Soldier Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Soldier Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Solid Mask": [
+    "helmet"
+  ],
+  "Runeforged Sombre Gloves": [
+    "gloves"
+  ],
+  "Runeforged Sorcerous Tiara": [
+    "helmet"
+  ],
+  "Runeforged Spiked Bracers": [
+    "gloves"
+  ],
+  "Runeforged Spiked Club": [
+    "one-hand-mace"
+  ],
+  "Runeforged Spined Bracers": [
+    "gloves"
+  ],
+  "Runeforged Spiral Wraps": [
+    "gloves"
+  ],
+  "Runeforged Spired Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Spiritbone Crown": [
+    "helmet"
+  ],
+  "Runeforged Splintered Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Stacked Sabatons": [
+    "boots"
+  ],
+  "Runeforged Stalking Bracers": [
+    "gloves"
+  ],
+  "Runeforged Steel Plate": [
+    "body-armour"
+  ],
+  "Runeforged Steelmail Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Steelpoint Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Runeforged Steelpoint Shoes": [
+    "boots"
+  ],
+  "Runeforged Steeltoe Boots": [
+    "boots"
+  ],
+  "Runeforged Stitched Gloves": [
+    "gloves"
+  ],
+  "Runeforged Stocky Mitts": [
+    "gloves"
+  ],
+  "Runeforged Stoic Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Stone Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Stone Greaves": [
+    "boots"
+  ],
+  "Runeforged Stone Targe": [
+    "shield"
+  ],
+  "Runeforged Stone Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Stratified Targe": [
+    "shield"
+  ],
+  "Runeforged Straw Sandals": [
+    "boots"
+  ],
+  "Runeforged Strider Vest": [
+    "body-armour"
+  ],
+  "Runeforged Studded Boots": [
+    "boots"
+  ],
+  "Runeforged Studded Greatclub": [
+    "two-hand-mace"
+  ],
+  "Runeforged Studded Sandals": [
+    "boots"
+  ],
+  "Runeforged Studded Targe": [
+    "shield"
+  ],
+  "Runeforged Studded Vest": [
+    "body-armour"
+  ],
+  "Runeforged Sturdy Crossbow": [
+    "crossbow"
+  ],
+  "Runeforged Suede Bracers": [
+    "gloves"
+  ],
+  "Runeforged Swathed Cap": [
+    "helmet"
+  ],
+  "Runeforged Swiftstalker Coat": [
+    "body-armour"
+  ],
+  "Runeforged Tasalian Focus": [
+    "focus"
+  ],
+  "Runeforged Tasalian Greaves": [
+    "boots"
+  ],
+  "Runeforged Tattered Robe": [
+    "body-armour"
+  ],
+  "Runeforged Tawhoan Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Tempered Mitts": [
+    "gloves"
+  ],
+  "Runeforged Temple Maul": [
+    "two-hand-mace"
+  ],
+  "Runeforged Tense Crossbow": [
+    "crossbow"
+  ],
+  "Runeforged Thane Mail": [
+    "body-armour"
+  ],
+  "Runeforged Threaded Shoes": [
+    "boots"
+  ],
+  "Runeforged Tideseer Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Titan Mitts": [
+    "gloves"
+  ],
+  "Runeforged Tonal Focus": [
+    "focus"
+  ],
+  "Runeforged Torment Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Torn Gloves": [
+    "gloves"
+  ],
+  "Runeforged Totemic Greaves": [
+    "boots"
+  ],
+  "Runeforged Tournament Mail": [
+    "body-armour"
+  ],
+  "Runeforged Trailblazer Armour": [
+    "body-armour"
+  ],
+  "Runeforged Trapper Hood": [
+    "helmet"
+  ],
+  "Runeforged Treerunner Shoes": [
+    "boots"
+  ],
+  "Runeforged Tribal Mask": [
+    "helmet"
+  ],
+  "Runeforged Trimmed Greaves": [
+    "boots"
+  ],
+  "Runeforged Twig Circlet": [
+    "helmet"
+  ],
+  "Runeforged Twig Focus": [
+    "focus"
+  ],
+  "Runeforged Twilight Tiara": [
+    "helmet"
+  ],
+  "Runeforged Utility Wraps": [
+    "gloves"
+  ],
+  "Runeforged Utzaal Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Vaal Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Vaal Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Vaal Gloves": [
+    "gloves"
+  ],
+  "Runeforged Vaal Greaves": [
+    "boots"
+  ],
+  "Runeforged Vaal Mitts": [
+    "gloves"
+  ],
+  "Runeforged Vaal Tower Shield": [
+    "shield"
+  ],
+  "Runeforged Vaal Wraps": [
+    "gloves"
+  ],
+  "Runeforged Vagabond Armour": [
+    "body-armour"
+  ],
+  "Runeforged Veiled Mask": [
+    "helmet"
+  ],
+  "Runeforged Velour Shoes": [
+    "boots"
+  ],
+  "Runeforged Velvet Cap": [
+    "helmet"
+  ],
+  "Runeforged Venerated Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Vermeil Circlet": [
+    "helmet"
+  ],
+  "Runeforged Veteran Sabatons": [
+    "boots"
+  ],
+  "Runeforged Vile Robe": [
+    "body-armour"
+  ],
+  "Runeforged Viper Cap": [
+    "helmet"
+  ],
+  "Runeforged Visored Helm": [
+    "helmet"
+  ],
+  "Runeforged Voodoo Focus": [
+    "focus"
+  ],
+  "Runeforged Votive Raiment": [
+    "body-armour"
+  ],
+  "Runeforged Wanderer Shoes": [
+    "boots"
+  ],
+  "Runeforged War Spear": [
+    "spear"
+  ],
+  "Runeforged War Wraps": [
+    "gloves"
+  ],
+  "Runeforged Warded Helm": [
+    "helmet"
+  ],
+  "Runeforged Warden Bow": [
+    "bow"
+  ],
+  "Runeforged Warlock Leggings": [
+    "boots"
+  ],
+  "Runeforged Warlord Cuirass": [
+    "body-armour"
+  ],
+  "Runeforged Warmonger Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Warpick": [
+    "one-hand-mace"
+  ],
+  "Runeforged Warrior Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Waxed Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Wayfarer Jacket": [
+    "body-armour"
+  ],
+  "Runeforged Wayward Crest Shield": [
+    "shield"
+  ],
+  "Runeforged Weaver Leggings": [
+    "boots"
+  ],
+  "Runeforged Whorl Focus": [
+    "focus"
+  ],
+  "Runeforged Wicker Tiara": [
+    "helmet"
+  ],
+  "Runeforged Winged Spear": [
+    "spear"
+  ],
+  "Runeforged Wolfskin Mantle": [
+    "body-armour"
+  ],
+  "Runeforged Wooden Club": [
+    "one-hand-mace"
+  ],
+  "Runeforged Woven Cap": [
+    "helmet"
+  ],
+  "Runeforged Woven Focus": [
+    "focus"
+  ],
+  "Runeforged Wrapped Cap": [
+    "helmet"
+  ],
+  "Runeforged Wrapped Greathelm": [
+    "helmet"
+  ],
+  "Runeforged Wrapped Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Runeforged Wrapped Sandals": [
+    "boots"
+  ],
+  "Runeforged Wyrmscale Coat": [
+    "body-armour"
+  ],
+  "Runeforged Zealot Bow": [
+    "bow"
+  ],
+  "Runeforged Zealot Gauntlets": [
+    "gloves"
+  ],
+  "Runeforged Zenith Vestments": [
+    "body-armour"
+  ],
+  "Runemastered Aberrant Sledge": [
+    "two-hand-mace"
+  ],
+  "Runemastered Aged Cuffs": [
+    "gloves"
+  ],
+  "Runemastered Altar Robe": [
+    "body-armour"
+  ],
+  "Runemastered Ancestral Mail": [
+    "body-armour"
+  ],
+  "Runemastered Anchorite Garb": [
+    "body-armour"
+  ],
+  "Runemastered Ancient Leggings": [
+    "boots"
+  ],
+  "Runemastered Ancient Mail": [
+    "body-armour"
+  ],
+  "Runemastered Ancient Visor": [
+    "helmet"
+  ],
+  "Runemastered Antler Focus": [
+    "focus"
+  ],
+  "Runemastered Armoured Cap": [
+    "helmet"
+  ],
+  "Runemastered Armoured Vest": [
+    "body-armour"
+  ],
+  "Runemastered Assassin Garb": [
+    "body-armour"
+  ],
+  "Runemastered Barricade Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Beaded Circlet": [
+    "helmet"
+  ],
+  "Runemastered Blacksteel Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Blazon Crest Shield": [
+    "shield"
+  ],
+  "Runemastered Bolstered Mitts": [
+    "gloves"
+  ],
+  "Runemastered Bone Raiment": [
+    "body-armour"
+  ],
+  "Runemastered Braced Sabatons": [
+    "boots"
+  ],
+  "Runemastered Braced Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Brimmed Helm": [
+    "helmet"
+  ],
+  "Runemastered Bronze Greaves": [
+    "boots"
+  ],
+  "Runemastered Burnished Gauntlets": [
+    "gloves"
+  ],
+  "Runemastered Chain Mail": [
+    "body-armour"
+  ],
+  "Runemastered Chain Tiara": [
+    "helmet"
+  ],
+  "Runemastered Cinched Boots": [
+    "boots"
+  ],
+  "Runemastered Cleric Vestments": [
+    "body-armour"
+  ],
+  "Runemastered Cloaked Mail": [
+    "body-armour"
+  ],
+  "Runemastered Corsair Cap": [
+    "helmet"
+  ],
+  "Runemastered Corvus Mantle": [
+    "body-armour"
+  ],
+  "Runemastered Covered Sabatons": [
+    "boots"
+  ],
+  "Runemastered Covert Hood": [
+    "helmet"
+  ],
+  "Runemastered Cowled Helm": [
+    "helmet"
+  ],
+  "Runemastered Crescent Targe": [
+    "shield"
+  ],
+  "Runemastered Crucible Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Crystal Focus": [
+    "focus"
+  ],
+  "Runemastered Cultist Crown": [
+    "helmet"
+  ],
+  "Runemastered Death Mask": [
+    "helmet"
+  ],
+  "Runemastered Decorated Helm": [
+    "helmet"
+  ],
+  "Runemastered Doubled Gauntlets": [
+    "gloves"
+  ],
+  "Runemastered Dyad Crossbow": [
+    "crossbow"
+  ],
+  "Runemastered Effigial Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Elementalist Robe": [
+    "body-armour"
+  ],
+  "Runemastered Elite Greathelm": [
+    "helmet"
+  ],
+  "Runemastered Emblem Crest Shield": [
+    "shield"
+  ],
+  "Runemastered Embossed Boots": [
+    "boots"
+  ],
+  "Runemastered Embroidered Gloves": [
+    "gloves"
+  ],
+  "Runemastered Engraved Focus": [
+    "focus"
+  ],
+  "Runemastered Enlightened Robe": [
+    "body-armour"
+  ],
+  "Runemastered Explorer Armour": [
+    "body-armour"
+  ],
+  "Runemastered Exquisite Vest": [
+    "body-armour"
+  ],
+  "Runemastered Face Mask": [
+    "helmet"
+  ],
+  "Runemastered Feathered Robe": [
+    "body-armour"
+  ],
+  "Runemastered Feathered Sandals": [
+    "boots"
+  ],
+  "Runemastered Feathered Tiara": [
+    "helmet"
+  ],
+  "Runemastered Felled Greatclub": [
+    "two-hand-mace"
+  ],
+  "Runemastered Felt Cap": [
+    "helmet"
+  ],
+  "Runemastered Fierce Greathelm": [
+    "helmet"
+  ],
+  "Runemastered Fine Bracers": [
+    "gloves"
+  ],
+  "Runemastered Firm Bracers": [
+    "gloves"
+  ],
+  "Runemastered Full Plate": [
+    "body-armour"
+  ],
+  "Runemastered Furtive Wraps": [
+    "gloves"
+  ],
+  "Runemastered Garment": [
+    "body-armour"
+  ],
+  "Runemastered Gauze Wraps": [
+    "gloves"
+  ],
+  "Runemastered Gilded Vestments": [
+    "body-armour"
+  ],
+  "Runemastered Glacial Fortress": [
+    "shield"
+  ],
+  "Runemastered Gold Circlet": [
+    "helmet"
+  ],
+  "Runemastered Goldcast Cuffs": [
+    "gloves"
+  ],
+  "Runemastered Gothic Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Runemastered Grand Cuisses": [
+    "boots"
+  ],
+  "Runemastered Grand Manchettes": [
+    "gloves"
+  ],
+  "Runemastered Grand Regalia": [
+    "body-armour"
+  ],
+  "Runemastered Grand Visage": [
+    "helmet"
+  ],
+  "Runemastered Grasping Mail": [
+    "body-armour"
+  ],
+  "Runemastered Guarded Helm": [
+    "helmet"
+  ],
+  "Runemastered Hardwood Targe": [
+    "shield"
+  ],
+  "Runemastered Havoc Raiment": [
+    "body-armour"
+  ],
+  "Runemastered Heavy Belt": [
+    "belt"
+  ],
+  "Runemastered Heavy Crown": [
+    "helmet"
+  ],
+  "Runemastered Heraldric Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Hermit Garb": [
+    "body-armour"
+  ],
+  "Runemastered Heroic Armour": [
+    "body-armour"
+  ],
+  "Runemastered Hewn Mask": [
+    "helmet"
+  ],
+  "Runemastered Hexer's Robe": [
+    "body-armour"
+  ],
+  "Runemastered Hooded Mask": [
+    "helmet"
+  ],
+  "Runemastered Horned Crown": [
+    "helmet"
+  ],
+  "Runemastered Hunter Hood": [
+    "helmet"
+  ],
+  "Runemastered Hunting Shoes": [
+    "boots"
+  ],
+  "Runemastered Intricate Crest Shield": [
+    "shield"
+  ],
+  "Runemastered Intricate Gloves": [
+    "gloves"
+  ],
+  "Runemastered Iron Crown": [
+    "helmet"
+  ],
+  "Runemastered Iron Cuirass": [
+    "body-armour"
+  ],
+  "Runemastered Iron Greaves": [
+    "boots"
+  ],
+  "Runemastered Ironclad Vestments": [
+    "body-armour"
+  ],
+  "Runemastered Ironhead Spear": [
+    "spear"
+  ],
+  "Runemastered Jade Tiara": [
+    "helmet"
+  ],
+  "Runemastered Jewelled Gloves": [
+    "gloves"
+  ],
+  "Runemastered Jingling Crest Shield": [
+    "shield"
+  ],
+  "Runemastered Keth Raiment": [
+    "body-armour"
+  ],
+  "Runemastered Knight Armour": [
+    "body-armour"
+  ],
+  "Runemastered Laced Boots": [
+    "boots"
+  ],
+  "Runemastered Lattice Sandals": [
+    "boots"
+  ],
+  "Runemastered Layered Gauntlets": [
+    "gloves"
+  ],
+  "Runemastered Leather Vest": [
+    "body-armour"
+  ],
+  "Runemastered Leatherbound Hood": [
+    "helmet"
+  ],
+  "Runemastered Linen Wraps": [
+    "gloves"
+  ],
+  "Runemastered Lizardscale Boots": [
+    "boots"
+  ],
+  "Runemastered Long Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Runemastered Magus Tiara": [
+    "helmet"
+  ],
+  "Runemastered Mail Sabatons": [
+    "boots"
+  ],
+  "Runemastered Mail Vestments": [
+    "body-armour"
+  ],
+  "Runemastered Marabout Garb": [
+    "body-armour"
+  ],
+  "Runemastered Maraketh Cuirass": [
+    "body-armour"
+  ],
+  "Runemastered Martyr Crown": [
+    "helmet"
+  ],
+  "Runemastered Moulded Mitts": [
+    "gloves"
+  ],
+  "Runemastered Oak Greathammer": [
+    "two-hand-mace"
+  ],
+  "Runemastered Omen Crest Shield": [
+    "shield"
+  ],
+  "Runemastered Ornate Ringmail": [
+    "body-armour"
+  ],
+  "Runemastered Painted Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Pathfinder Coat": [
+    "body-armour"
+  ],
+  "Runemastered Pauascale Gloves": [
+    "gloves"
+  ],
+  "Runemastered Pilgrim Vestments": [
+    "body-armour"
+  ],
+  "Runemastered Plate Gauntlets": [
+    "gloves"
+  ],
+  "Runemastered Plated Raiment": [
+    "body-armour"
+  ],
+  "Runemastered Plumed Focus": [
+    "focus"
+  ],
+  "Runemastered Primal Markings": [
+    "body-armour"
+  ],
+  "Runemastered Quilted Vest": [
+    "body-armour"
+  ],
+  "Runemastered Raider Plate": [
+    "body-armour"
+  ],
+  "Runemastered Rampart Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Revered Vestments": [
+    "body-armour"
+  ],
+  "Runemastered Rhoahide Coat": [
+    "body-armour"
+  ],
+  "Runemastered Ringmail Gauntlets": [
+    "gloves"
+  ],
+  "Runemastered Riveted Mitts": [
+    "gloves"
+  ],
+  "Runemastered Rogue Armour": [
+    "body-armour"
+  ],
+  "Runemastered Rope Cuffs": [
+    "gloves"
+  ],
+  "Runemastered Rough Greaves": [
+    "boots"
+  ],
+  "Runemastered Runic Fork": [
+    "wand"
+  ],
+  "Runemastered Rusted Cuirass": [
+    "body-armour"
+  ],
+  "Runemastered Rusted Greathelm": [
+    "helmet"
+  ],
+  "Runemastered Sacrificial Mantle": [
+    "body-armour"
+  ],
+  "Runemastered Sacrificial Regalia": [
+    "body-armour"
+  ],
+  "Runemastered Scale Mail": [
+    "body-armour"
+  ],
+  "Runemastered Scalper's Jacket": [
+    "body-armour"
+  ],
+  "Runemastered Scout's Vest": [
+    "body-armour"
+  ],
+  "Runemastered Sectioned Bracers": [
+    "gloves"
+  ],
+  "Runemastered Secured Leggings": [
+    "boots"
+  ],
+  "Runemastered Serpentscale Coat": [
+    "body-armour"
+  ],
+  "Runemastered Shabby Hood": [
+    "helmet"
+  ],
+  "Runemastered Shaman Mantle": [
+    "body-armour"
+  ],
+  "Runemastered Shielded Helm": [
+    "helmet"
+  ],
+  "Runemastered Shrouded Vest": [
+    "body-armour"
+  ],
+  "Runemastered Sigil Crest Shield": [
+    "shield"
+  ],
+  "Runemastered Silk Robe": [
+    "body-armour"
+  ],
+  "Runemastered Silk Slippers": [
+    "boots"
+  ],
+  "Runemastered Smuggler Coat": [
+    "body-armour"
+  ],
+  "Runemastered Soldier Greathelm": [
+    "helmet"
+  ],
+  "Runemastered Solid Mask": [
+    "helmet"
+  ],
+  "Runemastered Sombre Gloves": [
+    "gloves"
+  ],
+  "Runemastered Spined Bracers": [
+    "gloves"
+  ],
+  "Runemastered Spiral Wraps": [
+    "gloves"
+  ],
+  "Runemastered Spired Greathelm": [
+    "helmet"
+  ],
+  "Runemastered Spiritbone Crown": [
+    "helmet"
+  ],
+  "Runemastered Splintered Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Stacked Sabatons": [
+    "boots"
+  ],
+  "Runemastered Steel Plate": [
+    "body-armour"
+  ],
+  "Runemastered Steeltoe Boots": [
+    "boots"
+  ],
+  "Runemastered Stitched Gloves": [
+    "gloves"
+  ],
+  "Runemastered Stocky Mitts": [
+    "gloves"
+  ],
+  "Runemastered Stone Greaves": [
+    "boots"
+  ],
+  "Runemastered Straw Sandals": [
+    "boots"
+  ],
+  "Runemastered Strider Vest": [
+    "body-armour"
+  ],
+  "Runemastered Studded Greatclub": [
+    "two-hand-mace"
+  ],
+  "Runemastered Studded Vest": [
+    "body-armour"
+  ],
+  "Runemastered Suede Bracers": [
+    "gloves"
+  ],
+  "Runemastered Tattered Robe": [
+    "body-armour"
+  ],
+  "Runemastered Tempered Mitts": [
+    "gloves"
+  ],
+  "Runemastered Tenebrous Crown": [
+    "helmet"
+  ],
+  "Runemastered Tense Crossbow": [
+    "crossbow"
+  ],
+  "Runemastered Threaded Shoes": [
+    "boots"
+  ],
+  "Runemastered Tideseer Mantle": [
+    "body-armour"
+  ],
+  "Runemastered Titan Mitts": [
+    "gloves"
+  ],
+  "Runemastered Tonal Focus": [
+    "focus"
+  ],
+  "Runemastered Torment Club": [
+    "one-hand-mace"
+  ],
+  "Runemastered Torn Gloves": [
+    "gloves"
+  ],
+  "Runemastered Tribal Mask": [
+    "helmet"
+  ],
+  "Runemastered Trimmed Greaves": [
+    "boots"
+  ],
+  "Runemastered Twig Circlet": [
+    "helmet"
+  ],
+  "Runemastered Twig Focus": [
+    "focus"
+  ],
+  "Runemastered Twilight Tiara": [
+    "helmet"
+  ],
+  "Runemastered Utility Wraps": [
+    "gloves"
+  ],
+  "Runemastered Vaal Cuirass": [
+    "body-armour"
+  ],
+  "Runemastered Vaal Tower Shield": [
+    "shield"
+  ],
+  "Runemastered Vagabond Armour": [
+    "body-armour"
+  ],
+  "Runemastered Veiled Mask": [
+    "helmet"
+  ],
+  "Runemastered Velour Shoes": [
+    "boots"
+  ],
+  "Runemastered Velvet Cap": [
+    "helmet"
+  ],
+  "Runemastered Venerable Defender": [
+    "shield"
+  ],
+  "Runemastered Veridical Chain": [
+    "amulet"
+  ],
+  "Runemastered Verisium Cuffs": [
+    "gloves"
+  ],
+  "Runemastered Vermeil Circlet": [
+    "helmet"
+  ],
+  "Runemastered Viper Cap": [
+    "helmet"
+  ],
+  "Runemastered Visored Helm": [
+    "helmet"
+  ],
+  "Runemastered Voodoo Focus": [
+    "focus"
+  ],
+  "Runemastered Votive Raiment": [
+    "body-armour"
+  ],
+  "Runemastered Warding Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Runemastered Warrior Greathelm": [
+    "helmet"
+  ],
+  "Runemastered Waxed Jacket": [
+    "body-armour"
+  ],
+  "Runemastered Wayfarer Jacket": [
+    "body-armour"
+  ],
+  "Runemastered Wicker Tiara": [
+    "helmet"
+  ],
+  "Runemastered Wooden Club": [
+    "one-hand-mace"
+  ],
+  "Runemastered Woven Focus": [
+    "focus"
+  ],
+  "Runemastered Wrapped Greathelm": [
+    "helmet"
+  ],
+  "Runemastered Wrapped Sandals": [
+    "boots"
+  ],
+  "Runic Fork": [
+    "wand"
+  ],
+  "Runic Shortsword": [
+    "one-hand-sword"
+  ],
+  "Runner Vest": [
+    "body-armour"
+  ],
+  "Rusted Cuirass": [
+    "body-armour"
+  ],
+  "Rusted Greathelm": [
+    "helmet"
+  ],
+  "Sacral Quiver": [
+    "quiver"
+  ],
+  "Sacramental Robe": [
+    "body-armour"
+  ],
+  "Sacred Focus": [
+    "focus"
+  ],
+  "Sacred Maul": [
+    "two-hand-mace"
+  ],
+  "Sacrificial Axe": [
+    "one-hand-axe"
+  ],
+  "Sacrificial Mantle": [
+    "body-armour"
+  ],
+  "Sacrificial Regalia": [
+    "body-armour"
+  ],
+  "Saintly Crown": [
+    "helmet"
+  ],
+  "Sanctified Staff": [
+    "staff"
+  ],
+  "Sandsworn Cuirass": [
+    "body-armour"
+  ],
+  "Sandsworn Sandals": [
+    "boots"
+  ],
+  "Sandsworn Tiara": [
+    "helmet"
+  ],
+  "Sapphire": [
+    "jewel"
+  ],
+  "Sapphire Charm": [
+    "charm"
+  ],
+  "Sapphire Ring": [
+    "ring"
+  ],
+  "Savage Greataxe": [
+    "two-hand-axe"
+  ],
+  "Scale Mail": [
+    "body-armour"
+  ],
+  "Scalper's Jacket": [
+    "body-armour"
+  ],
+  "Scimitar": [
+    "one-hand-sword"
+  ],
+  "Scoundrel Armour": [
+    "body-armour"
+  ],
+  "Scoundrel Jacket": [
+    "body-armour"
+  ],
+  "Scout's Vest": [
+    "body-armour"
+  ],
+  "Seaglass Spear": [
+    "spear"
+  ],
+  "Seastorm Mantle": [
+    "body-armour"
+  ],
+  "Sectarian Crest Shield": [
+    "shield"
+  ],
+  "Sectioned Bracers": [
+    "gloves"
+  ],
+  "Secured Leggings": [
+    "boots"
+  ],
+  "Secured Wraps": [
+    "gloves"
+  ],
+  "Seer Crest Shield": [
+    "shield"
+  ],
+  "Sekhema Sandals": [
+    "boots"
+  ],
+  "Sekheman Crest Shield": [
+    "shield"
+  ],
+  "Sentinel Greathelm": [
+    "helmet"
+  ],
+  "Serpentscale Boots": [
+    "boots"
+  ],
+  "Serpentscale Coat": [
+    "body-armour"
+  ],
+  "Serrated Quiver": [
+    "quiver"
+  ],
+  "Shabby Hood": [
+    "helmet"
+  ],
+  "Shaded Mask": [
+    "helmet"
+  ],
+  "Shaman Mantle": [
+    "body-armour"
+  ],
+  "Shamanistic Leggings": [
+    "boots"
+  ],
+  "Sharktooth Claw": [
+    "claw"
+  ],
+  "Shielded Helm": [
+    "helmet"
+  ],
+  "Shortbow": [
+    "bow"
+  ],
+  "Shortsword": [
+    "one-hand-sword"
+  ],
+  "Shrine Sceptre": [
+    "sceptre"
+  ],
+  "Shrouded Mail": [
+    "body-armour"
+  ],
+  "Shrouded Vest": [
+    "body-armour"
+  ],
+  "Sickle Sword": [
+    "one-hand-sword"
+  ],
+  "Siege Crossbow": [
+    "crossbow"
+  ],
+  "Sigil Crest Shield": [
+    "shield"
+  ],
+  "Signet Cuffs": [
+    "gloves"
+  ],
+  "Silk Robe": [
+    "body-armour"
+  ],
+  "Silk Slippers": [
+    "boots"
+  ],
+  "Silver Charm": [
+    "charm"
+  ],
+  "Silverbuckled Shoes": [
+    "boots"
+  ],
+  "Simple Dagger": [
+    "dagger"
+  ],
+  "Sinew Belt": [
+    "belt"
+  ],
+  "Sinister Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Siphoning Wand": [
+    "wand"
+  ],
+  "Sirenscale Gloves": [
+    "gloves"
+  ],
+  "Skinning Knife": [
+    "dagger"
+  ],
+  "Skulking Mask": [
+    "helmet"
+  ],
+  "Skullcrusher Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Skycrown Tiara": [
+    "helmet"
+  ],
+  "Slayer Armour": [
+    "body-armour"
+  ],
+  "Sleek Boots": [
+    "boots"
+  ],
+  "Sleek Jacket": [
+    "body-armour"
+  ],
+  "Slender Flail": [
+    "flail"
+  ],
+  "Slicing Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Slim Mace": [
+    "one-hand-mace"
+  ],
+  "Slipstrike Vest": [
+    "body-armour"
+  ],
+  "Smithing Hammer": [
+    "one-hand-mace"
+  ],
+  "Smooth Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Smuggler Coat": [
+    "body-armour"
+  ],
+  "Snakewood Greathammer": [
+    "two-hand-mace"
+  ],
+  "Snakewood Shortbow": [
+    "bow"
+  ],
+  "Soaring Mask": [
+    "helmet"
+  ],
+  "Soaring Spear": [
+    "spear"
+  ],
+  "Soaring Targe": [
+    "shield"
+  ],
+  "Solar Amulet": [
+    "amulet"
+  ],
+  "Soldier Cuirass": [
+    "body-armour"
+  ],
+  "Soldier Greathelm": [
+    "helmet"
+  ],
+  "Soldier Helm": [
+    "helmet"
+  ],
+  "Soldiering Sabatons": [
+    "boots"
+  ],
+  "Solemn Maul": [
+    "two-hand-mace"
+  ],
+  "Solid Mask": [
+    "helmet"
+  ],
+  "Sombre Gloves": [
+    "gloves"
+  ],
+  "Sorcerous Tiara": [
+    "helmet"
+  ],
+  "Spiked Bracers": [
+    "gloves"
+  ],
+  "Spiked Club": [
+    "one-hand-mace"
+  ],
+  "Spiked Spear": [
+    "spear"
+  ],
+  "Spined Bracers": [
+    "gloves"
+  ],
+  "Spiral Wraps": [
+    "gloves"
+  ],
+  "Spired Greathelm": [
+    "helmet"
+  ],
+  "Spiritbone Crown": [
+    "helmet"
+  ],
+  "Splintered Flail": [
+    "flail"
+  ],
+  "Splintered Tower Shield": [
+    "shield"
+  ],
+  "Splitting Greataxe": [
+    "two-hand-axe"
+  ],
+  "Spriggan Staff": [
+    "staff"
+  ],
+  "Stacked Sabatons": [
+    "boots"
+  ],
+  "Staghorn Focus": [
+    "focus"
+  ],
+  "Stalking Belt": [
+    "belt"
+  ],
+  "Stalking Bracers": [
+    "gloves"
+  ],
+  "Stalking Spear": [
+    "spear"
+  ],
+  "Staunching Charm": [
+    "charm"
+  ],
+  "Steel Plate": [
+    "body-armour"
+  ],
+  "Steelhead Spear": [
+    "spear"
+  ],
+  "Steelmail Gauntlets": [
+    "gloves"
+  ],
+  "Steelpoint Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Steelpoint Shoes": [
+    "boots"
+  ],
+  "Steeltoe Boots": [
+    "boots"
+  ],
+  "Stellar Amulet": [
+    "amulet"
+  ],
+  "Stitched Gloves": [
+    "gloves"
+  ],
+  "Stocky Mitts": [
+    "gloves"
+  ],
+  "Stoic Crest Shield": [
+    "shield"
+  ],
+  "Stoic Sceptre": [
+    "sceptre"
+  ],
+  "Stone Charm": [
+    "charm"
+  ],
+  "Stone Cuirass": [
+    "body-armour"
+  ],
+  "Stone Flail": [
+    "flail"
+  ],
+  "Stone Greatsword": [
+    "two-hand-sword"
+  ],
+  "Stone Greaves": [
+    "boots"
+  ],
+  "Stone Targe": [
+    "shield"
+  ],
+  "Stone Tower Shield": [
+    "shield"
+  ],
+  "Stout Crossbow": [
+    "crossbow"
+  ],
+  "Stratified Targe": [
+    "shield"
+  ],
+  "Straw Sandals": [
+    "boots"
+  ],
+  "Strider Vest": [
+    "body-armour"
+  ],
+  "Strife Pick": [
+    "one-hand-mace"
+  ],
+  "Striking Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Striking Spear": [
+    "spear"
+  ],
+  "Structured Hammer": [
+    "one-hand-mace"
+  ],
+  "Studded Boots": [
+    "boots"
+  ],
+  "Studded Greatclub": [
+    "two-hand-mace"
+  ],
+  "Studded Sandals": [
+    "boots"
+  ],
+  "Studded Targe": [
+    "shield"
+  ],
+  "Studded Vest": [
+    "body-armour"
+  ],
+  "Sturdy Crossbow": [
+    "crossbow"
+  ],
+  "Suede Bracers": [
+    "gloves"
+  ],
+  "Swathed Cap": [
+    "helmet"
+  ],
+  "Swift Bracers": [
+    "gloves"
+  ],
+  "Swift Spear": [
+    "spear"
+  ],
+  "Swiftstalker Coat": [
+    "body-armour"
+  ],
+  "Sword Spear": [
+    "spear"
+  ],
+  "Talon Claw": [
+    "claw"
+  ],
+  "Tasalian Focus": [
+    "focus"
+  ],
+  "Tasalian Greaves": [
+    "boots"
+  ],
+  "Tattered Robe": [
+    "body-armour"
+  ],
+  "Taut Crossbow": [
+    "crossbow"
+  ],
+  "Tawhoan Greatclub": [
+    "two-hand-mace"
+  ],
+  "Tawhoan Tower Shield": [
+    "shield"
+  ],
+  "Tearing Flail": [
+    "flail"
+  ],
+  "Tempered Mitts": [
+    "gloves"
+  ],
+  "Templar Vestments": [
+    "body-armour"
+  ],
+  "Temple Maul": [
+    "two-hand-mace"
+  ],
+  "Tenebrous Amulet": [
+    "amulet"
+  ],
+  "Tenebrous Crown": [
+    "helmet"
+  ],
+  "Tenebrous Ring": [
+    "ring"
+  ],
+  "Tense Crossbow": [
+    "crossbow"
+  ],
+  "Tethering Bands": [
+    "gloves"
+  ],
+  "Thane Mail": [
+    "body-armour"
+  ],
+  "Thawing Charm": [
+    "charm"
+  ],
+  "Threaded Shoes": [
+    "boots"
+  ],
+  "Tideseer Mantle": [
+    "body-armour"
+  ],
+  "Time-Lost Diamond": [
+    "jewel"
+  ],
+  "Time-Lost Emerald": [
+    "jewel"
+  ],
+  "Time-Lost Ruby": [
+    "jewel"
+  ],
+  "Time-Lost Sapphire": [
+    "jewel"
+  ],
+  "Timeless Jewel": [
+    "jewel"
+  ],
+  "Titan Mitts": [
+    "gloves"
+  ],
+  "Tonal Focus": [
+    "focus"
+  ],
+  "Topaz Charm": [
+    "charm"
+  ],
+  "Topaz Ring": [
+    "ring"
+  ],
+  "Torment Club": [
+    "one-hand-mace"
+  ],
+  "Torment Jacket": [
+    "body-armour"
+  ],
+  "Torn Gloves": [
+    "gloves"
+  ],
+  "Torture Wand": [
+    "wand"
+  ],
+  "Totemic Greatclub": [
+    "two-hand-mace"
+  ],
+  "Totemic Greaves": [
+    "boots"
+  ],
+  "Tournament Mail": [
+    "body-armour"
+  ],
+  "Toxic Quiver": [
+    "quiver"
+  ],
+  "Trailblazer Armour": [
+    "body-armour"
+  ],
+  "Transcendent Life Flask": [
+    "life-flask"
+  ],
+  "Transcendent Mana Flask": [
+    "mana-flask"
+  ],
+  "Trapper Hood": [
+    "helmet"
+  ],
+  "Trarthan Cannon": [
+    "crossbow"
+  ],
+  "Treasured Blade": [
+    "one-hand-sword"
+  ],
+  "Treerunner Shoes": [
+    "boots"
+  ],
+  "Tribal Bow": [
+    "bow"
+  ],
+  "Tribal Mask": [
+    "helmet"
+  ],
+  "Trimmed Greaves": [
+    "boots"
+  ],
+  "Twig Circlet": [
+    "helmet"
+  ],
+  "Twig Focus": [
+    "focus"
+  ],
+  "Twilight Tiara": [
+    "helmet"
+  ],
+  "Twin Bow": [
+    "bow"
+  ],
+  "Twin Crossbow": [
+    "crossbow"
+  ],
+  "Twin Flail": [
+    "flail"
+  ],
+  "Twisted Amulet": [
+    "amulet"
+  ],
+  "Twisted Wand": [
+    "wand"
+  ],
+  "Two-Point Quiver": [
+    "quiver"
+  ],
+  "Two-Stone Ring": [
+    "ring"
+  ],
+  "Ultimate Life Flask": [
+    "life-flask"
+  ],
+  "Ultimate Mana Flask": [
+    "mana-flask"
+  ],
+  "Ultra Greatsword": [
+    "two-hand-sword"
+  ],
+  "Unset Ring": [
+    "ring"
+  ],
+  "Utility Belt": [
+    "belt"
+  ],
+  "Utility Wraps": [
+    "gloves"
+  ],
+  "Utzaal Cuirass": [
+    "body-armour"
+  ],
+  "Vaal Crest Shield": [
+    "shield"
+  ],
+  "Vaal Cuirass": [
+    "body-armour"
+  ],
+  "Vaal Gloves": [
+    "gloves"
+  ],
+  "Vaal Greaves": [
+    "boots"
+  ],
+  "Vaal Mitts": [
+    "gloves"
+  ],
+  "Vaal Tower Shield": [
+    "shield"
+  ],
+  "Vaal Wraps": [
+    "gloves"
+  ],
+  "Vagabond Armour": [
+    "body-armour"
+  ],
+  "Vampiric Blade": [
+    "one-hand-sword"
+  ],
+  "Varnished Crossbow": [
+    "crossbow"
+  ],
+  "Veiled Mask": [
+    "helmet"
+  ],
+  "Velour Shoes": [
+    "boots"
+  ],
+  "Velvet Cap": [
+    "helmet"
+  ],
+  "Venerable Defender": [
+    "shield"
+  ],
+  "Venerated Mantle": [
+    "body-armour"
+  ],
+  "Veridical Chain": [
+    "amulet"
+  ],
+  "Vermeil Circlet": [
+    "helmet"
+  ],
+  "Veteran Sabatons": [
+    "boots"
+  ],
+  "Vile Greataxe": [
+    "two-hand-axe"
+  ],
+  "Vile Robe": [
+    "body-armour"
+  ],
+  "Viper Cap": [
+    "helmet"
+  ],
+  "Visceral Quiver": [
+    "quiver"
+  ],
+  "Visored Helm": [
+    "helmet"
+  ],
+  "Vitalic Ring": [
+    "ring"
+  ],
+  "Volant Quiver": [
+    "quiver"
+  ],
+  "Volatile Wand": [
+    "wand"
+  ],
+  "Voltaic Staff": [
+    "staff"
+  ],
+  "Voodoo Focus": [
+    "focus"
+  ],
+  "Votive Raiment": [
+    "body-armour"
+  ],
+  "Wanderer Armour": [
+    "body-armour"
+  ],
+  "Wanderer Shoes": [
+    "boots"
+  ],
+  "War Spear": [
+    "spear"
+  ],
+  "War Wraps": [
+    "gloves"
+  ],
+  "Warded Helm": [
+    "helmet"
+  ],
+  "Warden Bow": [
+    "bow"
+  ],
+  "Warding Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Warlock Leggings": [
+    "boots"
+  ],
+  "Warlord Cuirass": [
+    "body-armour"
+  ],
+  "Warmonger Bow": [
+    "bow"
+  ],
+  "Warmonger Greathelm": [
+    "helmet"
+  ],
+  "Warpick": [
+    "one-hand-mace"
+  ],
+  "Warrior Greathelm": [
+    "helmet"
+  ],
+  "Waxed Jacket": [
+    "body-armour"
+  ],
+  "Waxing Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Wayfarer Jacket": [
+    "body-armour"
+  ],
+  "Wayfarer Shoes": [
+    "boots"
+  ],
+  "Wayward Crest Shield": [
+    "shield"
+  ],
+  "Weaver Leggings": [
+    "boots"
+  ],
+  "Whorl Focus": [
+    "focus"
+  ],
+  "Wicker Tiara": [
+    "helmet"
+  ],
+  "Wide Belt": [
+    "belt"
+  ],
+  "Winged Spear": [
+    "spear"
+  ],
+  "Withered Wand": [
+    "wand"
+  ],
+  "Wolfbone Claw": [
+    "claw"
+  ],
+  "Wolfskin Mantle": [
+    "body-armour"
+  ],
+  "Wooden Club": [
+    "one-hand-mace"
+  ],
+  "Wool Cap": [
+    "helmet"
+  ],
+  "Woven Cap": [
+    "helmet"
+  ],
+  "Woven Focus": [
+    "focus"
+  ],
+  "Wrapped Cap": [
+    "helmet"
+  ],
+  "Wrapped Greathelm": [
+    "helmet"
+  ],
+  "Wrapped Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Wrapped Sandals": [
+    "boots"
+  ],
+  "Wrath Sceptre": [
+    "sceptre"
+  ],
+  "Wreath Focus": [
+    "focus"
+  ],
+  "Wyrm Quarterstaff": [
+    "quarterstaff"
+  ],
+  "Wyrmscale Coat": [
+    "body-armour"
+  ],
+  "Zealot Bow": [
+    "bow"
+  ],
+  "Zealot Crown": [
+    "helmet"
+  ],
+  "Zealot Gauntlets": [
+    "gloves"
+  ],
+  "Zealot Greathammer": [
+    "two-hand-mace"
+  ],
+  "Zenith Vestments": [
+    "body-armour"
+  ],
+  "[DNT] Aged Axe": [
+    "one-hand-axe"
+  ],
+  "[DNT] Ancient Longsword": [
+    "two-hand-sword"
+  ],
+  "[DNT] Banded Flail": [
+    "flail"
+  ],
+  "[DNT] Boulder Flail": [
+    "flail"
+  ],
+  "[DNT] Callous Hatchet": [
+    "one-hand-axe"
+  ],
+  "[DNT] Carved Blade": [
+    "one-hand-sword"
+  ],
+  "[DNT] Carved Greatsword": [
+    "two-hand-sword"
+  ],
+  "[DNT] Carving Knife": [
+    "dagger"
+  ],
+  "[DNT] Catcher Axe": [
+    "one-hand-axe"
+  ],
+  "[DNT] Clawed Greataxe": [
+    "two-hand-axe"
+  ],
+  "[DNT] Coveted Blade": [
+    "one-hand-sword"
+  ],
+  "[DNT] Cragbreaker Staff": [
+    "staff"
+  ],
+  "[DNT] Crescent Dagger": [
+    "dagger"
+  ],
+  "[DNT] Crested Greatsword": [
+    "two-hand-sword"
+  ],
+  "[DNT] Crystalline Dagger": [
+    "dagger"
+  ],
+  "[DNT] Dividing Greataxe": [
+    "two-hand-axe"
+  ],
+  "[DNT] Driftwood Oar": [
+    "staff"
+  ],
+  "[DNT] Feathersteel Halberd": [
+    "two-hand-axe"
+  ],
+  "[DNT] Ferric Flail": [
+    "flail"
+  ],
+  "[DNT] Ferric Greatsword": [
+    "two-hand-sword"
+  ],
+  "[DNT] Flat Blade": [
+    "one-hand-sword"
+  ],
+  "[DNT] Grimhold Axe": [
+    "two-hand-axe"
+  ],
+  "[DNT] Hacking Hatchet": [
+    "one-hand-axe"
+  ],
+  "[DNT] Hag Knife": [
+    "dagger"
+  ],
+  "[DNT] Halfsword": [
+    "one-hand-sword"
+  ],
+  "[DNT] Holy Greatblade": [
+    "two-hand-sword"
+  ],
+  "[DNT] Intricade Knife": [
+    "dagger"
+  ],
+  "[DNT] Intricate Greataxe": [
+    "two-hand-axe"
+  ],
+  "[DNT] Jagged Greatsword": [
+    "two-hand-sword"
+  ],
+  "[DNT] Midnight Dagger": [
+    "dagger"
+  ],
+  "[DNT] Midnight Greatsword": [
+    "two-hand-sword"
+  ],
+  "[DNT] Molten Blade": [
+    "one-hand-sword"
+  ],
+  "[DNT] Moonlight Axe": [
+    "one-hand-axe"
+  ],
+  "[DNT] Notched Greataxe": [
+    "two-hand-axe"
+  ],
+  "[DNT] Prominent Dagger": [
+    "dagger"
+  ],
+  "[DNT] Reaper Sword": [
+    "one-hand-sword"
+  ],
+  "[DNT] Rider Blade": [
+    "one-hand-sword"
+  ],
+  "[DNT] Righteous Flail": [
+    "flail"
+  ],
+  "[DNT] Ritualistic Axe": [
+    "one-hand-axe"
+  ],
+  "[DNT] Ritualistic Dagger": [
+    "dagger"
+  ],
+  "[DNT] Severing Halberd": [
+    "two-hand-axe"
+  ],
+  "[DNT] Shackled Flail": [
+    "flail"
+  ],
+  "[DNT] Siphoning Sword": [
+    "one-hand-sword"
+  ],
+  "[DNT] Slivered Flail": [
+    "flail"
+  ],
+  "[DNT] Towering Axe": [
+    "one-hand-axe"
+  ],
+  "[DNT] Twofold Flail": [
+    "flail"
+  ],
+  "[DNT] Vagabond Axe": [
+    "one-hand-axe"
+  ],
+  "[DNT] Venerable Defender": [
+    "shield"
+  ],
+  "[DNT] Violent Greataxe": [
+    "two-hand-axe"
+  ],
+  "[DNT] Wide Greatsword": [
+    "two-hand-sword"
+  ],
+  "[DNT] Winding Flail": [
+    "flail"
+  ]
+}

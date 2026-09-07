@@ -228,6 +228,7 @@ export function useFolderSync() {
       id: folderId,
       name: inspection.meta.name,
       color: inspection.meta.color,
+      note: inspection.meta.note ?? '',
       order: store.state.value.folders.length,
       ...(shareKey ? { shareKey } : {}),
     }

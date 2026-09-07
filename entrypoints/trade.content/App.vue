@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { browser } from 'wxt/browser'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, toRaw, watch } from 'vue'
 import type { ContentScriptContext } from 'wxt/utils/content-script-context'
 import { i18n } from '#i18n'
 import { ArrowLeft, Bookmark, Download, Plus, Settings, Upload, Users } from 'lucide-vue-next'
 import DiscordIcon from '@/components/DiscordIcon.vue'
 import FolderSection from '@/components/FolderSection.vue'
+import { orderedFolders, orderedSearches } from '@/lib/bookmark-order'
+import { endBookmarkDrag } from '@/composables/useBookmarkDrag'
+import FolderFormModal from '@/components/FolderFormModal.vue'
 import JoinFolderModal from '@/components/JoinFolderModal.vue'
 import { useFolderSync } from '@/composables/useFolderSync'
 import { useTradeStore } from '@/composables/useTradeStore'
@@ -13,11 +15,12 @@ import { usePriceSnapshot } from '@/composables/usePriceSnapshot'
 import { usePriceLabels } from '@/composables/usePriceLabels'
 import { useSellerGrouping } from '@/composables/useSellerGrouping'
 import { pageLabel, relativeTime } from '@/lib/relative-time'
-import { recordHistory } from '@/lib/storage'
+import { nextFolderColor, recordHistory } from '@/lib/storage'
 import { buildDurableUrl, parseTradeUrl } from '@/lib/trade-url'
-import { QUERY_STATE_EVENT, type QueryStateDetail } from '@/lib/query-label'
-import { SAVE_TOAST_EVENT } from '@/lib/save-toast'
-import type { ExtensionMessage, TradePage, TradeQuery } from '@/types/trading'
+import { onMessage as onExtensionMessage, sendMessage as sendExtensionMessage } from '@/lib/extension-messaging'
+import { onMessage as onWindowMessage, sendMessage as sendWindowMessage, type QueryStateDetail } from '@/lib/window-messaging'
+import { track } from '@/lib/track'
+import type { TradePage, TradeQuery } from '@/types/trading'
 
 const UI_STATE_KEY = 'trade-companion-ui-state'
 type PanelTab = 'saved' | 'history' | 'settings'
@@ -50,7 +53,6 @@ const rawPage = ref<TradePage | null>(null)
 const detectedLabel = ref<string | null>(null)
 const detectedQuery = ref<TradeQuery | null>(null)
 const showFolderCreator = ref(false)
-const newFolderName = ref('')
 const showJoinModal = ref(false)
 const panelRef = ref<HTMLElement | null>(null)
 let lastRecordedUrl = ''
@@ -59,6 +61,11 @@ let stopWatchingResults: (() => void) | undefined
 let stopWatchingLabels: (() => void) | undefined
 let stopWatchingSellerGrouping: (() => void) | undefined
 let pushObserver: ResizeObserver | undefined
+let removeQueryStateListener: (() => void) | undefined
+let removeTogglePanelListener: (() => void) | undefined
+let removeOpenPanelListener: (() => void) | undefined
+let removeGetCurrentPageListener: (() => void) | undefined
+let removeFeatureUsedListener: (() => void) | undefined
 
 // Panel là position:fixed (viewport, không nằm trong luồng trang) nên tự nó không đẩy được
 // nội dung trang. Push thật bằng margin-right trên <html> — !important để thắng reset CSS
@@ -91,14 +98,15 @@ const currentPage = computed<TradePage | null>(() => {
   return {
     ...rawPage.value,
     title: detectedLabel.value || rawPage.value.title,
-    query: detectedQuery.value ?? undefined,
+    // toRaw bắt buộc: detectedQuery.value là Vue 3 reactive Proxy (ref tự reactive-hoá giá trị
+    // object khi set). Nhúng thẳng Proxy vào đây làm structuredClone throw DataCloneError ở bất kỳ
+    // nơi nào serialize currentPage.value sau này (browser.storage.local.set, response của
+    // extension-messaging getCurrentPage) — lỗi thường bị nuốt âm thầm bởi .catch() phía gọi.
+    query: detectedQuery.value ? toRaw(detectedQuery.value) : undefined,
   }
 })
 
-function onQueryState(event: Event) {
-  // CustomEvent#detail dạng object bị null hoá khi băng qua ranh giới MAIN/ISOLATED world thật —
-  // trade-query.content.ts (MAIN world) bắn JSON string, tự parse lại ở đây.
-  const detail = JSON.parse((event as CustomEvent<string>).detail) as QueryStateDetail
+function onQueryState(detail: QueryStateDetail) {
   detectedLabel.value = detail.label
   detectedQuery.value = detail.query
 
@@ -110,16 +118,19 @@ function onQueryState(event: Event) {
   }
 }
 
-const history = computed(() => store.state.value.history.slice(0, 15))
+// Recent chỉ giữ những search chưa nằm trong bookmark: URL đã lưu (và còn hiển thị) thì đã có chỗ
+// ở tab Saved rồi. Lọc lúc hiển thị chứ không lúc ghi để bỏ bookmark là entry tự quay lại Recent.
+const history = computed(() => {
+  const savedUrls = new Set(store.visibleSearches.value.map((search) => search.url))
+  return store.state.value.history.filter((entry) => !savedUrls.has(entry.url)).slice(0, 15)
+})
 const savedCount = computed(() => store.visibleSearches.value.length)
 const currentSavedFolderId = computed(() => currentPage.value
   ? store.visibleSearches.value.find((item) => item.url === currentPage.value?.url)?.folderId
   : undefined)
 
 function searchesForFolder(folderId: string) {
-  return store.visibleSearches.value
-    .filter((item) => item.folderId === folderId)
-    .sort((a, b) => b.updatedAt - a.updatedAt)
+  return orderedSearches(store.visibleSearches.value, folderId)
 }
 
 function deleteTargetName(folderId: string) {
@@ -153,41 +164,20 @@ async function saveCurrent(folderId: string) {
   tab.value = 'saved'
 
   const folderName = store.state.value.folders.find((folder) => folder.id === folderId)?.name ?? ''
-  window.dispatchEvent(new CustomEvent(SAVE_TOAST_EVENT, { detail: i18n.t('folder.savedIn', { folder: folderName }) }))
-}
-
-async function createNewFolder() {
-  const name = newFolderName.value.trim()
-  if (!name) return
-
-  await store.createFolder(name)
-  newFolderName.value = ''
-  showFolderCreator.value = false
-}
-
-function onMessage(message: ExtensionMessage) {
-  if (message.type === 'TOGGLE_PANEL') {
-    open.value = !open.value
-    return
-  }
-  if (message.type === 'OPEN_PANEL') {
-    open.value = true
-    return
-  }
-  if (message.type === 'GET_CURRENT_PAGE') return Promise.resolve(currentPage.value)
+  void sendWindowMessage('saveToast', i18n.t('folder.savedIn', { folder: folderName })).catch(() => undefined)
 }
 
 async function openHistory(entry: TradePage) {
   const url = await buildDurableUrl(entry) ?? entry.url
-  await browser.runtime.sendMessage({ type: 'OPEN_URL', url } satisfies ExtensionMessage)
+  await sendExtensionMessage('openUrl', url)
 }
 
 async function openDiscord() {
-  await browser.runtime.sendMessage({ type: 'OPEN_DISCORD' } satisfies ExtensionMessage)
+  await sendExtensionMessage('openDiscord')
 }
 
 async function openOnboarding() {
-  await browser.runtime.sendMessage({ type: 'OPEN_ONBOARDING' } satisfies ExtensionMessage)
+  await sendExtensionMessage('openOnboarding')
 }
 
 function toggleSettings() {
@@ -264,8 +254,15 @@ onMounted(async () => {
   }
   await syncCurrentPage()
   locationTimer = props.ctx.setInterval(() => void syncCurrentPage(), 1200)
-  browser.runtime.onMessage.addListener(onMessage)
-  props.ctx.addEventListener(window, QUERY_STATE_EVENT, onQueryState)
+  removeTogglePanelListener = onExtensionMessage('togglePanel', () => {
+    open.value = !open.value
+  })
+  removeOpenPanelListener = onExtensionMessage('openPanel', () => {
+    open.value = true
+  })
+  removeGetCurrentPageListener = onExtensionMessage('getCurrentPage', () => currentPage.value)
+  removeFeatureUsedListener = onWindowMessage('featureUsed', ({ data: feature }) => track('feature.use', { feature }))
+  removeQueryStateListener = onWindowMessage('queryStateChanged', ({ data }) => onQueryState(data))
   stopWatchingResults = priceSnapshot.watchResultsForSnapshot(() => currentPage.value)
   stopWatchingLabels = priceLabels.watchResultsForLabels(() => currentPage.value)
   stopWatchingSellerGrouping = sellerGrouping.watchResultsForGrouping(() => currentPage.value)
@@ -274,8 +271,13 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  endBookmarkDrag()
   if (locationTimer) window.clearInterval(locationTimer)
-  browser.runtime.onMessage.removeListener(onMessage)
+  removeTogglePanelListener?.()
+  removeOpenPanelListener?.()
+  removeGetCurrentPageListener?.()
+  removeFeatureUsedListener?.()
+  removeQueryStateListener?.()
   stopWatchingResults?.()
   stopWatchingLabels?.()
   stopWatchingSellerGrouping?.()
@@ -352,14 +354,8 @@ onBeforeUnmount(() => {
 
       <div class="trade-companion-scroll">
         <template v-if="tab === 'saved'">
-          <form v-if="showFolderCreator" class="flex gap-2 border-b border-dashed border-bronze bg-row px-3 py-2" @submit.prevent="createNewFolder">
-            <input v-model="newFolderName" class="poe-input flex-1" maxlength="32" autofocus :placeholder="i18n.t('folder.namePlaceholder')" :aria-label="i18n.t('folder.newNameLabel')">
-            <button class="poe-btn poe-btn-primary" type="submit" :disabled="!newFolderName.trim()">{{ i18n.t('folder.create') }}</button>
-            <button class="poe-btn" type="button" @click="showFolderCreator = false">{{ i18n.t('folder.cancel') }}</button>
-          </form>
-
           <FolderSection
-            v-for="folder in store.state.value.folders"
+            v-for="folder in orderedFolders(store.state.value.folders)"
             :key="folder.id"
             :folder="folder"
             :searches="searchesForFolder(folder.id)"
@@ -369,11 +365,11 @@ onBeforeUnmount(() => {
             :current-page="currentPage"
             :is-current-page-saved="currentSavedFolderId === folder.id"
             @update:open="setFolderOpen(folder.id, $event)"
-            @rename="store.renameFolder"
             @delete="store.removeFolder"
             @save="saveCurrent"
           />
 
+          <FolderFormModal v-model:open="showFolderCreator" :default-color="nextFolderColor(store.state.value.folders.length)" />
           <JoinFolderModal v-model:open="showJoinModal" />
         </template>
 
@@ -440,6 +436,19 @@ onBeforeUnmount(() => {
 
             <label class="flex items-start justify-between gap-4">
               <span>
+                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.tierPickerTitle') }}</span>
+                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.tierPickerDesc') }}</span>
+              </span>
+              <input
+                type="checkbox"
+                class="mt-1 size-4 accent-[var(--bronze-strong)]"
+                :checked="store.state.value.settings.tierPickerEnabled"
+                @change="store.updateSettings({ tierPickerEnabled: ($event.target as HTMLInputElement).checked })"
+              >
+            </label>
+
+            <label class="flex items-start justify-between gap-4">
+              <span>
                 <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.highlightSearchedModsTitle') }}</span>
                 <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.highlightSearchedModsDesc') }}</span>
               </span>
@@ -461,6 +470,19 @@ onBeforeUnmount(() => {
                 class="mt-1 size-4 accent-[var(--bronze-strong)]"
                 :checked="store.state.value.settings.bulkSellerHighlightEnabled"
                 @change="store.updateSettings({ bulkSellerHighlightEnabled: ($event.target as HTMLInputElement).checked })"
+              >
+            </label>
+
+            <label class="flex items-start justify-between gap-4">
+              <span>
+                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.telemetryTitle') }}</span>
+                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.telemetryDesc') }}</span>
+              </span>
+              <input
+                type="checkbox"
+                class="mt-1 size-4 accent-[var(--bronze-strong)]"
+                :checked="store.state.value.settings.telemetryEnabled"
+                @change="store.updateSettings({ telemetryEnabled: ($event.target as HTMLInputElement).checked })"
               >
             </label>
 

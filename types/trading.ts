@@ -20,7 +20,8 @@ export interface TradeQuery {
   term: string | null
   disc: string | null
   stats: StatGroup[]
-  filters: Record<string, { filters: Record<string, PropertyFilterValue> } | undefined>
+  // Filter dạng option (rarity, category...) là { option } thay vì { min, max }.
+  filters: Record<string, { filters: Record<string, PropertyFilterValue | { option: string }> } | undefined>
   exchange: TradeExchangeState
 }
 
@@ -39,6 +40,7 @@ export interface SearchFolder {
   name: string
   color: string
   order: number
+  note?: string
   shareKey?: string
 }
 
@@ -46,6 +48,8 @@ export interface SavedSearch extends TradePage {
   id: string
   folderId: string
   note: string
+  order?: number
+  purchased?: boolean
   createdAt: number
   updatedAt: number
 }
@@ -63,7 +67,9 @@ export interface TradeSettings {
   propertyFilterButtonsEnabled: boolean
   priceLabelsEnabled: boolean
   highlightSearchedModsEnabled: boolean
+  tierPickerEnabled: boolean
   bulkSellerHighlightEnabled: boolean
+  telemetryEnabled: boolean
 }
 
 export interface TradeState {
@@ -84,12 +90,3 @@ export interface SaveSearchInput extends TradePage {
   folderId?: string
   note?: string
 }
-
-export type ExtensionMessage =
-  | { type: 'OPEN_URL'; url: string }
-  | { type: 'OPEN_DISCORD' }
-  | { type: 'OPEN_ONBOARDING' }
-  | { type: 'TOGGLE_PANEL' }
-  | { type: 'OPEN_PANEL' }
-  | { type: 'SAVE_ACTIVE_SEARCH'; page: TradePage }
-  | { type: 'GET_CURRENT_PAGE' }

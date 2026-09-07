@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
-import { browser } from 'wxt/browser'
 import { i18n } from '#i18n'
-import { Check, ChartLine, Copy, MoreHorizontal, Pencil, Replace, Trash2, X } from 'lucide-vue-next'
+import { Check, ChartLine, Copy, MoreHorizontal, Pencil, Replace, StickyNote, Trash2, X } from 'lucide-vue-next'
+import BookmarkDragHandle from '@/components/BookmarkDragHandle.vue'
+import { useBookmarkDrop } from '@/composables/useBookmarkDrag'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import PriceHistoryModal from '@/components/PriceHistoryModal.vue'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { resolveEditedTitle } from '@/lib/edit-title'
 import { formatChaosWithDivine, formatDelta } from '@/lib/format-price'
 import { buildDurableUrl } from '@/lib/trade-url'
-import type { ExtensionMessage, SavedSearch, TradePage } from '@/types/trading'
+import { sendMessage } from '@/lib/extension-messaging'
+import type { SavedSearch, TradePage } from '@/types/trading'
 
 const props = defineProps<{
   search: SavedSearch
@@ -19,10 +21,16 @@ const props = defineProps<{
 const copied = ref(false)
 const overwritten = ref(false)
 const isEditingTitle = ref(false)
+const isEditingNote = ref(false)
+const noteValue = ref('')
+const noteInputRef = ref<HTMLTextAreaElement | null>(null)
+const noteSaving = ref(false)
+const noteSaveError = ref(false)
 const editValue = ref(props.search.title)
 const editInputRef = ref<HTMLInputElement | null>(null)
 const showHistoryModal = ref(false)
 const store = useTradeStore()
+const dropTarget = useBookmarkDrop('search', () => props.search.id)
 
 const querySnapshots = computed(() => props.search.queryId
   ? store.state.value.snapshots
@@ -68,9 +76,30 @@ function cancelEditTitle() {
   isEditingTitle.value = false
 }
 
+function startEditNote() {
+  noteValue.value = props.search.note ?? ''
+  noteSaveError.value = false
+  isEditingNote.value = true
+  nextTick(() => noteInputRef.value?.focus())
+}
+
+async function submitNote() {
+  if (noteSaving.value) return
+  noteSaving.value = true
+  noteSaveError.value = false
+  try {
+    await store.updateSearch(props.search.id, { note: noteValue.value.trim() })
+    isEditingNote.value = false
+  } catch {
+    noteSaveError.value = true
+  } finally {
+    noteSaving.value = false
+  }
+}
+
 async function openSearch() {
   const url = await buildDurableUrl(props.search) ?? props.search.url
-  await browser.runtime.sendMessage({ type: 'OPEN_URL', url } satisfies ExtensionMessage)
+  await sendMessage('openUrl', url)
 }
 
 async function copyUrl() {
@@ -90,7 +119,14 @@ async function overwriteWithCurrent() {
 </script>
 
 <template>
-  <article class="group flex items-center gap-1 border-b border-rule py-2.5 pr-2 pl-4 last:border-b-0 hover:bg-hover">
+  <article
+    class="bookmark-drop-row group flex items-center gap-1 border-b border-rule py-1 pr-2 pl-1 last:border-b-0 hover:bg-hover"
+    :data-drop="dropTarget.placement.value"
+    @dragover="dropTarget.dragOver"
+    @dragleave="dropTarget.dragLeave"
+    @drop="dropTarget.drop"
+  >
+    <BookmarkDragHandle v-if="!isEditingTitle && !isEditingNote" kind="search" :id="search.id" :label="i18n.t('search.drag')" />
     <form v-if="isEditingTitle" class="flex min-w-0 flex-1 items-center gap-2 py-0.5" @submit.prevent="submitEditTitle">
       <input
         ref="editInputRef"
@@ -107,13 +143,31 @@ async function overwriteWithCurrent() {
         <X />
       </button>
     </form>
-    <button v-else class="min-w-0 flex-1 py-0.5 text-left" type="button" :title="search.url" @click="openSearch">
-      <span class="line-clamp-2 font-display text-[14px] leading-5 text-cream">{{ search.title }}</span>
-      <span v-if="search.note" class="mt-1 line-clamp-2 block text-[12px] leading-[18px] text-dim">{{ search.note }}</span>
+    <form v-else-if="isEditingNote" class="min-w-0 flex-1 space-y-1 pl-1" @submit.prevent="submitNote">
+      <p class="truncate font-display text-[12px] leading-4 text-cream">{{ search.title }}</p>
+      <textarea
+        ref="noteInputRef"
+        v-model="noteValue"
+        class="poe-input block h-auto min-h-16 w-full resize-y px-2 py-1 text-[11px] leading-4"
+        rows="3"
+        :disabled="noteSaving"
+        :aria-label="i18n.t('search.noteLabel', { title: search.title })"
+        :placeholder="i18n.t('search.notePlaceholder')"
+        @keydown.escape="!noteSaving && (isEditingNote = false)"
+      />
+      <p v-if="noteSaveError" role="alert" class="text-[11px] leading-4 text-danger">{{ i18n.t('search.noteSaveFailed') }}</p>
+      <div class="flex justify-end gap-1">
+        <button class="poe-btn poe-btn-sm" type="button" :disabled="noteSaving" @click="isEditingNote = false">{{ i18n.t('search.cancelNote') }}</button>
+        <button class="poe-btn poe-btn-sm" type="submit" :disabled="noteSaving"><Check /> {{ i18n.t('search.saveNote') }}</button>
+      </div>
+    </form>
+    <button v-else class="min-w-0 flex-1 py-0.5 text-left" type="button" :title="search.url" :aria-label="search.purchased ? i18n.t('search.markPurchased', { title: search.title }) : undefined" @click="openSearch">
+      <span class="line-clamp-2 font-display text-[12px] leading-4 text-cream" :class="search.purchased ? 'line-through decoration-tan' : ''">{{ search.title }}</span>
+      <span v-if="search.note" class="mt-0.5 line-clamp-2 whitespace-pre-wrap break-words text-[11px] leading-[14px] text-dim" :title="search.note">{{ search.note }}</span>
     </button>
 
-    <div v-if="!isEditingTitle" class="relative flex min-h-6 shrink-0 items-center">
-      <span v-if="priceLine" class="whitespace-nowrap pr-1 text-[12px] leading-5 text-dim">
+    <div v-if="!isEditingTitle && !isEditingNote" class="relative flex min-h-6 shrink-0 items-center">
+      <span v-if="priceLine" class="whitespace-nowrap pr-1 text-[11px] leading-4 text-dim">
         {{ priceLine.median }}
         <span
           v-if="priceLine.delta"
@@ -161,6 +215,14 @@ async function overwriteWithCurrent() {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
+            <DropdownMenuItem @select="startEditNote">
+              <StickyNote class="size-4 text-tan" />
+              {{ search.note ? i18n.t('search.editNote') : i18n.t('search.addNote') }}
+            </DropdownMenuItem>
+            <DropdownMenuItem @select="store.setSearchPurchased(search.id, !search.purchased)">
+              <Check class="size-4" :class="search.purchased ? 'text-tan' : 'text-dim'" />
+              {{ search.purchased ? i18n.t('search.markUnpurchased') : i18n.t('search.purchased') }}
+            </DropdownMenuItem>
             <DropdownMenuItem :disabled="!querySnapshots.length" @select="showHistoryModal = true">
               <ChartLine class="size-4 text-tan" />
               {{ i18n.t('priceHistory.menuItem') }}

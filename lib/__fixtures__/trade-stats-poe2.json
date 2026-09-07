@@ -1,0 +1,2508 @@
+{
+ "result": [
+  {
+   "id": "pseudo",
+   "label": "Pseudo",
+   "entries": [
+    {
+     "id": "pseudo.pseudo_total_life",
+     "text": "+# total maximum Life",
+     "type": "pseudo"
+    },
+    {
+     "id": "pseudo.pseudo_increased_movement_speed",
+     "text": "#% increased Movement Speed",
+     "type": "pseudo"
+    }
+   ]
+  },
+  {
+   "id": "explicit",
+   "label": "Explicit",
+   "entries": [
+    {
+     "id": "explicit.stat_1050105434",
+     "text": "# to maximum Mana",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3299347043",
+     "text": "# to maximum Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3372524247",
+     "text": "#% to Fire Resistance",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_4220027924",
+     "text": "#% to Cold Resistance",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1671376347",
+     "text": "#% to Lightning Resistance",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_328541901",
+     "text": "# to Intelligence",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3917489142",
+     "text": "#% increased Rarity of Items found",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3261801346",
+     "text": "# to Dexterity",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_4080418644",
+     "text": "# to Strength",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_803737631",
+     "text": "# to Accuracy Rating",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_4052037485",
+     "text": "# to maximum Energy Shield (Local)",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_4015621042",
+     "text": "#% increased Energy Shield",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3032590688",
+     "text": "Adds # to # Physical Damage to Attacks",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3695891184",
+     "text": "Gain # Life per enemy killed",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_915769802",
+     "text": "# to Stun Threshold",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3639275092",
+     "text": "#% increased Attribute Requirements",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2901986750",
+     "text": "#% to all Elemental Resistances",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1509134228",
+     "text": "#% increased Physical Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2923486259",
+     "text": "#% to Chaos Resistance",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_53045048",
+     "text": "# to Evasion Rating (Local)",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_691932474",
+     "text": "# to Accuracy Rating (Local)",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2250533757",
+     "text": "#% increased Movement Speed",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3981240776",
+     "text": "# to Spirit",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1754445556",
+     "text": "Adds # to # Lightning damage to Attacks",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1263695895",
+     "text": "#% increased Light Radius",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2144192055",
+     "text": "# to Evasion Rating",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3489782002",
+     "text": "# to maximum Energy Shield",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_4067062424",
+     "text": "Adds # to # Cold damage to Attacks",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1573130764",
+     "text": "Adds # to # Fire damage to Attacks",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1940865751",
+     "text": "Adds # to # Physical Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3484657501",
+     "text": "# to Armour (Local)",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1999113824",
+     "text": "#% increased Evasion and Energy Shield",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3336890334",
+     "text": "Adds # to # Lightning Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2451402625",
+     "text": "#% increased Armour and Evasion",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3321629045",
+     "text": "#% increased Armour and Energy Shield",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_210067635",
+     "text": "#% increased Attack Speed (Local)",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1037193709",
+     "text": "Adds # to # Cold Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_681332047",
+     "text": "#% increased Attack Speed",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_518292764",
+     "text": "#% to Critical Hit Chance",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3141070085",
+     "text": "#% increased Elemental Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2694482655",
+     "text": "#% to Critical Damage Bonus",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_809229260",
+     "text": "# to Armour",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3759663284",
+     "text": "#% increased Projectile Speed",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1444556985",
+     "text": "#% of Damage taken Recouped as Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2194114101",
+     "text": "#% increased Critical Hit Chance for Attacks",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2339757871",
+     "text": "#% increased Energy Shield Recharge Rate",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3015669065",
+     "text": "Gain #% of Damage as Extra Fire Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2505884597",
+     "text": "Gain #% of Damage as Extra Cold Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1389754388",
+     "text": "#% increased Charm Effect Duration",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_770672621",
+     "text": "Minions have #% increased maximum Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_680068163",
+     "text": "#% increased Stun Threshold",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2306002879",
+     "text": "#% increased Rarity of Items found",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2023107756",
+     "text": "Recover #% of maximum Life on Kill",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3759735052",
+     "text": "#% increased Attack Speed with Bows",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_983749596",
+     "text": "#% increased maximum Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1135928777",
+     "text": "#% increased Attack Speed with Crossbows",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3196823591",
+     "text": "#% increased Charges gained",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_388617051",
+     "text": "#% increased Charges per use",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1798257884",
+     "text": "Allies in your Presence deal #% increased Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3283482523",
+     "text": "#% increased Attack Speed with Quarterstaves",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_4010677958",
+     "text": "Allies in your Presence Regenerate # Life per second",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_700317374",
+     "text": "#% increased Amount Recovered",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2582079000",
+     "text": "# Charm Slot",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3169585282",
+     "text": "Allies in your Presence have # to Accuracy Rating",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2347036682",
+     "text": "Allies in your Presence deal # to # added Attack Cold Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2854751904",
+     "text": "Allies in your Presence deal # to # added Attack Lightning Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_828533480",
+     "text": "#% Chance to gain a Charge when you kill an enemy",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_849987426",
+     "text": "Allies in your Presence deal # to # added Attack Fire Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1998951374",
+     "text": "Allies in your Presence have #% increased Attack Speed",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_289128254",
+     "text": "Allies in your Presence have #% increased Cast Speed",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3057012405",
+     "text": "Allies in your Presence have #% increased Critical Damage Bonus",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1250712710",
+     "text": "Allies in your Presence have #% increased Critical Hit Chance",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1574590649",
+     "text": "Allies in your Presence deal # to # added Attack Physical Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3850614073",
+     "text": "Allies in your Presence have #% to all Elemental Resistances",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_889691035",
+     "text": "#% increased Attack Speed per 10 Dexterity",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2365392475",
+     "text": "Recover # Life when Used",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3523867985",
+     "text": "#% increased Armour, Evasion and Energy Shield",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3033371881",
+     "text": "Gain Deflection Rating equal to #% of Evasion Rating",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1228337241",
+     "text": "Gain #% of maximum Life as Extra maximum Energy Shield",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2480498143",
+     "text": "#% of Skill Mana Costs Converted to Life Costs",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_335699483",
+     "text": "Leeches #% of maximum Life when you Cast a Spell",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1289045485",
+     "text": "Critical Hits Ignore Enemy Monster Lightning Resistance",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_4287671144",
+     "text": "#% of your Base Life Regeneration is granted to Allies in your Presence",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_720908147",
+     "text": "#% increased Attack Speed per 20 Dexterity",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_4145314483",
+     "text": "#% increased Attack Speed while on Full Mana",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_836936635",
+     "text": "Regenerate #% of maximum Life per second",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3942946753",
+     "text": "Regenerate #% of maximum Life per second while on Low Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1094937621",
+     "text": "Critical Hits ignore Enemy Monster Elemental Resistances",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1030153674",
+     "text": "Recover #% of maximum Mana on Kill",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1526933524",
+     "text": "Instant Recovery",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1165163804",
+     "text": "#% increased Attack Speed with Spears",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1805182458",
+     "text": "Companions have #% increased maximum Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_554899692",
+     "text": "# Charm Slot (Global)",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2002533190",
+     "text": "Regenerate #% of maximum Life per second while Surrounded",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1451444093",
+     "text": "Bifurcates Critical Hits",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1602191394",
+     "text": "#% increased Rarity of Items found\nYour other Modifiers to Rarity of Items found do not apply",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1569159338",
+     "text": "#% increased Parry Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_65133983",
+     "text": "Drop Shocked Ground while moving, lasting 8 seconds",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3081479811",
+     "text": "Allies in your Presence Regenerate #% of their Maximum Life per second",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2173791158",
+     "text": "Allies in your Presence Gain #% of Damage as Extra Fire Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1361645249",
+     "text": "Allies in your Presence have Block Chance equal to yours",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3465022881",
+     "text": "#% to Lightning and Chaos Resistances",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_4258251165",
+     "text": "Allies in your Presence Gain #% of Damage as Extra Chaos Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_548198834",
+     "text": "#% increased Melee Strike Range with this weapon",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_39209842",
+     "text": "Creates Ignited Ground for 4 seconds when used, Igniting enemies as though dealing Fire damage equal to #% of your maximum Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2442647190",
+     "text": "Recover #% of maximum Life when you Block",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_150391334",
+     "text": "# to maximum Life per Socket filled",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2704225257",
+     "text": "# to Spirit",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1752419596",
+     "text": "Gain Deflection Rating equal to #% of Armour",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2980117882",
+     "text": "This Flask cannot be Used but applies its Effect constantly",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_666077204",
+     "text": "Companions have #% increased Attack Speed",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3119282240",
+     "text": "Players have #% more maximum Life and Energy Shield",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2800412928",
+     "text": "Grants effect of Guided Tempest Shrine",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3917429943",
+     "text": "Grants effect of Guided Meteoric Shrine",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_324579579",
+     "text": "#% increased Attack Speed per 20 Spirit",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2074866941",
+     "text": "#% increased Exposure Effect",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_234657505",
+     "text": "Grants effect of Guided Freezing Shrine",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2626360934",
+     "text": "Wind Skills which can be boosted by Elemental Ground Surfaces count\nas being boosted by Chilled Ground",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3832076641",
+     "text": "Used when you release a skill with Perfect Timing",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_825825364",
+     "text": "Life Leech recovers based on your Chaos damage instead of Physical damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1661347488",
+     "text": "Lose #% of maximum Life per second",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3742268652",
+     "text": "Grants effect of Dreaming Gloom Shrine",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_262946222",
+     "text": "Allies in your Presence deal # to # added Attack Chaos Damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1316656343",
+     "text": "Small Passive Skills in Radius also grant # to maximum Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_891466814",
+     "text": "Create a Fragment of Divinity in your Presence every 4 seconds",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1781372024",
+     "text": "Recover #% of maximum Life on Killing a Poisoned Enemy",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1092555766",
+     "text": "Life Leech recovers based on your Lightning damage as well as Physical damage",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_325171970",
+     "text": "#% increased Attack Speed while missing Runic Ward",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2479683456",
+     "text": "Minions Regenerate #% of maximum Life per second",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1633735772",
+     "text": "#% less maximum Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_302024054",
+     "text": "Regenerate #% of maximum Life per second while Ignited",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_287294012",
+     "text": "# to # Fire Thorns damage per 100 maximum Life",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2954116742|27303",
+     "text": "Allocates Vulgar Methods",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1913583994",
+     "text": "#% increased Monster Attack Speed",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_3388405805",
+     "text": "#% increased Damage for each type of Elemental Ailment on Enemy",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2070837434",
+     "text": "Wind Skills which can be boosted by Elemental Ground Surfaces can be boosted by multiple Elemental Ground Surfaces",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_2241560081",
+     "text": "#% increased Attack Speed per 25 Dexterity",
+     "type": "explicit"
+    },
+    {
+     "id": "explicit.stat_1416292992",
+     "text": "Has # Charm Slot",
+     "type": "explicit"
+    }
+   ]
+  },
+  {
+   "id": "implicit",
+   "label": "Implicit",
+   "entries": [
+    {
+     "id": "implicit.stat_3917489142",
+     "text": "#% increased Rarity of Items found",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3981240776",
+     "text": "# to Spirit",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_2923486259",
+     "text": "#% to Chaos Resistance",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_4220027924",
+     "text": "#% to Cold Resistance",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_2901986750",
+     "text": "#% to all Elemental Resistances",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1671376347",
+     "text": "#% to Lightning Resistance",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3372524247",
+     "text": "#% to Fire Resistance",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3299347043",
+     "text": "# to maximum Life",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_328541901",
+     "text": "# to Intelligence",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3489782002",
+     "text": "# to maximum Energy Shield",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3261801346",
+     "text": "# to Dexterity",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_4080418644",
+     "text": "# to Strength",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1050105434",
+     "text": "# to maximum Mana",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3032590688",
+     "text": "Adds # to # Physical Damage to Attacks",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_958696139",
+     "text": "Grants 1 additional Skill Slot",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_803737631",
+     "text": "# to Accuracy Rating",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_680068163",
+     "text": "#% increased Stun Threshold",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_548198834",
+     "text": "#% increased Melee Strike Range with this weapon",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_681332047",
+     "text": "#% increased Attack Speed",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_809229260",
+     "text": "# to Armour",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_2194114101",
+     "text": "#% increased Critical Hit Chance for Attacks",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1416292992",
+     "text": "Has # Charm Slot",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1389754388",
+     "text": "#% increased Charm Effect Duration",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_2250533757",
+     "text": "#% increased Movement Speed",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1573130764",
+     "text": "Adds # to # Fire damage to Attacks",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_2994271459",
+     "text": "Used when you take Cold damage from a Hit",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3854901951",
+     "text": "Used when you take Fire damage from a Hit",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_2016937536",
+     "text": "Used when you take Lightning damage from a Hit",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1810482573",
+     "text": "Used when you become Stunned",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_836936635",
+     "text": "Regenerate #% of maximum Life per second",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1691862754",
+     "text": "Used when you become Frozen",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1412682799",
+     "text": "Used when you become Poisoned",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3676540188",
+     "text": "Used when you start Bleeding",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_2778646494",
+     "text": "Used when you are affected by a Slow",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_4010341289",
+     "text": "Used when you kill a Rare or Unique enemy",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_585126960",
+     "text": "Used when you become Ignited",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3699444296",
+     "text": "Used when you become Shocked",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_2694482655",
+     "text": "#% to Critical Damage Bonus",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3310778564",
+     "text": "Used when you take Chaos damage from a Hit",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1444556985",
+     "text": "#% of Damage taken Recouped as Life",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_2339757871",
+     "text": "#% increased Energy Shield Recharge Rate",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_983749596",
+     "text": "#% increased maximum Life",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1754445556",
+     "text": "Adds # to # Lightning damage to Attacks",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_3695891184",
+     "text": "Gain # Life per enemy killed",
+     "type": "implicit"
+    },
+    {
+     "id": "implicit.stat_1451444093",
+     "text": "Bifurcates Critical Hits",
+     "type": "implicit"
+    }
+   ]
+  },
+  {
+   "id": "fractured",
+   "label": "Fractured",
+   "entries": [
+    {
+     "id": "fractured.stat_1754445556",
+     "text": "Adds # to # Lightning damage to Attacks",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3917489142",
+     "text": "#% increased Rarity of Items found",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_518292764",
+     "text": "#% to Critical Hit Chance",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3981240776",
+     "text": "# to Spirit",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1050105434",
+     "text": "# to maximum Mana",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1509134228",
+     "text": "#% increased Physical Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_210067635",
+     "text": "#% increased Attack Speed (Local)",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3299347043",
+     "text": "# to maximum Life",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_4052037485",
+     "text": "# to maximum Energy Shield (Local)",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_4015621042",
+     "text": "#% increased Energy Shield",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1671376347",
+     "text": "#% to Lightning Resistance",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3032590688",
+     "text": "Adds # to # Physical Damage to Attacks",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_4220027924",
+     "text": "#% to Cold Resistance",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3372524247",
+     "text": "#% to Fire Resistance",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1940865751",
+     "text": "Adds # to # Physical Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3336890334",
+     "text": "Adds # to # Lightning Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2250533757",
+     "text": "#% increased Movement Speed",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1573130764",
+     "text": "Adds # to # Fire damage to Attacks",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_328541901",
+     "text": "# to Intelligence",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3261801346",
+     "text": "# to Dexterity",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_691932474",
+     "text": "# to Accuracy Rating (Local)",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_53045048",
+     "text": "# to Evasion Rating (Local)",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_4067062424",
+     "text": "Adds # to # Cold damage to Attacks",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1999113824",
+     "text": "#% increased Evasion and Energy Shield",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2901986750",
+     "text": "#% to all Elemental Resistances",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_4080418644",
+     "text": "# to Strength",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2923486259",
+     "text": "#% to Chaos Resistance",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_681332047",
+     "text": "#% increased Attack Speed",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_803737631",
+     "text": "# to Accuracy Rating",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3489782002",
+     "text": "# to maximum Energy Shield",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2194114101",
+     "text": "#% increased Critical Hit Chance for Attacks",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2694482655",
+     "text": "#% to Critical Damage Bonus",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3695891184",
+     "text": "Gain # Life per enemy killed",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1037193709",
+     "text": "Adds # to # Cold Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3639275092",
+     "text": "#% increased Attribute Requirements",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3033371881",
+     "text": "Gain Deflection Rating equal to #% of Evasion Rating",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2505884597",
+     "text": "Gain #% of Damage as Extra Cold Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2144192055",
+     "text": "# to Evasion Rating",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3759663284",
+     "text": "#% increased Projectile Speed",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3015669065",
+     "text": "Gain #% of Damage as Extra Fire Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_915769802",
+     "text": "# to Stun Threshold",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3141070085",
+     "text": "#% increased Elemental Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3484657501",
+     "text": "# to Armour (Local)",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1263695895",
+     "text": "#% increased Light Radius",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1798257884",
+     "text": "Allies in your Presence deal #% increased Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2339757871",
+     "text": "#% increased Energy Shield Recharge Rate",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3321629045",
+     "text": "#% increased Armour and Energy Shield",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_983749596",
+     "text": "#% increased maximum Life",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1444556985",
+     "text": "#% of Damage taken Recouped as Life",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2451402625",
+     "text": "#% increased Armour and Evasion",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1998951374",
+     "text": "Allies in your Presence have #% increased Attack Speed",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_770672621",
+     "text": "Minions have #% increased maximum Life",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3759735052",
+     "text": "#% increased Attack Speed with Bows",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3850614073",
+     "text": "Allies in your Presence have #% to all Elemental Resistances",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2023107756",
+     "text": "Recover #% of maximum Life on Kill",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_289128254",
+     "text": "Allies in your Presence have #% increased Cast Speed",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_4010677958",
+     "text": "Allies in your Presence Regenerate # Life per second",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3523867985",
+     "text": "#% increased Armour, Evasion and Energy Shield",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2347036682",
+     "text": "Allies in your Presence deal # to # added Attack Cold Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1165163804",
+     "text": "#% increased Attack Speed with Spears",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2854751904",
+     "text": "Allies in your Presence deal # to # added Attack Lightning Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1574590649",
+     "text": "Allies in your Presence deal # to # added Attack Physical Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_849987426",
+     "text": "Allies in your Presence deal # to # added Attack Fire Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1250712710",
+     "text": "Allies in your Presence have #% increased Critical Hit Chance",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3057012405",
+     "text": "Allies in your Presence have #% increased Critical Damage Bonus",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1135928777",
+     "text": "#% increased Attack Speed with Crossbows",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3169585282",
+     "text": "Allies in your Presence have # to Accuracy Rating",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1805182458",
+     "text": "Companions have #% increased maximum Life",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_809229260",
+     "text": "# to Armour",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_3283482523",
+     "text": "#% increased Attack Speed with Quarterstaves",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1389754388",
+     "text": "#% increased Charm Effect Duration",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1569159338",
+     "text": "#% increased Parry Damage",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2954116742|27303",
+     "text": "Allocates Vulgar Methods",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_680068163",
+     "text": "#% increased Stun Threshold",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_2480498143",
+     "text": "#% of Skill Mana Costs Converted to Life Costs",
+     "type": "fractured"
+    },
+    {
+     "id": "fractured.stat_1913583994",
+     "text": "#% increased Monster Attack Speed",
+     "type": "fractured"
+    }
+   ]
+  },
+  {
+   "id": "crafted",
+   "label": "Crafted",
+   "entries": [
+    {
+     "id": "crafted.stat_1940865751",
+     "text": "Adds # to # Physical Damage",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_3372524247",
+     "text": "#% to Fire Resistance",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_4220027924",
+     "text": "#% to Cold Resistance",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_518292764",
+     "text": "#% to Critical Hit Chance",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_2923486259",
+     "text": "#% to Chaos Resistance",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_210067635",
+     "text": "#% increased Attack Speed (Local)",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_3336890334",
+     "text": "Adds # to # Lightning Damage",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_1999113824",
+     "text": "#% increased Evasion and Energy Shield",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_1037193709",
+     "text": "Adds # to # Cold Damage",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_4015621042",
+     "text": "#% increased Energy Shield",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_3141070085",
+     "text": "#% increased Elemental Damage",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_1798257884",
+     "text": "Allies in your Presence deal #% increased Damage",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_1050105434",
+     "text": "# to maximum Mana",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_2451402625",
+     "text": "#% increased Armour and Evasion",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_3261801346",
+     "text": "# to Dexterity",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_4080418644",
+     "text": "# to Strength",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_2505884597",
+     "text": "Gain #% of Damage as Extra Cold Damage",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_328541901",
+     "text": "# to Intelligence",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_681332047",
+     "text": "#% increased Attack Speed",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_3321629045",
+     "text": "#% increased Armour and Energy Shield",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_325171970",
+     "text": "#% increased Attack Speed while missing Runic Ward",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_3981240776",
+     "text": "# to Spirit",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_2194114101",
+     "text": "#% increased Critical Hit Chance for Attacks",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_803737631",
+     "text": "# to Accuracy Rating",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_3015669065",
+     "text": "Gain #% of Damage as Extra Fire Damage",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_983749596",
+     "text": "#% increased maximum Life",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_691932474",
+     "text": "# to Accuracy Rating (Local)",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_3299347043",
+     "text": "# to maximum Life",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_2074866941",
+     "text": "#% increased Exposure Effect",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_2480498143",
+     "text": "#% of Skill Mana Costs Converted to Life Costs",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_1509134228",
+     "text": "#% increased Physical Damage",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_2023107756",
+     "text": "Recover #% of maximum Life on Kill",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_2339757871",
+     "text": "#% increased Energy Shield Recharge Rate",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_3917489142",
+     "text": "#% increased Rarity of Items found",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_2250533757",
+     "text": "#% increased Movement Speed",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_1444556985",
+     "text": "#% of Damage taken Recouped as Life",
+     "type": "crafted"
+    },
+    {
+     "id": "crafted.stat_1671376347",
+     "text": "#% to Lightning Resistance",
+     "type": "crafted"
+    }
+   ]
+  },
+  {
+   "id": "enchant",
+   "label": "Enchant",
+   "entries": [
+    {
+     "id": "enchant.stat_3261801346",
+     "text": "# to Dexterity",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_4080418644",
+     "text": "# to Strength",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_328541901",
+     "text": "# to Intelligence",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_1671376347",
+     "text": "#% to Lightning Resistance",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_4220027924",
+     "text": "#% to Cold Resistance",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_3372524247",
+     "text": "#% to Fire Resistance",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_2923486259",
+     "text": "#% to Chaos Resistance",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_3639275092",
+     "text": "#% increased Attribute Requirements",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_4015621042",
+     "text": "#% increased Energy Shield",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_3299347043",
+     "text": "# to maximum Life",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_3981240776",
+     "text": "# to Spirit",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_836936635",
+     "text": "Regenerate #% of maximum Life per second",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_803737631",
+     "text": "# to Accuracy Rating",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_3336890334",
+     "text": "Adds # to # Lightning Damage",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_1050105434",
+     "text": "# to maximum Mana",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_2694482655",
+     "text": "#% to Critical Damage Bonus",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_210067635",
+     "text": "#% increased Attack Speed (Local)",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_1509134228",
+     "text": "#% increased Physical Damage",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_1444556985",
+     "text": "#% of Damage taken Recouped as Life",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_1037193709",
+     "text": "Adds # to # Cold Damage",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_3917489142",
+     "text": "#% increased Rarity of Items found",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_2901986750",
+     "text": "#% to all Elemental Resistances",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_1999113824",
+     "text": "#% increased Evasion and Energy Shield",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_680068163",
+     "text": "#% increased Stun Threshold",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_3321629045",
+     "text": "#% increased Armour and Energy Shield",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_548198834",
+     "text": "#% increased Melee Strike Range with this weapon",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_3695891184",
+     "text": "Gain # Life per enemy killed",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_2250533757",
+     "text": "#% increased Movement Speed",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_2451402625",
+     "text": "#% increased Armour and Evasion",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_1798257884",
+     "text": "Allies in your Presence deal #% increased Damage",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_3057012405",
+     "text": "Allies in your Presence have #% increased Critical Damage Bonus",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_2954116742|27303",
+     "text": "Allocates Vulgar Methods",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_289128254",
+     "text": "Allies in your Presence have #% increased Cast Speed",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_1998951374",
+     "text": "Allies in your Presence have #% increased Attack Speed",
+     "type": "enchant"
+    },
+    {
+     "id": "enchant.stat_2306002879",
+     "text": "#% increased Rarity of Items found",
+     "type": "enchant"
+    }
+   ]
+  },
+  {
+   "id": "rune",
+   "label": "Augment",
+   "entries": [
+    {
+     "id": "rune.stat_2280525771",
+     "text": "Bonded: # to maximum Life",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2926029365",
+     "text": "Bonded: # to maximum Mana",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3523867985",
+     "text": "#% increased Armour, Evasion and Energy Shield",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1509134228",
+     "text": "#% increased Physical Damage",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1671376347",
+     "text": "#% to Lightning Resistance",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3372524247",
+     "text": "#% to Fire Resistance",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_4220027924",
+     "text": "#% to Cold Resistance",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2923486259",
+     "text": "#% to Chaos Resistance",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2901986750",
+     "text": "#% to all Elemental Resistances",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3336890334",
+     "text": "Adds # to # Lightning Damage",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3299347043",
+     "text": "# to maximum Life",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1037193709",
+     "text": "Adds # to # Cold Damage",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1050105434",
+     "text": "# to maximum Mana",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2694482655",
+     "text": "#% to Critical Damage Bonus",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_210067635",
+     "text": "#% increased Attack Speed (Local)",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_836936635",
+     "text": "Regenerate #% of maximum Life per second",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3261801346",
+     "text": "# to Dexterity",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_4080418644",
+     "text": "# to Strength",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2246411426",
+     "text": "Bonded: #% increased maximum Life",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_328541901",
+     "text": "# to Intelligence",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_915769802",
+     "text": "# to Stun Threshold",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_983749596",
+     "text": "#% increased maximum Life",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_691932474",
+     "text": "# to Accuracy Rating (Local)",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3695891184",
+     "text": "Gain # Life per enemy killed",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1981392722",
+     "text": "Bonded: Regenerate #% of maximum Life per second",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_681332047",
+     "text": "#% increased Attack Speed",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2250533757",
+     "text": "#% increased Movement Speed",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2505884597",
+     "text": "Gain #% of Damage as Extra Cold Damage",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3981240776",
+     "text": "# to Spirit",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3032590688",
+     "text": "Adds # to # Physical Damage to Attacks",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1798257884",
+     "text": "Allies in your Presence deal #% increased Damage",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3015669065",
+     "text": "Gain #% of Damage as Extra Fire Damage",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_408302348",
+     "text": "Bonded: #% to Maximum Fire Resistance",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2704225257",
+     "text": "# to Spirit",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1030153674",
+     "text": "Recover #% of maximum Mana on Kill",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_4052037485",
+     "text": "# to maximum Energy Shield (Local)",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3484657501",
+     "text": "# to Armour (Local)",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_53045048",
+     "text": "# to Evasion Rating (Local)",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2339757871",
+     "text": "#% increased Energy Shield Recharge Rate",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2269618934",
+     "text": "Bonded: Gain #% of maximum Life as Extra maximum Runic Ward",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3917489142",
+     "text": "#% increased Rarity of Items found",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2023107756",
+     "text": "Recover #% of maximum Life on Kill",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3414796717",
+     "text": "Bonded: #% increased Attack Speed",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3489782002",
+     "text": "# to maximum Energy Shield",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2854751904",
+     "text": "Allies in your Presence deal # to # added Attack Lightning Damage",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1250712710",
+     "text": "Allies in your Presence have #% increased Critical Hit Chance",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_289128254",
+     "text": "Allies in your Presence have #% increased Cast Speed",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1574590649",
+     "text": "Allies in your Presence deal # to # added Attack Physical Damage",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3057012405",
+     "text": "Allies in your Presence have #% increased Critical Damage Bonus",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1998951374",
+     "text": "Allies in your Presence have #% increased Attack Speed",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1444556985",
+     "text": "#% of Damage taken Recouped as Life",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_770672621",
+     "text": "Minions have #% increased maximum Life",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_554899692",
+     "text": "# Charm Slot (Global)",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2074866941",
+     "text": "#% increased Exposure Effect",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3850614073",
+     "text": "Allies in your Presence have #% to all Elemental Resistances",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3759663284",
+     "text": "#% increased Projectile Speed",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3837226732",
+     "text": "Bonded: #% increased Attack Speed while missing Runic Ward",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1911097163",
+     "text": "Allies in your Presence Regenerate #% of your Maximum Life per second",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3473409233",
+     "text": "Lose #% of maximum Life per second while Sprinting",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1020945697",
+     "text": "#% less maximum Life",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2480498143",
+     "text": "#% of Skill Mana Costs Converted to Life Costs",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_1805182458",
+     "text": "Companions have #% increased maximum Life",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3033371881",
+     "text": "Gain Deflection Rating equal to #% of Evasion Rating",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_632743438",
+     "text": "Allies in your Presence have #% increased Movement Speed",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3329501096",
+     "text": "Allies in your Presence share Charges with you",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_262946222",
+     "text": "Allies in your Presence deal # to # added Attack Chaos Damage",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_3203854378",
+     "text": "#% increased Attack Speed if you have Blocked Recently",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_627339348",
+     "text": "Adds # to # Fire Damage to Attacks against Ignited Enemies",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_750452124",
+     "text": "Bonded: Companions have #% increased maximum Life",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_386720106",
+     "text": "Gain #% of maximum Life as Extra maximum Runic Ward",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_2785209416",
+     "text": "# to maximum Life per 8 Armour on Equipped Helmet",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_666077204",
+     "text": "Companions have #% increased Attack Speed",
+     "type": "augment"
+    },
+    {
+     "id": "rune.stat_4010677958",
+     "text": "Allies in your Presence Regenerate # Life per second",
+     "type": "augment"
+    }
+   ]
+  },
+  {
+   "id": "desecrated",
+   "label": "Desecrated",
+   "entries": [
+    {
+     "id": "desecrated.stat_3299347043",
+     "text": "# to maximum Life",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_4052037485",
+     "text": "# to maximum Energy Shield (Local)",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_4015621042",
+     "text": "#% increased Energy Shield",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1509134228",
+     "text": "#% increased Physical Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1050105434",
+     "text": "# to maximum Mana",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_4220027924",
+     "text": "#% to Cold Resistance",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3917489142",
+     "text": "#% increased Rarity of Items found",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1671376347",
+     "text": "#% to Lightning Resistance",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_53045048",
+     "text": "# to Evasion Rating (Local)",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3372524247",
+     "text": "#% to Fire Resistance",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_210067635",
+     "text": "#% increased Attack Speed (Local)",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3336890334",
+     "text": "Adds # to # Lightning Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1754445556",
+     "text": "Adds # to # Lightning damage to Attacks",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3032590688",
+     "text": "Adds # to # Physical Damage to Attacks",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3465022881",
+     "text": "#% to Lightning and Chaos Resistances",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_328541901",
+     "text": "# to Intelligence",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_691932474",
+     "text": "# to Accuracy Rating (Local)",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3261801346",
+     "text": "# to Dexterity",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3981240776",
+     "text": "# to Spirit",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_681332047",
+     "text": "#% increased Attack Speed",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1573130764",
+     "text": "Adds # to # Fire damage to Attacks",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1999113824",
+     "text": "#% increased Evasion and Energy Shield",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2250533757",
+     "text": "#% increased Movement Speed",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3484657501",
+     "text": "# to Armour (Local)",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_4067062424",
+     "text": "Adds # to # Cold damage to Attacks",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3141070085",
+     "text": "#% increased Elemental Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2923486259",
+     "text": "#% to Chaos Resistance",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3015669065",
+     "text": "Gain #% of Damage as Extra Fire Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2505884597",
+     "text": "Gain #% of Damage as Extra Cold Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3759663284",
+     "text": "#% increased Projectile Speed",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2901986750",
+     "text": "#% to all Elemental Resistances",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_915769802",
+     "text": "# to Stun Threshold",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3695891184",
+     "text": "Gain # Life per enemy killed",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3321629045",
+     "text": "#% increased Armour and Energy Shield",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1940865751",
+     "text": "Adds # to # Physical Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_4080418644",
+     "text": "# to Strength",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_803737631",
+     "text": "# to Accuracy Rating",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3033371881",
+     "text": "Gain Deflection Rating equal to #% of Evasion Rating",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2694482655",
+     "text": "#% to Critical Damage Bonus",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2339757871",
+     "text": "#% increased Energy Shield Recharge Rate",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2704225257",
+     "text": "# to Spirit",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2194114101",
+     "text": "#% increased Critical Hit Chance for Attacks",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2023107756",
+     "text": "Recover #% of maximum Life on Kill",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_518292764",
+     "text": "#% to Critical Hit Chance",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2144192055",
+     "text": "# to Evasion Rating",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2451402625",
+     "text": "#% increased Armour and Evasion",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3489782002",
+     "text": "# to maximum Energy Shield",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_666077204",
+     "text": "Companions have #% increased Attack Speed",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1037193709",
+     "text": "Adds # to # Cold Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1444556985",
+     "text": "#% of Damage taken Recouped as Life",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1263695895",
+     "text": "#% increased Light Radius",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3759735052",
+     "text": "#% increased Attack Speed with Bows",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1798257884",
+     "text": "Allies in your Presence deal #% increased Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3639275092",
+     "text": "#% increased Attribute Requirements",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2480498143",
+     "text": "#% of Skill Mana Costs Converted to Life Costs",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2854751904",
+     "text": "Allies in your Presence deal # to # added Attack Lightning Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1250712710",
+     "text": "Allies in your Presence have #% increased Critical Hit Chance",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2074866941",
+     "text": "#% increased Exposure Effect",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_983749596",
+     "text": "#% increased maximum Life",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_849987426",
+     "text": "Allies in your Presence deal # to # added Attack Fire Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1998951374",
+     "text": "Allies in your Presence have #% increased Attack Speed",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1135928777",
+     "text": "#% increased Attack Speed with Crossbows",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_809229260",
+     "text": "# to Armour",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_289128254",
+     "text": "Allies in your Presence have #% increased Cast Speed",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3057012405",
+     "text": "Allies in your Presence have #% increased Critical Damage Bonus",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1389754388",
+     "text": "#% increased Charm Effect Duration",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1165163804",
+     "text": "#% increased Attack Speed with Spears",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3850614073",
+     "text": "Allies in your Presence have #% to all Elemental Resistances",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_770672621",
+     "text": "Minions have #% increased maximum Life",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3283482523",
+     "text": "#% increased Attack Speed with Quarterstaves",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_680068163",
+     "text": "#% increased Stun Threshold",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_3523867985",
+     "text": "#% increased Armour, Evasion and Energy Shield",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1781372024",
+     "text": "Recover #% of maximum Life on Killing a Poisoned Enemy",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2347036682",
+     "text": "Allies in your Presence deal # to # added Attack Cold Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1574590649",
+     "text": "Allies in your Presence deal # to # added Attack Physical Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1805182458",
+     "text": "Companions have #% increased maximum Life",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_4010677958",
+     "text": "Allies in your Presence Regenerate # Life per second",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_2479683456",
+     "text": "Minions Regenerate #% of maximum Life per second",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_287294012",
+     "text": "# to # Fire Thorns damage per 100 maximum Life",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1569159338",
+     "text": "#% increased Parry Damage",
+     "type": "desecrated"
+    },
+    {
+     "id": "desecrated.stat_1913583994",
+     "text": "#% increased Monster Attack Speed",
+     "type": "desecrated"
+    }
+   ]
+  },
+  {
+   "id": "sanctum",
+   "label": "Sanctum",
+   "entries": [
+    {
+     "id": "sanctum.stat_1016362888",
+     "text": "#% increased Armour, Evasion and Energy Shield",
+     "type": "sanctum"
+    },
+    {
+     "id": "sanctum.stat_1200789871",
+     "text": "#% increased maximum Life",
+     "type": "sanctum"
+    },
+    {
+     "id": "sanctum.stat_1416455556",
+     "text": "#% increased Movement Speed",
+     "type": "sanctum"
+    }
+   ]
+  }
+ ]
+}

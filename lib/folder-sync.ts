@@ -5,13 +5,14 @@ import type { SavedSearch, SearchFolder } from '@/types/trading'
 // interface có shape cụ thể nên không tự thoả structural constraint đó dù giá trị runtime của nó
 // luôn là JSON hợp lệ (chính là payload JSON.stringify được trong lib/trade-url.ts). Ép kiểu ở đúng
 // ranh giới serialize này (toSharedSearchFields/buildSavedSearch) thay vì nới lỏng type toàn app.
-export type SharedSearchFields = Omit<SavedSearch, 'id' | 'folderId' | 'query'> & { query?: Json }
+export type SharedSearchFields = Omit<SavedSearch, 'id' | 'folderId' | 'query' | 'order' | 'purchased'> & { query?: Json }
 
 export type ShareMode = 'live' | 'once'
 
 export type SharedFolderMeta = {
   name: string
   color: string
+  note?: string
   mode: ShareMode
 }
 
@@ -26,7 +27,7 @@ export function generateShareKey(): string {
 }
 
 export function toSharedSearchFields(search: SavedSearch): SharedSearchFields {
-  const { id: _id, folderId: _folderId, query, ...fields } = search
+  const { id: _id, folderId: _folderId, order: _order, purchased: _purchased, query, ...fields } = search
   return { ...fields, query: query as Json | undefined }
 }
 
@@ -36,14 +37,14 @@ export function buildSavedSearch(id: string, folderId: string, fields: SharedSea
 }
 
 export function toSharedFolderMeta(folder: SearchFolder, mode: ShareMode): SharedFolderMeta {
-  return { name: folder.name, color: folder.color, mode }
+  return { name: folder.name, color: folder.color, note: folder.note ?? '', mode }
 }
 
 export function resolveShareMode(meta: { mode?: ShareMode }): ShareMode {
   return meta.mode === 'once' ? 'once' : 'live'
 }
 
-// createFolder/renameFolder đều trim-guard tên rỗng nên folder local không bao giờ mang tên rỗng —
+// createFolder/updateFolder đều trim-guard tên rỗng nên folder local không bao giờ mang tên rỗng —
 // tên rỗng đến từ room nghĩa là Liveblocks vừa tự tạo lại room trống (room bị xoá hoặc chưa từng
 // tồn tại), không phải một lần đồng bộ hợp lệ.
 export function isBlankFolderMeta(meta: { name: string }): boolean {
@@ -70,9 +71,12 @@ export function diffSearchesForFolder(folderId: string, prev: SavedSearch[], nex
   return { added, updated, removedIds }
 }
 
-export function diffFolderMeta(prev: SearchFolder, next: SearchFolder): Pick<SharedFolderMeta, 'name' | 'color'> | null {
-  if (prev.name === next.name && prev.color === next.color) return null
-  return { name: next.name, color: next.color }
+export function diffFolderMeta(prev: SearchFolder, next: SearchFolder): Partial<SharedFolderMeta> | null {
+  const patch: Partial<SharedFolderMeta> = {}
+  if (prev.name !== next.name) patch.name = next.name
+  if (prev.color !== next.color) patch.color = next.color
+  if ((prev.note ?? '') !== (next.note ?? '')) patch.note = next.note ?? ''
+  return Object.keys(patch).length ? patch : null
 }
 
 export function isShareKeyInUse(folders: SearchFolder[], shareKey: string): boolean {

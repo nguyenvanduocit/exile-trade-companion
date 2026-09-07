@@ -1,4 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { reactive } from 'vue'
+import { orderedFolders, orderedSearches } from './bookmark-order'
+import { diffSearchesForFolder, toSharedSearchFields } from './folder-sync'
 import type { TradeQuery, TradeState } from '@/types/trading'
 
 const storage = vi.hoisted(() => ({
@@ -17,6 +20,9 @@ vi.mock('wxt/browser', () => ({
 }))
 
 import {
+  FOLDER_COLORS,
+  createFolder,
+  nextFolderColor,
   DEFAULT_FOLDER_ID,
   STORAGE_KEY,
   addSharedFolder,
@@ -25,10 +31,16 @@ import {
   recordSnapshot,
   removeFolder,
   removeSearch,
-  renameFolder,
   saveSearch,
   setExchangeRateCache,
   setFolderShareKey,
+  readState,
+  moveFolder,
+  moveSearch,
+  setSearchPurchased,
+  importState,
+  updateSearch,
+  updateFolder,
 } from './storage'
 
 function makeState(): TradeState {
@@ -59,7 +71,8 @@ function makeState(): TradeState {
       propertyFilterButtonsEnabled: true,
       priceLabelsEnabled: true,
       highlightSearchedModsEnabled: true,
-      bulkSellerHighlightEnabled: true,
+      tierPickerEnabled: true,
+      bulkSellerHighlightEnabled: true, telemetryEnabled: true,
     },
     snapshots: [],
     exchangeRate: null,
@@ -71,10 +84,80 @@ beforeEach(() => {
   storage.value = { [STORAGE_KEY]: makeState() }
 })
 
+describe('tier picker settings', () => {
+  it('enables the picker when migrating settings saved before the feature existed', async () => {
+    const state = makeState()
+    const { tierPickerEnabled: _removed, ...legacySettings } = state.settings
+    storage.value[STORAGE_KEY] = { ...state, settings: legacySettings }
+    expect((await readState()).settings.tierPickerEnabled).toBe(true)
+  })
+
+  it('preserves an explicitly disabled picker', async () => {
+    const state = makeState()
+    state.settings.tierPickerEnabled = false
+    storage.value[STORAGE_KEY] = state
+    expect((await readState()).settings.tierPickerEnabled).toBe(false)
+  })
+})
+
 describe('folder storage actions', () => {
+  it('persists a multiline folder note without modifying bookmarks or other folders', async () => {
+    const before = await readState()
+    await updateFolder('gear', { note: '  Budget: 20 div\nPrioritize boots  ' })
+    const after = await readState()
+    expect(after.folders.find((folder) => folder.id === 'gear')?.note).toBe('Budget: 20 div\nPrioritize boots')
+    expect(after.folders[0]).toEqual(before.folders[0])
+    expect(after.searches).toEqual(before.searches)
+    await updateFolder('gear', { note: 'Revised budget' })
+    expect((await readState()).folders[1]?.note).toBe('Revised budget')
+    await updateFolder('gear', { note: '  ' })
+    expect((await readState()).folders[1]?.note).toBe('')
+  })
+
+  it('ignores note updates for a removed folder', async () => {
+    const before = await readState()
+    expect(await updateFolder('missing', { note: 'Note' })).toEqual(before)
+  })
+
+  it('keeps folder notes through JSON backup and accepts backups without notes', async () => {
+    await updateFolder('gear', { note: 'Build notes\nBudget: 20 div' })
+    const backup = JSON.parse(JSON.stringify(await readState()))
+    await updateFolder('gear', { note: '' })
+    await importState(backup)
+    expect((await readState()).folders[1]?.note).toBe('Build notes\nBudget: 20 div')
+    await importState(makeState())
+    expect((await readState()).folders[1]?.note ?? '').toBe('')
+  })
+
   it('trims and saves a renamed folder', async () => {
-    const state = await renameFolder('gear', '  Đồ endgame  ')
+    const state = await updateFolder('gear', { name: '  Đồ endgame  ' })
     expect(state.folders.find((folder) => folder.id === 'gear')?.name).toBe('Đồ endgame')
+  })
+
+  it('keeps the current name when the new one is blank, and updates color independently', async () => {
+    const state = await updateFolder('gear', { name: '   ', color: '#123456' })
+    const folder = state.folders.find((entry) => entry.id === 'gear')
+    expect(folder?.name).toBe('Nâng cấp đồ')
+    expect(folder?.color).toBe('#123456')
+    expect(folder?.note).toBeUndefined()
+  })
+
+  it('creates a folder with name, color and note, appended at the end', async () => {
+    const state = await createFolder({ name: '  Boss gear  ', color: '#d290e4', note: '  Budget 30 div  ' })
+    const folder = state.folders.at(-1)
+    expect(folder).toMatchObject({ name: 'Boss gear', color: '#d290e4', note: 'Budget 30 div', order: 2 })
+    expect(folder?.id).toMatch(/^folder/)
+  })
+
+  it('omits an empty note when creating a folder', async () => {
+    const state = await createFolder({ name: 'Plain', color: '#e67e80', note: '   ' })
+    expect(state.folders.at(-1)?.note).toBeUndefined()
+  })
+
+  it('cycles the next folder color through the palette', () => {
+    expect(nextFolderColor(0)).toBe(FOLDER_COLORS[0])
+    expect(nextFolderColor(2)).toBe(FOLDER_COLORS[2])
+    expect(nextFolderColor(FOLDER_COLORS.length)).toBe(FOLDER_COLORS[0])
   })
 
   it('moves bookmarks to the default folder before deleting a folder', async () => {
@@ -253,6 +336,20 @@ describe('addSharedFolder', () => {
 })
 
 describe('applyRemoteFolderState', () => {
+  it('receives folder note changes and explicit clearing from remote', async () => {
+    await updateFolder('gear', { note: 'Local note' })
+    const meta = { name: 'Gear', color: '#aaa', note: 'Shared note\nSecond line' }
+    await applyRemoteFolderState('gear', meta, makeState().searches)
+    expect((await readState()).folders[1]?.note).toBe(meta.note)
+    await applyRemoteFolderState('gear', { ...meta, note: '' }, makeState().searches)
+    expect((await readState()).folders[1]?.note).toBe('')
+  })
+
+  it('reads legacy room metadata without a note', async () => {
+    await applyRemoteFolderState('gear', { name: 'Legacy', color: '#aaa' }, [])
+    expect((await readState()).folders[1]?.note).toBe('')
+  })
+
   it('ghi đè meta folder và thay toàn bộ search của folder đó bằng dữ liệu remote', async () => {
     const state = await applyRemoteFolderState(
       'gear',
@@ -278,8 +375,178 @@ describe('applyRemoteFolderState', () => {
   })
 
   it('bỏ qua nếu folder không còn tồn tại local', async () => {
-    const before = storage.value[STORAGE_KEY]
+    const before = await readState()
     const state = await applyRemoteFolderState('khong-ton-tai', { name: 'x', color: '#000' }, [])
     expect(state).toEqual(before)
+  })
+})
+
+describe('saveSearch với query đến từ Vue ref (reactive proxy)', () => {
+  it('lưu query.stats như mảng thật, không phải object key số', async () => {
+    // App.vue giữ query đã capture trong detectedQuery = ref<TradeQuery|null>(...) — Vue 3 tự bọc
+    // reactive() quanh mọi object/array gán vào ref. chrome.storage.local.set() thật (không phải
+    // mock JSON-passthrough ở đây) từng biến array bọc Proxy này thành object key số ("0","1"...)
+    // vì converter phía Chromium không nhận diện Proxy là array. writeState() phải tự cắt reactivity
+    // bằng JSON round-trip trước khi set, nên input reactive() ở đây không được ảnh hưởng gì.
+    const reactiveQuery = reactive<TradeQuery>({
+      status: 'available',
+      name: 'Headhunter',
+      type: 'Heavy Belt',
+      term: null,
+      disc: null,
+      stats: [{ type: 'and', filters: [{ id: 'explicit.stat_4080418644', value: { min: 40 }, disabled: false }] }],
+      filters: {},
+      exchange: { want: {}, have: {} },
+    })
+
+    await saveSearch({
+      url: 'https://www.pathofexile.com/trade2/search/poe2/Standard/hh',
+      title: 'Headhunter',
+      game: 'poe2',
+      league: 'Standard',
+      mode: 'search',
+      query: reactiveQuery,
+    })
+
+    const state = await readState()
+    const saved = state.searches.find((search) => search.title === 'Headhunter')
+    expect(Array.isArray(saved?.query?.stats)).toBe(true)
+    expect(Array.isArray(saved?.query?.stats[0]?.filters)).toBe(true)
+    expect(saved?.query?.stats[0]?.filters[0]).toEqual({ id: 'explicit.stat_4080418644', value: { min: 40 }, disabled: false })
+
+    // Đổi tiếp reactiveQuery sau khi đã lưu — nếu writeState còn giữ reference (Proxy) thay vì
+    // snapshot, thay đổi này sẽ rò vào state đã lưu.
+    reactiveQuery.stats.push({ type: 'and', filters: [] })
+    const stateAfterMutation = await readState()
+    const savedAfterMutation = stateAfterMutation.searches.find((search) => search.title === 'Headhunter')
+    expect(savedAfterMutation?.query?.stats).toHaveLength(1)
+  })
+})
+
+
+describe('bookmark organization', () => {
+  async function addSearch(id: string, folderId = 'gear') {
+    await saveSearch({
+      url: `https://www.pathofexile.com/trade/search/Standard/${id}`,
+      title: id, game: 'poe1', league: 'Standard', mode: 'search', folderId,
+    })
+    return (await readState()).searches.find((entry) => entry.title === id)!
+  }
+
+  it('migrates legacy searches in their displayed order and preserves that order on edits', async () => {
+    const state = makeState()
+    state.searches.push({ ...state.searches[0]!, id: 'newer', updatedAt: 5 })
+    storage.value[STORAGE_KEY] = state
+    expect(orderedSearches((await readState()).searches, 'gear').map((s) => s.id)).toEqual(['newer', 'search-1'])
+    await updateSearch('search-1', { title: 'Renamed' })
+    expect(orderedSearches((await readState()).searches, 'gear').map((s) => s.id)).toEqual(['newer', 'search-1'])
+  })
+
+  it('persists folder order before and after a target without losing contents', async () => {
+    await moveFolder('gear', DEFAULT_FOLDER_ID, 'before')
+    expect(orderedFolders((await readState()).folders).map((f) => f.id)).toEqual(['gear', DEFAULT_FOLDER_ID])
+    await moveFolder('gear', DEFAULT_FOLDER_ID, 'after')
+    const state = await readState()
+    expect(orderedFolders(state.folders).map((f) => f.id)).toEqual([DEFAULT_FOLDER_ID, 'gear'])
+    expect(state.searches[0]?.folderId).toBe('gear')
+  })
+
+  it('persists bookmark reordering in both directions and prepends new bookmarks', async () => {
+    const second = await addSearch('second')
+    await moveSearch('search-1', 'gear', second.id, 'before')
+    expect(orderedSearches((await readState()).searches, 'gear').map((s) => s.id)).toEqual(['search-1', second.id])
+    await moveSearch('search-1', 'gear', second.id, 'after')
+    const third = await addSearch('third')
+    expect(orderedSearches((await readState()).searches, 'gear').map((s) => s.id)).toEqual([third.id, second.id, 'search-1'])
+  })
+
+  it('moves a bookmark to an empty collapsed folder and opens that folder', async () => {
+    const state = makeState()
+    state.settings.collapsedFolderIds.push(DEFAULT_FOLDER_ID)
+    storage.value[STORAGE_KEY] = state
+    await setSearchPurchased('search-1', true)
+    await moveSearch('search-1', DEFAULT_FOLDER_ID)
+    const result = await readState()
+    expect(result.searches).toHaveLength(1)
+    expect(result.searches[0]).toMatchObject({ id: 'search-1', folderId: DEFAULT_FOLDER_ID, purchased: true, title: 'Boots' })
+    expect(result.settings.collapsedFolderIds).not.toContain(DEFAULT_FOLDER_ID)
+  })
+
+  it('inserts across folders before or after the chosen bookmark', async () => {
+    const target = await addSearch('target', DEFAULT_FOLDER_ID)
+    await moveSearch('search-1', DEFAULT_FOLDER_ID, target.id, 'before')
+    expect(orderedSearches((await readState()).searches, DEFAULT_FOLDER_ID).map((s) => s.id)).toEqual(['search-1', target.id])
+    await moveSearch('search-1', 'gear')
+    await moveSearch('search-1', DEFAULT_FOLDER_ID, target.id, 'after')
+    expect(orderedSearches((await readState()).searches, DEFAULT_FOLDER_ID).map((s) => s.id)).toEqual([target.id, 'search-1'])
+  })
+
+  it('ignores stale, self, hidden and invalid drop targets', async () => {
+    const before = await readState()
+    await moveFolder('gear', 'gear')
+    await moveFolder('gear', 'missing')
+    await moveSearch('missing', DEFAULT_FOLDER_ID)
+    await moveSearch('search-1', 'missing')
+    await moveSearch('search-1', 'gear', 'search-1')
+    await moveSearch('search-1', DEFAULT_FOLDER_ID, 'search-1')
+    await moveSearch('search-1', DEFAULT_FOLDER_ID, 'missing')
+    expect(await readState()).toEqual(before)
+    storage.value[STORAGE_KEY] = { ...before, hiddenSearchIds: ['search-1'] }
+    await moveSearch('search-1', DEFAULT_FOLDER_ID)
+    expect((await readState()).searches[0]?.folderId).toBe('gear')
+  })
+
+  it('roundtrips order and purchased status through backup and allows unchecking', async () => {
+    const second = await addSearch('second')
+    await moveSearch('search-1', 'gear', second.id)
+    await setSearchPurchased('search-1', true)
+    const backup = JSON.parse(JSON.stringify(await readState()))
+    storage.value = {}
+    await importState(backup)
+    expect(orderedSearches((await readState()).searches, 'gear').map((s) => s.id)).toEqual(['search-1', second.id])
+    expect((await readState()).searches.find((s) => s.id === 'search-1')?.purchased).toBe(true)
+    await setSearchPurchased('search-1', false)
+    expect((await readState()).searches.find((s) => s.id === 'search-1')?.purchased).toBe(false)
+  })
+
+  it('does not broadcast personal order or purchased status to shared folders', async () => {
+    const second = await addSearch('second')
+    await setFolderShareKey('gear', 'share_test')
+    const before = await readState()
+    await moveSearch('search-1', 'gear', second.id)
+    await setSearchPurchased('search-1', true)
+    const after = await readState()
+    expect(diffSearchesForFolder('gear', before.searches, after.searches)).toEqual({ added: [], updated: [], removedIds: [] })
+    const fields = toSharedSearchFields(after.searches.find((s) => s.id === 'search-1')!)
+    expect(fields).not.toHaveProperty('order')
+    expect(fields).not.toHaveProperty('purchased')
+  })
+
+  it('preserves local order and purchased status when remote content changes', async () => {
+    const second = await addSearch('second')
+    await moveSearch('search-1', 'gear', second.id)
+    await setSearchPurchased('search-1', true)
+    await applyRemoteFolderState('gear', { name: 'Updated', color: '#fff' }, [
+      { ...second, title: 'Remote title', updatedAt: 100 },
+      { ...makeState().searches[0]!, updatedAt: 100 },
+    ])
+    const result = await readState()
+    expect(orderedSearches(result.searches, 'gear').map((s) => s.id)).toEqual(['search-1', second.id])
+    expect(result.searches.find((s) => s.id === 'search-1')?.purchased).toBe(true)
+    expect(result.searches.find((s) => s.id === second.id)?.title).toBe('Remote title')
+  })
+
+  it('moving out of a shared folder keeps the remote original and creates a local copy', async () => {
+    await setFolderShareKey('gear', 'share_test')
+    const before = await readState()
+    await moveSearch('search-1', DEFAULT_FOLDER_ID)
+    const after = await readState()
+    expect(after.hiddenSearchIds).toContain('search-1')
+    expect(after.searches.find((s) => s.id === 'search-1')?.folderId).toBe('gear')
+    const visible = after.searches.filter((s) => isSearchVisible(after, s))
+    expect(visible).toHaveLength(1)
+    expect(visible[0]).toMatchObject({ folderId: DEFAULT_FOLDER_ID, title: 'Boots' })
+    expect(visible[0]?.id).not.toBe('search-1')
+    expect(diffSearchesForFolder('gear', before.searches, after.searches).removedIds).toEqual([])
   })
 })

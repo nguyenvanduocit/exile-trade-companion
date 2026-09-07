@@ -1,10 +1,8 @@
 // Chạy trong MAIN world để với tới window.app (Vue 2 + Vuex của trade site).
-// Gắn nút "+"/"-" vào từng dòng mod trong kết quả; "+" thêm stat vào group đầu tiên của Stat
-// Filters, "-" thêm vào group "not" đầu tiên tìm thấy (tự tạo group "not" nếu chưa có).
-import { activeStatIds, parseStatField, planAddStat, planAddStatNot, type AddStatPlan } from '@/lib/stat-filter'
-import { SETTINGS_EVENT } from '@/lib/settings-bridge'
+// Numeric mods: "+" sets min, "-" sets max. Mods without a numeric roll use AND/NOT.
+import { activeStatIds, parseStatField, parseStatValue, planAddStat, planAddStatNot, type AddStatPlan } from '@/lib/stat-filter'
+import { onMessage, sendMessage } from '@/lib/window-messaging'
 import type { TradeApp } from '@/lib/trade-app'
-import type { TradeSettings } from '@/types/trading'
 
 // Chạy trong MAIN world nên không có browser.i18n; chọn locale qua navigator.language của trang.
 const MESSAGES = {
@@ -13,12 +11,14 @@ const MESSAGES = {
     statAdded: (label: string) => `Đã thêm "${label}" vào Stat Filters`,
     addTitle: (label: string) => `Thêm "${label}" vào Stat Filters`,
     addNotTitle: (label: string) => `Thêm "${label}" vào group Not`,
+    boundSet: (label: string, bound: 'min' | 'max', value: number) => `Đặt ${bound} "${label}" = ${value}`,
   },
   en: {
     statExists: (label: string) => `${label} is already in Stat Filters`,
     statAdded: (label: string) => `Added "${label}" to Stat Filters`,
     addTitle: (label: string) => `Add "${label}" to Stat Filters`,
     addNotTitle: (label: string) => `Add "${label}" to Not group`,
+    boundSet: (label: string, bound: 'min' | 'max', value: number) => `Set ${bound} "${label}" = ${value}`,
   },
 } as const
 
@@ -67,7 +67,7 @@ function toast(app: TradeApp, msg: string) {
   app.$refs.toastr?.Add({ msg, progressbar: false, timeout: 2000 })
 }
 
-function applyPlan(app: TradeApp, button: HTMLButtonElement, plan: AddStatPlan, groupType: 'and' | 'not', label: string) {
+function applyPlan(app: TradeApp, button: HTMLButtonElement, plan: AddStatPlan, groupType: 'and' | 'not', label: string, message = t.statAdded(label)) {
   if (plan.action === 'exists') {
     button.dataset.added = 'true'
     toast(app, t.statExists(label))
@@ -75,22 +75,28 @@ function applyPlan(app: TradeApp, button: HTMLButtonElement, plan: AddStatPlan, 
   }
 
   if (plan.action === 'add-group') app.$store.commit('pushStatGroup', { type: groupType, filters: [plan.value] })
+  else if (plan.action === 'update') app.$store.commit('setStatFilter', { group: plan.group, index: plan.index, value: plan.value })
   else app.$store.commit('setStatFilter', { group: plan.group, value: plan.value })
   app.$store.commit('showAdvancedSearch', true)
   app.save(true)
   button.dataset.added = 'true'
-  toast(app, t.statAdded(label))
+  toast(app, message)
 }
 
-function addStat(app: TradeApp, button: HTMLButtonElement, id: string, label: string) {
-  applyPlan(app, button, planAddStat(app.$store.state.persistent.stats, id), 'and', label)
+function setStatBound(app: TradeApp, button: HTMLButtonElement, line: HTMLElement, id: string, bound: 'min' | 'max') {
+  const label = line.textContent?.trim() ?? id
+  const value = id.startsWith('statgroup.') ? null : parseStatValue(label, app.static_?.knownStatsFlat?.[id])
+  const groups = app.$store.state.persistent.stats
+  if (value !== null) {
+    applyPlan(app, button, planAddStat(groups, id, { [bound]: value }), 'and', label, t.boundSet(label, bound, value))
+  } else if (bound === 'min') {
+    applyPlan(app, button, planAddStat(groups, id), 'and', label)
+  } else {
+    applyPlan(app, button, planAddStatNot(groups, id), 'not', label)
+  }
 }
 
-function addStatNot(app: TradeApp, button: HTMLButtonElement, id: string, label: string) {
-  applyPlan(app, button, planAddStatNot(app.$store.state.persistent.stats, id), 'not', label)
-}
-
-function makeButton(id: string, label: string, options: { className: string; symbol: string; title: string; onClick: (app: TradeApp, button: HTMLButtonElement) => void }) {
+function makeButton(options: { className: string; symbol: string; title: string; onClick: (app: TradeApp, button: HTMLButtonElement) => void }) {
   const button = document.createElement('button')
   button.type = 'button'
   button.className = options.className
@@ -102,8 +108,9 @@ function makeButton(id: string, label: string, options: { className: string; sym
     event.preventDefault()
     event.stopPropagation()
     const app = window.app
-    if (!app) return
+    if (!app?.$store) return
     options.onClick(app, button)
+    void sendMessage('featureUsed', 'stat-filter-button').catch(() => undefined)
   })
   return button
 }
@@ -115,17 +122,18 @@ function decorate(line: HTMLElement) {
   if (!host || host.querySelector(`.${BUTTON_CLASS}`)) return
 
   const label = line.textContent?.trim() ?? id
-  const addButton = makeButton(id, label, {
+  const value = id.startsWith('statgroup.') ? null : parseStatValue(label, window.app?.static_?.knownStatsFlat?.[id])
+  const addButton = makeButton({
     className: BUTTON_CLASS,
     symbol: '+',
-    title: t.addTitle(label),
-    onClick: (app, button) => addStat(app, button, id, label),
+    title: value === null ? t.addTitle(label) : t.boundSet(label, 'min', value),
+    onClick: (app, button) => setStatBound(app, button, line, id, 'min'),
   })
-  const notButton = makeButton(id, label, {
+  const notButton = makeButton({
     className: BUTTON_NOT_CLASS,
     symbol: '−',
-    title: t.addNotTitle(label),
-    onClick: (app, button) => addStatNot(app, button, id, label),
+    title: value === null ? t.addNotTitle(label) : t.boundSet(label, 'max', value),
+    onClick: (app, button) => setStatBound(app, button, line, id, 'max'),
   })
 
   host.classList.add(LINE_CLASS)
@@ -203,7 +211,7 @@ export default defineContentScript({
     // không đủ, `app.$store` truy cập tiếp sẽ throw. Exception đó (khi xảy ra ở lần gọi ĐỒNG BỘ
     // đầu tiên trong startHighlight(), trước dòng myObserver.observe()) làm cả observer lẫn
     // waitForApp().then() phía sau KHÔNG BAO GIỜ được thiết lập, còn highlightObserver thì đã gán
-    // nên mọi lần startHighlight() gọi lại sau đó (SETTINGS_EVENT bắn nhiều lần lúc trang hydrate)
+    // nên mọi lần startHighlight() gọi lại sau đó (settingsUpdated bắn nhiều lần lúc trang hydrate)
     // đều bị guard `if (highlightObserver) return` chặn vĩnh viễn — verify bằng live test 2026-09-05
     // (log cho thấy 6 lần gọi đều bị chặn bởi đúng guard này). Check `$store` thay vì chỉ check `app`.
     function scanHighlight(root: ParentNode) {
@@ -245,12 +253,9 @@ export default defineContentScript({
     }
 
     // MAIN world không có browser.storage — chờ trade.content (isolated world) bắn setting hiện
-    // tại qua CustomEvent rồi mới quyết định chạy; tắt setting thì decorateWithin/observer không
-    // bao giờ chạy, không phải chạy rồi ẩn UI bằng CSS.
-    // CustomEvent#detail dạng object bị null hoá khi băng qua ranh giới MAIN/ISOLATED world thật —
-    // isolated world (trade.content/index.ts) bắn JSON string, tự parse lại ở đây.
-    window.addEventListener(SETTINGS_EVENT, (event) => {
-      const settings = JSON.parse((event as CustomEvent<string>).detail) as TradeSettings
+    // tại qua window-messaging rồi mới quyết định chạy; tắt setting thì decorateWithin/observer
+    // không bao giờ chạy, không phải chạy rồi ẩn UI bằng CSS.
+    onMessage('settingsUpdated', ({ data: settings }) => {
       if (settings.statFilterButtonsEnabled) start()
       else stop()
 

@@ -44,9 +44,6 @@ export function computeSnapshot(
 
 export interface ListingRow extends RawListing {
   el: Element
-  // src ảnh currency của chính listing này — dùng để "mượn" icon thật của trang khi vẽ nhãn
-  // quy đổi cho currency khác (vd cần icon chaos để vẽ nhãn cho một dòng giá bằng divine).
-  iconSrc: string
 }
 
 // Đọc trực tiếp từ DOM trang kết quả trade — chạy được từ isolated-world content script
@@ -64,7 +61,7 @@ function parseListingRow(el: Element): ListingRow | null {
     .find((span) => !span.classList.contains('price-label'))
   const amount = amountEl ? Number(amountEl.textContent) : Number.NaN
   if (!img?.alt || Number.isNaN(amount)) return null
-  return { el, amount, currency: img.alt, iconSrc: img.src }
+  return { el, amount, currency: img.alt }
 }
 
 export function readListingPrices(root: ParentNode = document): RawListing[] {

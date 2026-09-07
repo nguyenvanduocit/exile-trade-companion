@@ -1,0 +1,947 @@
+{
+ "account": "mark19981213-7010",
+ "name": "Haruto_Allflame",
+ "league": "Allflame",
+ "level": 100,
+ "class": "Necromancer",
+ "source": "https://poe.ninja/poe1/builds/allflame/character/mark19981213-7010/Haruto_Allflame",
+ "fetchedAt": "2026-09-05",
+ "items": [
+  {
+   "itemSlot": 6,
+   "itemData": {
+    "inventoryId": "Offhand",
+    "name": "Aegis Aurora",
+    "frameTypeId": "Unique",
+    "baseType": "Champion Kite Shield",
+    "typeLine": "Champion Kite Shield",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9TaGllbGRzL1NoaWVsZFN0ckludFVuaXF1ZTd1bmlxdWUiLCJ3IjoyLCJoIjozLCJzY2FsZSI6MX1d/ae1ec0f5d1/ShieldStrIntUnique7unique.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [
+     "+2% to maximum Cold Resistance"
+    ],
+    "explicitMods": [
+     "318% increased Armour and Energy Shield",
+     "+10% to all Elemental Resistances",
+     "+5% to maximum Cold Resistance",
+     "+6% Chance to Block",
+     "Recover Energy Shield equal to 2% of Armour when you Block",
+     "15% increased Elemental Damage with Attack Skills"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 4,
+   "itemData": {
+    "inventoryId": "Amulet",
+    "name": "Eyes of the Greatwolf",
+    "frameTypeId": "Unique",
+    "baseType": "Greatwolf Talisman",
+    "typeLine": "Greatwolf Talisman",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQW11bGV0cy9SaWd3YWxkc1RhbGlzbWFuIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/4936fcad86/RigwaldsTalisman.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 80,
+    "implicitMods": [],
+    "explicitMods": [
+     "93% increased Enchantment Modifier magnitudes"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "57% increased Effect of your Marks",
+     "193% of Cold and Lightning Damage from Hits taken as Fire Damage"
+    ]
+   }
+  },
+  {
+   "itemSlot": 8,
+   "itemData": {
+    "inventoryId": "Ring",
+    "name": "Kalandra's Touch",
+    "frameTypeId": "Unique",
+    "baseType": "Ring",
+    "typeLine": "Ring",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvUmluZ3MvTWlycm9yUmluZyIsInciOjEsImgiOjEsInNjYWxlIjoxLCJkdXBsaWNhdGVkIjp0cnVlfV0/2cbd02eced/MirrorRing.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [],
+    "explicitMods": [
+     "Reflects opposite Ring"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 11,
+   "itemData": {
+    "inventoryId": "Belt",
+    "name": "Mageblood",
+    "frameTypeId": "Unique",
+    "baseType": "Heavy Belt",
+    "typeLine": "Heavy Belt",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQmVsdHMvSW5qZWN0b3JCZWx0IiwidyI6MiwiaCI6MSwic2NhbGUiOjF9XQ/21ec0269de/InjectorBelt.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [
+     "+30 to Strength"
+    ],
+    "explicitMods": [
+     "+36 to Dexterity",
+     "+17% to Fire Resistance",
+     "+29% to Cold Resistance",
+     "Magic Utility Flasks cannot be Used",
+     "Leftmost 4 Magic Utility Flasks constantly apply their Flask Effects to you",
+     "Magic Utility Flask Effects cannot be removed"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 7,
+   "itemData": {
+    "inventoryId": "Weapon",
+    "name": "Blood Branch",
+    "frameTypeId": "Rare",
+    "baseType": "Convoking Wand",
+    "typeLine": "Convoking Wand",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvV2VhcG9ucy9PbmVIYW5kV2VhcG9ucy9XYW5kcy9Db252b2tpbmdXYW5kIiwidyI6MSwiaCI6Mywic2NhbGUiOjEsImZyYWN0dXJlZCI6dHJ1ZX1d/28b54e6f65/ConvokingWand.png",
+    "corrupted": false,
+    "fractured": true,
+    "ilvl": 83,
+    "implicitMods": [
+     "Minions deal 29% increased Damage"
+    ],
+    "explicitMods": [
+     "Adds 12 to 26 Cold Damage",
+     "+21 to maximum Mana",
+     "Minions deal 109% increased Damage",
+     "Minions have 16% increased Attack and Cast Speed"
+    ],
+    "fracturedMods": [
+     "Minions are Aggressive"
+    ],
+    "craftedMods": [
+     "Trigger a Socketed Spell when you Use a Skill, with a 8 second Cooldown\nSpells Triggered this way have 150% more Cost"
+    ],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 5,
+   "itemData": {
+    "inventoryId": "Boots",
+    "name": "Apocalypse Slippers",
+    "frameTypeId": "Rare",
+    "baseType": "Paladin Boots",
+    "typeLine": "Paladin Boots",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9Cb290cy9Cb290c1N0ckludDMiLCJ3IjoyLCJoIjoyLCJzY2FsZSI6MSwic2VhcmluZyI6dHJ1ZSwidGFuZ2xlZCI6dHJ1ZX1d/c253827d20/BootsStrInt3.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [
+     "8% increased Life Regeneration rate",
+     "Bone Offering has 6% increased Effect"
+    ],
+    "explicitMods": [
+     "35% increased Armour and Energy Shield",
+     "+9 to maximum Energy Shield",
+     "+12 to maximum Mana",
+     "+43% to Fire Resistance",
+     "+26% to Chaos Resistance",
+     "30% increased Movement Speed",
+     "14% increased Stun and Block Recovery"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [
+     "+23 to Strength and Dexterity"
+    ],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 1,
+   "itemData": {
+    "inventoryId": "Helm",
+    "name": "Wraithlord",
+    "frameTypeId": "Unique",
+    "baseType": "Bone Circlet",
+    "typeLine": "Bone Circlet",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9IZWxtZXRzL1dyYWl0aGxvcmQiLCJ3IjoyLCJoIjoyLCJzY2FsZSI6MX1d/090d3d6bb3/Wraithlord.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "Has 4 Abyssal Sockets",
+     "123% increased Energy Shield",
+     "+2 to Level of all Minion Skill Gems",
+     "+1 to maximum number of Raised Spectres per Socketed Ghastly Eye Jewel",
+     "You cannot have Non-Spectre Minions"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 2,
+   "itemData": {
+    "inventoryId": "Gloves",
+    "name": "Fate Grip",
+    "frameTypeId": "Rare",
+    "baseType": "Paladin Gloves",
+    "typeLine": "Paladin Gloves",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9HbG92ZXMvR2xvdmVzU3RySW50MyIsInciOjIsImgiOjIsInNjYWxlIjoxLCJzZWFyaW5nIjp0cnVlLCJ0YW5nbGVkIjp0cnVlfV0/edfb44699c/GlovesStrInt3.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [
+     "+6% chance to Suppress Spell Damage",
+     "Minions deal 16% increased Damage"
+    ],
+    "explicitMods": [
+     "+52 to Dexterity",
+     "57% increased Armour and Energy Shield",
+     "+127 to maximum Life",
+     "+38 to maximum Mana",
+     "+47% to Fire Resistance",
+     "+34% to Chaos Resistance"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 15,
+   "itemData": {
+    "inventoryId": "Weapon2",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Demon's Horn",
+    "typeLine": "Lithomancer's Demon's Horn of Calamity",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvV2VhcG9ucy9PbmVIYW5kV2VhcG9ucy9XYW5kcy9XYW5kMiIsInciOjEsImgiOjMsInNjYWxlIjoxfV0/896948eee2/Wand2.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 73,
+    "implicitMods": [
+     "30% increased Spell Damage"
+    ],
+    "explicitMods": [
+     "75% increased Spell Critical Strike Chance",
+     "+1 to Level of all Physical Spell Skill Gems"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 16,
+   "itemData": {
+    "inventoryId": "Offhand2",
+    "name": "Ghoul Call",
+    "frameTypeId": "Rare",
+    "baseType": "Titanium Spirit Shield",
+    "typeLine": "Titanium Spirit Shield",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9TaGllbGRzL1NoaWVsZEludDYiLCJ3IjoyLCJoIjoyLCJzY2FsZSI6MX1d/404ef29c87/ShieldInt6.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 73,
+    "implicitMods": [],
+    "explicitMods": [
+     "+21 to Intelligence",
+     "37% increased Spell Damage",
+     "85% increased Spell Critical Strike Chance",
+     "54% increased Energy Shield"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 17,
+   "itemData": {
+    "inventoryId": "Trinket",
+    "name": "Foe Sliver",
+    "frameTypeId": "Rare",
+    "baseType": "Thief's Trinket",
+    "typeLine": "Thief's Trinket",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSGVpc3QvTHVja0NoYXJtMSIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/3641828a4f/LuckCharm1.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 86,
+    "implicitMods": [],
+    "explicitMods": [
+     "5% chance to receive additional Divination Card items when opening a Reward Chest in a Heist",
+     "2% chance to receive additional Unique items when opening a Reward Chest in a Heist",
+     "8% chance in Heists for Orbs of Augmentation to drop as Orbs of Alchemy instead"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 9,
+   "itemData": {
+    "inventoryId": "Ring2",
+    "name": "Plague Knuckle",
+    "frameTypeId": "Rare",
+    "baseType": "Bone Ring",
+    "typeLine": "Bone Ring",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvUmluZ3MvQm9uZVJpbmciLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/4ed569fff9/BoneRing.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 86,
+    "implicitMods": [
+     "Minions have +11% to all Elemental Resistances"
+    ],
+    "explicitMods": [
+     "33% reduced Cold Damage",
+     "+169 to maximum Life",
+     "+78 to maximum Mana",
+     "-10% to all Elemental Resistances",
+     "-72% to Lightning Resistance",
+     "Minions deal 16% increased Damage"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 3,
+   "itemData": {
+    "inventoryId": "BodyArmour",
+    "name": "Doryani's Prototype",
+    "frameTypeId": "Unique",
+    "baseType": "Saint's Hauberk",
+    "typeLine": "Saint's Hauberk",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9Cb2R5QXJtb3Vycy9TaG9ja0Nsb2FrIiwidyI6MiwiaCI6Mywic2NhbGUiOjF9XQ/44e73cc73c/ShockCloak.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [],
+    "explicitMods": [
+     "157% increased Armour and Energy Shield",
+     "+86 to maximum Life",
+     "Deal no Non-Lightning Damage",
+     "Armour also applies to Lightning Damage taken from Hits",
+     "Lightning Resistance does not affect Lightning Damage taken",
+     "Nearby Enemies have Lightning Resistance equal to yours"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  }
+ ],
+ "jewels": [
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Bramble Essence",
+    "frameTypeId": "Rare",
+    "baseType": "Large Cluster Jewel",
+    "typeLine": "Large Cluster Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL05ld0dlbUJhc2UzIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/db35e60885/NewGemBase3.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "Added Small Passive Skills also grant: +6% to Fire Resistance",
+     "Added Small Passive Skills also grant: +5 to Intelligence",
+     "Added Small Passive Skills also grant: +10 to Maximum Energy Shield",
+     "Added Small Passive Skills have 35% increased Effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Adds 9 Passive Skills",
+     "2 Added Passive Skills are Jewel Sockets",
+     "Added Small Passive Skills grant: Minions deal 10% increased Damage"
+    ]
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Glorious Vanity",
+    "frameTypeId": "Unique",
+    "baseType": "Timeless Jewel",
+    "typeLine": "Timeless Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1ZhYWxDaXZpbGl6YXRpb24iLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/568c0e7c98/VaalCivilization.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [],
+    "explicitMods": [
+     "Bathed in the blood of 1067 sacrificed in the name of Ahuana\nPassives in radius are Conquered by the Vaal",
+     "Historic"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Watcher's Eye",
+    "frameTypeId": "Unique",
+    "baseType": "Prismatic Jewel",
+    "typeLine": "Prismatic Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0VsZGVySmV3ZWwiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/278c673716/ElderJewel.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "6% increased maximum Energy Shield",
+     "4% increased maximum Life",
+     "4% increased maximum Mana",
+     "20% of Fire and Lightning Damage taken as Cold Damage while affected by Purity of Ice",
+     "Regenerate 1.47% of Life per second while affected by Vitality"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "The Red Nightmare",
+    "frameTypeId": "Unique",
+    "baseType": "Crimson Jewel",
+    "typeLine": "Crimson Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1RoZVJlZERyZWFtVXBncmFkZSIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/69a20aa6e0/TheRedDreamUpgrade.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 81,
+    "implicitMods": [],
+    "explicitMods": [
+     "Gain 6% of Fire Damage as Extra Chaos Damage",
+     "Passives granting Fire Resistance or all Elemental Resistances in Radius\nalso grant Chance to Block Attack Damage at 50% of its value"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Replica Reckless Defence",
+    "frameTypeId": "Unique",
+    "baseType": "Cobalt Jewel",
+    "typeLine": "Cobalt Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1JlY2tsZXNzRGVmZW5zZSIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/923e6cb6b5/RecklessDefense.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "+6% Chance to Block Attack Damage",
+     "+6% Chance to Block Spell Damage",
+     "+10% chance to be Frozen, Shocked and Ignited"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Luminous Solace",
+    "frameTypeId": "Rare",
+    "baseType": "Small Cluster Jewel",
+    "typeLine": "Small Cluster Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL05ld0dlbUJhc2UxIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/0eb1a9d981/NewGemBase1.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 70,
+    "implicitMods": [],
+    "explicitMods": [
+     "Added Small Passive Skills also grant: +3% to Cold Resistance",
+     "Added Small Passive Skills also grant: +3 to Dexterity",
+     "Added Small Passive Skills also grant: +9 to Maximum Energy Shield",
+     "1 Added Passive Skill is Enduring Composure"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Adds 2 Passive Skills",
+     "Added Small Passive Skills grant: 15% increased Armour"
+    ]
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Melding of the Flesh",
+    "frameTypeId": "Unique",
+    "baseType": "Cobalt Jewel",
+    "typeLine": "Cobalt Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0VudGFuZ2xlZEVsZW1lbnRzSmV3ZWwiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/781ab651c4/EntangledElementsJewel.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 86,
+    "implicitMods": [],
+    "explicitMods": [
+     "-77% to all Elemental Resistances",
+     "-4% to all maximum Elemental Resistances",
+     "Elemental Resistances are capped by your highest Maximum Elemental Resistance instead"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "The Light of Meaning",
+    "frameTypeId": "Unique",
+    "baseType": "Prismatic Jewel",
+    "typeLine": "Prismatic Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0FmZmxpY3Rpb25KZXdlbCIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/0794886e1c/AfflictionJewel.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "Passive Skills in Radius also grant 7% increased Armour"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Kraken Star",
+    "frameTypeId": "Rare",
+    "baseType": "Large Cluster Jewel",
+    "typeLine": "Large Cluster Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL05ld0dlbUJhc2UzIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/db35e60885/NewGemBase3.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [],
+    "explicitMods": [
+     "Added Small Passive Skills also grant: +2% to all Elemental Resistances",
+     "1 Added Passive Skill is Feasting Fiends",
+     "1 Added Passive Skill is Primordial Bond",
+     "1 Added Passive Skill is Renewal"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Adds 8 Passive Skills",
+     "2 Added Passive Skills are Jewel Sockets",
+     "Added Small Passive Skills grant: Minions deal 10% increased Damage"
+    ]
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Unending Hunger",
+    "frameTypeId": "Unique",
+    "baseType": "Cobalt Jewel",
+    "typeLine": "Cobalt Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1NwZWN0cmVKZXdlbCIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/4e2d72df55/SpectreJewel.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 80,
+    "implicitMods": [],
+    "explicitMods": [
+     "Minions have 6% increased Area of Effect",
+     "With at least 40 Intelligence in Radius, Raised Spectres have a 50% chance to gain Soul Eater for 20 seconds on Kill"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Unnatural Instinct",
+    "frameTypeId": "Unique",
+    "baseType": "Viridian Jewel",
+    "typeLine": "Viridian Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1VubmF0dXJhbEluc3RpbmN0IiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/c37fa5c2b6/UnnaturalInstinct.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [],
+    "explicitMods": [
+     "Allocated Small Passive Skills in Radius grant nothing",
+     "Grants all bonuses of Unallocated Small Passive Skills in Radius"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Foulborn Stormshroud",
+    "frameTypeId": "Unique",
+    "baseType": "Viridian Jewel",
+    "typeLine": "Viridian Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0dyZWVuSmV3ZWwyIiwidyI6MSwiaCI6MSwic2NhbGUiOjEsIm11dGF0ZWQiOnRydWV9XQ/10396bed9f/GreenJewel2.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [],
+    "explicitMods": [
+     "Modifiers to Chance to Avoid being Shocked apply to all Elemental Ailments"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Whispering Vision",
+    "frameTypeId": "Rare",
+    "baseType": "Ghastly Eye Jewel",
+    "typeLine": "Ghastly Eye Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0doYXN0bHlFeWUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ed72511412/GhastlyEye.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [],
+    "explicitMods": [
+     "+28 to maximum Life",
+     "39% chance to Avoid being Frozen",
+     "Minions deal 20% increased Damage if you've used a Minion Skill Recently",
+     "Minions deal 4 to 75 additional Lightning Damage"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Empyrean Bliss",
+    "frameTypeId": "Rare",
+    "baseType": "Large Cluster Jewel",
+    "typeLine": "Large Cluster Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL05ld0dlbUJhc2UzIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/db35e60885/NewGemBase3.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [],
+    "explicitMods": [
+     "Added Small Passive Skills also grant: +2 to Dexterity",
+     "Added Small Passive Skills also grant: +10 to Maximum Energy Shield",
+     "Added Small Passive Skills also grant: +6 to Strength",
+     "Added Small Passive Skills have 35% increased Effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Adds 11 Passive Skills",
+     "2 Added Passive Skills are Jewel Sockets",
+     "Added Small Passive Skills grant: Minions deal 10% increased Damage"
+    ]
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Ancient Sight",
+    "frameTypeId": "Rare",
+    "baseType": "Ghastly Eye Jewel",
+    "typeLine": "Ghastly Eye Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0doYXN0bHlFeWUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ed72511412/GhastlyEye.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 82,
+    "implicitMods": [
+     "Corrupted Blood cannot be inflicted on you"
+    ],
+    "explicitMods": [
+     "+16 to Dexterity",
+     "Minions have 4% chance to Taunt on Hit with Attacks",
+     "Minions deal 11 to 18 additional Chaos Damage",
+     "Minions deal 3 to 53 additional Lightning Damage"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 13,
+   "itemData": {
+    "inventoryId": "EquipmentJewels",
+    "name": "Hollow Sphere",
+    "frameTypeId": "Rare",
+    "baseType": "Ghastly Eye Jewel",
+    "typeLine": "Ghastly Eye Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0doYXN0bHlFeWUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ed72511412/GhastlyEye.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "3% increased Cast Speed",
+     "+20 to maximum Mana",
+     "Minions Regenerate 0.6% of Life per second",
+     "Minions deal 3 to 75 additional Lightning Damage"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 13,
+   "itemData": {
+    "inventoryId": "EquipmentJewels",
+    "name": "Ancient Iridescence",
+    "frameTypeId": "Rare",
+    "baseType": "Ghastly Eye Jewel",
+    "typeLine": "Ghastly Eye Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0doYXN0bHlFeWUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ed72511412/GhastlyEye.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [],
+    "explicitMods": [
+     "4% increased Cast Speed",
+     "Minions have 5% increased Attack Speed",
+     "Minions have 4% increased Cast Speed",
+     "Minions deal 27 to 33 additional Cold Damage",
+     "Minions deal 2 to 66 additional Lightning Damage"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 13,
+   "itemData": {
+    "inventoryId": "EquipmentJewels",
+    "name": "Hollow Globe",
+    "frameTypeId": "Rare",
+    "baseType": "Ghastly Eye Jewel",
+    "typeLine": "Ghastly Eye Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0doYXN0bHlFeWUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ed72511412/GhastlyEye.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "21% chance to Avoid being Stunned",
+     "Minions have 5% increased Attack Speed",
+     "Minions have 4% increased Cast Speed",
+     "Minions deal 29 to 50 additional Cold Damage",
+     "Minions deal 1 to 73 additional Lightning Damage"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 13,
+   "itemData": {
+    "inventoryId": "EquipmentJewels",
+    "name": "Grim Gaze",
+    "frameTypeId": "Rare",
+    "baseType": "Ghastly Eye Jewel",
+    "typeLine": "Ghastly Eye Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0doYXN0bHlFeWUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ed72511412/GhastlyEye.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [],
+    "explicitMods": [
+     "+30 to maximum Life",
+     "Minions have 12% increased Movement Speed",
+     "Minions have 6% increased Attack Speed",
+     "Minions have 5% increased Cast Speed",
+     "Minions deal 3 to 50 additional Lightning Damage"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  }
+ ],
+ "flasks": [
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "Progenesis",
+    "frameTypeId": "Unique",
+    "baseType": "Amethyst Flask",
+    "typeLine": "Amethyst Flask",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3MvVWJlck1hdmVuRmxhc2siLCJ3IjoxLCJoIjoyLCJzY2FsZSI6MSwibGV2ZWwiOjEsImZpIjp0cnVlfV0/1883213ee8/UberMavenFlask.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 87,
+    "implicitMods": [],
+    "explicitMods": [
+     "10% reduced Charges per use",
+     "29% increased Duration",
+     "When Hit during effect, 25% of Life loss from Damage taken occurs over 4 seconds instead"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Used when Charges reach full"
+    ]
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Amethyst Flask",
+    "typeLine": "Dabbler's Amethyst Flask of Bog Moss",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3MvQW1ldGh5c3QiLCJ3IjoxLCJoIjoyLCJzY2FsZSI6MSwibGV2ZWwiOjEsImZzIjp0cnVlfV0/f6d1ce7ee1/Amethyst.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [],
+    "explicitMods": [
+     "29% reduced Duration",
+     "25% increased effect",
+     "53% chance to Avoid being Shocked during Effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "70% increased effect",
+     "Gains no Charges during Effect"
+    ]
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Sapphire Flask",
+    "typeLine": "Abecedarian's Sapphire Flask of the Owl",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3Mvc2FwcGhpcmUiLCJ3IjoxLCJoIjoyLCJzY2FsZSI6MSwibGV2ZWwiOjEsImZzIjp0cnVlfV0/e14b38eac2/sapphire.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [],
+    "explicitMods": [
+     "38% reduced Duration",
+     "25% increased effect",
+     "60% reduced Effect of Curses on you during Effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "70% increased effect",
+     "Gains no Charges during Effect"
+    ]
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Bismuth Flask",
+    "typeLine": "Dabbler's Bismuth Flask of the Armadillo",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3MvYmlzbXV0aCIsInciOjEsImgiOjIsInNjYWxlIjoxLCJsZXZlbCI6MSwiZnMiOnRydWV9XQ/b03c74d804/bismuth.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [],
+    "explicitMods": [
+     "29% reduced Duration",
+     "25% increased effect",
+     "56% increased Armour during Effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "70% increased effect",
+     "Gains no Charges during Effect"
+    ]
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Quicksilver Flask",
+    "typeLine": "Dabbler's Quicksilver Flask of Tenaciousness",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3Mvc3ByaW50IiwidyI6MSwiaCI6Miwic2NhbGUiOjEsImxldmVsIjoxLCJmcyI6dHJ1ZX1d/e0bf74a30f/sprint.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "31% reduced Duration",
+     "25% increased effect",
+     "52% Chance to Avoid being Stunned during Effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "70% increased effect",
+     "Gains no Charges during Effect"
+    ]
+   }
+  }
+ ]
+}

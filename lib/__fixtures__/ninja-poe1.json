@@ -1,0 +1,613 @@
+{
+ "account": "Poteitik-3151",
+ "name": "ПОТЕЙТИК",
+ "league": "Allflame",
+ "level": 100,
+ "class": "Champion",
+ "source": "https://poe.ninja/poe1/builds/allflame/character/Poteitik-3151/%D0%9F%D0%9E%D0%A2%D0%95%D0%99%D0%A2%D0%98%D0%9A",
+ "fetchedAt": "local snapshot",
+ "items": [
+  {
+   "itemSlot": 1,
+   "itemData": {
+    "inventoryId": "Helm",
+    "name": "Abyssus",
+    "frameTypeId": "Unique",
+    "baseType": "Ezomyte Burgonet",
+    "typeLine": "Ezomyte Burgonet",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9IZWxtZXRzL0FieXNzdXMiLCJ3IjoyLCJoIjoyLCJzY2FsZSI6MX1d/a12f5424c8/Abyssus.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [
+     "Socketed Skill Gems get a 90% Cost & Reservation Multiplier"
+    ],
+    "explicitMods": [
+     "+25 to all Attributes",
+     "Adds 40 to 60 Physical Damage to Attacks",
+     "+112% to Melee Critical Strike Multiplier",
+     "105% increased Armour",
+     "50% increased Physical Damage taken"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 2,
+   "itemData": {
+    "inventoryId": "Gloves",
+    "name": "Vengeance Talons",
+    "frameTypeId": "Rare",
+    "baseType": "Chimerascale Gauntlets",
+    "typeLine": "Chimerascale Gauntlets",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9HbG92ZXMvR2xvdmVzU3RyRGV4MiIsInciOjIsImgiOjIsInNjYWxlIjoxLCJzZWFyaW5nIjp0cnVlLCJ0YW5nbGVkIjp0cnVlLCJmcmFjdHVyZWQiOnRydWV9XQ/7f59044bd6/GlovesStrDex2.png",
+    "corrupted": false,
+    "fractured": true,
+    "ilvl": 85,
+    "implicitMods": [
+     "15% chance to Impale Enemies on Hit with Attacks",
+     "Adds 4 to 9 Physical Damage to Attacks"
+    ],
+    "explicitMods": [
+     "Adds 3 to 7 Physical Damage to Attacks",
+     "18% increased Attack Speed",
+     "63% increased Armour and Evasion",
+     "+44% to Cold Resistance"
+    ],
+    "fracturedMods": [
+     "+105 to maximum Life"
+    ],
+    "craftedMods": [
+     "+15% to Fire and Chaos Resistances"
+    ],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 7,
+   "itemData": {
+    "inventoryId": "Weapon",
+    "name": "Foulborn Uul-Netol's Kiss",
+    "frameTypeId": "Unique",
+    "baseType": "Vaal Axe",
+    "typeLine": "Vaal Axe",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvV2VhcG9ucy9Ud29IYW5kV2VhcG9ucy9Ud29IYW5kQXhlcy9VdWxOZXRvbHNLaXNzIiwidyI6MiwiaCI6NCwic2NhbGUiOjEsIm11dGF0ZWQiOnRydWV9XQ/1b5f279dbd/UulNetolsKiss.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [
+     "25% chance to Maim on Hit"
+    ],
+    "explicitMods": [
+     "265% increased Physical Damage",
+     "15% reduced Attack Speed",
+     "Curse Enemies with Vulnerability on Hit",
+     "Exerted Attacks Knock Enemies Back on Hit"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 5,
+   "itemData": {
+    "inventoryId": "Boots",
+    "name": "Beast Goad",
+    "frameTypeId": "Rare",
+    "baseType": "Wyvernscale Boots",
+    "typeLine": "Wyvernscale Boots",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9Cb290cy9Cb290c1N0ckRleDMiLCJ3IjoyLCJoIjoyLCJzY2FsZSI6MSwic2VhcmluZyI6dHJ1ZSwidGFuZ2xlZCI6dHJ1ZSwiZnJhY3R1cmVkIjp0cnVlfV0/c7a518d255/BootsStrDex3.png",
+    "corrupted": false,
+    "fractured": true,
+    "ilvl": 85,
+    "implicitMods": [
+     "23% chance to Avoid Elemental Ailments",
+     "Drops Brittle Ground while moving, lasting 2 seconds"
+    ],
+    "explicitMods": [
+     "+14% chance to Suppress Spell Damage",
+     "+97 to maximum Life",
+     "+48% to Lightning Resistance",
+     "30% increased Movement Speed"
+    ],
+    "fracturedMods": [
+     "+26% to Chaos Resistance"
+    ],
+    "craftedMods": [
+     "68% increased Armour and Evasion"
+    ],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 8,
+   "itemData": {
+    "inventoryId": "Ring",
+    "name": "Sorrow Twirl",
+    "frameTypeId": "Rare",
+    "baseType": "Amethyst Ring",
+    "typeLine": "Amethyst Ring",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvUmluZ3MvQW1ldGh5c3RSaW5nIiwidyI6MSwiaCI6MSwic2NhbGUiOjEsImZyYWN0dXJlZCI6dHJ1ZX1d/2367b82d60/AmethystRing.png",
+    "corrupted": false,
+    "fractured": true,
+    "ilvl": 83,
+    "implicitMods": [
+     "+22% to Chaos Resistance"
+    ],
+    "explicitMods": [
+     "+4 to maximum Energy Shield",
+     "+101 to maximum Life",
+     "+35% to Fire Resistance",
+     "+20% to Chaos Resistance"
+    ],
+    "fracturedMods": [
+     "+62 to Strength"
+    ],
+    "craftedMods": [
+     "Non-Channelling Skills have -7 to Total Mana Cost"
+    ],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 9,
+   "itemData": {
+    "inventoryId": "Ring2",
+    "name": "Agony Nail",
+    "frameTypeId": "Rare",
+    "baseType": "Iron Ring",
+    "typeLine": "Iron Ring",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvUmluZ3MvUmluZzEiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/bf29c9d45e/Ring1.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [
+     "Adds 1 to 4 Physical Damage to Attacks"
+    ],
+    "explicitMods": [
+     "+54 to Intelligence",
+     "+41 to maximum Energy Shield",
+     "+114 to maximum Life",
+     "+48% to Fire Resistance",
+     "+25% to Chaos Resistance"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [
+     "Non-Channelling Skills have -6 to Total Mana Cost"
+    ],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 4,
+   "itemData": {
+    "inventoryId": "Amulet",
+    "name": "Ashes of the Stars",
+    "frameTypeId": "Unique",
+    "baseType": "Onyx Amulet",
+    "typeLine": "Onyx Amulet",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQW11bGV0cy9NYXN0ZXJPZkdlbXMiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/f6497cbdfe/MasterOfGems.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 87,
+    "implicitMods": [
+     "+16 to all Attributes"
+    ],
+    "explicitMods": [
+     "7% increased Experience Gain of Gems",
+     "+1 to Level of all Skill Gems",
+     "+30% to Quality of all Skill Gems"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Allocates Sovereignty"
+    ]
+   }
+  },
+  {
+   "itemSlot": 11,
+   "itemData": {
+    "inventoryId": "Belt",
+    "name": "Foulborn The Magnate",
+    "frameTypeId": "Unique",
+    "baseType": "Studded Belt",
+    "typeLine": "Studded Belt",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQmVsdHMvQnVja2xlZEJlbHRVbmlxdWUiLCJ3IjoyLCJoIjoxLCJzY2FsZSI6MSwibXV0YXRlZCI6dHJ1ZX1d/bb106936b9/BuckledBeltUnique.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [
+     "22% increased Stun Duration on Enemies"
+    ],
+    "explicitMods": [
+     "+58 to Strength",
+     "+25% to all Elemental Resistances",
+     "10% chance to deal Double Damage while you have at least 200 Strength",
+     "5% chance to deal Triple Damage while you have at least 400 Strength"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 3,
+   "itemData": {
+    "inventoryId": "BodyArmour",
+    "name": "The Fourth Vow",
+    "frameTypeId": "Unique",
+    "baseType": "Devout Chainmail",
+    "typeLine": "Devout Chainmail",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9Cb2R5QXJtb3Vycy9DbGVyaWNzU2FuY3R1YXJ5IiwidyI6MiwiaCI6Mywic2NhbGUiOjF9XQ/447f6b17b1/ClericsSanctuary.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "234% increased Armour and Energy Shield",
+     "+27% to Chaos Resistance",
+     "Regenerate 3% of Life per second",
+     "Armour also applies to Chaos Damage taken from Hits",
+     "Physical Damage taken bypasses Energy Shield"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  }
+ ],
+ "jewels": [
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Forbidden Flesh",
+    "frameTypeId": "Unique",
+    "baseType": "Cobalt Jewel",
+    "typeLine": "Cobalt Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1B1enpsZVBpZWNlSmV3ZWxfR3JlYXRUYW5nbGUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/9035b9ffd4/PuzzlePieceJewel_GreatTangle.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "Allocates Overwhelm if you have the matching modifier on Forbidden Flame"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Kraken Bliss",
+    "frameTypeId": "Rare",
+    "baseType": "Large Cluster Jewel",
+    "typeLine": "Large Cluster Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL05ld0dlbUJhc2UzIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/db35e60885/NewGemBase3.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 83,
+    "implicitMods": [],
+    "explicitMods": [
+     "Added Small Passive Skills also grant: +3 to Strength",
+     "1 Added Passive Skill is Fuel the Fight",
+     "1 Added Passive Skill is Martial Prowess",
+     "1 Added Passive Skill is Run Through"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Adds 8 Passive Skills",
+     "2 Added Passive Skills are Jewel Sockets",
+     "Added Small Passive Skills grant: Axe Attacks deal 12% increased Damage with Hits and Ailments\nAdded Small Passive Skills grant: Sword Attacks deal 12% increased Damage with Hits and Ailments"
+    ]
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Dusk Curio",
+    "frameTypeId": "Rare",
+    "baseType": "Medium Cluster Jewel",
+    "typeLine": "Medium Cluster Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL05ld0dlbUJhc2UyIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/78f6bf8356/NewGemBase2.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 80,
+    "implicitMods": [],
+    "explicitMods": [
+     "Added Small Passive Skills also grant: +3% to Chaos Resistance",
+     "Added Small Passive Skills also grant: 5% increased Mana Regeneration Rate",
+     "1 Added Passive Skill is Haunting Shout",
+     "1 Added Passive Skill is Mob Mentality"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Adds 4 Passive Skills",
+     "1 Added Passive Skill is a Jewel Socket",
+     "Added Small Passive Skills grant: Exerted Attacks deal 20% increased Damage"
+    ]
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Watcher's Eye",
+    "frameTypeId": "Unique",
+    "baseType": "Prismatic Jewel",
+    "typeLine": "Prismatic Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0VsZGVySmV3ZWwiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/278c673716/ElderJewel.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 87,
+    "implicitMods": [],
+    "explicitMods": [
+     "5% increased maximum Energy Shield",
+     "5% increased maximum Life",
+     "5% increased maximum Mana",
+     "+878 to Armour while affected by Determination",
+     "45% increased Cold Damage while affected by Hatred",
+     "Impales you inflict last 2 additional Hits while using Pride"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Foe Ruin",
+    "frameTypeId": "Rare",
+    "baseType": "Medium Cluster Jewel",
+    "typeLine": "Medium Cluster Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL05ld0dlbUJhc2UyIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/78f6bf8356/NewGemBase2.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [],
+    "explicitMods": [
+     "Added Small Passive Skills also grant: +3% to Chaos Resistance",
+     "Added Small Passive Skills also grant: Regenerate 0.15% of Life per Second",
+     "1 Added Passive Skill is Lead By Example",
+     "1 Added Passive Skill is Warning Call"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Adds 4 Passive Skills",
+     "1 Added Passive Skill is a Jewel Socket",
+     "Added Small Passive Skills grant: Exerted Attacks deal 20% increased Damage"
+    ]
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Forbidden Flame",
+    "frameTypeId": "Unique",
+    "baseType": "Crimson Jewel",
+    "typeLine": "Crimson Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1B1enpsZVBpZWNlSmV3ZWxfQ2xlYW5zaW5nRmlyZSIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/ddfe57ac90/PuzzlePieceJewel_CleansingFire.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 86,
+    "implicitMods": [],
+    "explicitMods": [
+     "Allocates Overwhelm if you have the matching modifier on Forbidden Flesh"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Thread of Hope",
+    "frameTypeId": "Unique",
+    "baseType": "Crimson Jewel",
+    "typeLine": "Crimson Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0Nvbm5lY3RlZEpld2VsIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/1d2c1f698a/ConnectedJewel.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 87,
+    "implicitMods": [],
+    "explicitMods": [
+     "Only affects Passives in Massive Ring",
+     "Passive Skills in Radius can be Allocated without being connected to your tree\n-12% to all Elemental Resistances\nPassage"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Ancestral Vision",
+    "frameTypeId": "Unique",
+    "baseType": "Viridian Jewel",
+    "typeLine": "Viridian Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1ByaXN0aW5lQ29uZGl0aW9uaW5nIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/5ad58d3a2e/PristineConditioning.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 80,
+    "implicitMods": [
+     "2% increased Reservation Efficiency of Skills"
+    ],
+    "explicitMods": [
+     "+7 to Dexterity",
+     "Modifiers to Chance to Suppress Spell Damage also apply to Chance to Avoid Elemental Ailments at 50% of their Value"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Glorious Vanity",
+    "frameTypeId": "Unique",
+    "baseType": "Timeless Jewel",
+    "typeLine": "Timeless Jewel",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1ZhYWxDaXZpbGl6YXRpb24iLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/568c0e7c98/VaalCivilization.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [
+     "10% increased Global Critical Strike Chance"
+    ],
+    "explicitMods": [
+     "Bathed in the blood of 4730 sacrificed in the name of Xibaqua\nPassives in radius are Conquered by the Vaal",
+     "Historic"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  }
+ ],
+ "flasks": [
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Diamond Flask",
+    "typeLine": "Flagellant's Diamond Flask of Incision",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3MvZGlhbW9uZCIsInciOjEsImgiOjIsInNjYWxlIjoxLCJsZXZlbCI6MSwiZmkiOnRydWV9XQ/a764b9bc68/diamond.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 85,
+    "implicitMods": [],
+    "explicitMods": [
+     "Gain 3 Charges when you are Hit by an Enemy",
+     "52% increased Critical Strike Chance during Effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Used when Charges reach full"
+    ]
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "Lion's Roar",
+    "frameTypeId": "Unique",
+    "baseType": "Granite Flask",
+    "typeLine": "Granite Flask",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3MveUZsYXNrNSIsInciOjEsImgiOjIsInNjYWxlIjoxLCJsZXZlbCI6MSwiZmkiOnRydWV9XQ/0d1e1483b6/yFlask5.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 73,
+    "implicitMods": [],
+    "explicitMods": [
+     "Knocks Back Enemies in an Area when you use a Flask",
+     "75% chance to cause Enemies to Flee on use",
+     "Adds Knockback to Melee Attacks during Effect",
+     "10% more Melee Physical Damage during effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Used when Charges reach full"
+    ]
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Jade Flask",
+    "typeLine": "Flagellant's Jade Flask of the Armadillo",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3MvZXZhc2lvbmZsYXNrMDEiLCJ3IjoxLCJoIjoyLCJzY2FsZSI6MSwibGV2ZWwiOjEsImZpIjp0cnVlfV0/f31735f3f1/evasionflask01.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [],
+    "explicitMods": [
+     "Gain 3 Charges when you are Hit by an Enemy",
+     "59% increased Armour during Effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Used when Charges reach full"
+    ]
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Basalt Flask",
+    "typeLine": "Flagellant's Basalt Flask of the Iguana",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3Mvc3RvbmUiLCJ3IjoxLCJoIjoyLCJzY2FsZSI6MSwibGV2ZWwiOjEsImZpIjp0cnVlfV0/b9ccc40808/stone.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 84,
+    "implicitMods": [
+     "Taunts nearby Enemies on use"
+    ],
+    "explicitMods": [
+     "Gain 3 Charges when you are Hit by an Enemy",
+     "38% less Duration",
+     "Immunity to Bleeding and Corrupted Blood during Effect"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Used when Charges reach full"
+    ]
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Divine Life Flask",
+    "typeLine": "Seething Divine Life Flask of Sealing",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3MvbGlmZWZsYXNrMTEiLCJ3IjoxLCJoIjoyLCJzY2FsZSI6MSwibGV2ZWwiOjF9XQ/54ba3c70ae/lifeflask11.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 71,
+    "implicitMods": [],
+    "explicitMods": [
+     "66% reduced Amount Recovered",
+     "Instant Recovery",
+     "Grants Immunity to Bleeding for 7 seconds if used while Bleeding\nGrants Immunity to Corrupted Blood for 7 seconds if used while affected by Corrupted Blood"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": []
+   }
+  }
+ ]
+}

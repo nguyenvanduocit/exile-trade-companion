@@ -1,0 +1,576 @@
+{
+ "account": "heygyus-0416",
+ "name": "ResurrectForbidden",
+ "league": "Forbidden Rites",
+ "level": 96,
+ "class": "Gemling Legionnaire",
+ "source": "https://poe.ninja/poe2/builds/forbiddenrites/character/heygyus-0416/ResurrectForbidden",
+ "fetchedAt": "local snapshot",
+ "items": [
+  {
+   "itemSlot": 4,
+   "itemData": {
+    "inventoryId": "Amulet",
+    "name": "Beacon of Azis",
+    "frameTypeId": "Unique",
+    "baseType": "Solar Amulet",
+    "typeLine": "Solar Amulet",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQW11bGV0cy9VbmlxdWVzL0JlYWNvbk9mQXppcyIsInciOjEsImgiOjEsInNjYWxlIjoxLCJyZWFsbSI6InBvZTIifV0/2d0ad03930/BeaconOfAzis.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 68,
+    "implicitMods": [
+     "+15 to [Spirit|Spirit]"
+    ],
+    "explicitMods": [
+     "+94 to maximum Mana",
+     "+30 to [Spirit|Spirit]",
+     "30% increased [LightRadius|Light Radius]",
+     "[Critical|Critical Hits] ignore Enemy Monster [Resistances|Elemental Resistances]"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [
+     "Allocates [criticals73|Vulgar Methods]"
+    ],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 2,
+   "itemData": {
+    "inventoryId": "Gloves",
+    "name": "Brimstone Knuckle",
+    "frameTypeId": "Rare",
+    "baseType": "Blacksteel Gauntlets",
+    "typeLine": "Blacksteel Gauntlets",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9HbG92ZXMvQmFzZXR5cGVzL0dsb3Zlc1N0ckRleDA0IiwidyI6MiwiaCI6Miwic2NhbGUiOjEsInJlYWxtIjoicG9lMiJ9XQ/1c86410ca6/GlovesStrDex04.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 80,
+    "implicitMods": [],
+    "explicitMods": [
+     "Adds 6 to 11 [Physical|Physical] Damage to [Attack|Attacks]",
+     "Adds 20 to 28 [Cold] damage to [Attack|Attacks]",
+     "Adds 4 to 67 [Lightning] damage to [Attack|Attacks]",
+     "20% reduced [Attributes|Attribute] Requirements",
+     "11% increased [Attack] Speed"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [
+     "+12% to [Resistances|Fire Resistance]"
+    ],
+    "runeMods": [
+     "+18% to [Resistances|Lightning Resistance]",
+     "[ShamanOnlyMods|Bonded]: +20 to maximum Life",
+     "[ShamanOnlyMods|Bonded]: +20 to maximum Mana"
+    ],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 1,
+   "itemData": {
+    "inventoryId": "Helm",
+    "name": "Miracle Guardian",
+    "frameTypeId": "Rare",
+    "baseType": "Faridun Mask",
+    "typeLine": "Faridun Mask",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9IZWxtZXRzL0Jhc2V0eXBlcy9IZWxtZXREZXhJbnQwNCIsInciOjIsImgiOjIsInNjYWxlIjoxLCJyZWFsbSI6InBvZTIifV0/1322e46f92/HelmetDexInt04.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 80,
+    "implicitMods": [],
+    "explicitMods": [
+     "31% increased [Evasion] and [EnergyShield|Energy Shield]",
+     "+121 to maximum Life",
+     "34% increased [ItemRarity|Rarity of Items] found",
+     "+32 to [Dexterity|Dexterity]",
+     "+26% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [
+     "+18% to [Resistances|Lightning Resistance]",
+     "[ShamanOnlyMods|Bonded]: +20 to maximum Life",
+     "[ShamanOnlyMods|Bonded]: +20 to maximum Mana"
+    ],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 11,
+   "itemData": {
+    "inventoryId": "Belt",
+    "name": "Morbid Bind",
+    "frameTypeId": "Rare",
+    "baseType": "Heavy Belt",
+    "typeLine": "Heavy Belt",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQmVsdHMvQmFzZXR5cGVzL0JlbHQwOSIsInciOjIsImgiOjEsInNjYWxlIjoxLCJyZWFsbSI6InBvZTIifV0/3299e86495/Belt09.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 64,
+    "implicitMods": [
+     "21% increased [StunThreshold|Stun Threshold]",
+     "Has 2 [Charm] Slots"
+    ],
+    "explicitMods": [
+     "+19 to [Armour]",
+     "+117 to maximum Life",
+     "+71 to maximum Mana",
+     "+33% to [Resistances|Cold Resistance]",
+     "+140 to [StunThreshold|Stun Threshold]"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [
+     "+33% to [Resistances|Fire Resistance]"
+    ],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 5,
+   "itemData": {
+    "inventoryId": "Boots",
+    "name": "Wake of Destruction",
+    "frameTypeId": "Unique",
+    "baseType": "Secured Leggings",
+    "typeLine": "Secured Leggings",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9Cb290cy9VbmlxdWVzL1dha2VPZkRlc3RydWN0aW9uIiwidyI6MiwiaCI6Miwic2NhbGUiOjEsInJlYWxtIjoicG9lMiJ9XQ/cca716f5a6/WakeOfDestruction.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 65,
+    "implicitMods": [],
+    "explicitMods": [
+     "10% increased Movement Speed",
+     "58% increased [Armour|Armour] and [EnergyShield|Energy Shield]",
+     "Adds 1 to 42 [Lightning] damage to [Attack|Attacks]",
+     "Drop [ShockedGround|Shocked Ground] while moving, lasting 8 seconds"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [
+     "+18% to [Resistances|Cold Resistance]",
+     "[ShamanOnlyMods|Bonded]: +20 to maximum Life",
+     "[ShamanOnlyMods|Bonded]: +20 to maximum Mana"
+    ],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 8,
+   "itemData": {
+    "inventoryId": "Ring",
+    "name": "Vortex Circle",
+    "frameTypeId": "Rare",
+    "baseType": "Ruby Ring",
+    "typeLine": "Ruby Ring",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvUmluZ3MvQmFzZXR5cGVzL1J1YnlSaW5nIiwidyI6MSwiaCI6MSwic2NhbGUiOjEsInJlYWxtIjoicG9lMiJ9XQ/4f0e6f99c1/RubyRing.png",
+    "corrupted": true,
+    "fractured": false,
+    "ilvl": 77,
+    "implicitMods": [
+     "+30% to [Resistances|Fire Resistance]"
+    ],
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [
+     "Adds 22 to 36 [Fire] damage to [Attack|Attacks]",
+     "Adds 13 to 21 [Cold] damage to [Attack|Attacks]",
+     "+106 to maximum Life",
+     "+25 to [Intelligence|Intelligence]",
+     "+5% to all [ElementalDamage|Elemental] [Resistances]",
+     "+37% to [Resistances|Lightning Resistance]"
+    ],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 3,
+   "itemData": {
+    "inventoryId": "BodyArmour",
+    "name": "Beast Guardian",
+    "frameTypeId": "Rare",
+    "baseType": "Sleek Jacket",
+    "typeLine": "Sleek Jacket",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQXJtb3Vycy9Cb2R5QXJtb3Vycy9CYXNldHlwZXMvQm9keURleEludDAyIiwidyI6MiwiaCI6Mywic2NhbGUiOjEsInJlYWxtIjoicG9lMiJ9XQ/31d5df47b6/BodyDexInt02.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 75,
+    "implicitMods": [],
+    "explicitMods": [
+     "87% increased [Evasion] and [EnergyShield|Energy Shield]",
+     "+31 to maximum Life",
+     "+37% to [Resistances|Fire Resistance]",
+     "Gain [Deflect|Deflection Rating] equal to 20% of [Evasion|Evasion Rating]"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [
+     "+34% to [Resistances|Cold Resistance]"
+    ],
+    "enchantMods": [],
+    "desecratedMods": [
+     "+131 to [Evasion] Rating",
+     "+39 to maximum [EnergyShield|Energy Shield]"
+    ],
+    "runeMods": [
+     "36% increased [Armour|Armour], [Evasion|Evasion] and [EnergyShield|Energy Shield]",
+     "[ShamanOnlyMods|Bonded]: +40 to maximum Life",
+     "[ShamanOnlyMods|Bonded]: +40 to maximum Mana"
+    ],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 16,
+   "itemData": {
+    "inventoryId": "Offhand2",
+    "name": "Guiding Palm of the Eye",
+    "frameTypeId": "Unique",
+    "baseType": "Shrine Sceptre",
+    "typeLine": "Shrine Sceptre",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvV2VhcG9ucy9PbmVIYW5kV2VhcG9ucy9TY2VwdGVycy9VbmlxdWVzL0d1aWRpbmdQYWxtQ29sZCIsInciOjIsImgiOjMsInNjYWxlIjoxLCJyZWFsbSI6InBvZTIifV0/3fa1d19d68/GuidingPalmCold.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 72,
+    "implicitMods": [],
+    "explicitMods": [
+     "[Gain] 25% of Damage as Extra [Cold] Damage",
+     "[Allies|Allies] in your [Presence|Presence] deal 19 to 33 added [Attack|Attack] [Cold|Cold] Damage",
+     "50% of your Base Life Regeneration is granted to [Allies] in your [Presence]",
+     "+26 to [Intelligence|Intelligence]",
+     "25% increased [LightRadius|Light Radius]",
+     "Grants effect of [UniqueShrineCold|Guided Freezing Shrine]"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 15,
+   "itemData": {
+    "inventoryId": "Weapon2",
+    "name": "Tangletongue",
+    "frameTypeId": "Unique",
+    "baseType": "Forked Spear",
+    "typeLine": "Forked Spear",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvV2VhcG9ucy9PbmVIYW5kV2VhcG9ucy9PbmVIYW5kU3BlYXJzL1VuaXF1ZXMvVGFuZ2xldG9uZ3VlIiwidyI6MSwiaCI6NCwic2NhbGUiOjEsInJlYWxtIjoicG9lMiJ9XQ/a55bc05abe/Tangletongue.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 71,
+    "implicitMods": [],
+    "explicitMods": [
+     "Adds 16 to 36 [Physical|Physical] Damage",
+     "+7.96% to [Critical|Critical Hit] Chance",
+     "+24 to [Intelligence|Intelligence]",
+     "[ForksCrit|Bifurcates Critical Hits]",
+     "10% of Skill Mana Costs [StatConversion|Converted] to Life Costs"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [
+     "Adds 23 to 34 Fire Damage to [Attack|Attacks] against Ignited Enemies",
+     "[ShamanOnlyMods|Bonded]: +2% to [MaximumResistances|Maximum Fire Resistance]"
+    ],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 7,
+   "itemData": {
+    "inventoryId": "Weapon",
+    "name": "Phoenix Edge",
+    "frameTypeId": "Rare",
+    "baseType": "Soaring Spear",
+    "typeLine": "Soaring Spear",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvV2VhcG9ucy9PbmVIYW5kV2VhcG9ucy9PbmVIYW5kU3BlYXJzLzFIU3BlYXIwNCIsInciOjEsImgiOjQsInNjYWxlIjoxLCJyZWFsbSI6InBvZTIifV0/5f32a7f996/1HSpear04.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 74,
+    "implicitMods": [],
+    "explicitMods": [
+     "Adds 29 to 38 [Cold|Cold] Damage",
+     "Adds 1 to 46 [Lightning|Lightning] Damage",
+     "+24% to [CriticalDamageBonus|Critical Damage Bonus]",
+     "25% increased [Attack] Speed",
+     "Gain 30 Life per enemy killed"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [
+     "+400 to [Accuracy|Accuracy] Rating",
+     "6% increased [Attack] Speed"
+    ],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [
+     "5% increased [Attack] Speed"
+    ],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 9,
+   "itemData": {
+    "inventoryId": "Ring2",
+    "name": "The Taming",
+    "frameTypeId": "Unique",
+    "baseType": "Prismatic Ring",
+    "typeLine": "Prismatic Ring",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvUmluZ3MvVW5pcXVlcy9UaGVUYW1pbmciLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MSwicmVhbG0iOiJwb2UyIn1d/c266aa1e19/TheTaming.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 79,
+    "implicitMods": [
+     "+8% to all [ElementalDamage|Elemental] [Resistances]"
+    ],
+    "explicitMods": [
+     "+24% to all [ElementalDamage|Elemental] [Resistances]",
+     "24% increased Damage for each type of [ElementalAilments|Elemental Ailment] on Enemy",
+     "[Wind|Wind Skills] which can be boosted by [ElementalGround|Elemental Ground Surfaces] can be boosted by multiple [ElementalGround|Elemental Ground Surfaces]",
+     "[Wind|Wind Skills] which can be boosted by [ElementalGround|Elemental Ground Surfaces] count\nas being boosted by [IgnitedGround|Ignited], [ShockedGround|Shocked], and [ChilledGround|Chilled] Ground"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  }
+ ],
+ "jewels": [
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Phoenix Wound",
+    "frameTypeId": "Rare",
+    "baseType": "Emerald",
+    "typeLine": "Emerald",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0VtZXJhbGRKZXdlbCIsInciOjEsImgiOjEsInNjYWxlIjoxLCJyZWFsbSI6InBvZTIifV0/0df7b1d23b/EmeraldJewel.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 80,
+    "implicitMods": [],
+    "explicitMods": [
+     "6% increased [Projectile] Speed",
+     "13% increased [Critical|Critical Hit Chance] for [Attack|Attacks]",
+     "12% increased [ElementalDamage|Elemental Damage]"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [
+     "4% increased [Attack] Speed"
+    ],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Heart of the Well",
+    "frameTypeId": "Unique",
+    "baseType": "Diamond",
+    "typeLine": "Diamond",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1VuaXF1ZXMvQXBvc3RhdGVzSGVhcnQiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MSwicmVhbG0iOiJwb2UyIn1d/cc73484d32/ApostatesHeart.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 81,
+    "implicitMods": [],
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [
+     "[Gain] 13% of Damage as Extra [Fire] Damage",
+     "3% of Damage taken [Recoup|Recouped] as Life",
+     "Recover 1% of maximum Mana on Kill",
+     "22% increased [Exposure] Effect"
+    ],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 12,
+   "itemData": {
+    "inventoryId": "PassiveJewels",
+    "name": "Soul Cut",
+    "frameTypeId": "Rare",
+    "baseType": "Emerald",
+    "typeLine": "Emerald",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0VtZXJhbGRKZXdlbCIsInciOjEsImgiOjEsInNjYWxlIjoxLCJyZWFsbSI6InBvZTIifV0/0df7b1d23b/EmeraldJewel.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 74,
+    "implicitMods": [],
+    "explicitMods": [
+     "8% increased [Projectile] Speed",
+     "16% increased [Critical|Critical Hit Chance] for [Attack|Attacks]",
+     "3% increased [Attack] Speed with Bows",
+     "20% increased [Parry] Damage"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  }
+ ],
+ "flasks": [
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "Lavianga's Spirits",
+    "frameTypeId": "Unique",
+    "baseType": "Gargantuan Mana Flask",
+    "typeLine": "Gargantuan Mana Flask",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3MvVW5pcXVlcy9MYXZpYW5nYXNTcGlyaXQiLCJ3IjoxLCJoIjoyLCJzY2FsZSI6MSwicmVhbG0iOiJwb2UyIiwibGV2ZWwiOjF9XQ/ef79cd6b0d/LaviangasSpirit.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 51,
+    "implicitMods": [],
+    "explicitMods": [
+     "This Flask cannot be Used but applies its Effect constantly",
+     "70% reduced Amount Recovered"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Ultimate Life Flask",
+    "typeLine": "Seething Ultimate Life Flask of the Distiller",
+    "icon": "https://web.poecdn.com/gen/image/WzksMTQseyJmIjoiMkRJdGVtcy9GbGFza3MvQmFzZXR5cGVzL0ZsYXNrTGlmZTA5IiwidyI6MSwiaCI6Miwic2NhbGUiOjEsInJlYWxtIjoicG9lMiIsImxldmVsIjoxfV0/8ed5f669f0/FlaskLife09.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 66,
+    "implicitMods": [],
+    "explicitMods": [
+     "50% reduced Amount Recovered",
+     "Instant Recovery",
+     "26% reduced Charges per use"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Magic",
+    "baseType": "Silver Charm",
+    "typeLine": "Botanic Silver Charm of the Constant",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ2hhcm1zL0Jhc2V0eXBlcy9TaWx2ZXJDaGFybSIsInciOjEsImgiOjEsInNjYWxlIjoxLCJyZWFsbSI6InBvZTIifV0/be98ce2ba3/SilverCharm.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 80,
+    "implicitMods": [
+     "Used when you are affected by a [Slow]"
+    ],
+    "explicitMods": [
+     "Recover 206 Life when Used",
+     "26% increased Charges gained"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "Beira's Anguish",
+    "frameTypeId": "Unique",
+    "baseType": "Dousing Charm",
+    "typeLine": "Dousing Charm",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ2hhcm1zL1VuaXF1ZXMvRG91c2luZ1VuaXF1ZUNoYXJtIiwidyI6MSwiaCI6MSwic2NhbGUiOjEsInJlYWxtIjoicG9lMiJ9XQ/7bac529607/DousingUniqueCharm.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 82,
+    "implicitMods": [
+     "Used when you become [Ignite|Ignited]"
+    ],
+    "explicitMods": [
+     "24% Chance to gain a [Charges|Charge] when you kill an enemy",
+     "Creates [IgnitedGround|Ignited Ground] for 4 seconds when used, [Ignite|Igniting] enemies as though dealing [Fire] damage equal to 500% of your maximum Life"
+    ],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  },
+  {
+   "itemSlot": 14,
+   "itemData": {
+    "inventoryId": "Flask",
+    "name": "",
+    "frameTypeId": "Normal",
+    "baseType": "Thawing Charm",
+    "typeLine": "Thawing Charm",
+    "icon": "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ2hhcm1zL0Jhc2V0eXBlcy9UaGF3aW5nQ2hhcm0iLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MSwicmVhbG0iOiJwb2UyIn1d/d9184b853a/ThawingCharm.png",
+    "corrupted": false,
+    "fractured": false,
+    "ilvl": 30,
+    "implicitMods": [
+     "Used when you become [Frozen]"
+    ],
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftedMods": [],
+    "enchantMods": [],
+    "desecratedMods": [],
+    "runeMods": [],
+    "bondedMods": []
+   }
+  }
+ ]
+}

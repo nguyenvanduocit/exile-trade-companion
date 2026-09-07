@@ -1,25 +1,24 @@
 // Chạy trong MAIN world để với tới window.app (Vue 2 + Vuex của trade site).
 // Gắn nút "+"/"-" vào từng dòng attribute (Armour, Quality, Block, Runic Ward, Requirements...)
 // của item — khác Stat Filters (trade-stats.content.ts), các dòng này set thẳng vào ô min/max của
-// filter tương ứng bên sidebar trái: "+" set min = giá trị dòng, "-" set max = 0.
-import { parsePropertyField, parsePropertyValue, planSetPropertyMaxZero, planSetPropertyMin, resolvePropertyGroup } from '@/lib/property-filter'
-import { SETTINGS_EVENT } from '@/lib/settings-bridge'
+// filter tương ứng bên sidebar trái: "+" set min = giá trị dòng, "-" set max = giá trị dòng; xóa cận đối diện.
+import { parsePropertyField, parsePropertyValue, planSetPropertyMax, planSetPropertyMin, resolvePropertyGroup, type PropertyFilterValue } from '@/lib/property-filter'
+import { onMessage, sendMessage } from '@/lib/window-messaging'
 import type { TradeApp } from '@/lib/trade-app'
-import type { TradeSettings } from '@/types/trading'
 
 // Chạy trong MAIN world nên không có browser.i18n; chọn locale qua navigator.language của trang.
 const MESSAGES = {
   vi: {
     minSet: (label: string, value: number) => `Đã đặt min "${label}" = ${value}`,
-    maxZeroSet: (label: string) => `Đã đặt max "${label}" = 0`,
+    maxSet: (label: string, value: number) => `Đã đặt max "${label}" = ${value}`,
     addTitle: (label: string, value: number) => `Đặt min "${label}" = ${value}`,
-    addNotTitle: (label: string) => `Đặt max "${label}" = 0`,
+    addNotTitle: (label: string, value: number) => `Đặt max "${label}" = ${value}`,
   },
   en: {
     minSet: (label: string, value: number) => `Set min "${label}" = ${value}`,
-    maxZeroSet: (label: string) => `Set max "${label}" = 0`,
+    maxSet: (label: string, value: number) => `Set max "${label}" = ${value}`,
     addTitle: (label: string, value: number) => `Set min "${label}" = ${value}`,
-    addNotTitle: (label: string) => `Set max "${label}" = 0`,
+    addNotTitle: (label: string, value: number) => `Set max "${label}" = ${value}`,
   },
 } as const
 
@@ -67,20 +66,27 @@ function toast(app: TradeApp, msg: string) {
   app.$refs.toastr?.Add({ msg, progressbar: false, timeout: 2000 })
 }
 
-function setMin(app: TradeApp, button: HTMLButtonElement, group: string, field: string, value: number, label: string) {
+// Property field (ar, ev, quality...) luôn là {min,max}; filter dạng {option} (rarity, category)
+// cùng nằm trong persistent.filters nhưng không bao giờ trùng field id với property.
+function rangeFilter(app: TradeApp, group: string, field: string): PropertyFilterValue | undefined {
   const existing = app.$store.state.persistent.filters[group]?.filters[field]
+  return existing && !('option' in existing) ? existing : undefined
+}
+
+function setMin(app: TradeApp, button: HTMLButtonElement, group: string, field: string, value: number, label: string) {
+  const existing = rangeFilter(app, group, field)
   app.$store.commit('setPropertyFilter', { group, index: field, value: planSetPropertyMin(existing, value) })
   button.dataset.added = 'true'
   app.save(true)
   toast(app, t.minSet(label, value))
 }
 
-function setMaxZero(app: TradeApp, button: HTMLButtonElement, group: string, field: string, label: string) {
-  const existing = app.$store.state.persistent.filters[group]?.filters[field]
-  app.$store.commit('setPropertyFilter', { group, index: field, value: planSetPropertyMaxZero(existing) })
+function setMax(app: TradeApp, button: HTMLButtonElement, group: string, field: string, value: number, label: string) {
+  const existing = rangeFilter(app, group, field)
+  app.$store.commit('setPropertyFilter', { group, index: field, value: planSetPropertyMax(existing, value) })
   button.dataset.added = 'true'
   app.save(true)
-  toast(app, t.maxZeroSet(label))
+  toast(app, t.maxSet(label, value))
 }
 
 function makeButton(options: { className: string; symbol: string; title: string; onClick: (app: TradeApp, button: HTMLButtonElement) => void }) {
@@ -97,6 +103,7 @@ function makeButton(options: { className: string; symbol: string; title: string;
     const app = window.app
     if (!app) return
     options.onClick(app, button)
+    void sendMessage('featureUsed', 'property-filter-button').catch(() => undefined)
   })
   return button
 }
@@ -128,8 +135,8 @@ function decorate(line: HTMLElement) {
   const notButton = makeButton({
     className: BUTTON_NOT_CLASS,
     symbol: '−',
-    title: t.addNotTitle(label),
-    onClick: (app, button) => setMaxZero(app, button, group, field, label),
+    title: t.addNotTitle(label, value),
+    onClick: (app, button) => setMax(app, button, group, field, value, label),
   })
 
   // append (không after): dòng DPS/Physical DPS/Elemental DPS nằm trong ".itemPopupAdditional"
@@ -183,12 +190,9 @@ export default defineContentScript({
     }
 
     // MAIN world không có browser.storage — chờ trade.content (isolated world) bắn setting hiện
-    // tại qua CustomEvent rồi mới quyết định chạy; tắt setting thì decorateWithin/observer không
-    // bao giờ chạy, không phải chạy rồi ẩn UI bằng CSS.
-    // CustomEvent#detail dạng object bị null hoá khi băng qua ranh giới MAIN/ISOLATED world thật —
-    // isolated world (trade.content/index.ts) bắn JSON string, tự parse lại ở đây.
-    window.addEventListener(SETTINGS_EVENT, (event) => {
-      const settings = JSON.parse((event as CustomEvent<string>).detail) as TradeSettings
+    // tại qua window-messaging rồi mới quyết định chạy; tắt setting thì decorateWithin/observer
+    // không bao giờ chạy, không phải chạy rồi ẩn UI bằng CSS.
+    onMessage('settingsUpdated', ({ data: settings }) => {
       if (settings.propertyFilterButtonsEnabled) start()
       else stop()
     })
