@@ -37,14 +37,21 @@ Push tag `v*.*.*` kích hoạt `.github/workflows/release.yml`: bump `package.js
 
 `wxt.config.ts` **không hardcode `manifest.version`** — cố tình bỏ để WXT tự lấy version từ `package.json`; đừng thêm lại field này vào manifest config, sẽ làm version tag bơm vào vô nghĩa (build sẽ luôn dùng số hardcode thay vì version thật của tag).
 
-**4 GitHub Secrets bắt buộc** (repo Settings → Secrets and variables → Actions), toàn bộ đã set sẵn — chỉ cần biết để debug khi action fail:
+**7 GitHub Secrets bắt buộc** (repo Settings → Secrets and variables → Actions), toàn bộ đã set sẵn — chỉ cần biết để debug khi action fail:
 
 ```text
-CWS_EXTENSION_ID     lmdfepkngckhbmcjbaijloakinneodfd
-CWS_CLIENT_ID        OAuth Web application client "exile-trade-companion-ci"
-CWS_CLIENT_SECRET    (client secret tương ứng)
-CWS_REFRESH_TOKEN    authorize dưới account essievaill2013u@gmail.com (đúng publisher), KHÔNG phải nguyenvanduocit
+CWS_EXTENSION_ID            lmdfepkngckhbmcjbaijloakinneodfd
+CWS_CLIENT_ID               OAuth Web application client "exile-trade-companion-ci"
+CWS_CLIENT_SECRET           (client secret tương ứng)
+CWS_REFRESH_TOKEN           authorize dưới account essievaill2013u@gmail.com (đúng publisher), KHÔNG phải nguyenvanduocit
+VITE_LIVEBLOCKS_PUBLIC_KEY  cùng giá trị với .env local — Vite inline vào bundle lúc build, thiếu là Share folder chết trong bản store
+VITE_DATADOG_CLIENT_TOKEN   cùng giá trị với .env local
+VITE_DATADOG_SITE           datadoghq.com
 ```
+
+Ba secret `VITE_*` được truyền vào bước "Build + zip extension" qua `env:` trong workflow. Đổi key ở `.env` thì phải `gh secret set` lại, không có sync tự động. Verify bản CI build có key: tải zip từ GitHub Release, `grep -c pk_dev content-scripts/trade.js` phải ra 1.
+
+Trước khi tag, bump `package.json` version lên đúng số tag và commit — CI tự `npm version` theo tag nên build không lệch, nhưng repo và tag phải kể cùng một số. Tag `v0.2.0` đang trỏ commit cũ (CI upload CWS fail vì item pending review) và không có release nào, đừng tái dùng số 0.2.0.
 
 Credentials sống ở Google Cloud project `aiocean-fns` (project chung, không tách riêng — đã đụng project-limit lúc tạo nên dùng project có sẵn). OAuth consent screen ở chế độ **Testing** (External), test user gồm cả `nguyenvanduocit@gmail.com` lẫn `essievaill2013u@gmail.com`. Client type là **Web application** với Authorized redirect URI `https://developers.google.com/oauthplayground` — **không phải Desktop app**: Desktop app chỉ chấp nhận loopback redirect nên OAuth Playground báo `redirect_uri_mismatch`, đã tốn một vòng debug vì việc này.
 
@@ -151,20 +158,23 @@ Mọi thao tác dùng `ego-browser nodejs` heredoc, task space đặt tên cố 
 
 ### Privacy tab — bắt buộc trước khi submit được
 
-Dialog "Unable to publish" (bấm "Why can't I submit?") liệt kê chính xác field còn thiếu. Với extension chỉ dùng `storage`/`activeTab`/`contextMenus` + host permission cho `pathofexile.com/trade*`, cần điền (đều ở tab Privacy):
+Dialog "Unable to publish" (bấm "Why can't I submit?") liệt kê chính xác field còn thiếu. Trạng thái đã điền cho 0.3.0 (submit 2026-09-07), mọi field đều ở tab Privacy:
 
 - Single purpose description
-- Justification riêng từng permission: storage, activeTab, contextMenus, Host permission
-- "Are you using remote code?" → chọn **No** (WXT build tĩnh, không load remote script)
-- 3 checkbox certify data usage (không tick checkbox loại data nào nếu extension không thu thập gì — trade companion này chỉ lưu local, không gửi ra ngoài)
-- **Privacy policy URL** hiện field có dấu `*` nhưng KHÔNG nằm trong danh sách blocker nếu không tick bất kỳ loại data usage nào — bỏ trống được, verify lại bằng "Why can't I submit?" trước khi kết luận thiếu/đủ, đừng suy đoán.
+- Justification riêng từng permission: storage, activeTab, contextMenus
+- **Host permission justification phải liệt kê ĐỦ mọi host trong `host_permissions` của manifest**, Google đối chiếu với manifest: `pathofexile.com/trade*` (content script duy nhất), `api.liveblocks.io` https+wss (Share folder), `poe.ninja` + `pobb.in` (Import build, fetch từ background vì site không trả CORS), `browser-intake-datadoghq.com` (telemetry ẩn danh, tắt được trong Settings). Thêm host mới vào manifest → sửa ô này cùng lượt, đừng để câu "không truy cập host nào khác" sót lại.
+- "Are you using remote code?" → **No** (WXT build tĩnh, không load remote script)
+- Data usage: tick **User activity** (telemetry gửi tên feature, số đếm, mã lỗi, install id ngẫu nhiên tới Datadog). Không tick loại nào khác. 3 checkbox certify đều tick.
+- **Privacy policy URL** = `https://github.com/nguyenvanduocit/exile-trade-companion/blob/main/PRIVACY.md` — bắt buộc khi có tick data usage. Đổi nội dung thu thập → sửa `PRIVACY.md` trước, listing chỉ trỏ tới nó.
+
+Selector trên tab Privacy: `textarea[aria-label="..."]` KHÔNG resolve được bằng `fillInput` (aria-label rỗng trong DOM thật) → dùng `xpath=(//textarea)[N]` theo thứ tự: 1 single purpose, 2 storage, 3 activeTab, 4 contextMenus, 5 host permission, 6 remote code justification. Privacy policy URL là `input[type=text]` duy nhất trên trang. Checkbox data usage click được bằng `input[aria-label="User activity"]`, verify bằng `.checked`.
 
 Sau khi Save draft, nút "Submit for review" chuyển từ xám sang xanh khi hết blocker — đây là tín hiệu đáng tin để biết đã điền đủ, nhưng vẫn double-check bằng "Why can't I submit?" một lần trước khi báo user sẵn sàng submit.
 
 ### Submit — điểm dừng bắt buộc
 
-1. Bấm "Submit for review" → dialog confirm với checkbox "Publish automatically after it has passed review" (mặc định tick — giữ nguyên trừ khi user nói khác).
-2. Bấm "Submit For Review" trong dialog → toast "Submitting item..." → status đổi thành **Pending review**.
+1. Bấm "Submit for review" → dialog confirm với checkbox "Publish automatically after it has passed review" (mặc định tick — giữ nguyên trừ khi user nói khác). Dialog này KHÔNG có `role=dialog` → verify bằng screenshot, tìm nút confirm bằng `[...document.querySelectorAll('button')].find(b => b.innerText.trim() === 'Submit For Review')` rồi click theo toạ độ `getBoundingClientRect()` (screenshot và viewport cùng tỷ lệ CSS px, không cần nhân 1.27 ở đây).
+2. Bấm "Submit For Review" trong dialog → toast "Item submitted." → `document.body.innerText` có **Status: Pending review**.
 3. Đóng dialog "Your extension was submitted for review", `completeTaskSpace(id, {keep:false})`.
 
 **KHÔNG được tự động chạy bước 1-3 nếu user chưa nói "submit"/"submit đi" trong lượt hiện tại** — mọi bước trước đó (build, screenshot, upload, save draft) làm tự do, nhưng submit luôn cần lời xác nhận tường minh mới nhất.
