@@ -1,5 +1,6 @@
 node_modules
 .output
+packages/web/dist
 .wxt
 .bun-tmp
 *.zip
