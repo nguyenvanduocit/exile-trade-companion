@@ -13,7 +13,7 @@ Extension không tự chạy search và không gọi API tìm kiếm của GGG. 
 - **Giá quy đổi**: mỗi listing hiện thêm giá chaos hoặc divine với icon thật; tỷ giá lấy từ bulk exchange của league, cache 6 giờ.
 - **Lịch sử giá**: search đã bookmark được chụp trung vị giá mỗi lần bạn mở, có biểu đồ.
 - **Seller bán nhiều**: đánh dấu listing của seller có từ 2 item trong kết quả để mua gộp.
-- **Chia sẻ folder**: chia sẻ trực tiếp đồng bộ hai chiều hoặc gửi bản chụp một lần, chỉ cần một share key, không tài khoản.
+- **Chia sẻ folder**: chia sẻ trực tiếp đồng bộ hai chiều hoặc gửi bản chụp một lần, chỉ cần một share key, không tài khoản. Mỗi key kèm một hotlink mở được bằng trình duyệt thường, không cần cài extension để xem.
 - **Import build**: dán link character poe.ninja, link pobb.in hoặc code Path of Building; gear, jewel, flask thành các search trong folder, mod được map sang stat filter của trade.
 - Giao diện tiếng Việt và tiếng Anh, phím tắt `Alt+Shift+B`, menu chuột phải, onboarding khi cài.
 

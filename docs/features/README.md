@@ -13,6 +13,7 @@ Mỗi file mô tả một tính năng: hành vi người dùng thấy, cách hi�
 | Lịch sử giá theo bookmark | [price-history.md](price-history.md) | luôn bật |
 | Đánh dấu seller bán nhiều item | [bulk-seller.md](bulk-seller.md) | có |
 | Chia sẻ folder (Liveblocks) | [folder-share.md](folder-share.md) | theo folder |
+| Hotlink xem folder không cần extension | [share-hotlink.md](share-hotlink.md) | theo folder |
 | Import build (poe.ninja, PoB) | [import-build.md](import-build.md) | theo thao tác |
 | Thống kê sử dụng ẩn danh | [telemetry.md](telemetry.md) | có |
 | Onboarding, shell panel, i18n, giao diện | [onboarding-and-shell.md](onboarding-and-shell.md) | |
