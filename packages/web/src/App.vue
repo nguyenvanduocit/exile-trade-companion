@@ -96,7 +96,7 @@ onUnmounted(() => stopWatchingExtension?.())
 
     <p v-if="state.status === 'loading'" class="page__message">Đang tải folder…</p>
     <p v-else-if="state.status === 'invalid'" class="page__message page__message--error">
-      Link không hợp lệ — thiếu thông tin key trong URL.
+      Link không hợp lệ — key bị thiếu hoặc sai định dạng.
     </p>
     <p v-else-if="state.status === 'not-found'" class="page__message page__message--error">
       Link đã hết hạn hoặc đã bị thu hồi. Hỏi người gửi share lại cho bạn.
