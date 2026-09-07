@@ -16,6 +16,7 @@ import { usePriceLabels } from '@/composables/usePriceLabels'
 import { useSellerGrouping } from '@/composables/useSellerGrouping'
 import { pageLabel, relativeTime } from '@/lib/relative-time'
 import { nextFolderColor, recordHistory } from '@/lib/storage'
+import { parseJoinHash } from '@/lib/join-hash'
 import { buildDurableUrl, parseTradeUrl } from '@/lib/trade-url'
 import { onMessage as onExtensionMessage, sendMessage as sendExtensionMessage } from '@/lib/extension-messaging'
 import { onMessage as onWindowMessage, sendMessage as sendWindowMessage, type QueryStateDetail } from '@/lib/window-messaging'
@@ -54,6 +55,7 @@ const detectedLabel = ref<string | null>(null)
 const detectedQuery = ref<TradeQuery | null>(null)
 const showFolderCreator = ref(false)
 const showJoinModal = ref(false)
+const joinModalInitialKey = ref<string | undefined>(undefined)
 const panelRef = ref<HTMLElement | null>(null)
 let lastRecordedUrl = ''
 let locationTimer: number | undefined
@@ -217,6 +219,10 @@ watch([open, tab], ([openValue, tabValue]) => {
   window.sessionStorage.setItem(UI_STATE_KEY, JSON.stringify({ open: openValue, tab: tabValue }))
 })
 
+watch(showJoinModal, (isOpen) => {
+  if (!isOpen) joinModalInitialKey.value = undefined
+})
+
 watch(() => store.state.value.settings.priceLabelsEnabled, (enabled) => {
   if (enabled) void priceLabels.applyLabels(currentPage.value)
   else priceLabels.removeLabels()
@@ -239,6 +245,15 @@ watch(open, async (isOpen) => {
 onMounted(async () => {
   document.documentElement.style.setProperty('transition', 'margin-right 200ms ease')
   await folderSync.init()
+
+  const joinKeyFromHash = parseJoinHash(window.location.hash)
+  if (joinKeyFromHash) {
+    open.value = true
+    tab.value = 'saved'
+    joinModalInitialKey.value = joinKeyFromHash
+    showJoinModal.value = true
+    window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
+  }
 
   // Lần đầu tiên cài extension (chưa từng mở panel) — tự mở panel ngay để user thấy được
   // tính năng thay vì phải tự bấm tab dọc, bất kể họ vào trade site qua nút CTA của onboarding
@@ -370,7 +385,7 @@ onBeforeUnmount(() => {
           />
 
           <FolderFormModal v-model:open="showFolderCreator" :default-color="nextFolderColor(store.state.value.folders.length)" />
-          <JoinFolderModal v-model:open="showJoinModal" />
+          <JoinFolderModal v-model:open="showJoinModal" :initial-key="joinModalInitialKey" />
         </template>
 
         <template v-else-if="tab === 'history'">

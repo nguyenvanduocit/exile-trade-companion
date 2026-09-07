@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef, watch } from 'vue'
+import { onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { i18n } from '#i18n'
 import { X } from 'lucide-vue-next'
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog'
@@ -7,6 +7,7 @@ import { useFolderSync, type ShareKeyInspection } from '@/composables/useFolderS
 
 const props = defineProps<{
   open: boolean
+  initialKey?: string
 }>()
 
 const emit = defineEmits<{
@@ -18,29 +19,49 @@ const joinKey = ref('')
 const loading = ref(false)
 const error = ref<string | null>(null)
 const inspection = shallowRef<ShareKeyInspection | null>(null)
+let inspectionRequest = 0
 
-watch(() => props.open, (isOpen) => {
-  if (isOpen) return
+function resetInspection() {
+  inspectionRequest += 1
   inspection.value?.leave()
   inspection.value = null
   joinKey.value = ''
+  loading.value = false
   error.value = null
-})
+}
+
+watch(() => props.open, (isOpen) => {
+  if (!isOpen) {
+    resetInspection()
+    return
+  }
+  if (props.initialKey) {
+    joinKey.value = props.initialKey
+    void inspectKey()
+  }
+}, { immediate: true })
+
+onBeforeUnmount(resetInspection)
 
 async function inspectKey() {
   const key = joinKey.value.trim()
   if (!key) return
+  const request = ++inspectionRequest
   loading.value = true
   error.value = null
   try {
     const result = await folderSync.inspectShareKey(key)
+    if (request !== inspectionRequest || !props.open) {
+      if (result.ok) result.inspection.leave()
+      return
+    }
     if (!result.ok) {
       error.value = i18n.t('folder.joinFailed')
       return
     }
     inspection.value = result.inspection
   } finally {
-    loading.value = false
+    if (request === inspectionRequest) loading.value = false
   }
 }
 

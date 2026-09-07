@@ -26,4 +26,8 @@ describe('buildJoinHash / parseJoinHash', () => {
   it('accepts the hash with or without the leading #', () => {
     expect(parseJoinHash('etc-join=share_x')).toBe('share_x')
   })
+
+  it('returns null for malformed percent encoding', () => {
+    expect(parseJoinHash('#etc-join=%E0%A4%A')).toBeNull()
+  })
 })
