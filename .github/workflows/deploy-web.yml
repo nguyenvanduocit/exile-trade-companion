@@ -1,0 +1,53 @@
+name: Deploy web
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/web/**'
+      - 'packages/shared/**'
+      - 'package.json'
+      - 'bun.lock'
+      - '.github/workflows/deploy-web.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-web-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Test shared and web packages
+        run: |
+          bun run shared:test
+          bun run shared:typecheck
+          bun run web:test
+
+      - name: Build packages/web
+        env:
+          VITE_LIVEBLOCKS_PUBLIC_KEY: ${{ secrets.VITE_LIVEBLOCKS_PUBLIC_KEY }}
+          VITE_CHROME_WEB_STORE_URL: ${{ vars.CHROME_WEB_STORE_URL }}
+        run: bun run web:build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy packages/web/dist --project-name=poe-trade-share

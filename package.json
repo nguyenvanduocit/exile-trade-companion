@@ -20,7 +20,13 @@
     "zip:firefox": "wxt zip -b firefox",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",
-    "check": "bun run test && bun run typecheck && bun run build",
+    "shared:test": "bun run --filter shared test",
+    "shared:typecheck": "bun run --filter shared typecheck",
+    "web:dev": "bun run --filter web dev",
+    "web:build": "bun run --filter web build",
+    "web:test": "bun run --filter web test",
+    "web:typecheck": "bun run --filter web typecheck",
+    "check": "bun run test && bun run typecheck && bun run build && bun run shared:test && bun run shared:typecheck && bun run web:test && bun run web:typecheck && bun run web:build",
     "postinstall": "wxt prepare"
   },
   "devDependencies": {
