@@ -139,7 +139,7 @@ describe('parsePobXml trên export thật của poe.ninja', () => {
     const resolved = attachStatMatches(build.items, matchStatLines(poe1Catalog, build.items.flatMap((item) => item.lines)))
     const gloves = resolved.find((item) => item.baseType === 'Chimerascale Gauntlets')!
     expect(matchedCount(gloves)).toBe(gloves.lines.length)
-    const query = buildImportQuery(gloves, 'exact')
+    const query = buildImportQuery(gloves, 100)
     expect(query.type).toBe('Chimerascale Gauntlets')
     expect(query.stats.flatMap((group) => group.filters).find((filter) => filter.id === 'explicit.stat_3299347043')?.value).toEqual({ min: 105 })
     const speed = query.stats.find((group) => group.filters.some((filter) => filter.id === 'explicit.stat_210067635'))!
@@ -151,7 +151,7 @@ describe('parsePobXml trên export thật của poe.ninja', () => {
     const sortGroups = (stats: typeof query.stats) => stats
       .map((group) => ({ ...group, filters: [...group.filters].sort((a, b) => a.id.localeCompare(b.id)) }))
       .sort((a, b) => a.filters[0]!.id.localeCompare(b.filters[0]!.id))
-    const ninjaQuery = buildImportQuery(ninjaGloves, 'exact')
+    const ninjaQuery = buildImportQuery(ninjaGloves, 100)
     expect(sortGroups(ninjaQuery.stats)).toEqual(sortGroups(query.stats))
     expect({ ...ninjaQuery, stats: [] }).toEqual({ ...query, stats: [] })
   })
@@ -170,7 +170,7 @@ describe('parsePobXml trên export thật của poe.ninja', () => {
     // PoB2 không tag crafted: "+400 to Accuracy Rating" của spear vẫn ra id explicit (site khớp cả
     // dòng crafted cùng hash), count chỉ vì Local/global.
     const spear = resolved.find((item) => item.baseType === 'Soaring Spear')!
-    const accuracy = buildImportQuery(spear, 'exact').stats.find((group) => group.filters.some((filter) => filter.id === 'explicit.stat_803737631'))!
+    const accuracy = buildImportQuery(spear, 100).stats.find((group) => group.filters.some((filter) => filter.id === 'explicit.stat_803737631'))!
     expect(accuracy.filters.every((filter) => filter.id.startsWith('explicit.'))).toBe(true)
     expect(accuracy.filters.some((filter) => filter.id === 'explicit.stat_691932474')).toBe(true)
   })

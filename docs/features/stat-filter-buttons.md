@@ -8,7 +8,7 @@ Hai subsystem trong cùng content script `entrypoints/trade-stats.content.ts` (M
 - `+`: stat có số → thêm vào group And đầu tiên với `min` = giá trị trên item (stat đã có thì cập nhật min, xoá max, giữ các field khác như `weight`); stat không số → thêm không ngưỡng; đã có → toast "đã có".
 - `−`: stat có số → `max` = giá trị; stat không số → thêm vào group Not đầu tiên (tạo mới nếu chưa có).
 - Giá trị của "Adds X to Y … Damage" là trung bình hai đầu. Mod dạng "reduced" khớp stat "increased" (và less/more) với dấu âm.
-- Sau khi commit: mở Advanced Search, `app.save(true)`, toast bằng toastr của site, nút chuyển trạng thái đã thêm. Không tự chạy search.
+- Sau khi commit: mở Advanced Search, `app.save(true)`, toast bằng toastr của site. Nút thu lại khi rời chuột; vẫn hiện khi focus bằng bàn phím. Không tự chạy search.
 - Tô sáng: dòng mod có stat id nằm trong bất kỳ group nào của Stat Filters và không `disabled` được thêm class highlight. Rescan toàn document khi DOM đổi và khi `persistent.stats` đổi (Vuex watch).
 
 ## Cách hoạt động

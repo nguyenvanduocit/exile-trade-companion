@@ -4,6 +4,7 @@ import type { ContentScriptContext } from 'wxt/utils/content-script-context'
 import { i18n } from '#i18n'
 import { ArrowLeft, Bookmark, Download, Plus, Settings, Upload, Users } from 'lucide-vue-next'
 import DiscordIcon from '@/components/DiscordIcon.vue'
+import SupportersButton from '@/components/SupportersButton.vue'
 import FolderSection from '@/components/FolderSection.vue'
 import { orderedFolders, orderedSearches } from '@/lib/bookmark-order'
 import { endBookmarkDrag } from '@/composables/useBookmarkDrag'
@@ -127,9 +128,9 @@ const history = computed(() => {
   return store.state.value.history.filter((entry) => !savedUrls.has(entry.url)).slice(0, 15)
 })
 const savedCount = computed(() => store.visibleSearches.value.length)
-const currentSavedFolderId = computed(() => currentPage.value
-  ? store.visibleSearches.value.find((item) => item.url === currentPage.value?.url)?.folderId
-  : undefined)
+const currentSavedFolderIds = computed(() => new Set(store.visibleSearches.value
+  .filter((item) => item.url === currentPage.value?.url)
+  .map((item) => item.folderId)))
 
 function searchesForFolder(folderId: string) {
   return orderedSearches(store.visibleSearches.value, folderId)
@@ -316,16 +317,19 @@ onBeforeUnmount(() => {
 
     <section v-if="open" ref="panelRef" class="trade-companion-panel" :aria-label="i18n.t('panel.title')">
       <header class="flex h-10 shrink-0 items-center justify-between gap-2 border-b border-bronze pr-2 pl-1">
-        <button
-          class="discord-badge"
-          type="button"
-          :aria-label="i18n.t('panel.discordLabel')"
-          :title="i18n.t('panel.discordLabel')"
-          @click="openDiscord"
-        >
-          <DiscordIcon />
-          {{ i18n.t('panel.discordBadge') }}
-        </button>
+        <div class="flex shrink-0 items-center gap-1.5">
+          <button
+            class="discord-badge"
+            type="button"
+            :aria-label="i18n.t('panel.discordLabel')"
+            :title="i18n.t('panel.discordLabel')"
+            @click="openDiscord"
+          >
+            <DiscordIcon />
+            {{ i18n.t('panel.discordBadge') }}
+          </button>
+          <SupportersButton :page="currentPage" />
+        </div>
         <div class="flex items-center gap-1.5">
           <template v-if="tab === 'saved'">
             <button class="poe-btn poe-btn-primary poe-btn-sm" type="button" @click="showFolderCreator = true">
@@ -378,7 +382,7 @@ onBeforeUnmount(() => {
             :can-delete="store.state.value.folders.length > 1"
             :delete-target-name="deleteTargetName(folder.id)"
             :current-page="currentPage"
-            :is-current-page-saved="currentSavedFolderId === folder.id"
+            :is-current-page-saved="currentSavedFolderIds.has(folder.id)"
             @update:open="setFolderOpen(folder.id, $event)"
             @delete="store.removeFolder"
             @save="saveCurrent"
@@ -446,19 +450,6 @@ onBeforeUnmount(() => {
                 class="mt-1 size-4 accent-[var(--bronze-strong)]"
                 :checked="store.state.value.settings.priceLabelsEnabled"
                 @change="store.updateSettings({ priceLabelsEnabled: ($event.target as HTMLInputElement).checked })"
-              >
-            </label>
-
-            <label class="flex items-start justify-between gap-4">
-              <span>
-                <span class="block font-display text-[16px] text-cream">{{ i18n.t('settings.tierPickerTitle') }}</span>
-                <span class="mt-0.5 block leading-5 text-dim">{{ i18n.t('settings.tierPickerDesc') }}</span>
-              </span>
-              <input
-                type="checkbox"
-                class="mt-1 size-4 accent-[var(--bronze-strong)]"
-                :checked="store.state.value.settings.tierPickerEnabled"
-                @change="store.updateSettings({ tierPickerEnabled: ($event.target as HTMLInputElement).checked })"
               >
             </label>
 

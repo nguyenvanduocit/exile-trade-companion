@@ -1,8 +1,11 @@
 // Shape tối thiểu của window.app — instance Vue 2 + Vuex root của trade site (MAIN world).
 // Một declare global duy nhất cho toàn extension, tránh xung đột type giữa các content script cùng augment Window.
 import type { TradeQuery } from '@/types/trading'
-import type { KnownItemGroup } from '@/lib/tier-filter'
 import type { StatDefinition } from '@/lib/stat-filter'
+
+export interface KnownItemGroup {
+  entries: { type: string; name?: string }[]
+}
 
 export interface CurrencyCatalogEntry {
   id: string

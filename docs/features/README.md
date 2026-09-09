@@ -8,7 +8,6 @@ Mỗi file mô tả một tính năng: hành vi người dùng thấy, cách hi�
 | Bookmark bền (lưu query, dựng lại URL) | [durable-url.md](durable-url.md) | luôn bật |
 | Nút + / − trên dòng mod, tô sáng mod đang search | [stat-filter-buttons.md](stat-filter-buttons.md) | hai công tắc |
 | Nút + / − trên thuộc tính item | [property-filter-buttons.md](property-filter-buttons.md) | có |
-| Tier picker (PoE2) | [tier-picker.md](tier-picker.md) | có |
 | Nhãn quy đổi giá trên listing | [price-labels.md](price-labels.md) | có |
 | Lịch sử giá theo bookmark | [price-history.md](price-history.md) | luôn bật |
 | Đánh dấu seller bán nhiều item | [bulk-seller.md](bulk-seller.md) | có |

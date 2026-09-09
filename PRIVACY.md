@@ -1,8 +1,12 @@
 # Privacy Policy — Exile Trade Companion
 
-Last updated: 2026-09-06
+Last updated: 2026-09-09
 
 Exile Trade Companion is a browser extension for the Path of Exile trade site. It stores your bookmarks, folders and settings locally in your browser. Folder sharing sends only the folders you explicitly share to Liveblocks.
+
+## Currency prices
+
+The extension requests public currency prices from poe.ninja using the game and league. These requests run in the extension background without login cookies and are cached locally for six hours.
 
 ## Usage statistics
 

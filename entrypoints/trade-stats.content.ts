@@ -51,8 +51,6 @@ const STYLE = `
 }
 .${BUTTON_CLASS}:hover, .${BUTTON_CLASS}:focus-visible { border-color: #a38d6d; background: #2c2011; outline: none; z-index: 6; }
 .${BUTTON_NOT_CLASS}:hover, .${BUTTON_NOT_CLASS}:focus-visible { border-color: #af5a4a; background: #2c1111; outline: none; z-index: 6; }
-.${BUTTON_CLASS}[data-added="true"] { width: 18px; margin-left: 6px; opacity: 1; border-color: #8a6a3a; color: #a38d6d; cursor: default; }
-.${BUTTON_NOT_CLASS}[data-added="true"] { width: 18px; margin-left: -1px; opacity: 1; border-color: #8a4a3a; color: #c08a7a; cursor: default; }
 .${HIGHLIGHT_CLASS} { background: rgba(163, 141, 109, 0.22); box-shadow: inset 0 0 0 1px rgba(138, 106, 58, 0.65); border-radius: 2px; }
 `
 
@@ -67,9 +65,8 @@ function toast(app: TradeApp, msg: string) {
   app.$refs.toastr?.Add({ msg, progressbar: false, timeout: 2000 })
 }
 
-function applyPlan(app: TradeApp, button: HTMLButtonElement, plan: AddStatPlan, groupType: 'and' | 'not', label: string, message = t.statAdded(label)) {
+function applyPlan(app: TradeApp, plan: AddStatPlan, groupType: 'and' | 'not', label: string, message = t.statAdded(label)) {
   if (plan.action === 'exists') {
-    button.dataset.added = 'true'
     toast(app, t.statExists(label))
     return
   }
@@ -79,24 +76,23 @@ function applyPlan(app: TradeApp, button: HTMLButtonElement, plan: AddStatPlan, 
   else app.$store.commit('setStatFilter', { group: plan.group, value: plan.value })
   app.$store.commit('showAdvancedSearch', true)
   app.save(true)
-  button.dataset.added = 'true'
   toast(app, message)
 }
 
-function setStatBound(app: TradeApp, button: HTMLButtonElement, line: HTMLElement, id: string, bound: 'min' | 'max') {
+function setStatBound(app: TradeApp, line: HTMLElement, id: string, bound: 'min' | 'max') {
   const label = line.textContent?.trim() ?? id
   const value = id.startsWith('statgroup.') ? null : parseStatValue(label, app.static_?.knownStatsFlat?.[id])
   const groups = app.$store.state.persistent.stats
   if (value !== null) {
-    applyPlan(app, button, planAddStat(groups, id, { [bound]: value }), 'and', label, t.boundSet(label, bound, value))
+    applyPlan(app, planAddStat(groups, id, { [bound]: value }), 'and', label, t.boundSet(label, bound, value))
   } else if (bound === 'min') {
-    applyPlan(app, button, planAddStat(groups, id), 'and', label)
+    applyPlan(app, planAddStat(groups, id), 'and', label)
   } else {
-    applyPlan(app, button, planAddStatNot(groups, id), 'not', label)
+    applyPlan(app, planAddStatNot(groups, id), 'not', label)
   }
 }
 
-function makeButton(options: { className: string; symbol: string; title: string; onClick: (app: TradeApp, button: HTMLButtonElement) => void }) {
+function makeButton(options: { className: string; symbol: string; title: string; onClick: (app: TradeApp) => void }) {
   const button = document.createElement('button')
   button.type = 'button'
   button.className = options.className
@@ -109,7 +105,7 @@ function makeButton(options: { className: string; symbol: string; title: string;
     event.stopPropagation()
     const app = window.app
     if (!app?.$store) return
-    options.onClick(app, button)
+    options.onClick(app)
     void sendMessage('featureUsed', 'stat-filter-button').catch(() => undefined)
   })
   return button
@@ -127,13 +123,13 @@ function decorate(line: HTMLElement) {
     className: BUTTON_CLASS,
     symbol: '+',
     title: value === null ? t.addTitle(label) : t.boundSet(label, 'min', value),
-    onClick: (app, button) => setStatBound(app, button, line, id, 'min'),
+    onClick: (app) => setStatBound(app, line, id, 'min'),
   })
   const notButton = makeButton({
     className: BUTTON_NOT_CLASS,
     symbol: '−',
     title: value === null ? t.addNotTitle(label) : t.boundSet(label, 'max', value),
-    onClick: (app, button) => setStatBound(app, button, line, id, 'max'),
+    onClick: (app) => setStatBound(app, line, id, 'max'),
   })
 
   host.classList.add(LINE_CLASS)

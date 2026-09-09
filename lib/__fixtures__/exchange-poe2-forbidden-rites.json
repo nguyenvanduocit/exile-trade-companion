@@ -1,0 +1,223 @@
+{
+  "core": {
+    "primary": "divine",
+    "rates": {
+      "exalted": 188.6,
+      "chaos": 12.56
+    }
+  },
+  "lines": [
+    {
+      "id": "alch",
+      "primaryValue": 0.003271
+    },
+    {
+      "id": "exalted",
+      "primaryValue": 0.005302
+    },
+    {
+      "id": "ancient-infuser",
+      "primaryValue": 0.06778
+    },
+    {
+      "id": "chaos",
+      "primaryValue": 0.0796
+    },
+    {
+      "id": "divine",
+      "primaryValue": 1
+    },
+    {
+      "id": "annul",
+      "primaryValue": 0.4253
+    },
+    {
+      "id": "architects-orb",
+      "primaryValue": 0.8285
+    },
+    {
+      "id": "artificers",
+      "primaryValue": 0.004512
+    },
+    {
+      "id": "artificers-shard",
+      "primaryValue": 0.001676
+    },
+    {
+      "id": "aug",
+      "primaryValue": 0.001921
+    },
+    {
+      "id": "bauble",
+      "primaryValue": 0.01149
+    },
+    {
+      "id": "chance",
+      "primaryValue": 0.08512
+    },
+    {
+      "id": "chance-shard",
+      "primaryValue": 0.006075
+    },
+    {
+      "id": "core-destabiliser",
+      "primaryValue": 0.2542
+    },
+    {
+      "id": "crystallised-corruption",
+      "primaryValue": 1.24
+    },
+    {
+      "id": "etcher",
+      "primaryValue": 0.009293
+    },
+    {
+      "id": "fracturing-orb",
+      "primaryValue": 7.69
+    },
+    {
+      "id": "greater-regal-orb",
+      "primaryValue": 0.006589
+    },
+    {
+      "id": "kopecs-orb-of-sacrifice",
+      "primaryValue": 0.05577
+    },
+    {
+      "id": "lesser-jewellers-orb",
+      "primaryValue": 0.0005964
+    },
+    {
+      "id": "perfect-chaos-orb",
+      "primaryValue": 1.63
+    },
+    {
+      "id": "perfect-exalted-orb",
+      "primaryValue": 1.54
+    },
+    {
+      "id": "perfect-jewellers-orb",
+      "primaryValue": 0.7082
+    },
+    {
+      "id": "perfect-regal-orb",
+      "primaryValue": 0.06865
+    },
+    {
+      "id": "regal",
+      "primaryValue": 0.002679
+    },
+    {
+      "id": "scrap",
+      "primaryValue": 0.009057
+    },
+    {
+      "id": "vaal-arcanists-infuser",
+      "primaryValue": 0.02227
+    },
+    {
+      "id": "vaal-armourers-infuser",
+      "primaryValue": 0.313
+    },
+    {
+      "id": "vaal-blacksmiths-infuser",
+      "primaryValue": 0.2629
+    },
+    {
+      "id": "vaal-cultivation-orb",
+      "primaryValue": 1.73
+    },
+    {
+      "id": "cryptic-key",
+      "primaryValue": 0.5417
+    },
+    {
+      "id": "hinekoras-lock",
+      "primaryValue": 257.6
+    },
+    {
+      "id": "vaal-siphoner",
+      "primaryValue": 0.001292
+    },
+    {
+      "id": "gcp",
+      "primaryValue": 0.02302
+    },
+    {
+      "id": "greater-chaos-orb",
+      "primaryValue": 0.2165
+    },
+    {
+      "id": "greater-exalted-orb",
+      "primaryValue": 0.0245
+    },
+    {
+      "id": "greater-jewellers-orb",
+      "primaryValue": 0.0109
+    },
+    {
+      "id": "greater-orb-of-augmentation",
+      "primaryValue": 0.002288
+    },
+    {
+      "id": "greater-orb-of-transmutation",
+      "primaryValue": 0.003512
+    },
+    {
+      "id": "kamasas-orb-of-sacrifice",
+      "primaryValue": 0.358
+    },
+    {
+      "id": "mirror",
+      "primaryValue": 1246
+    },
+    {
+      "id": "orb-of-extraction",
+      "primaryValue": 0.3584
+    },
+    {
+      "id": "perfect-orb-of-augmentation",
+      "primaryValue": 0.0861
+    },
+    {
+      "id": "perfect-orb-of-transmutation",
+      "primaryValue": 0.05948
+    },
+    {
+      "id": "regal-shard",
+      "primaryValue": 0.001988
+    },
+    {
+      "id": "transmutation-shard",
+      "primaryValue": 0.0007575
+    },
+    {
+      "id": "transmute",
+      "primaryValue": 0.001822
+    },
+    {
+      "id": "vaal-catalysing-infuser",
+      "primaryValue": 0.716
+    },
+    {
+      "id": "vaal",
+      "primaryValue": 0.005312
+    },
+    {
+      "id": "whetstone",
+      "primaryValue": 0.003517
+    },
+    {
+      "id": "wisdom",
+      "primaryValue": 0.00004687
+    },
+    {
+      "id": "yaomacs-orb-of-sacrifice",
+      "primaryValue": 0.1009
+    },
+    {
+      "id": "yuguls-orb-of-sacrifice",
+      "primaryValue": 0.01738
+    }
+  ]
+}

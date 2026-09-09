@@ -62,7 +62,7 @@ describe('dataset thật: gear rare map đủ dòng', () => {
     })
     it(`${name}: mọi query dùng status available, rare có rarity nonunique`, () => {
       for (const item of items) {
-        const query = buildImportQuery(item, 'exact')
+        const query = buildImportQuery(item, 100)
         expect(query.status).toBe('available')
         if (item.rarity === 'unique') {
           expect(query.name).toBe(item.name)
@@ -77,7 +77,7 @@ describe('dataset thật: gear rare map đủ dòng', () => {
 
 describe('Poteitik (POE1 Champion): họ section, (Local), damage range, text trùng nhiều id', () => {
   const gloves = find(P, 'Chimerascale Gauntlets')
-  const query = buildImportQuery(gloves, 'exact')
+  const query = buildImportQuery(gloves, 100)
 
   it('implicit giữ section riêng trong group and', () => {
     expect(filterOf(query, 'implicit.stat_3739863694')).toMatchObject({ group: 'and', value: { min: 15 } })
@@ -120,7 +120,7 @@ describe('Poteitik (POE1 Champion): họ section, (Local), damage range, text tr
   })
 
   it('"+14% chance to Suppress Spell Damage" là hai stat GGG cùng text → count group', () => {
-    const boots = buildImportQuery(find(P, 'Wyvernscale Boots'), 'exact')
+    const boots = buildImportQuery(find(P, 'Wyvernscale Boots'), 100)
     expect(filterOf(boots, 'explicit.stat_3680664274')).toMatchObject({ group: 'count', value: { min: 14 } })
     expect(filterOf(boots, 'explicit.stat_492027537')).toMatchObject({ group: 'count', value: { min: 14 } })
   })
@@ -128,34 +128,34 @@ describe('Poteitik (POE1 Champion): họ section, (Local), damage range, text tr
   it('cluster jewel: "1 Added Passive Skill is a Jewel Socket" khớp catalog số nhiều; enchant option; entry hai dòng', () => {
     const medium = find(P, 'Medium Cluster Jewel', 'Exerted Attacks')
     expect(matchedCount(medium)).toBe(medium.lines.length)
-    const mediumQuery = buildImportQuery(medium, 'exact')
+    const mediumQuery = buildImportQuery(medium, 100)
     expect(filterOf(mediumQuery, 'enchant.stat_4079888060')).toMatchObject({ value: { min: 1 } })
     expect(filterOf(mediumQuery, 'enchant.stat_3948993189|28')).toBeDefined()
 
     const large = find(P, 'Large Cluster Jewel')
     expect(matchedCount(large)).toBe(large.lines.length)
-    expect(filterOf(buildImportQuery(large, 'exact'), 'enchant.stat_3948993189|1')).toBeDefined()
+    expect(filterOf(buildImportQuery(large, 100), 'enchant.stat_3948993189|1')).toBeDefined()
   })
 
   it('unique giữ name + type, không có rarity filter, nhưng vẫn mang stat để phân biệt roll/biến thể', () => {
     const abyssus = P.find((item) => item.name === 'Abyssus')!
-    const query = buildImportQuery(abyssus, 'exact')
+    const query = buildImportQuery(abyssus, 100)
     expect(query).toMatchObject({ name: 'Abyssus', type: 'Ezomyte Burgonet', filters: {} })
     expect(query.stats.flatMap((group) => group.filters).length).toBeGreaterThan(0)
     // Watcher's Eye: tên không định danh được mod, stat mới là thứ người mua cần.
-    const eye = buildImportQuery(P.find((item) => item.name === "Watcher's Eye")!, 'exact')
+    const eye = buildImportQuery(P.find((item) => item.name === "Watcher's Eye")!, 100)
     expect(eye.name).toBe("Watcher's Eye")
     expect(filterOf(eye, 'explicit.stat_1413864591')).toMatchObject({ value: { min: 45 } })
   })
 
   it('"-7 to Total Mana Cost" (crafted trên item) ra explicit id với max -7', () => {
-    expect(filterOf(buildImportQuery(find(P, 'Amethyst Ring'), 'exact'), 'explicit.stat_677564538')).toMatchObject({ group: 'and', value: { max: -7 } })
+    expect(filterOf(buildImportQuery(find(P, 'Amethyst Ring'), 100), 'explicit.stat_677564538')).toMatchObject({ group: 'and', value: { max: -7 } })
   })
 })
 
 describe('allffan (POE1 Necromancer): Bone Ring roll âm trên stat tên thuận', () => {
   const ring = find(A, 'Bone Ring', '-139 to maximum Life')
-  const query = buildImportQuery(ring, 'exact')
+  const query = buildImportQuery(ring, 100)
 
   it('"-139 to maximum Life" và "-63% to Lightning Resistance" vào max, mod minion dương vào min', () => {
     expect(filterOf(query, 'explicit.stat_3299347043')).toMatchObject({ value: { max: -139 } })
@@ -169,20 +169,20 @@ describe('allffan (POE1 Necromancer): Bone Ring roll âm trên stat tên thuận
   })
 
   it('fractured âm và "-1 to Minimum Endurance Charges" cũng vào max, đều qua explicit id', () => {
-    const other = buildImportQuery(find(A, 'Bone Ring', '-79% to Lightning Resistance'), 'exact')
+    const other = buildImportQuery(find(A, 'Bone Ring', '-79% to Lightning Resistance'), 100)
     expect(filterOf(other, 'explicit.stat_1671376347')).toMatchObject({ value: { max: -79 } })
     expect(filterOf(other, 'explicit.stat_3706959521')).toMatchObject({ value: { max: -1 } })
   })
 
   it('any roll: cùng item nhưng không có min/max', () => {
-    const any = buildImportQuery(ring, 'any')
+    const any = buildImportQuery(ring, 0)
     expect(any.stats.flatMap((group) => group.filters).every((filter) => filter.value && Object.keys(filter.value).length === 0)).toBe(true)
   })
 })
 
 describe('Haruto_Allflame (POE1 Necromancer): reduced trên stat increased', () => {
   const ring = find(H, 'Bone Ring', 'reduced Cold Damage')
-  const query = buildImportQuery(ring, 'exact')
+  const query = buildImportQuery(ring, 100)
 
   it('"33% reduced Cold Damage" map vào "#% increased Cold Damage" với max -33', () => {
     expect(filterOf(query, 'explicit.stat_3291658075')).toMatchObject({ value: { max: -33 } })
@@ -198,7 +198,7 @@ describe('ResurrectForbidden (POE2 Gemling): markup [Tag|Text], rune/desecrated,
   it('Blacksteel Gauntlets: rune vào query dạng disabled (người mua tự cắm rune), desecrated ra explicit id', () => {
     const gloves = find(G, 'Blacksteel Gauntlets')
     expect(matchedCount(gloves)).toBe(gloves.lines.length)
-    const query = buildImportQuery(gloves, 'exact')
+    const query = buildImportQuery(gloves, 100)
     expect(filterOf(query, 'rune.stat_1671376347')).toMatchObject({ group: 'and', value: { min: 18 } })
     expect(query.stats[0]!.filters.filter((filter) => filter.id.startsWith('rune.')).every((filter) => filter.disabled === true)).toBe(true)
     expect(filterOf(query, 'explicit.stat_3372524247')).toMatchObject({ group: 'and', value: { min: 12 } })
@@ -207,12 +207,12 @@ describe('ResurrectForbidden (POE2 Gemling): markup [Tag|Text], rune/desecrated,
   })
 
   it('Heavy Belt: "Has 2 Charm Slots" khớp catalog "Has # Charm Slot"', () => {
-    expect(filterOf(buildImportQuery(find(G, 'Heavy Belt'), 'exact'), 'implicit.stat_1416292992')).toMatchObject({ value: { min: 2 } })
+    expect(filterOf(buildImportQuery(find(G, 'Heavy Belt'), 100), 'implicit.stat_1416292992')).toMatchObject({ value: { min: 2 } })
   })
 
   it('unique POE2 giữ name + type và mang stat', () => {
     const amulet = G.find((item) => item.name === 'Beacon of Azis')!
-    const query = buildImportQuery(amulet, 'exact')
+    const query = buildImportQuery(amulet, 100)
     expect(query).toMatchObject({ name: 'Beacon of Azis', type: 'Solar Amulet', filters: {} })
     expect(query.stats.flatMap((group) => group.filters).length).toBeGreaterThan(0)
   })

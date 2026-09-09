@@ -1,17 +1,16 @@
 import type { ContentScriptContext } from 'wxt/utils/content-script-context'
-import { fetchExchangeRates } from '@/lib/exchange-rate'
+import { useExchangeRates } from './useExchangeRates'
 import { computeSnapshot, readListingPrices } from '@/lib/price-snapshot'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { isSearchVisible } from '@/lib/storage'
-import type { CurrencyId } from '@/types/pricing'
 import type { TradePage } from '@/types/trading'
 
 const SNAPSHOT_THROTTLE_MS = 60 * 60 * 1000
-const RATE_CACHE_TTL_MS = 6 * 60 * 60 * 1000
 const OBSERVER_DEBOUNCE_MS = 800
 
 export function usePriceSnapshot(ctx: ContentScriptContext) {
   const store = useTradeStore()
+  const { ensureRates } = useExchangeRates()
 
   async function maybeCaptureSnapshot(page: TradePage | null) {
     if (!page || page.mode !== 'search' || !page.queryId) return
@@ -30,19 +29,7 @@ export function usePriceSnapshot(ctx: ContentScriptContext) {
     const listings = readListingPrices()
     if (!listings.length) return
 
-    const currencies = [...new Set(listings.map((listing) => listing.currency))]
-      .filter((currency) => currency !== 'chaos')
-
-    const cache = store.state.value.exchangeRate
-    const cacheFresh = cache != null && cache.league === page.league && now - cache.fetchedAt < RATE_CACHE_TTL_MS
-    const missing = currencies.filter((currency) => !cacheFresh || !(currency in cache!.rates))
-
-    let rates: Record<CurrencyId, number> = cacheFresh ? { ...cache!.rates } : {}
-    if (missing.length) {
-      const fetched = await fetchExchangeRates(page.game, page.league, missing)
-      rates = { ...rates, ...fetched }
-      await store.setExchangeRateCache({ league: page.league, fetchedAt: now, rates })
-    }
+    const rates = await ensureRates(page)
 
     const result = computeSnapshot(listings, rates)
     if (!result) return

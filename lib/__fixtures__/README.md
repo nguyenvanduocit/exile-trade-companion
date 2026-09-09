@@ -34,3 +34,10 @@ không tự đúng vì catalog quá nhỏ. Không phải catalog đầy đủ.
 
 `pob-poe1.txt`, `pob-poe2.txt` (nếu có) là PoB code từ field `pathOfBuildingExport` của Poteitik và
 ResurrectForbidden, dùng cho `lib/pob-import.test.ts`.
+
+## Tỷ giá Currency Exchange
+
+`exchange-poe2-forbidden-rites.json` và `exchange-poe1-allflame.json` được lấy ngày 2026-09-09 từ
+`https://poe.ninja/{poe2|poe1}/api/economy/exchange/current/overview?league={league}&type=Currency`.
+Chỉ giữ `core.primary`, `core.rates` và `lines[].{id,primaryValue}`. PoE2 dùng divine làm primary,
+PoE1 dùng chaos; test kiểm tra cả hai chiều chuẩn hóa và ưu tiên tỷ giá core so với line đã làm tròn.

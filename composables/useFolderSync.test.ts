@@ -60,6 +60,28 @@ afterEach(async () => {
 })
 
 describe('folder note sync', () => {
+  it('publishes replaced character gear to the same live room while preserving folder metadata', async () => {
+    const item = {
+      url: 'https://www.pathofexile.com/trade2/search/Standard/test', title: 'Old ring', game: 'poe2' as const, league: 'Standard', mode: 'search' as const,
+      query: { status: 'available', name: null, type: 'Ruby Ring', term: null, disc: null, stats: [], filters: {}, exchange: { want: {}, have: {} } },
+    }
+    await store.replaceFolderContents('ResurrectForbidden', [item])
+    const id = store.state.value.folders.find(folder => folder.name === 'ResurrectForbidden')!.id
+    await store.updateFolder(id, { note: 'Keep this note', color: '#abcdef' })
+    const shareKey = await sync.shareFolderLive(id)
+    const before = { ...store.state.value.folders.find(folder => folder.id === id)! }
+    const oldIds = [...root.get('searches').keys()]
+    await store.removeSearch(oldIds[0]!)
+    await store.replaceFolderContents('ResurrectForbidden', [{ ...item, title: 'New boots' }, { ...item, title: 'New ring' }])
+    expect(store.state.value.folders.find(folder => folder.id === id)).toEqual(before)
+    expect(before.shareKey).toBe(shareKey)
+    expect([...root.get('searches').values()].map(value => value.get('title'))).toEqual(['New boots', 'New ring'])
+    expect(oldIds.every(id => !root.get('searches').has(id))).toBe(true)
+    expect(root.get('folder').toJSON()).toMatchObject({ name: 'ResurrectForbidden', note: 'Keep this note', color: '#abcdef' })
+    notifyRemoteChange()
+    await vi.waitFor(() => expect(store.state.value.searches.filter(search => search.folderId === id).map(search => search.title)).toEqual(['New boots', 'New ring']))
+  })
+
   it('seeds live sharing, pushes local edits and clearing, and receives remote edits and clearing', async () => {
     await store.updateFolder('gear', { note: 'Local build\nBudget: 10 div' })
     expect(await sync.shareFolderLive('gear')).toMatch(/^share_/)

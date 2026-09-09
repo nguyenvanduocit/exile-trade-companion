@@ -116,6 +116,32 @@ describe('createStatMatcher', () => {
     expect(match({ section: 'explicit', text: '+14% chance to Suppress Spell Damage' })).toMatchObject({ ids: ['explicit.stat_3680664274', 'explicit.stat_492027537'], value: 14 })
   })
 
+  it.each(['explicit', 'crafted', 'desecrated'] as const)('rarity %s chỉ lấy mod khớp toàn bộ text', (section) => {
+    const match = createStatMatcher(poe2Catalog)
+    expect(match({ section, text: '12% increased Rarity of Items found' })).toEqual({
+      ids: ['explicit.stat_3917489142', 'explicit.stat_2306002879'],
+      text: '#% increased Rarity of Items found', value: 12,
+    })
+    expect(match({ section, text: '12% reduced Rarity of Items found' })?.ids)
+      .toEqual(['explicit.stat_3917489142', 'explicit.stat_2306002879'])
+  })
+
+  it('rarity có đủ điều kiện vẫn khớp mod nhiều dòng', () => {
+    expect(createStatMatcher(poe2Catalog)({
+      section: 'explicit',
+      text: '12% increased Rarity of Items found Your other Modifiers to Rarity of Items found do not apply',
+    })).toMatchObject({ ids: ['explicit.stat_1602191394'], value: 12 })
+  })
+
+  it('ưu tiên toàn bộ text ở section sau và dạng đảo chiều trước một dòng của mod ghép', () => {
+    const match = createStatMatcher([
+      { id: 'explicit.compound', text: '#% reduced Rarity of Items found\nYour other Modifiers to Rarity of Items found do not apply' },
+      { id: 'crafted.simple', text: '#% increased Rarity of Items found' },
+    ])
+    expect(match({ section: 'crafted', text: '12% reduced Rarity of Items found' }))
+      .toEqual({ ids: ['crafted.simple'], text: '#% increased Rarity of Items found', value: -12 })
+  })
+
   it('lấy trung bình damage range như trade site', () => {
     expect(match({ section: 'explicit', text: 'Adds 3 to 7 Physical Damage to Attacks' })).toMatchObject({ ids: ['explicit.stat_3032590688'], value: 5 })
   })
@@ -215,24 +241,24 @@ describe('buildImportQuery', () => {
   const resolved = attachStatMatches(items, matchStatLines(poe1Catalog, items.flatMap((item) => item.lines)))
 
   it('status luôn là available (Instant Buyout and In Person)', () => {
-    expect(buildImportQuery(resolved[0]!, 'any').status).toBe('available')
-    expect(buildImportQuery(resolved[0]!, 'exact').status).toBe('available')
+    expect(buildImportQuery(resolved[0]!, 0).status).toBe('available')
+    expect(buildImportQuery(resolved[0]!, 100).status).toBe('available')
   })
 
   it('unique: name + type và vẫn mang stat (Watcher\'s Eye, Forbidden Flesh, mod Foulborn cần mod)', () => {
-    const query = buildImportQuery(resolved.find((item) => item.name === 'Abyssus')!, 'exact')
+    const query = buildImportQuery(resolved.find((item) => item.name === 'Abyssus')!, 100)
     expect(query.name).toBe('Abyssus')
     expect(query.type).toBe('Ezomyte Burgonet')
     expect(query.filters).toEqual({})
     const filters = query.stats.flatMap((group) => group.filters)
     expect(filters.length).toBeGreaterThan(0)
     expect(filters.every((filter) => filter.value && ('min' in filter.value || 'max' in filter.value))).toBe(true)
-    const any = buildImportQuery(resolved.find((item) => item.name === 'Abyssus')!, 'any')
+    const any = buildImportQuery(resolved.find((item) => item.name === 'Abyssus')!, 0)
     expect(any.stats.flatMap((group) => group.filters).every((filter) => Object.keys(filter.value ?? {}).length === 0)).toBe(true)
   })
 
   it('rare: base + rarity nonunique + mọi mod map được, any roll không đặt min', () => {
-    const query = buildImportQuery(resolved.find((item) => item.baseType === 'Chimerascale Gauntlets')!, 'any')
+    const query = buildImportQuery(resolved.find((item) => item.baseType === 'Chimerascale Gauntlets')!, 0)
     expect(query.name).toBeNull()
     expect(query.type).toBe('Chimerascale Gauntlets')
     expect(query.filters).toEqual({ type_filters: { filters: { rarity: { option: 'nonunique' } } } })
@@ -242,7 +268,7 @@ describe('buildImportQuery', () => {
   })
 
   it('rare: mod nhiều id (Local/global, Suppress) là group count min 1 cùng roll; mod một id vào and', () => {
-    const query = buildImportQuery(resolved.find((item) => item.baseType === 'Chimerascale Gauntlets')!, 'exact')
+    const query = buildImportQuery(resolved.find((item) => item.baseType === 'Chimerascale Gauntlets')!, 100)
     const and = query.stats.find((group) => group.type === 'and')!
     expect(and.filters.find((filter) => filter.id === 'explicit.stat_3299347043')?.value).toEqual({ min: 105 })
     expect(and.filters.map((filter) => filter.id)).toContain('implicit.stat_3739863694')
@@ -253,13 +279,13 @@ describe('buildImportQuery', () => {
       { id: 'explicit.stat_681332047', value: { min: 18 }, disabled: false },
     ])
     expect(and.filters.map((filter) => filter.id)).not.toContain('explicit.stat_681332047')
-    const boots = buildImportQuery(resolved.find((item) => item.baseType === 'Wyvernscale Boots')!, 'exact')
+    const boots = buildImportQuery(resolved.find((item) => item.baseType === 'Wyvernscale Boots')!, 100)
     expect(boots.stats.find((group) => group.type === 'count')?.filters.map((filter) => filter.id))
       .toEqual(['explicit.stat_3680664274', 'explicit.stat_492027537'])
   })
 
   it('rare exact: damage range dùng trung bình, mỗi mod chỉ một group', () => {
-    const query = buildImportQuery(resolved.find((item) => item.baseType === 'Chimerascale Gauntlets')!, 'exact')
+    const query = buildImportQuery(resolved.find((item) => item.baseType === 'Chimerascale Gauntlets')!, 100)
     const damage = query.stats.flatMap((group) => group.filters).filter((filter) => filter.id === 'explicit.stat_3032590688')
     expect(damage).toHaveLength(1)
     expect(damage[0]!.value).toEqual({ min: 5 })
@@ -269,7 +295,7 @@ describe('buildImportQuery', () => {
 
   it('rare exact: roll âm đi vào max thay vì min', () => {
     const ring = resolved.find((item) => item.baseType === 'Amethyst Ring')!
-    const filters = buildImportQuery(ring, 'exact').stats.flatMap((group) => group.filters)
+    const filters = buildImportQuery(ring, 100).stats.flatMap((group) => group.filters)
     expect(filters.find((filter) => filter.id === 'explicit.stat_677564538')?.value).toEqual({ max: -7 })
     expect(filters.find((filter) => filter.id === 'explicit.stat_3299347043')?.value).toEqual({ min: 101 })
   })
@@ -278,7 +304,7 @@ describe('buildImportQuery', () => {
     const items2 = collectImportItems(poe2Character as NinjaCharacter)
     const resolved2 = attachStatMatches(items2, matchStatLines(poe2Catalog, items2.flatMap((item) => item.lines)))
     const withRune = resolved2.find((item) => item.rarity === 'rare' && item.lines.some((line) => line.section === 'rune'))!
-    const query = buildImportQuery(withRune, 'exact')
+    const query = buildImportQuery(withRune, 100)
     const runeFilters = query.stats.flatMap((group) => group.filters).filter((filter) => filter.id.startsWith('rune.'))
     expect(runeFilters.length).toBeGreaterThan(0)
     expect(runeFilters.every((filter) => filter.disabled === true)).toBe(true)
@@ -287,7 +313,7 @@ describe('buildImportQuery', () => {
 
   it('flask magic: base + mod; flask không map được dòng nào vẫn ra type-only', () => {
     const flask = resolved.find((item) => item.baseType === 'Diamond Flask')!
-    const query = buildImportQuery(flask, 'any')
+    const query = buildImportQuery(flask, 0)
     expect(query.type).toBe('Diamond Flask')
     expect(query.stats.flatMap((group) => group.filters).map((filter) => filter.id)).toContain('explicit.stat_2008255263')
   })

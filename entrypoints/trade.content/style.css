@@ -92,6 +92,13 @@
   overscroll-behavior: contain;
 }
 
+@media (min-width: 768px) {
+  .supporters-columns {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+    align-items: start;
+  }
+}
+
 .trade-companion-scroll::-webkit-scrollbar {
   width: 8px;
 }
@@ -132,3 +139,74 @@
 
 .bookmark-drop-row[data-drop="before"]::before { top: 0; }
 .bookmark-drop-row[data-drop="after"]::after { bottom: 0; }
+
+.import-roll-slider {
+  --roll-track: linear-gradient(to right, var(--bronze-strong) 0%, #d4a64a var(--roll-fill), var(--bg) var(--roll-fill), var(--bg) 100%);
+  appearance: none;
+  -webkit-appearance: none;
+  height: 24px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.import-roll-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border: 1px solid var(--bronze);
+  border-radius: 2px;
+  background: var(--roll-track);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 40%);
+}
+
+.import-roll-slider::-moz-range-track {
+  height: 4px;
+  border: 1px solid var(--bronze);
+  border-radius: 2px;
+  background: var(--roll-track);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 40%);
+}
+
+.import-roll-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border: 2px solid #e6c77e;
+  border-radius: 3px;
+  background: linear-gradient(#ba934b, #785321);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 65%);
+}
+
+.import-roll-slider::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #e6c77e;
+  border-radius: 3px;
+  background: linear-gradient(#ba934b, #785321);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 65%);
+}
+
+.import-roll-slider:hover::-webkit-slider-thumb,
+.import-roll-slider:active::-webkit-slider-thumb {
+  border-color: var(--cream);
+  box-shadow: 0 0 7px rgb(212 166 74 / 45%);
+}
+
+.import-roll-slider:hover::-moz-range-thumb,
+.import-roll-slider:active::-moz-range-thumb {
+  border-color: var(--cream);
+  box-shadow: 0 0 7px rgb(212 166 74 / 45%);
+}
+
+.import-roll-slider:focus-visible {
+  outline: 1px solid var(--bronze-strong);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.import-roll-slider:disabled {
+  cursor: default;
+  opacity: 0.45;
+}

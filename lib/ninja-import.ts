@@ -10,6 +10,7 @@ export interface NinjaLink {
   leagueSlug: string
   account: string
   character: string
+  timeMachine?: string
 }
 
 // https://poe.ninja/{poe1|poe2}/builds/{leagueSlug}/character/{account}/{character}[?i=0]
@@ -31,7 +32,8 @@ export function parseNinjaUrl(value: string): NinjaLink | null {
   const [game, builds, leagueSlug, character, account, name] = segments
   if ((game !== 'poe1' && game !== 'poe2') || builds !== 'builds' || character !== 'character') return null
   if (!leagueSlug || !account || !name) return null
-  return { game, leagueSlug, account, character: name }
+  const timeMachine = url.searchParams.get('timemachine')
+  return { game, leagueSlug, account, character: name, ...(timeMachine ? { timeMachine } : {}) }
 }
 
 export interface NinjaSnapshotVersion {
@@ -55,6 +57,7 @@ export function resolveNinjaSnapshot(indexState: NinjaIndexState, leagueSlug: st
 
 export function ninjaCharacterUrl(link: NinjaLink, snapshot: NinjaSnapshotVersion) {
   const params = new URLSearchParams({ account: link.account, name: link.character, overview: snapshot.snapshotName })
+  if (link.timeMachine) params.set('timeMachine', link.timeMachine)
   return `https://poe.ninja/${link.game}/api/builds/${snapshot.version}/character?${params}`
 }
 
@@ -190,6 +193,7 @@ function compilePattern(text: string): RegExp {
 
 interface CompiledEntry extends StatCatalogEntry {
   pattern: RegExp
+  partial: boolean
 }
 
 function toValue(text: string, captures: string[], sign: number): number | null {
@@ -209,16 +213,15 @@ export function createStatMatcher(catalog: StatCatalogEntry[]): (line: StatLine)
     bySection.set(section, list)
   }
   const compiled = new Map<string, CompiledEntry[]>()
-  // Entry nhiều dòng trong catalog ("Trigger a Socketed Spell ... Cooldown\nSpells Triggered this way
-  // have 150% more Cost") được đăng ký thêm từng dòng về cùng một id, vì poe.ninja tách mod đó thành
-  // các dòng riêng. Filter trùng id được gộp ở buildImportQuery.
+  // poe.ninja tách mod nhiều dòng, nên giữ từng dòng làm fallback. Khớp toàn bộ text được ưu tiên
+  // để mod thường không gom thêm id của mod có điều kiện chỉ vì chúng trùng một dòng.
   const entriesFor = (section: string) => {
     let list = compiled.get(section)
     if (!list) {
       list = (bySection.get(section) ?? []).flatMap((entry) => {
         const lines = entry.text.split('\n').map((line) => line.trim()).filter(Boolean)
-        const texts = lines.length > 1 ? [entry.text.replace(/\s*\n\s*/g, ' '), ...lines] : [entry.text]
-        return texts.map((text) => ({ ...entry, pattern: compilePattern(text) }))
+        const full = { ...entry, pattern: compilePattern(entry.text.replace(/\s*\n\s*/g, ' ')), partial: false }
+        return [full, ...(lines.length > 1 ? lines.map((text) => ({ ...entry, pattern: compilePattern(text), partial: true })) : [])]
       })
       compiled.set(section, list)
     }
@@ -228,10 +231,11 @@ export function createStatMatcher(catalog: StatCatalogEntry[]): (line: StatLine)
   // Thử section theo thứ tự, lấy section đầu tiên có hit; trong section đó gom mọi entry khớp text.
   // `captures` giới hạn số nhóm bắt được (đảo chiều chỉ hợp lệ với stat một số). Trả một match mang
   // toàn bộ id, text và value của entry đầu.
-  const collect = (sections: string[], text: string, sign: number, captures?: number): StatMatch | null => {
+  const collect = (sections: string[], text: string, sign: number, partial: boolean, captures?: number): StatMatch | null => {
     for (const section of sections) {
       let match: StatMatch | null = null
       for (const entry of entriesFor(section)) {
+        if (entry.partial !== partial) continue
         const found = text.match(entry.pattern)
         if (!found || (captures !== undefined && found.length !== captures)) continue
         if (match) match.ids.push(entry.id)
@@ -246,13 +250,15 @@ export function createStatMatcher(catalog: StatCatalogEntry[]): (line: StatLine)
     const text = line.text.replace(/−/g, '-').trim()
     if (!text) return null
     const sections = SECTION_CANDIDATES[line.section]
-    const direct = collect(sections, text, 1)
-    if (direct) return direct
-    for (const [from, to] of INVERSIONS) {
-      const alternate = text.replace(new RegExp(`\\b${from}\\b`, 'i'), to)
-      if (alternate === text) continue
-      const inverted = collect(sections, alternate, -1, 2)
-      if (inverted) return inverted
+    for (const partial of [false, true]) {
+      const direct = collect(sections, text, 1, partial)
+      if (direct) return direct
+      for (const [from, to] of INVERSIONS) {
+        const alternate = text.replace(new RegExp(`\\b${from}\\b`, 'i'), to)
+        if (alternate === text) continue
+        const inverted = collect(sections, alternate, -1, partial, 2)
+        if (inverted) return inverted
+      }
     }
     return null
   }
@@ -308,6 +314,7 @@ const SLOT_LABELS: Record<string, string> = {
 function toRarity(frameTypeId: string | undefined): ImportRarity | null {
   switch (frameTypeId) {
     case 'Unique': return 'unique'
+    case 'RunicRare':
     case 'Rare': return 'rare'
     case 'Magic': return 'magic'
     case 'Normal': return 'normal'
@@ -357,10 +364,11 @@ export function collectImportItems(character: NinjaCharacter): ImportItem[] {
 }
 
 export function importItemLabel(item: ImportItem) {
+  if (item.slot === 'Item') return item.name || item.baseType
   return `${item.slot} · ${item.name || item.baseType}`
 }
 
-export type ImportRolls = 'any' | 'exact'
+export const DEFAULT_IMPORT_ROLL_PERCENT = 90
 
 export interface ResolvedImportItem extends ImportItem {
   matches: (StatMatch | null)[]
@@ -391,18 +399,19 @@ function emptyQuery(): TradeQuery {
 
 // Roll âm ("-7 to Total Mana Cost", "15% reduced Attack Speed" map vào stat increased) là stat
 // "càng thấp càng tốt": min = -7 sẽ nhận cả -6, -5 và mọi roll dương. Đặt vào max để giữ đúng chiều.
-function rollBound(value: number | null): { min?: number; max?: number } {
-  if (value === null) return {}
-  return value < 0 ? { max: value } : { min: value }
+function rollBound(value: number | null, percent: number): { min?: number; max?: number } {
+  if (value === null || percent === 0) return {}
+  const threshold = Math.round(value * percent) / 100
+  return value < 0 ? { max: threshold } : { min: threshold }
 }
 
 // Unique: name + base, và vẫn mang stat như rare vì tên không đủ với Watcher's Eye (aura mod),
 // Forbidden Flame/Flesh (notable), Timeless Jewel (seed) hay mod Foulborn. Rare/magic: base + rarity
 // nonunique. Mọi mod map được: mod một id vào group "and", mod nhiều id (Local/global, hai stat GGG
 // cùng text) mỗi mod một group `count` min 1 để listing khớp bất kỳ id nào. Mod rune (POE2)
-// người mua tự cắm được nên vào group "and" dạng filter tắt: hiện trên form, user tự bật. `exact`
-// đặt min = roll của item, `any` chỉ đòi mod có mặt.
-export function buildImportQuery(item: ResolvedImportItem, rolls: ImportRolls): TradeQuery {
+// người mua tự cắm được nên vào group "and" dạng filter tắt: hiện trên form, user tự bật.
+// Ngưỡng theo phần trăm roll của item; 0% chỉ đòi mod có mặt.
+export function buildImportQuery(item: ResolvedImportItem, rollPercent = DEFAULT_IMPORT_ROLL_PERCENT): TradeQuery {
   const query = emptyQuery()
   query.type = item.baseType
   if (item.rarity === 'unique') query.name = item.name || null
@@ -415,7 +424,7 @@ export function buildImportQuery(item: ResolvedImportItem, rolls: ImportRolls): 
     const key = match.ids.join('|')
     if (seen.has(key)) return
     seen.add(key)
-    const value = rolls === 'exact' ? rollBound(match.value) : {}
+    const value = rollBound(match.value, rollPercent)
     const disabled = item.lines[index]?.section === 'rune'
     const filters = match.ids.map((id) => ({ id, value, disabled }))
     if (filters.length === 1 || disabled) and.push(...filters)
