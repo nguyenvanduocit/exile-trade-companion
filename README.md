@@ -10,7 +10,7 @@ Extension không tự chạy search và không gọi API tìm kiếm của GGG. 
 - **Bookmark không chết**: lưu kèm query và dựng lại URL khi mở, nên bookmark vẫn đúng bộ lọc sau khi search ID của GGG hết hạn.
 - **Nút + / − trên kết quả**: rê chuột vào dòng mod hoặc thuộc tính của item để đặt min/max vào filter mà không gõ lại. Mod đang search được tô sáng.
 - **Tier picker (PoE2)**: chọn T1, T2… trên stat filter để điền ngưỡng, thu hẹp theo category, base hoặc unique đang chọn.
-- **Giá quy đổi**: mỗi listing hiện thêm giá chaos hoặc divine với icon thật; tỷ giá lấy từ bulk exchange của league, cache 6 giờ.
+- **Giá quy đổi**: mỗi listing hiện thêm giá chaos hoặc divine với icon thật; tỷ giá lấy từ Currency Exchange của poe.ninja, cache 6 giờ theo game và league.
 - **Lịch sử giá**: search đã bookmark được chụp trung vị giá mỗi lần bạn mở, có biểu đồ.
 - **Seller bán nhiều**: đánh dấu listing của seller có từ 2 item trong kết quả để mua gộp.
 - **Chia sẻ folder**: chia sẻ trực tiếp đồng bộ hai chiều hoặc gửi bản chụp một lần, chỉ cần một share key, không tài khoản.
@@ -46,7 +46,7 @@ Kiến trúc, quy ước, cách verify trên trade site và quy trình phát hà
 
 Extension gửi thống kê sử dụng ẩn danh (tính năng được dùng, số đếm, mã lỗi, text mod mà import không map được) tới Datadog qua background của extension; không gửi account, query, bookmark hay lịch sử duyệt. Tắt trong Cài đặt. Chi tiết: [PRIVACY.md](PRIVACY.md).
 
-Request duy nhất tới `pathofexile.com` ngoài trang bạn đang mở là endpoint bulk exchange công khai để lấy tỷ giá, tối đa một lần mỗi 6 giờ cho mỗi league có bookmark.
+Tỷ giá được tải qua background từ API economy của poe.ninja, chỉ gửi game và league, không kèm cookie đăng nhập. Khi nguồn này thiếu dữ liệu, extension bỏ nhãn quy đổi.
 
 ## Ghi nhận
 

@@ -71,7 +71,7 @@ TradeState {
   history: HistoryEntry[]        // TradePage + id, visitedAt; cắt theo settings.maxHistory (50)
   settings: TradeSettings        // maxHistory, collapsedFolderIds, hasOpenedPanel, 7 công tắc tính năng
   snapshots: PriceSnapshot[]     // queryId, capturedAt, sampleSize, medianChaos, averageChaos; 90/queryId
-  exchangeRate: ExchangeRateCache | null   // league, fetchedAt, rates
+  exchangeRate: ExchangeRateCache | null   // game, league, source, fetchedAt, rates
   hiddenSearchIds: string[]      // search bị "xoá" cục bộ trong folder đang share live
 }
 TradePage { url, title, game, league, mode, queryId?, query? }
@@ -108,7 +108,7 @@ Panel là `position: fixed` nên đẩy trang bằng `margin-right !important` t
 `wxt.config.ts`:
 
 - `permissions`: `storage`, `activeTab`, `contextMenus`.
-- `host_permissions`: `api.liveblocks.io` (https và wss) cho chia sẻ folder; `poe.ninja` và `pobb.in` cho import (hai site không trả CORS nên phải fetch từ background); `browser-intake-datadoghq.com` cho telemetry.
+- `host_permissions`: `api.liveblocks.io` (https và wss) cho chia sẻ folder; `poe.ninja` cho tỷ giá và import, `pobb.in` cho import (hai site không trả CORS nên phải fetch từ background); `browser-intake-datadoghq.com` cho telemetry.
 - `commands.toggle-trade-companion`: `Alt+Shift+B`.
 - `action: {}` khai tay vì không có popup entrypoint; thiếu nó `browser.action` là `undefined`. Background chọn `browser.action ?? browser.browserAction` để chạy cả MV3 Chrome lẫn MV2 Firefox.
 - Không hardcode `manifest.version`; WXT lấy từ `package.json`, và workflow release bơm version từ git tag vào đó.

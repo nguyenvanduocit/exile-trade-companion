@@ -7,6 +7,7 @@ import { useBookmarkDrop } from '@/composables/useBookmarkDrag'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import PriceHistoryModal from '@/components/PriceHistoryModal.vue'
 import { useTradeStore } from '@/composables/useTradeStore'
+import { isExchangeRateCacheFresh } from '@/composables/useExchangeRates'
 import { resolveEditedTitle } from '@/lib/edit-title'
 import { formatChaosWithDivine, formatDelta } from '@/lib/format-price'
 import { buildDurableUrl } from '@/lib/trade-url'
@@ -42,7 +43,8 @@ const priceLine = computed(() => {
   const latest = querySnapshots.value[0]
   if (!latest) return null
 
-  const divineRate = store.state.value.exchangeRate?.rates.divine
+  const cache = store.state.value.exchangeRate
+  const divineRate = isExchangeRateCacheFresh(cache, props.search) ? cache!.rates.divine : undefined
   const previous = querySnapshots.value[1]
 
   return {

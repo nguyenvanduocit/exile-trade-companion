@@ -33,7 +33,7 @@ Load thủ công: Chrome `chrome://extensions` → Developer mode → Load unpac
 - Logic thuần vào `lib/*.ts` kèm `*.test.ts` cùng tên; I/O (DOM, fetch, storage, Vuex) ở entrypoint và composable. Test mô tả bằng tiếng Việt.
 - Comment giải thích *vì sao* bằng tiếng Việt, kèm ngày verify khi dựa vào hành vi quan sát được của site.
 - Mọi chuỗi UI mới thêm vào cả `locales/vi.json` lẫn `locales/en.json`, rồi `bunx wxt prepare` trước khi typecheck.
-- Không gọi API tìm kiếm của GGG, không tự chạy search, không polling nền. Ngoại lệ duy nhất đang có là endpoint bulk exchange để lấy tỷ giá; thêm request mới tới `pathofexile.com` là quyết định sản phẩm, ghi vào [decisions.md](decisions.md).
+- Không gọi API tìm kiếm của GGG, không tự chạy search, không polling nền. Tỷ giá lấy từ API economy của poe.ninja qua background; thêm request mới tới `pathofexile.com` là quyết định sản phẩm, ghi vào [decisions.md](decisions.md).
 - Chỉ thêm host permission khi thật sự phải fetch từ background; ghi lý do vào `wxt.config.ts`.
 - Feature chèn vào DOM trang phải có công tắc trong Settings và hàm gỡ sạch khi tắt.
 - Đọc `window.app` chỉ trong MAIN world, luôn kiểm `app?.$store`. Gửi object qua messaging thì `toRaw` trước.

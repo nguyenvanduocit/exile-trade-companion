@@ -17,7 +17,7 @@ export default defineConfig({
     // cho toolbar icon, nếu không `browser.action`/`browser.browserAction` sẽ undefined lúc runtime.
     action: {},
     permissions: ['storage', 'activeTab', 'contextMenus'],
-    // poe.ninja: background fetch dữ liệu character cho Import from poe.ninja (site không trả CORS).
+    // poe.ninja: background fetch tỷ giá economy và dữ liệu character cho Import from poe.ninja (site không trả CORS).
     host_permissions: ['https://api.liveblocks.io/*', 'wss://api.liveblocks.io/*', 'https://poe.ninja/*', 'https://pobb.in/*', 'https://browser-intake-datadoghq.com/*'],
     commands: {
       'toggle-trade-companion': {
