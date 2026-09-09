@@ -16,7 +16,7 @@ Extension gửi event sử dụng tới Datadog Logs để biết tính năng n�
 | `import.miss` | source, game, rarity, section, text (mod không map, tối đa 30/lần) | ImportNinjaModal |
 | `import.save` | source, game, count, rolls | ImportNinjaModal |
 | `import.error` | source, game, reason | ImportNinjaModal |
-| `feature.use` | feature: bookmark.save (mode, game), bookmark.move, bookmark.purchased, folder.create, folder.share, folder.unshare, folder.join (searches), backup.import, stat-filter-button, property-filter-button, tier-picker | useTradeStore, MAIN world qua `featureUsed` |
+| `feature.use` | feature: bookmark.save (mode, game), bookmark.move, bookmark.purchased, folder.create, folder.share, folder.unshare, folder.join (searches), backup.import, stat-filter-button, property-filter-button | useTradeStore, MAIN world qua `featureUsed` |
 | `settings.change` | setting, value (mọi công tắc boolean trừ `hasOpenedPanel`) | useTradeStore |
 | `ui.error` | message (200 ký tự) | Vue `errorHandler` của panel |
 | `background.error` | message | `error`/`unhandledrejection` của background |

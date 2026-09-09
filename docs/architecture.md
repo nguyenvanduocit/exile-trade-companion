@@ -21,7 +21,6 @@ Tài liệu này mô tả cách extension được lắp ráp: các entrypoint, 
 | `entrypoints/trade-query.content.ts` | MAIN | đọc query và nhãn từ Vuex của site, hiện toast |
 | `entrypoints/trade-stats.content.ts` | MAIN | nút + / − trên dòng mod, tô sáng mod |
 | `entrypoints/trade-properties.content.ts` | MAIN | nút + / − trên dòng thuộc tính |
-| `entrypoints/trade-tiers.content.ts` | MAIN, chỉ `/trade2` | tier picker trên form search |
 | `entrypoints/trade-ninja.content.ts` | MAIN | map mod text sang stat id, tra base item cho import |
 | `entrypoints/trade-currency-icons.content.ts` | MAIN | URL icon currency cho nhãn giá |
 
@@ -71,7 +70,7 @@ TradeState {
   history: HistoryEntry[]        // TradePage + id, visitedAt; cắt theo settings.maxHistory (50)
   settings: TradeSettings        // maxHistory, collapsedFolderIds, hasOpenedPanel, 7 công tắc tính năng
   snapshots: PriceSnapshot[]     // queryId, capturedAt, sampleSize, medianChaos, averageChaos; 90/queryId
-  exchangeRate: ExchangeRateCache | null   // league, fetchedAt, rates
+  exchangeRate: ExchangeRateCache | null   // game, league, source, fetchedAt, rates
   hiddenSearchIds: string[]      // search bị "xoá" cục bộ trong folder đang share live
 }
 TradePage { url, title, game, league, mode, queryId?, query? }
@@ -108,7 +107,7 @@ Panel là `position: fixed` nên đẩy trang bằng `margin-right !important` t
 `wxt.config.ts`:
 
 - `permissions`: `storage`, `activeTab`, `contextMenus`.
-- `host_permissions`: `api.liveblocks.io` (https và wss) cho chia sẻ folder; `poe.ninja` và `pobb.in` cho import (hai site không trả CORS nên phải fetch từ background); `browser-intake-datadoghq.com` cho telemetry.
+- `host_permissions`: `api.liveblocks.io` (https và wss) cho chia sẻ folder; `poe.ninja` cho tỷ giá và import, `pobb.in` cho import (hai site không trả CORS nên phải fetch từ background); `browser-intake-datadoghq.com` cho telemetry.
 - `commands.toggle-trade-companion`: `Alt+Shift+B`.
 - `action: {}` khai tay vì không có popup entrypoint; thiếu nó `browser.action` là `undefined`. Background chọn `browser.action ?? browser.browserAction` để chạy cả MV3 Chrome lẫn MV2 Firefox.
 - Không hardcode `manifest.version`; WXT lấy từ `package.json`, và workflow release bơm version từ git tag vào đó.
@@ -117,7 +116,7 @@ Không xin `tabs`, `alarms`, `notifications`. Extension không có background po
 
 ## Build
 
-`bun run build` ra `.output/chrome-mv3`, `bun run build:firefox` ra `.output/firefox-mv2`. Kích thước đáng chú ý: `trade-tiers.js` khoảng 323 kB vì bundle `data/poe2-tiers.json` và `data/poe2-base-types.json`; `trade.js` khoảng 508 kB gồm Vue, reka-ui và Liveblocks client. Tổng gói khoảng 1.9 MB, phần lớn là ảnh onboarding.
+`bun run build` ra `.output/chrome-mv3`, `bun run build:firefox` ra `.output/firefox-mv2`.
 
 ## i18n
 
@@ -134,15 +133,14 @@ Logic thuần nằm trong `lib/*.ts` và có test cùng tên `*.test.ts` bên c�
 ## Cây thư mục
 
 ```
-entrypoints/        background, onboarding, trade.content (panel), 6 content script MAIN world
+entrypoints/        background, onboarding, trade.content (panel), content script MAIN world
 components/         SearchCard, FolderSection, 4 modal, chart, drag handle, ui/ (reka-ui wrappers)
 composables/        useTradeStore, useFolderSync, usePriceLabels, usePriceSnapshot, useSellerGrouping, useBookmarkDrag
-lib/                logic thuần + test: storage, trade-url, stat/property/tier filter, price-*, exchange-rate,
+lib/                logic thuần + test: storage, trade-url, stat/property filter, price-*, exchange-rate,
                     folder-sync, liveblocks-room, ninja-import, pob-import, telemetry, messaging
 types/              trading.ts (TradeState, TradeQuery...), pricing.ts
 locales/            vi.json, en.json
-data/               poe2-tiers.json (TierFill), poe2-base-types.json (RePoE), README.md
-scripts/            build-ninja-fixtures.ts, build-poe2-base-types.mjs
-public/             icon, ảnh onboarding, licenses/TierFill.txt
+scripts/            build-ninja-fixtures.ts
+public/             icon, ảnh onboarding
 docs/               tài liệu này, features/, research/
 ```

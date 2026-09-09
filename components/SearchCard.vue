@@ -2,11 +2,11 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import { i18n } from '#i18n'
 import { Check, ChartLine, Copy, MoreHorizontal, Pencil, Replace, StickyNote, Trash2, X } from 'lucide-vue-next'
-import BookmarkDragHandle from '@/components/BookmarkDragHandle.vue'
-import { useBookmarkDrop } from '@/composables/useBookmarkDrag'
+import { endBookmarkDrag, startBookmarkDrag, useBookmarkDrop } from '@/composables/useBookmarkDrag'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import PriceHistoryModal from '@/components/PriceHistoryModal.vue'
 import { useTradeStore } from '@/composables/useTradeStore'
+import { isExchangeRateCacheFresh } from '@/composables/useExchangeRates'
 import { resolveEditedTitle } from '@/lib/edit-title'
 import { formatChaosWithDivine, formatDelta } from '@/lib/format-price'
 import { buildDurableUrl } from '@/lib/trade-url'
@@ -42,7 +42,8 @@ const priceLine = computed(() => {
   const latest = querySnapshots.value[0]
   if (!latest) return null
 
-  const divineRate = store.state.value.exchangeRate?.rates.divine
+  const cache = store.state.value.exchangeRate
+  const divineRate = isExchangeRateCacheFresh(cache, props.search) ? cache!.rates.divine : undefined
   const previous = querySnapshots.value[1]
 
   return {
@@ -120,13 +121,16 @@ async function overwriteWithCurrent() {
 
 <template>
   <article
-    class="bookmark-drop-row group flex items-center gap-1 border-b border-rule py-1 pr-2 pl-1 last:border-b-0 hover:bg-hover"
+    class="bookmark-drop-row group flex items-center gap-1 border-b border-rule px-2 py-1 last:border-b-0 hover:bg-hover"
+    :class="{ 'cursor-pointer select-none': !isEditingTitle && !isEditingNote }"
+    :draggable="!isEditingTitle && !isEditingNote"
     :data-drop="dropTarget.placement.value"
+    @dragstart.stop="!isEditingTitle && !isEditingNote && startBookmarkDrag($event, { kind: 'search', id: search.id })"
+    @dragend.stop="endBookmarkDrag"
     @dragover="dropTarget.dragOver"
     @dragleave="dropTarget.dragLeave"
     @drop="dropTarget.drop"
   >
-    <BookmarkDragHandle v-if="!isEditingTitle && !isEditingNote" kind="search" :id="search.id" :label="i18n.t('search.drag')" />
     <form v-if="isEditingTitle" class="flex min-w-0 flex-1 items-center gap-2 py-0.5" @submit.prevent="submitEditTitle">
       <input
         ref="editInputRef"

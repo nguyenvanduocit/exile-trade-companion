@@ -53,6 +53,7 @@ function setup(text: string, groups: StatGroup[], field = 'stat.explicit.strengt
   })
   const save = vi.fn()
   vi.stubGlobal('window', { app: {
+    static_: { knownStatsFlat: { 'explicit.strength': { text: '+# to Strength' } } },
     $store: { state: { persistent: { stats: groups } }, commit },
     $refs: { toastr: { Add: vi.fn() } }, save,
   } })
@@ -69,7 +70,7 @@ function setup(text: string, groups: StatGroup[], field = 'stat.explicit.strengt
     maxHistory: 50, collapsedFolderIds: [], hasOpenedPanel: false,
     statFilterButtonsEnabled: true, propertyFilterButtonsEnabled: true,
     priceLabelsEnabled: true, highlightSearchedModsEnabled: false,
-    bulkSellerHighlightEnabled: true, tierPickerEnabled: true, telemetryEnabled: true,
+    bulkSellerHighlightEnabled: true, telemetryEnabled: true,
   } })
   return { line, groups, commit, save, plus: buttons[0]!, minus: buttons[1]! }
 }
@@ -77,6 +78,25 @@ function setup(text: string, groups: StatGroup[], field = 'stat.explicit.strengt
 afterEach(() => vi.unstubAllGlobals())
 
 describe('modifier filter button clicks', () => {
+  it.each(['plus', 'minus'] as const)('switches bounds in both directions starting with %s', (first) => {
+    const ui = setup('+21 to Strength', [{ type: 'and', filters: [] }])
+    const second = first === 'plus' ? 'minus' : 'plus'
+
+    for (const button of [first, second, first] as const) {
+      ui[button].click()
+      expect(ui.groups).toEqual([{ type: 'and', filters: [
+        { id: 'explicit.strength', value: { [button === 'plus' ? 'min' : 'max']: 21 }, disabled: false },
+      ] }])
+    }
+    expect(ui.save).toHaveBeenCalledTimes(3)
+  })
+
+  it.each(['plus', 'minus'] as const)('does not keep %s permanently visible after a click', (button) => {
+    const ui = setup('+21 to Strength', [{ type: 'and', filters: [] }])
+    ui[button].click()
+    expect(ui[button].dataset.added).toBeUndefined()
+  })
+
   it('replaces an existing maximum with the current roll, then switches to a maximum without duplication', () => {
     const id = 'explicit.strength'
     const ui = setup('+21 to Strength', [{ type: 'and', filters: [

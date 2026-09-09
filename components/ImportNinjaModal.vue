@@ -2,6 +2,7 @@
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
 import { i18n } from '#i18n'
 import { X } from 'lucide-vue-next'
+import ImportRollSlider from '@/components/ImportRollSlider.vue'
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { sendMessage } from '@/lib/extension-messaging'
@@ -10,16 +11,17 @@ import {
   attachStatMatches,
   buildImportQuery,
   collectImportItems,
+  DEFAULT_IMPORT_ROLL_PERCENT,
   importItemLabel,
   matchedCount,
   parseNinjaUrl,
   type ImportItem,
-  type ImportRolls,
   type NinjaCharacter,
   type NinjaFetchError,
   type ResolvedImportItem,
 } from '@/lib/ninja-import'
 import { decodePobCode, looksLikePobCode, parsePobLink, parsePobXml, type PobBuild } from '@/lib/pob-import'
+import { parseCopiedItem, type CopiedItem } from '@/lib/item-text-import'
 import { buildDurableUrl, parseTradeUrl } from '@/lib/trade-url'
 import { track } from '@/lib/track'
 import type { Game, SearchFolder } from '@/types/trading'
@@ -35,11 +37,10 @@ const emit = defineEmits<{
 
 type ErrorKey = NinjaFetchError | 'game-mismatch' | 'catalog-unavailable' | 'invalid-code' | 'pob-not-found'
 
-// Hai nguồn cùng đổ về ImportItem[]: poe.ninja (JSON có league, tên character) và PoB code (chỉ có
-// class/level; league lấy theo tab đang mở).
 type Source =
   | { kind: 'ninja'; character: NinjaCharacter }
   | { kind: 'pob'; build: PobBuild }
+  | { kind: 'item'; item: CopiedItem }
 
 const store = useTradeStore()
 const input = ref('')
@@ -49,8 +50,7 @@ const error = ref<ErrorKey | null>(null)
 const source = shallowRef<Source | null>(null)
 const items = shallowRef<ResolvedImportItem[]>([])
 const selected = ref(new Set<string>())
-// Mặc định mang đúng roll của item sang min; "Any roll" để nới khi thị trường không có roll đó.
-const rolls = ref<ImportRolls>('exact')
+const rolls = ref(DEFAULT_IMPORT_ROLL_PERCENT)
 const savedCount = ref<number | null>(null)
 const inputRef = ref<HTMLTextAreaElement | null>(null)
 
@@ -75,6 +75,7 @@ const errorText = computed(() => {
 
 const sourceLine = computed(() => {
   if (!source.value) return ''
+  if (source.value.kind === 'item') return `${importItemLabel(source.value.item)} · ${tabLeague}`
   if (source.value.kind === 'ninja') {
     const character = source.value.character
     return i18n.t('folder.importNinjaCharacter', {
@@ -128,7 +129,8 @@ async function load() {
   const raw = input.value.trim()
   const ninja = parseNinjaUrl(raw)
   const pobLink = parsePobLink(raw)
-  if (!ninja && !pobLink && !looksLikePobCode(raw)) {
+  const copiedItem = parseCopiedItem(raw)
+  if (!ninja && !pobLink && !copiedItem && !looksLikePobCode(raw)) {
     error.value = 'invalid-url'
     return
   }
@@ -138,11 +140,17 @@ async function load() {
   }
   loading.value = true
   error.value = null
-  const sourceKind = ninja ? 'ninja' : pobLink ? 'pobbin' : 'code'
+  const sourceKind = ninja ? 'ninja' : pobLink ? 'pobbin' : copiedItem ? 'item' : 'code'
   try {
     let loaded: { source: Source; items: ImportItem[] } | ErrorKey
     if (ninja) {
       loaded = await loadNinja(raw)
+    } else if (copiedItem) {
+      if (!copiedItem.baseType) {
+        const bases = await sendNinjaMessage('resolveItemBases', [copiedItem.typeLine])
+        copiedItem.baseType = bases[0] ?? copiedItem.typeLine
+      }
+      loaded = { source: { kind: 'item', item: copiedItem }, items: [copiedItem] }
     } else if (pobLink) {
       const fetched = await sendMessage('fetchPobCode', pobLink.url)
       loaded = fetched.ok ? await loadPob(fetched.code) : fetched.reason === 'not-found' ? 'pob-not-found' : 'network'
@@ -160,7 +168,7 @@ async function load() {
     trackLoaded(sourceKind, items.value, loaded.items)
     // Flask ít khi cần mua lại theo mod của người khác, đồ không đeo (item set phụ của PoB) cũng
     // vậy — để user tự tick.
-    selected.value = new Set(items.value.filter((item) => item.kind !== 'flask' && item.slot !== 'Unequipped').map((item) => item.key))
+    selected.value = new Set(items.value.filter((item) => sourceKind === 'item' || (item.kind !== 'flask' && item.slot !== 'Unequipped')).map((item) => item.key))
   } catch (cause) {
     error.value = cause instanceof Error && cause.message.includes('catalog-unavailable') ? 'catalog-unavailable' : 'network'
     track('import.error', { source: sourceKind, game: tabGame, reason: error.value })
@@ -219,22 +227,24 @@ async function save() {
         className: source.value.character.class ?? '',
         level: String(source.value.character.level ?? ''),
       })
-      : i18n.t('folder.importNinjaPobNote', {
+      : source.value.kind === 'pob' ? i18n.t('folder.importNinjaPobNote', {
         className: source.value.build.className,
         ascendancy: source.value.build.ascendClassName,
         level: String(source.value.build.level ?? ''),
-      })
+      }) : null
     const league = source.value.kind === 'ninja' ? source.value.character.league : tabLeague
+    // Source note thuộc về cả folder (một character/build sinh ra nhiều search), không phải từng item.
+    if (note !== null) await store.updateFolder(props.folder.id, { note })
     // Lưu tuần tự: store.saveSearch đọc-ghi cả state, chạy song song sẽ ghi đè nhau.
     for (const item of chosen) {
       const query = buildImportQuery(item, rolls.value)
       const page = { url: '', title: importItemLabel(item), game: tabGame, league, mode: 'search' as const, query }
       const durable = await buildDurableUrl(page)
       if (!durable) continue
-      await store.saveSearch({ ...page, url: durable, folderId: props.folder.id, note })
+      await store.saveSearch({ ...page, url: durable, folderId: props.folder.id })
     }
     savedCount.value = chosen.length
-    track('import.save', { source: source.value.kind === 'ninja' ? 'ninja' : 'pob', game: tabGame, count: chosen.length, rolls: rolls.value })
+    track('import.save', { source: source.value.kind, game: tabGame, count: chosen.length, rolls: rolls.value })
   } finally {
     saving.value = false
   }
@@ -284,16 +294,8 @@ async function save() {
       <template v-else>
         <p class="mt-3 truncate text-[13px] leading-5 text-cream">{{ sourceLine }}</p>
         <div class="mt-2 flex items-center justify-between gap-2 text-[12px] leading-4 text-tan">
-          <div class="flex items-center gap-2">
-            <span>{{ i18n.t('folder.importNinjaRolls') }}</span>
-            <label class="flex items-center gap-1">
-              <input v-model="rolls" type="radio" value="exact"> {{ i18n.t('folder.importNinjaRollsExact') }}
-            </label>
-            <label class="flex items-center gap-1">
-              <input v-model="rolls" type="radio" value="any"> {{ i18n.t('folder.importNinjaRollsAny') }}
-            </label>
-          </div>
-          <div class="flex gap-2">
+          <ImportRollSlider v-model="rolls" :disabled="saving" class="flex-1" />
+          <div class="flex shrink-0 gap-2">
             <button class="hover:text-cream" type="button" @click="selectAll(true)">{{ i18n.t('folder.importNinjaSelectAll') }}</button>
             <button class="hover:text-cream" type="button" @click="selectAll(false)">{{ i18n.t('folder.importNinjaSelectNone') }}</button>
           </div>

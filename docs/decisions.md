@@ -22,7 +22,7 @@ Mỗi mục: quyết định, lý do, và session đã đưa ra nó (`<claude:id
 
 **D8. Snapshot giá lấy median trên toàn bộ listing đọc được, không bỏ N listing rẻ nhất.** GGG không expose loại giao dịch trên listing (DOM, `listing.method`, `listing.price.type` giống nhau) nên không lọc scam theo loại được. Chỉ chụp khi người dùng mở trang, throttle 1 giờ, tối thiểu 3 mẫu, giữ 90. Không `alarms`/`tabs`. `<claude:b31926ae-253f-43d5-9a1e-84c45fe4b94e>`
 
-**D9. Tỷ giá lấy từ endpoint bulk exchange của site, cache 6 giờ mỗi league, median ratio.** Đây là ngoại lệ có chủ đích của D3: same-origin, tần suất thấp, không phải search. README phải nói đúng điều này. `<claude:b31926ae-253f-43d5-9a1e-84c45fe4b94e>` `<claude:9d5ec176-ba3b-4912-aaa5-68ccdc9e7fa0>`
+**D9. Tỷ giá lấy từ API economy của poe.ninja, cache 6 giờ theo game và league.** Cập nhật 2026-09-09: bỏ median của tin rao bulk exchange. League phải khớp danh sách economy của poe.ninja; thiếu dữ liệu thì bỏ quy đổi. Cache cũ bị bỏ qua. `<claude:b31926ae-253f-43d5-9a1e-84c45fe4b94e>` `<claude:9d5ec176-ba3b-4912-aaa5-68ccdc9e7fa0>`
 
 **D10. Bỏ tab Price Analysis; giá nằm ngay trên bookmark, biểu đồ mở từ menu.** Tab riêng thừa so với giá trị. `<claude:e9fb66b0-37da-4834-a69f-1b8602b25076>`
 
@@ -61,6 +61,8 @@ Mỗi mục: quyết định, lý do, và session đã đưa ra nó (`<claude:id
 **D26. Kéo thả thay cho menu di chuyển; không folder lồng nhau; "đã mua" là gạch ngang, toggle trong menu.** `<code:01a07056-25cd-7822-abf1-15699f5e1656>` `<code:01a070d4-b6e9-7f53-86d1-1cc49191f8c9>`
 
 **D27. Tier picker PoE2 dùng snapshot TierFill (MIT) và base types từ RePoE, thu hẹp theo category/base/unique, ghi rõ giới hạn "ngưỡng số không đảm bảo tier".** `<code:01a07056-25cd-7822-abf1-15699f5e1656>` `<code:01a0705a-e3b2-7ed0-a6f8-aa45f7c79edf>`
+
+Đã gỡ tier picker ngày 2026-09-09 theo yêu cầu người dùng, gồm UI, setting và dữ liệu bundle.
 
 **D28. Nút `+`/`−` đặt min/max bằng giá trị trên item cho cả mod lẫn thuộc tính, cập nhật filter đã có thay vì tạo trùng.** `<code:01a0710a-c29d-7722-a1af-6cb5a68a80fd>`
 

@@ -71,7 +71,6 @@ function makeState(): TradeState {
       propertyFilterButtonsEnabled: true,
       priceLabelsEnabled: true,
       highlightSearchedModsEnabled: true,
-      tierPickerEnabled: true,
       bulkSellerHighlightEnabled: true, telemetryEnabled: true,
     },
     snapshots: [],
@@ -84,19 +83,15 @@ beforeEach(() => {
   storage.value = { [STORAGE_KEY]: makeState() }
 })
 
-describe('tier picker settings', () => {
-  it('enables the picker when migrating settings saved before the feature existed', async () => {
-    const state = makeState()
-    const { tierPickerEnabled: _removed, ...legacySettings } = state.settings
-    storage.value[STORAGE_KEY] = { ...state, settings: legacySettings }
-    expect((await readState()).settings.tierPickerEnabled).toBe(true)
-  })
-
-  it('preserves an explicitly disabled picker', async () => {
-    const state = makeState()
-    state.settings.tierPickerEnabled = false
-    storage.value[STORAGE_KEY] = state
-    expect((await readState()).settings.tierPickerEnabled).toBe(false)
+describe('legacy settings', () => {
+  it.each([true, false])('bỏ setting tier picker cũ (%s), giữ dữ liệu còn lại', async (enabled) => {
+    const state = await readState()
+    state.settings.statFilterButtonsEnabled = false
+    storage.value[STORAGE_KEY] = {
+      ...state,
+      settings: { ...state.settings, tierPickerEnabled: enabled },
+    }
+    expect(await readState()).toEqual(state)
   })
 })
 
@@ -206,6 +201,77 @@ describe('removeSearch', () => {
 })
 
 describe('saveSearch', () => {
+  it('keeps independent bookmarks when the same URL is saved in two folders', async () => {
+    await updateSearch('search-1', { note: 'For build A' })
+    await setSearchPurchased('search-1', true)
+    const original = (await readState()).searches[0]!
+    const input = {
+      url: original.url, title: 'For build B', game: original.game,
+      league: original.league, mode: original.mode, folderId: DEFAULT_FOLDER_ID,
+    }
+
+    await saveSearch(input)
+    const saved = await readState()
+    expect(saved.searches).toHaveLength(2)
+    expect(saved.searches.find((search) => search.id === original.id)).toEqual(original)
+    const copy = saved.searches.find((search) => search.folderId === DEFAULT_FOLDER_ID)!
+    expect(copy.id).not.toBe(original.id)
+    expect(copy.note).toBe('')
+    expect(copy.purchased ?? false).toBe(false)
+
+    await saveSearch({ ...input, title: 'Updated build B' })
+    const updated = await readState()
+    expect(updated.searches).toHaveLength(2)
+    expect(updated.searches.find((search) => search.id === copy.id)?.title).toBe('Updated build B')
+    expect(updated.searches.find((search) => search.id === original.id)).toEqual(original)
+
+    await removeSearch(copy.id)
+    expect((await readState()).searches).toEqual([original])
+  })
+
+  it('leaves a hidden shared bookmark untouched when saving its URL in another folder', async () => {
+    await setFolderShareKey('gear', 'share_a')
+    await removeSearch('search-1')
+    const before = await readState()
+    const original = before.searches[0]!
+
+    await saveSearch({
+      url: original.url, title: original.title, game: original.game,
+      league: original.league, mode: original.mode, folderId: DEFAULT_FOLDER_ID,
+    })
+    const after = await readState()
+    expect(after.searches).toHaveLength(2)
+    expect(after.hiddenSearchIds).toEqual(['search-1'])
+    expect(after.searches.find((search) => search.id === original.id)).toEqual(original)
+    expect(diffSearchesForFolder('gear', before.searches, after.searches)).toEqual({ added: [], updated: [], removedIds: [] })
+
+    await saveSearch({
+      url: original.url, title: original.title, game: original.game,
+      league: original.league, mode: original.mode, folderId: 'gear',
+    })
+    const restored = await readState()
+    expect(restored.searches).toHaveLength(2)
+    expect(restored.hiddenSearchIds).toEqual([])
+  })
+
+  it('preserves the original when a second folder containing the same URL is deleted', async () => {
+    const original = (await readState()).searches[0]!
+    const withFolder = await createFolder({ name: 'Build B', color: '#ccc' })
+    const folderId = withFolder.folders.at(-1)!.id
+    const saved = await saveSearch({
+      url: original.url, title: 'Build B boots', game: original.game,
+      league: original.league, mode: original.mode, folderId,
+    })
+    const copy = saved.searches.find((search) => search.folderId === folderId)!
+
+    await removeFolder(folderId)
+    const after = await readState()
+    expect(after.folders.some((folder) => folder.id === folderId)).toBe(false)
+    expect(after.searches).toHaveLength(2)
+    expect(after.searches.find((search) => search.id === original.id)).toEqual(original)
+    expect(after.searches.find((search) => search.id === copy.id)).toEqual({ ...copy, folderId: DEFAULT_FOLDER_ID, order: 0 })
+  })
+
   it('un-hide lại khi lưu đè đúng URL đã bị ẩn trước đó', async () => {
     storage.value = {
       [STORAGE_KEY]: {

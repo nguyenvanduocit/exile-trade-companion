@@ -1,6 +1,8 @@
 import { browser } from 'wxt/browser'
 import { i18n } from '#i18n'
 import { DISCORD_URL } from '@/lib/discord'
+import { fetchExchangeRates } from '@/lib/exchange-rate'
+import { fetchTradeStatCatalog } from '@/lib/trade-stat-catalog'
 import { parseTradeUrl } from '@/lib/trade-url'
 import { readState, saveSearch } from '@/lib/storage'
 import { onMessage, sendMessage } from '@/lib/extension-messaging'
@@ -61,7 +63,7 @@ export default defineBackground(() => {
   // nào tồn tại lúc runtime thay vì gọi cứng `browser.action`.
   const toolbarAction = browser.action ?? browser.browserAction
   toolbarAction.onClicked.addListener((tab) => {
-    if (!tab.id || !parseTradeUrl(tab.url ?? '')) return
+    if (!tab.id || (!parseTradeUrl(tab.url ?? '') && !parseNinjaUrl(tab.url ?? ''))) return
     void sendMessage('openPanel', undefined, tab.id).catch(() => undefined)
   })
 
@@ -89,6 +91,8 @@ export default defineBackground(() => {
   })
 
   onMessage('fetchNinjaCharacter', ({ data: url }) => fetchNinjaCharacter(url))
+  onMessage('fetchTradeStatCatalog', ({ data: game }) => fetchTradeStatCatalog(game))
+  onMessage('fetchExchangeRates', ({ data }) => fetchExchangeRates(data.game, data.league))
   onMessage('fetchPobCode', ({ data: url }) => fetchPobCode(url))
   onMessage('track', ({ data: event }) => telemetry.push(event))
   self.addEventListener('error', (event) => telemetry.push({ name: 'background.error', props: { message: String(event.message).slice(0, 200) } }))

@@ -2,10 +2,9 @@
 import { computed, ref } from 'vue'
 import { i18n } from '#i18n'
 import { BookmarkCheck, BookmarkPlus, Download, MoreHorizontal, Pencil, Share2, Trash2 } from 'lucide-vue-next'
-import BookmarkDragHandle from '@/components/BookmarkDragHandle.vue'
 import FolderFormModal from '@/components/FolderFormModal.vue'
 import ImportNinjaModal from '@/components/ImportNinjaModal.vue'
-import { useBookmarkDrop } from '@/composables/useBookmarkDrag'
+import { endBookmarkDrag, startBookmarkDrag, useBookmarkDrop } from '@/composables/useBookmarkDrag'
 import SearchCard from '@/components/SearchCard.vue'
 import ShareFolderModal from '@/components/ShareFolderModal.vue'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -58,13 +57,15 @@ function confirmDelete() {
 <template>
   <Collapsible :open="open" class="border-b border-rule" @update:open="emit('update:open', $event)">
     <div
-      class="bookmark-drop-row flex items-center bg-row pr-2 pl-1"
+      class="bookmark-drop-row flex cursor-pointer items-center bg-row pr-2 pl-1 select-none"
+      draggable="true"
       :data-drop="dropTarget.placement.value"
+      @dragstart.stop="startBookmarkDrag($event, { kind: 'folder', id: folder.id })"
+      @dragend.stop="endBookmarkDrag"
       @dragover="dropTarget.dragOver"
       @dragleave="dropTarget.dragLeave"
       @drop="dropTarget.drop"
     >
-      <BookmarkDragHandle kind="folder" :id="folder.id" :label="i18n.t('folder.drag')" />
       <CollapsibleTrigger as-child>
         <button class="flex h-8 min-w-0 flex-1 items-center gap-2 pl-1 text-left hover:bg-hover" type="button">
           <span class="size-2 shrink-0" :style="{ backgroundColor: folder.color }" />

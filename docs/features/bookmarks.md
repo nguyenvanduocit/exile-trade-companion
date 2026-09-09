@@ -16,7 +16,7 @@ Lõi của extension: lưu search đang mở vào folder, sắp xếp, ghi chú,
 
 - `entrypoints/trade.content/App.vue`: `syncCurrentPage` poll `location.href` mỗi 1.2 giây (site là SPA, không có event điều hướng tin cậy), ghi lịch sử; `onQueryState` nhận nhãn và query từ MAIN world.
 - `entrypoints/trade-query.content.ts`: đọc `state.persistent` và DOM filter, `lib/query-label.ts` suy nhãn.
-- `lib/storage.ts`: mọi mutate; `saveSearch` dedupe theo `url` (lưu lại cùng URL thì cập nhật, không nhân đôi); `removeFolder` dồn bookmark; `moveSearch`/`moveFolder` dùng `lib/bookmark-order.ts` (`insertRelative`, `normalizeSearchOrder`).
+- `lib/storage.ts`: mọi mutate; `saveSearch` cập nhật URL trùng trong folder được chọn, lưu cùng URL vào folder khác tạo bản riêng. Khi không truyền folder, cập nhật bản đầu tiên khớp URL hoặc tạo trong folder mặc định nếu chưa có. `removeFolder` dồn bookmark; `moveSearch`/`moveFolder` dùng `lib/bookmark-order.ts` (`insertRelative`, `normalizeSearchOrder`).
 - `composables/useBookmarkDrag.ts` + `components/BookmarkDragHandle.vue`: HTML5 drag & drop, MIME `application/x-exile-bookmark`, tự cuộn khi kéo sát mép.
 - `components/FolderSection.vue`, `SearchCard.vue`, `FolderFormModal.vue`.
 - Mở bookmark: `buildDurableUrl(search) ?? search.url` rồi `openUrl` qua background, background `tabs.update` tab hiện tại (xem [durable-url.md](durable-url.md)).

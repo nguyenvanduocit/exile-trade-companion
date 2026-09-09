@@ -67,7 +67,6 @@ export interface TradeSettings {
   propertyFilterButtonsEnabled: boolean
   priceLabelsEnabled: boolean
   highlightSearchedModsEnabled: boolean
-  tierPickerEnabled: boolean
   bulkSellerHighlightEnabled: boolean
   telemetryEnabled: boolean
 }

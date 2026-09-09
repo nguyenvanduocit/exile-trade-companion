@@ -51,8 +51,6 @@ const STYLE = `
 }
 .${BUTTON_CLASS}:hover, .${BUTTON_CLASS}:focus-visible { border-color: #a38d6d; background: #2c2011; outline: none; z-index: 6; }
 .${BUTTON_NOT_CLASS}:hover, .${BUTTON_NOT_CLASS}:focus-visible { border-color: #af5a4a; background: #2c1111; outline: none; z-index: 6; }
-.${BUTTON_CLASS}[data-added="true"] { width: 18px; margin-left: 6px; opacity: 1; border-color: #8a6a3a; color: #a38d6d; cursor: default; }
-.${BUTTON_NOT_CLASS}[data-added="true"] { width: 18px; margin-left: -1px; opacity: 1; border-color: #8a4a3a; color: #c08a7a; cursor: default; }
 `
 
 function injectStyle() {
@@ -73,23 +71,21 @@ function rangeFilter(app: TradeApp, group: string, field: string): PropertyFilte
   return existing && !('option' in existing) ? existing : undefined
 }
 
-function setMin(app: TradeApp, button: HTMLButtonElement, group: string, field: string, value: number, label: string) {
+function setMin(app: TradeApp, group: string, field: string, value: number, label: string) {
   const existing = rangeFilter(app, group, field)
   app.$store.commit('setPropertyFilter', { group, index: field, value: planSetPropertyMin(existing, value) })
-  button.dataset.added = 'true'
   app.save(true)
   toast(app, t.minSet(label, value))
 }
 
-function setMax(app: TradeApp, button: HTMLButtonElement, group: string, field: string, value: number, label: string) {
+function setMax(app: TradeApp, group: string, field: string, value: number, label: string) {
   const existing = rangeFilter(app, group, field)
   app.$store.commit('setPropertyFilter', { group, index: field, value: planSetPropertyMax(existing, value) })
-  button.dataset.added = 'true'
   app.save(true)
   toast(app, t.maxSet(label, value))
 }
 
-function makeButton(options: { className: string; symbol: string; title: string; onClick: (app: TradeApp, button: HTMLButtonElement) => void }) {
+function makeButton(options: { className: string; symbol: string; title: string; onClick: (app: TradeApp) => void }) {
   const button = document.createElement('button')
   button.type = 'button'
   button.className = options.className
@@ -102,7 +98,7 @@ function makeButton(options: { className: string; symbol: string; title: string;
     event.stopPropagation()
     const app = window.app
     if (!app) return
-    options.onClick(app, button)
+    options.onClick(app)
     void sendMessage('featureUsed', 'property-filter-button').catch(() => undefined)
   })
   return button
@@ -110,11 +106,20 @@ function makeButton(options: { className: string; symbol: string; title: string;
 
 function decorate(line: HTMLElement) {
   if (line.dataset[DECORATED_ATTR]) return
-  const field = parsePropertyField(line.dataset.field)
+  // Damage ranges are sortable fields, not sidebar filters. Use the same item's
+  // displayed DPS (including max-quality adjustments), and name that target in the tooltip.
+  const dpsField = line.dataset.field === 'pdamage' ? 'pdps' : line.dataset.field === 'edamage' ? 'edps' : null
+  const valueLine = dpsField
+    ? line.closest('.row')?.querySelector<HTMLElement>(`[data-field="${dpsField}"]`)
+    : line
+  if (!valueLine) return
+  const field = parsePropertyField(valueLine.dataset.field)
   if (!field) return
   const group = resolvePropertyGroup(field, location.pathname.startsWith('/trade2/'))
   if (!group) return
-  const label = line.textContent?.trim() ?? field
+  const label = Array.from(valueLine.childNodes)
+    .filter(node => node.nodeName !== 'BUTTON')
+    .map(node => node.textContent).join('').trim()
   const value = parsePropertyValue(label)
   if (value === null) return
 
@@ -130,13 +135,13 @@ function decorate(line: HTMLElement) {
     className: BUTTON_CLASS,
     symbol: '+',
     title: t.addTitle(label, value),
-    onClick: (app, button) => setMin(app, button, group, field, value, label),
+    onClick: (app) => setMin(app, group, field, value, label),
   })
   const notButton = makeButton({
     className: BUTTON_NOT_CLASS,
     symbol: '−',
     title: t.addNotTitle(label, value),
-    onClick: (app, button) => setMax(app, button, group, field, value, label),
+    onClick: (app) => setMax(app, group, field, value, label),
   })
 
   // append (không after): dòng DPS/Physical DPS/Elemental DPS nằm trong ".itemPopupAdditional"

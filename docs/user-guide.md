@@ -65,12 +65,6 @@ Cùng cơ chế cho các dòng thuộc tính: Armour, Evasion, Energy Shield, Bl
 
 Dòng mod nào trên item khớp với một stat đang bật trong Stat Filters của search hiện tại được tô nền để bạn quét kết quả nhanh hơn. Stat bạn đã tắt (disabled) trong filter không được tô. Tắt trong Cài đặt.
 
-## Chọn tier cho stat (chỉ PoE2)
-
-Trên form search của `trade2`, mỗi dòng stat filter có thêm ô chọn "≈ Tier…". Chọn T1, T2… để điền ngưỡng tương ứng với tier đó trở lên vào ô min (hoặc max với stat mà giá trị càng âm càng tốt). Nếu ngưỡng đối diện mâu thuẫn, nó được xoá.
-
-Danh sách tier thu hẹp theo ngữ cảnh: đã chọn Item Category thì chỉ hiện nhóm item đó; đã chọn base item hoặc unique thì thu hẹp theo đúng base. Không có ngữ cảnh thì hiện mọi nhóm với nhãn gọn. T1 là tier cao nhất. Ngưỡng số không đảm bảo đúng affix tier khi roll của các tier chồng nhau hoặc nhiều mod cộng vào cùng một stat; đây là dữ liệu snapshot cộng đồng (TierFill), không phải dữ liệu game trực tiếp.
-
 ## Nhãn quy đổi giá trên từng listing
 
 Cạnh giá của mỗi listing hiện giá quy đổi: listing tính bằng chaos thì hiện thêm divine, tính bằng divine thì hiện thêm chaos, tính bằng currency khác thì hiện cả hai. Icon lấy từ chính catalog currency của site. Tỷ giá lấy từ bulk exchange của league đang xem, cache 6 giờ. Currency ít thanh khoản (mirror…) được quy đổi qua divine khi không có offer đổi thẳng sang chaos.
@@ -115,7 +109,7 @@ Lưu ý:
 
 ## Cài đặt
 
-Icon bánh răng ở header panel. Mỗi tính năng trên trang có công tắc riêng: nút stat filter, nút property filter, nhãn quy đổi giá, tier picker, tô sáng mod, đánh dấu seller, thống kê sử dụng ẩn danh. Mục Sao lưu xuất toàn bộ dữ liệu ra JSON và nhập lại (nhập sẽ thay thế dữ liệu hiện tại). Nút "Xem lại hướng dẫn" mở lại màn onboarding.
+Icon bánh răng ở header panel. Mỗi tính năng trên trang có công tắc riêng: nút stat filter, nút property filter, nhãn quy đổi giá, tô sáng mod, đánh dấu seller, thống kê sử dụng ẩn danh. Mục Sao lưu xuất toàn bộ dữ liệu ra JSON và nhập lại (nhập sẽ thay thế dữ liệu hiện tại). Nút "Xem lại hướng dẫn" mở lại màn onboarding.
 
 ## Quyền riêng tư
 
@@ -126,8 +120,6 @@ Extension không gọi API tìm kiếm của GGG và không tự chạy search. 
 **Bookmark cũ mở ra trang trống?** Bookmark lưu trước khi extension ghi kèm query chỉ có link ngắn; link đó hết hạn theo GGG. Mở lại search và bấm "Ghi đè bằng search hiện tại" để lưu kèm query.
 
 **Nút + / − không hiện?** Kiểm tra công tắc trong Cài đặt, rồi reload trang trade. Nút chỉ hiện khi rê chuột vào đúng dòng mod hoặc dòng thuộc tính.
-
-**Tier picker không có trên PoE1?** Đúng, dữ liệu tier hiện chỉ có cho PoE2.
 
 **Import báo "Link này thuộc POE2"?** Mở `pathofexile.com/trade2` rồi import lại.
 

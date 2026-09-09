@@ -4,11 +4,13 @@ Content script `entrypoints/trade-properties.content.ts` (MAIN world). Cùng hì
 
 ## Hành vi
 
-Các dòng Armour, Evasion, Energy Shield, Ward, Block, Spirit, Rune Sockets, Quality, Item Level, Damage, APS, Crit, DPS/pDPS/eDPS, Reload Time, Requirements (Level, Str, Dex, Int), gem level/sockets, area level, stack size có nút `+` (min = giá trị) và `−` (max = giá trị). Bấm nút nào thì ngưỡng đối diện bị xoá. Toast xác nhận, `app.save(true)`.
+Các dòng Armour, Evasion, Energy Shield, Ward, Block, Spirit, Rune Sockets, Quality, Item Level, Damage, APS, Crit, DPS/pDPS/eDPS, Reload Time, Requirements (Level, Str, Dex, Int), gem level/sockets, area level, stack size có nút `+` (min = giá trị) và `−` (max = giá trị). Bấm nút nào thì ngưỡng đối diện bị xoá. Toast xác nhận, `app.save(true)`. Nút thu lại khi rời chuột; vẫn hiện khi focus bằng bàn phím.
+
+Physical Damage dùng bộ lọc Physical DPS; các dòng damage nguyên tố (ví dụ Lightning Damage) dùng Elemental DPS. Giá trị lấy từ dòng DPS hiển thị của cùng item, gồm điều chỉnh max Quality nếu có. Tooltip và toast ghi tên bộ lọc DPS. Elemental DPS là tổng DPS nguyên tố của item. Nếu item không hiển thị DPS tương ứng, dòng damage không có nút.
 
 ## Cách hoạt động
 
-- DOM: `span.s[data-field="<field>"]`, field trùng key trong `persistent.filters[group].filters[field]`. Đã intercept `setPropertyFilter` khi gõ tay để xác nhận field id.
+- DOM: `span.s[data-field="<field>"]`, field thường trùng key trong `persistent.filters[group].filters[field]`. Riêng `pdamage`/`edamage` là field sắp xếp kết quả; nút tìm `pdps`/`edps` trong cùng `.row` vì sidebar không có bộ lọc `pdamage`/`edamage`.
 - `lib/property-filter.ts`: `parsePropertyField`, `resolvePropertyGroup(field, isPoe2)`, `parsePropertyValue` (số đầu tiên trong text), `planSetPropertyMin/Max` (thay cả hai ngưỡng).
 - Nhóm: `type_filters` (ilvl, quality), `req_filters` (lvl, str, dex, int), `misc_filters` (gem, area, stack), weapon/armour → `equipment_filters` trên PoE2, `weapon_filters`/`armour_filters` trên PoE1. Detect game bằng `location.pathname.startsWith('/trade2/')`.
 - Dòng Requirements gộp nhiều field trong một `.item-property`, nên đánh dấu decorated trên từng span field, host hover là row. Nút được `append` vào trong span (không `after`) vì `.itemPopupAdditional` là flex column tuyệt đối.
@@ -26,4 +28,4 @@ Các field ngoài danh sách verify (ar, ev, block, ilvl, quality, es, lvl, str,
 
 ## Test
 
-`lib/property-filter.test.ts`, `lib/stat-buttons.test.ts`.
+`lib/property-filter.test.ts`, `lib/property-buttons.test.ts` (gắn nút, tooltip, min/max, cùng item, thiếu DPS, nhóm filter PoE1/PoE2). Đã xác minh click trên item The Ordained ở trade2 ngày 2026-09-09: `pdamage` → `pdps` 346.5, `edamage` → `edps` 186.9.

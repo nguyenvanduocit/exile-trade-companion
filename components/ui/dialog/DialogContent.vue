@@ -9,9 +9,8 @@ defineEmits<DialogContentEmits>()
 <template>
   <DialogOverlay />
   <DialogContent
-    v-bind="$props"
+    v-bind="{ ...$props, ...$attrs }"
     class="fixed top-1/2 left-1/2 z-50 w-[420px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 border border-rule bg-raised p-4 shadow-lg shadow-black/50 outline-none"
-    v-on="$attrs"
   >
     <slot />
   </DialogContent>

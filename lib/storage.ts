@@ -38,7 +38,6 @@ export function createDefaultState(): TradeState {
       propertyFilterButtonsEnabled: true,
       priceLabelsEnabled: true,
       highlightSearchedModsEnabled: true,
-      tierPickerEnabled: true,
       bulkSellerHighlightEnabled: true,
       telemetryEnabled: true,
     },
@@ -56,6 +55,8 @@ function sanitizeState(value: unknown): TradeState {
   const fallback = createDefaultState()
   if (!value || typeof value !== 'object') return fallback
   const candidate = value as Partial<TradeState>
+  const { tierPickerEnabled: _tierPickerEnabled, ...settings } = candidate.settings as
+    (Partial<TradeSettings> & { tierPickerEnabled?: boolean }) ?? {}
 
   return {
     version: 1,
@@ -72,7 +73,7 @@ function sanitizeState(value: unknown): TradeState {
     history: Array.isArray(candidate.history) ? candidate.history : [],
     settings: {
       ...fallback.settings,
-      ...(candidate.settings ?? {}),
+      ...settings,
     },
     snapshots: Array.isArray(candidate.snapshots) ? candidate.snapshots : [],
     exchangeRate: candidate.exchangeRate ?? null,
@@ -99,7 +100,8 @@ export async function writeState(state: TradeState) {
 export async function saveSearch(input: SaveSearchInput) {
   const state = await readState()
   const now = Date.now()
-  const existing = state.searches.find((search) => search.url === input.url)
+  const existing = state.searches.find((search) => search.url === input.url
+    && (input.folderId === undefined || search.folderId === input.folderId))
 
   if (existing) {
     Object.assign(existing, input, {
@@ -241,6 +243,30 @@ export async function updateFolder(id: string, patch: Partial<FolderInput>) {
   if (nextName) folder.name = nextName
   if (patch.color) folder.color = patch.color
   if (patch.note !== undefined) folder.note = patch.note.trim()
+  return writeState(state)
+}
+
+export async function replaceFolderContents(name: string, searches: SaveSearchInput[]) {
+  const folderName = name.trim()
+  if (!folderName || !searches.length || searches.some((search) => !search.url || !search.query)) {
+    throw new Error('invalid-folder-import')
+  }
+  const state = await readState()
+  let folder = state.folders.find((entry) => entry.name === folderName)
+  if (!folder) {
+    folder = { id: uid('folder'), name: folderName, color: nextFolderColor(state.folders.length), order: state.folders.length }
+    state.folders.push(folder)
+  }
+  const removedIds = new Set(state.searches.filter((search) => search.folderId === folder.id).map((search) => search.id))
+  const now = Date.now()
+  // Replace the shared content itself; removeSearch only hides shared items locally.
+  state.searches = [
+    ...state.searches.filter((search) => search.folderId !== folder.id),
+    ...searches.map((search, order) => ({
+      ...search, id: uid('search'), folderId: folder.id, note: search.note ?? '', order, createdAt: now, updatedAt: now,
+    })),
+  ]
+  state.hiddenSearchIds = state.hiddenSearchIds.filter((id) => !removedIds.has(id))
   return writeState(state)
 }
 

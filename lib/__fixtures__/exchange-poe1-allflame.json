@@ -1,0 +1,410 @@
+{
+  "core": {
+    "primary": "chaos",
+    "rates": {
+      "divine": 0.002808
+    }
+  },
+  "lines": [
+    {
+      "id": "accelerating-catalyst",
+      "primaryValue": 2.65
+    },
+    {
+      "id": "chaos",
+      "primaryValue": 1
+    },
+    {
+      "id": "blessed",
+      "primaryValue": 0.3061
+    },
+    {
+      "id": "divine",
+      "primaryValue": 356.1
+    },
+    {
+      "id": "abrasive-catalyst",
+      "primaryValue": 2.13
+    },
+    {
+      "id": "alch",
+      "primaryValue": 0.02505
+    },
+    {
+      "id": "alt",
+      "primaryValue": 0.2952
+    },
+    {
+      "id": "ancient-orb",
+      "primaryValue": 15.43
+    },
+    {
+      "id": "annul",
+      "primaryValue": 25.37
+    },
+    {
+      "id": "aug",
+      "primaryValue": 0.05082
+    },
+    {
+      "id": "awakeners-orb",
+      "primaryValue": 1014
+    },
+    {
+      "id": "bauble",
+      "primaryValue": 1.07
+    },
+    {
+      "id": "chance",
+      "primaryValue": 0.1363
+    },
+    {
+      "id": "dead-mans-sulphur",
+      "primaryValue": 0.01249
+    },
+    {
+      "id": "elders-exalted-orb",
+      "primaryValue": 140.2
+    },
+    {
+      "id": "eldritch-chaos-orb",
+      "primaryValue": 79.82
+    },
+    {
+      "id": "eldritch-exalted-orb",
+      "primaryValue": 4.12
+    },
+    {
+      "id": "eldritch-orb-of-annulment",
+      "primaryValue": 60.89
+    },
+    {
+      "id": "enkindling-orb",
+      "primaryValue": 2.24
+    },
+    {
+      "id": "exalted",
+      "primaryValue": 1.9
+    },
+    {
+      "id": "exceptional-eldritch-ichor",
+      "primaryValue": 277.2
+    },
+    {
+      "id": "fertile-catalyst",
+      "primaryValue": 50.22
+    },
+    {
+      "id": "fracturing-orb",
+      "primaryValue": 696.1
+    },
+    {
+      "id": "fracturing-shard",
+      "primaryValue": 20.76
+    },
+    {
+      "id": "fusing",
+      "primaryValue": 0.1871
+    },
+    {
+      "id": "grand-eldritch-ember",
+      "primaryValue": 20.96
+    },
+    {
+      "id": "grand-eldritch-ichor",
+      "primaryValue": 11.73
+    },
+    {
+      "id": "greater-eldritch-ember",
+      "primaryValue": 1.66
+    },
+    {
+      "id": "greater-eldritch-ichor",
+      "primaryValue": 1.32
+    },
+    {
+      "id": "imbued-catalyst",
+      "primaryValue": 1.84
+    },
+    {
+      "id": "instilling-orb",
+      "primaryValue": 0.2996
+    },
+    {
+      "id": "intrinsic-catalyst",
+      "primaryValue": 2.6
+    },
+    {
+      "id": "jewellers",
+      "primaryValue": 0.0205
+    },
+    {
+      "id": "lesser-eldritch-ember",
+      "primaryValue": 0.29
+    },
+    {
+      "id": "lesser-eldritch-ichor",
+      "primaryValue": 0.1145
+    },
+    {
+      "id": "mavens-chisel-of-avarice",
+      "primaryValue": 192.3
+    },
+    {
+      "id": "mavens-chisel-of-scarabs",
+      "primaryValue": 71.22
+    },
+    {
+      "id": "orb-of-binding",
+      "primaryValue": 0.04255
+    },
+    {
+      "id": "orb-of-conflict",
+      "primaryValue": 709.4
+    },
+    {
+      "id": "orb-of-intention",
+      "primaryValue": 1.2
+    },
+    {
+      "id": "orb-of-remembrance",
+      "primaryValue": 139.5
+    },
+    {
+      "id": "orb-of-unmaking",
+      "primaryValue": 0.7072
+    },
+    {
+      "id": "orb-of-unravelling",
+      "primaryValue": 19.29
+    },
+    {
+      "id": "primal-lifeforce",
+      "primaryValue": 0.05208
+    },
+    {
+      "id": "redeemers-exalted-orb",
+      "primaryValue": 156.1
+    },
+    {
+      "id": "reflecting-mist",
+      "primaryValue": 2110
+    },
+    {
+      "id": "regal",
+      "primaryValue": 0.1705
+    },
+    {
+      "id": "regret",
+      "primaryValue": 2.42
+    },
+    {
+      "id": "sacred-lifeforce",
+      "primaryValue": 93.32
+    },
+    {
+      "id": "sandswept-lifeforce",
+      "primaryValue": 607.5
+    },
+    {
+      "id": "scour",
+      "primaryValue": 1.23
+    },
+    {
+      "id": "scrap",
+      "primaryValue": 0.1247
+    },
+    {
+      "id": "shapers-exalted-orb",
+      "primaryValue": 161.7
+    },
+    {
+      "id": "tainted-blacksmiths-whetstone",
+      "primaryValue": 2.02
+    },
+    {
+      "id": "tainted-exalted-orb",
+      "primaryValue": 307.5
+    },
+    {
+      "id": "tainted-orb-of-fusing",
+      "primaryValue": 21.62
+    },
+    {
+      "id": "tempering-catalyst",
+      "primaryValue": 9.58
+    },
+    {
+      "id": "turbulent-catalyst",
+      "primaryValue": 3.13
+    },
+    {
+      "id": "veiled-exalted-orb",
+      "primaryValue": 4862
+    },
+    {
+      "id": "vivid-lifeforce",
+      "primaryValue": 0.1806
+    },
+    {
+      "id": "wild-lifeforce",
+      "primaryValue": 0.03584
+    },
+    {
+      "id": "chrome",
+      "primaryValue": 6.5
+    },
+    {
+      "id": "crusaders-exalted-orb",
+      "primaryValue": 155.9
+    },
+    {
+      "id": "hinekoras-lock",
+      "primaryValue": 90655
+    },
+    {
+      "id": "exceptional-eldritch-ember",
+      "primaryValue": 248.7
+    },
+    {
+      "id": "flesh-of-xesht",
+      "primaryValue": 98.45
+    },
+    {
+      "id": "foulborn-exalted-orb",
+      "primaryValue": 2341
+    },
+    {
+      "id": "foulborn-orb-of-augmentation",
+      "primaryValue": 2.86
+    },
+    {
+      "id": "foulborn-regal-orb",
+      "primaryValue": 25.88
+    },
+    {
+      "id": "gcp",
+      "primaryValue": 2.62
+    },
+    {
+      "id": "hunters-exalted-orb",
+      "primaryValue": 533.8
+    },
+    {
+      "id": "mavens-chisel-of-divination",
+      "primaryValue": 48.93
+    },
+    {
+      "id": "mavens-chisel-of-procurement",
+      "primaryValue": 3.02
+    },
+    {
+      "id": "mavens-chisel-of-proliferation",
+      "primaryValue": 20.17
+    },
+    {
+      "id": "mavens-orb",
+      "primaryValue": 1699
+    },
+    {
+      "id": "mirror",
+      "primaryValue": 394560
+    },
+    {
+      "id": "mirror-shard",
+      "primaryValue": 20853
+    },
+    {
+      "id": "noxious-catalyst",
+      "primaryValue": 2.03
+    },
+    {
+      "id": "portal",
+      "primaryValue": 0.02058
+    },
+    {
+      "id": "prismatic-catalyst",
+      "primaryValue": 110.6
+    },
+    {
+      "id": "rogues-marker",
+      "primaryValue": 0.0004096
+    },
+    {
+      "id": "sacred-orb",
+      "primaryValue": 108.4
+    },
+    {
+      "id": "stacked-deck",
+      "primaryValue": 7.69
+    },
+    {
+      "id": "tailoring-orb",
+      "primaryValue": 1025
+    },
+    {
+      "id": "tainted-armourers-scrap",
+      "primaryValue": 2.04
+    },
+    {
+      "id": "tainted-catalyst",
+      "primaryValue": 11.91
+    },
+    {
+      "id": "tainted-chaos-orb",
+      "primaryValue": 15.35
+    },
+    {
+      "id": "tainted-chromatic-orb",
+      "primaryValue": 10.54
+    },
+    {
+      "id": "tainted-divine-orb",
+      "primaryValue": 2066
+    },
+    {
+      "id": "tainted-divine-teardrop",
+      "primaryValue": 1997
+    },
+    {
+      "id": "tainted-jewellers-orb",
+      "primaryValue": 1.92
+    },
+    {
+      "id": "tainted-mythic-orb",
+      "primaryValue": 24.5
+    },
+    {
+      "id": "tempering-orb",
+      "primaryValue": 917.3
+    },
+    {
+      "id": "transmute",
+      "primaryValue": 0.005225
+    },
+    {
+      "id": "unstable-catalyst",
+      "primaryValue": 11.51
+    },
+    {
+      "id": "vaal",
+      "primaryValue": 1.46
+    },
+    {
+      "id": "veiled-chaos-orb",
+      "primaryValue": 110.8
+    },
+    {
+      "id": "warlords-exalted-orb",
+      "primaryValue": 525.9
+    },
+    {
+      "id": "whetstone",
+      "primaryValue": 0.06125
+    },
+    {
+      "id": "wisdom",
+      "primaryValue": 0.006109
+    }
+  ]
+}

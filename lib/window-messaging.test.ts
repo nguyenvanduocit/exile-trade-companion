@@ -10,7 +10,6 @@ const settings: TradeSettings = {
   propertyFilterButtonsEnabled: true,
   priceLabelsEnabled: true,
   highlightSearchedModsEnabled: true,
-  tierPickerEnabled: true,
   bulkSellerHighlightEnabled: true, telemetryEnabled: true,
 }
 
@@ -84,13 +83,13 @@ describe('settings startup handshake', () => {
   it('preserves a disabled setting and receives subsequent changes', async () => {
     const peer = publisher()
     peer.onMessage('settingsRequested', () => {
-      void peer.sendMessage('settingsUpdated', { ...settings, tierPickerEnabled: false }).catch(() => undefined)
+      void peer.sendMessage('settingsUpdated', { ...settings, statFilterButtonsEnabled: false }).catch(() => undefined)
     })
     const { onSettingsUpdated } = await import('./window-messaging')
     const receive = vi.fn()
     cleanup.push(onSettingsUpdated(receive))
     await settleMessages()
-    expect(receive).toHaveBeenCalledExactlyOnceWith({ ...settings, tierPickerEnabled: false })
+    expect(receive).toHaveBeenCalledExactlyOnceWith({ ...settings, statFilterButtonsEnabled: false })
 
     await peer.sendMessage('settingsUpdated', settings)
     expect(receive).toHaveBeenLastCalledWith(settings)
