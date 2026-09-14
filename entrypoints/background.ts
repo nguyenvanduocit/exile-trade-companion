@@ -6,7 +6,8 @@ import { fetchTradeStatCatalog } from '@/lib/trade-stat-catalog'
 import { parseTradeUrl } from '@/lib/trade-url'
 import { readState, saveSearch } from '@/lib/storage'
 import { onMessage, sendMessage } from '@/lib/extension-messaging'
-import { ninjaCharacterUrl, ninjaIndexStateUrl, parseNinjaUrl, resolveNinjaSnapshot, type NinjaCharacter, type NinjaFetchResult, type NinjaIndexState } from '@/lib/ninja-import'
+import { parseNinjaUrl } from '@/lib/ninja-import'
+import { fetchNinjaCharacter } from '@/lib/ninja-fetch'
 import { looksLikePobCode, type PobFetchResult } from '@/lib/pob-import'
 import { buildIntakeBody, createBatcher, intakeUrl, TELEMETRY_SERVICE, type TelemetryEvent } from '@/lib/telemetry'
 
@@ -98,29 +99,6 @@ export default defineBackground(() => {
   self.addEventListener('error', (event) => telemetry.push({ name: 'background.error', props: { message: String(event.message).slice(0, 200) } }))
   self.addEventListener('unhandledrejection', (event) => telemetry.push({ name: 'background.error', props: { message: String((event as PromiseRejectionEvent).reason).slice(0, 200) } }))
 })
-
-// Hai request nội bộ của poe.ninja (xem docs/research/2026-09-05-poeninja-import.md): index-state
-// cho version snapshot hiện tại của league, rồi character theo version đó. Character không nằm
-// trên ladder trả {"status":404} với HTTP 200.
-async function fetchNinjaCharacter(url: string): Promise<NinjaFetchResult> {
-  const link = parseNinjaUrl(url)
-  if (!link) return { ok: false, reason: 'invalid-url' }
-  try {
-    const indexResponse = await fetch(ninjaIndexStateUrl(link.game), { headers: { Accept: 'application/json' } })
-    if (!indexResponse.ok) return { ok: false, reason: 'network' }
-    const snapshot = resolveNinjaSnapshot((await indexResponse.json()) as NinjaIndexState, link.leagueSlug)
-    if (!snapshot) return { ok: false, reason: 'league-not-found' }
-
-    const characterResponse = await fetch(ninjaCharacterUrl(link, snapshot), { headers: { Accept: 'application/json' } })
-    if (characterResponse.status === 404) return { ok: false, reason: 'character-not-found' }
-    if (!characterResponse.ok) return { ok: false, reason: 'network' }
-    const character = (await characterResponse.json()) as NinjaCharacter & { status?: number }
-    if (character.status === 404 || !Array.isArray(character.items)) return { ok: false, reason: 'character-not-found' }
-    return { ok: true, character }
-  } catch {
-    return { ok: false, reason: 'network' }
-  }
-}
 
 // pobb.in/<id>/raw trả PoB code text/plain (verify 2026-09-06); id sai trả trang HTML 404.
 async function fetchPobCode(url: string): Promise<PobFetchResult> {
