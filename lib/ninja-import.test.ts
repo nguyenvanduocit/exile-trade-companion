@@ -26,19 +26,28 @@ const poe2Catalog: StatCatalogEntry[] = poe2Stats.result.flatMap((group) => grou
 describe('parseNinjaUrl', () => {
   it('đọc game, league slug, account và tên character (kể cả tên percent-encoded)', () => {
     expect(parseNinjaUrl('https://poe.ninja/poe1/builds/allflame/character/Poteitik-3151/%D0%9F%D0%9E%D0%A2%D0%95%D0%99%D0%A2%D0%98%D0%9A?i=0'))
-      .toEqual({ game: 'poe1', leagueSlug: 'allflame', account: 'Poteitik-3151', character: 'ПОТЕЙТИК' })
+      .toEqual({ source: 'builds', game: 'poe1', leagueSlug: 'allflame', account: 'Poteitik-3151', character: 'ПОТЕЙТИК' })
     expect(parseNinjaUrl('https://poe.ninja/poe2/builds/forbiddenrites/character/heygyus-0416/ResurrectForbidden?i=0'))
-      .toEqual({ game: 'poe2', leagueSlug: 'forbiddenrites', account: 'heygyus-0416', character: 'ResurrectForbidden' })
+      .toEqual({ source: 'builds', game: 'poe2', leagueSlug: 'forbiddenrites', account: 'heygyus-0416', character: 'ResurrectForbidden' })
   })
 
   it('bỏ qua query string của poe.ninja (?i=&search=)', () => {
     expect(parseNinjaUrl('https://poe.ninja/poe1/builds/allflame/character/fang16639-5555/allffan?i=1&search=skills%3DRaise%2BSpectre%26class%3DNecromancer'))
-      .toEqual({ game: 'poe1', leagueSlug: 'allflame', account: 'fang16639-5555', character: 'allffan' })
+      .toEqual({ source: 'builds', game: 'poe1', leagueSlug: 'allflame', account: 'fang16639-5555', character: 'allffan' })
   })
 
-  it('từ chối link không phải character trên builds ladder', () => {
+  it('đọc character từ profile mà không nhầm vị trí account và league', () => {
+    expect(parseNinjaUrl('https://poe.ninja/poe2/profile/tuymaydi-7805/forbiddenrites/character/Satan_Rites'))
+      .toEqual({ source: 'profile', game: 'poe2', leagueSlug: 'forbiddenrites', account: 'tuymaydi-7805', character: 'Satan_Rites' })
+    expect(parseNinjaUrl('https://poe.ninja/poe1/profile/Poteitik-3151/allflame/character/%D0%9F%D0%9E%D0%A2%D0%95%D0%99%D0%A2%D0%98%D0%9A#equipment'))
+      .toEqual({ source: 'profile', game: 'poe1', leagueSlug: 'allflame', account: 'Poteitik-3151', character: 'ПОТЕЙТИК' })
+  })
+
+  it('từ chối link không phải trang character đầy đủ', () => {
     expect(parseNinjaUrl('https://poe.ninja/poe1/builds/allflame')).toBeNull()
-    expect(parseNinjaUrl('https://poe.ninja/poe2/profile/acc/league/character/name')).toBeNull()
+    expect(parseNinjaUrl('https://poe.ninja/poe2/profile/acc')).toBeNull()
+    expect(parseNinjaUrl('https://poe.ninja/poe2/profile/acc/league/character')).toBeNull()
+    expect(parseNinjaUrl('https://poe.ninja/poe2/profile/acc/league/other/name')).toBeNull()
     expect(parseNinjaUrl('https://www.pathofexile.com/trade/search/Allflame')).toBeNull()
     expect(parseNinjaUrl('not a url')).toBeNull()
   })

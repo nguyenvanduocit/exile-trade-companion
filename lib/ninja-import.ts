@@ -6,6 +6,7 @@ import type { StatDefinition, StatGroup } from '@/lib/stat-filter'
 import type { Game, TradeQuery } from '@/types/trading'
 
 export interface NinjaLink {
+  source: 'builds' | 'profile'
   game: Game
   leagueSlug: string
   account: string
@@ -13,7 +14,7 @@ export interface NinjaLink {
   timeMachine?: string
 }
 
-// https://poe.ninja/{poe1|poe2}/builds/{leagueSlug}/character/{account}/{character}[?i=0]
+// Builds đặt league trước account; profile đặt account trước league.
 export function parseNinjaUrl(value: string): NinjaLink | null {
   let url: URL
   try {
@@ -29,11 +30,16 @@ export function parseNinjaUrl(value: string): NinjaLink | null {
       return segment
     }
   })
-  const [game, builds, leagueSlug, character, account, name] = segments
-  if ((game !== 'poe1' && game !== 'poe2') || builds !== 'builds' || character !== 'character') return null
+  const [game, source] = segments
+  if (game !== 'poe1' && game !== 'poe2') return null
+  if (source !== 'builds' && source !== 'profile') return null
+  const [leagueSlug, character, account, name] = source === 'builds'
+    ? segments.slice(2)
+    : [segments[3], segments[4], segments[2], segments[5]]
+  if (character !== 'character') return null
   if (!leagueSlug || !account || !name) return null
-  const timeMachine = url.searchParams.get('timemachine')
-  return { game, leagueSlug, account, character: name, ...(timeMachine ? { timeMachine } : {}) }
+  const timeMachine = source === 'builds' ? url.searchParams.get('timemachine') : null
+  return { source, game, leagueSlug, account, character: name, ...(timeMachine ? { timeMachine } : {}) }
 }
 
 export interface NinjaSnapshotVersion {
