@@ -23,6 +23,8 @@ const savedCount = ref<number | null>(null)
 const character = ref<NinjaCharacter | null>(null)
 const items = ref<ResolvedImportItem[]>([])
 const rolls = ref(DEFAULT_IMPORT_ROLL_PERCENT)
+const openingTrade = ref(false)
+const tradeError = ref('')
 const panel = ref<HTMLElement | null>(null)
 const expanded = ref(new Set<string>())
 const existingFolder = computed(() => store.state.value.folders.find(folder => folder.name === character.value?.name))
@@ -41,6 +43,7 @@ async function load() {
   expanded.value = new Set()
   savedCount.value = null
   error.value = ''
+  tradeError.value = ''
   loading.value = Boolean(link.value)
   if (!link.value) return
   const game = link.value.game
@@ -84,6 +87,22 @@ async function save() {
     if (current === generation) error.value = i18n.t('ninja.saveFailed')
   } finally {
     saving.value = false
+  }
+}
+
+async function tradeItem(item: ResolvedImportItem) {
+  if (openingTrade.value || loading.value || !link.value || !character.value) return
+  const current = generation
+  openingTrade.value = true
+  tradeError.value = ''
+  try {
+    const [search] = await prepareNinjaSearches([item], link.value.game, character.value.league, rolls.value)
+    if (current !== generation) return
+    await sendMessage('openTradeTab', search!.url)
+  } catch {
+    if (current === generation) tradeError.value = i18n.t('ninja.tradeFailed')
+  } finally {
+    openingTrade.value = false
   }
 }
 
@@ -155,14 +174,20 @@ onBeforeUnmount(() => {
           </p>
           <p v-if="!items.length" class="px-4 py-6 text-dim">{{ i18n.t('ninja.empty') }}</p>
           <article v-for="item in items" :key="item.key" class="border-b border-rule">
-            <button class="flex w-full items-center gap-3 px-3 py-3 text-left hover:bg-hover" type="button" :aria-expanded="expanded.has(item.key)" @click="toggleItem(item.key)">
-              <img v-if="item.icon" :src="item.icon" alt="" class="size-8 shrink-0 object-contain">
-              <span class="min-w-0 flex-1">
-                <span class="block truncate text-[13px] leading-5" :class="item.rarity === 'unique' ? 'text-[#af6025]' : 'text-cream'">{{ item.name || item.baseType }}</span>
-                <span class="block truncate text-[11px] leading-4 text-dim">{{ item.slot }}<template v-if="item.name"> · {{ item.baseType }}</template></span>
-              </span>
-              <span class="text-[10px]" :class="matchedCount(item) === item.lines.length ? 'text-tan' : 'text-danger'">{{ i18n.t('folder.importNinjaMods', { matched: matchedCount(item), total: item.lines.length }) }}</span>
-            </button>
+            <div class="flex items-center gap-2 pr-3">
+              <button class="flex min-w-0 flex-1 items-center gap-3 px-3 py-3 text-left hover:bg-hover" type="button" :aria-expanded="expanded.has(item.key)" @click="toggleItem(item.key)">
+                <img v-if="item.icon" :src="item.icon" alt="" class="size-8 shrink-0 object-contain">
+                <span class="min-w-0 flex-1">
+                  <span class="block truncate text-[13px] leading-5" :class="item.rarity === 'unique' ? 'text-[#af6025]' : 'text-cream'">{{ item.name || item.baseType }}</span>
+                  <span class="block truncate text-[11px] leading-4 text-dim">{{ item.slot }}<template v-if="item.name"> · {{ item.baseType }}</template></span>
+                </span>
+                <span class="shrink-0 text-[10px]" :class="matchedCount(item) === item.lines.length ? 'text-tan' : 'text-danger'">{{ i18n.t('folder.importNinjaMods', { matched: matchedCount(item), total: item.lines.length }) }}</span>
+              </button>
+              <button type="button" class="poe-btn poe-btn-sm shrink-0" :disabled="openingTrade || loading"
+                :aria-label="i18n.t('ninja.tradeItem', { item: item.name || item.baseType })" @click="tradeItem(item)">
+                <ExternalLink />{{ i18n.t('ninja.trade') }}
+              </button>
+            </div>
             <ul v-if="expanded.has(item.key)" class="space-y-1 bg-raised px-4 py-2 text-[11px] leading-4">
               <li v-for="(line, index) in item.lines" :key="index" :class="item.matches[index] ? 'text-grey' : 'text-danger'">{{ line.text }}</li>
             </ul>
@@ -171,6 +196,7 @@ onBeforeUnmount(() => {
       </div>
       <footer class="shrink-0 space-y-3 border-t border-bronze bg-raised px-3 py-3">
         <p v-if="error" role="alert" class="text-[12px] leading-5 text-danger">{{ error }}</p>
+        <p v-if="tradeError" role="alert" class="text-[12px] leading-5 text-danger">{{ tradeError }}</p>
         <p v-if="savedCount !== null" role="status" class="text-[12px] leading-5 text-cream">{{ i18n.t('folder.importNinjaSaved', { count: savedCount, folder: character?.name ?? '' }) }}</p>
         <template v-if="character && items.length">
           <ImportRollSlider v-model="rolls" :disabled="saving" />

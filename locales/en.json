@@ -37,7 +37,10 @@
     "createHint": "Creates a folder named “{folder}” with all gear from this build.",
     "importAll": "Import all gear",
     "importing": "Importing…",
-    "openTrade": "Open on Trade"
+    "openTrade": "Open on Trade",
+    "trade": "Trade",
+    "tradeItem": "Trade {item} (opens in a new tab)",
+    "tradeFailed": "Could not open this item on Trade. Please try again."
   },
   "folder": {
     "namePlaceholder": "Folder name",
