@@ -37,7 +37,10 @@
     "createHint": "Tạo folder “{folder}” với toàn bộ trang bị của build này.",
     "importAll": "Import all gear",
     "importing": "Đang import…",
-    "openTrade": "Mở trang Trade"
+    "openTrade": "Mở trang Trade",
+    "trade": "Trade",
+    "tradeItem": "Trade {item} (mở trong tab mới)",
+    "tradeFailed": "Không mở được item này trên Trade. Hãy thử lại."
   },
   "folder": {
     "namePlaceholder": "Tên folder",

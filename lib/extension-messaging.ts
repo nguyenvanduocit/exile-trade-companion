@@ -12,6 +12,7 @@ import type { TelemetryEvent } from '@/lib/telemetry'
 interface ExtensionProtocolMap {
   // Content script (isolated) -> background, không cần tabId (mặc định gửi tới background).
   openUrl(url: string): void
+  openTradeTab(url: string): void
   openDiscord(): void
   openOnboarding(): void
   saveActiveSearch(page: TradePage): void

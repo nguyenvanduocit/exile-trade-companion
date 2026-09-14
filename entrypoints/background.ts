@@ -79,6 +79,11 @@ export default defineBackground(() => {
     }
   })
 
+  onMessage('openTradeTab', async ({ data: url, sender }) => {
+    if (!parseTradeUrl(url)) return
+    await browser.tabs.create({ url, windowId: sender.tab?.windowId, openerTabId: sender.tab?.id })
+  })
+
   onMessage('openDiscord', () => {
     void browser.tabs.create({ url: DISCORD_URL })
   })
