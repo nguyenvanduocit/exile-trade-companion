@@ -94,7 +94,7 @@ describe('damage property buttons', () => {
     for (const index of [first, 1 - first, first]) {
       buttons[index]!.click()
       expect(ui.filters).toEqual({ equipment_filters: { filters: {
-        pdps: { [index === 0 ? 'min' : 'max']: 346.5 },
+        pdps: { [index === 0 ? 'min' : 'max']: 346 },
       } } })
     }
     expect(ui.save).toHaveBeenCalledTimes(3)
@@ -113,8 +113,8 @@ describe('damage property buttons', () => {
   ])('uses the same listing’s supported DPS filters on %s', (pathname, group) => {
     const ui = setup(pathname)
     for (const [index, field, value, label] of [
-      [0, 'pdps', 346.5, 'Physical DPS346.5'],
-      [1, 'edps', 186.9, 'Elemental DPS186.9'],
+      [0, 'pdps', 346, 'Physical DPS346.5'],
+      [1, 'edps', 186, 'Elemental DPS186.9'],
     ] as const) {
       const buttons = ui.second[index]!.buttons
       expect(buttons).toHaveLength(2)
@@ -132,7 +132,7 @@ describe('damage property buttons', () => {
     const ui = setup()
     ui.second[2]!.buttons[0]!.click()
     expect(ui.commit).toHaveBeenLastCalledWith('setPropertyFilter', {
-      group: 'equipment_filters', index: 'aps', value: { min: 1.4 },
+      group: 'equipment_filters', index: 'aps', value: { min: 1 },
     })
   })
 

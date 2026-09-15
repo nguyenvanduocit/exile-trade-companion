@@ -123,9 +123,8 @@
     "importNinjaPobLine": "{className} · {ascendancy} Lv{level} · Path of Building",
     "importNinjaErrorPobNotFound": "pobb.in has no build at this link.",
     "importNinjaErrorInvalidCode": "Couldn't decode this PoB code.",
-    "deleteDisabledTitle": "You must keep at least one folder",
     "confirmDeleteText": "Delete folder {folder}?",
-    "moveBookmarksText": "{count} bookmarks inside will move to {target}.",
+    "deleteBookmarksText": "All bookmarks in this folder will be deleted from this device.",
     "keep": "Keep",
     "deleteFolder": "Delete folder",
     "empty": "Folder is empty. Open a search and pick this folder to save it.",
@@ -163,6 +162,13 @@
     "clear": "Clear history"
   },
   "priceHistory": {
+    "capture": "Capture price",
+    "checkingCapture": "Checking search…",
+    "capturing": "Capturing price…",
+    "captured": "Price captured.",
+    "captureUnavailable": "Open this saved search, run the search and wait for results to load before capturing its price.",
+    "captureInsufficientListings": "Need at least 3 listings with prices convertible to chaos. Wait for results to load and try again.",
+    "captureFailed": "Couldn't capture the price. Try again.",
     "menuItem": "Price history",
     "title": "Price history",
     "notEnoughData": "Not enough data to chart yet — need at least 2 snapshots.",
@@ -207,7 +213,7 @@
       },
       "save": {
         "title": "Save the search you have open into a folder",
-        "body": "Open a search on pathofexile.com/trade, click the extension icon, then pick a folder — the search gets pinned with its median price, one click away whenever you need it again."
+        "body": "Open a search on pathofexile.com/trade, click the extension icon, then pick a folder. The search is saved so you can reopen it with one click."
       },
       "panel": {
         "title": "A floating panel right on the trade page",
@@ -223,7 +229,7 @@
       },
       "priceHistory": {
         "title": "Track price history",
-        "body": "Every time a saved search is reopened, its median price gets captured as a snapshot. The price history chart shows how the market moved over time, right inside the saved search."
+        "body": "Open a saved search and wait for results to load, then choose Capture price from its three-dot menu. Each capture saves the current prices so you can track changes in the price history chart."
       },
       "shareFolder": {
         "title": "Share a folder with friends",

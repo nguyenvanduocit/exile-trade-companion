@@ -15,7 +15,8 @@ describe('buildDonationTradeUrl', () => {
       exchange: { have: { chaos: { amount: 10 } }, want: {} },
     }
     const url = await buildDonationTradeUrl(page)
-    expect(url).toMatch(new RegExp(`^https://www.pathofexile.com/${root}/search/${league}/[\\w-]+$`))
+    const realm = page.game === 'poe2' ? 'poe2/' : ''
+    expect(url).toMatch(new RegExp(`^https://www.pathofexile.com/${root}/search/${realm}${league}/[\\w-]+$`))
     const encoded = url!.split('/').pop()!.replace(/-/g, '+').replace(/_/g, '/')
     const bytes = Uint8Array.from(atob(encoded), c => c.charCodeAt(0))
     const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))

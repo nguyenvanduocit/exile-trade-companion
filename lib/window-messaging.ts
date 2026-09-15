@@ -6,7 +6,7 @@
 // bằng CDP 2026-09-05, xem git history lib/settings-bridge.ts/lib/save-toast.ts bản cũ).
 import { defineWindowMessaging } from '@webext-core/messaging/page'
 import type { TradeQuery, TradeSettings } from '@/types/trading'
-import type { CurrencyId } from '@/types/pricing'
+import type { CurrencyId, TradePriceSearch } from '@/types/pricing'
 import type { StatLine, StatMatch } from '@/lib/ninja-import'
 
 export interface QueryStateDetail {
@@ -60,6 +60,14 @@ interface CurrencyIconProtocolMap {
 
 export const { sendMessage: sendCurrencyIconMessage, onMessage: onCurrencyIconMessage } = defineWindowMessaging<CurrencyIconProtocolMap>({
   namespace: 'exile-trade-companion/currency-icons',
+})
+
+interface PriceSearchProtocolMap {
+  getPriceSearch(): TradePriceSearch | null
+}
+
+export const { sendMessage: sendPriceSearchMessage, onMessage: onPriceSearchMessage } = defineWindowMessaging<PriceSearchProtocolMap>({
+  namespace: 'exile-trade-companion/price-search',
 })
 
 export function onSettingsUpdated(callback: (settings: TradeSettings) => void): () => void {

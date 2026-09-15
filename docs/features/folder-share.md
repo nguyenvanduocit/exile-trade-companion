@@ -8,6 +8,7 @@
 - **Chia sẻ một lần**: tạo room với `mode: 'once'`, seed dữ liệu, rời ngay. Folder gốc không đổi.
 - **Tham gia**: dán key → `inspectShareKey` mở room và đọc meta. Key một lần → sao chép thành folder mới. Key trực tiếp → Fork (bản sao tĩnh) hoặc Tham gia (folder mới mang `shareKey`, đồng bộ liên tục). Key đã dùng trên máy này bị từ chối.
 - Trong folder share trực tiếp: xoá bookmark chỉ thêm id vào `hiddenSearchIds` (ẩn cục bộ, không đẩy xoá lên room); kéo bookmark ra folder khác ẩn bản gốc và tạo bản sao id mới. Thứ tự và trạng thái đã mua không đồng bộ, ghi chú folder có.
+- Xoá cả folder: rời room và xoá folder cùng toàn bộ bookmark trên thiết bị này, kể cả bookmark đã ẩn. Nội dung room và dữ liệu của người khác được giữ nguyên.
 - Trạng thái sync hiện trên icon share của folder: connecting, syncing, idle, error.
 - Mỗi share key đi kèm một hotlink mở được bằng trình duyệt thường — xem [share-hotlink.md](share-hotlink.md).
 

@@ -11,7 +11,7 @@ const character = {
 }
 
 describe('ninja build import', () => {
-  it('defaults to 90% and scales positive, negative and fractional rolls in every matching filter', async () => {
+  it('mặc định 90% và làm tròn xuống roll dương, âm, số lẻ trong mọi filter khớp', async () => {
     const raw = collectImportItems(character)
     raw[0]!.lines = [
       { section: 'explicit', text: '+100 to maximum Life' },
@@ -30,13 +30,30 @@ describe('ninja build import', () => {
     const defaults = buildImportQuery(item)
     const filters = defaults.stats.flatMap(group => group.filters)
     expect(filters.filter(filter => filter.id.includes('Life') || filter.id === 'explicit.life').map(filter => filter.value)).toEqual([{ min: 90 }, { min: 90 }])
-    expect(filters.find(filter => filter.id === 'explicit.cost')?.value).toEqual({ max: -6.3 })
-    expect(filters.find(filter => filter.id === 'explicit.crit')?.value).toEqual({ min: 1.13 })
+    expect(filters.find(filter => filter.id === 'explicit.cost')?.value).toEqual({ max: -7 })
+    expect(filters.find(filter => filter.id === 'explicit.crit')?.value).toEqual({ min: 1 })
     expect(filters.find(filter => filter.id === 'enchant.allocates|1')?.value).toEqual({})
     expect(filters.find(filter => filter.id === 'rune.speed')).toMatchObject({ value: { min: 9 }, disabled: true })
     const searches = await prepareNinjaSearches([item], 'poe2', character.league, 80)
-    expect(searches[0]?.query?.stats.flatMap(group => group.filters).find(filter => filter.id === 'explicit.cost')?.value).toEqual({ max: -5.6 })
+    expect(searches[0]?.query?.stats.flatMap(group => group.filters).find(filter => filter.id === 'explicit.cost')?.value).toEqual({ max: -6 })
     expect(buildImportQuery(item, 0).stats.flatMap(group => group.filters).every(filter => Object.keys(filter.value ?? {}).length === 0)).toBe(true)
+  })
+
+  it.each([
+    [105, 90, { min: 94 }],
+    [6.5, 80, { min: 5 }],
+    [1.9999, 100, { min: 1 }],
+    [-1.25, 100, { max: -2 }],
+    [0.9, 100, { min: 0 }],
+    [-0.9, 100, { max: -1 }],
+    [0, 90, { min: 0 }],
+    [105, 0, {}],
+  ])('roll %s ở %s%% được làm tròn sau khi nhân phần trăm', (value, percent, expected) => {
+    const raw = collectImportItems(character)
+    const item = attachStatMatches(raw.slice(0, 1), [
+      { ids: ['explicit.life'], text: '+# to maximum Life', value },
+    ])[0]!
+    expect(buildImportQuery(item, percent).stats[0]!.filters[0]!.value).toEqual(expected)
   })
 
   it('includes runic rares and keeps identical gear slots as separate searches', async () => {
@@ -45,7 +62,7 @@ describe('ninja build import', () => {
     const searches = await prepareNinjaSearches(items, 'poe2', character.league, 100)
     expect(searches).toHaveLength(3)
     expect(searches[0]?.query?.stats[0]?.filters[0]).toMatchObject({ id: 'explicit.life', value: { min: 100 } })
-    expect(searches[0]?.url).toMatch(/^https:\/\/www.pathofexile.com\/trade2\/search\/Forbidden%20Rites\//)
+    expect(searches[0]?.url).toMatch(/^https:\/\/www.pathofexile.com\/trade2\/search\/poe2\/Forbidden%20Rites\//)
     const encoded = searches[0]!.url.split('/').at(-1)!
     const bytes = Uint8Array.from(atob(encoded.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0))
     const payload = JSON.parse(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).text())

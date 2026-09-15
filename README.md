@@ -10,7 +10,7 @@ Extension không tự chạy search và không gọi API tìm kiếm của GGG. 
 - **Bookmark không chết**: lưu kèm query và dựng lại URL khi mở, nên bookmark vẫn đúng bộ lọc sau khi search ID của GGG hết hạn.
 - **Nút + / − trên kết quả**: rê chuột vào dòng mod hoặc thuộc tính của item để đặt min/max vào filter mà không gõ lại. Mod đang search được tô sáng.
 - **Giá quy đổi**: mỗi listing hiện thêm giá chaos hoặc divine với icon thật; tỷ giá lấy từ Currency Exchange của poe.ninja, cache 6 giờ theo game và league.
-- **Lịch sử giá**: search đã bookmark được chụp trung vị giá mỗi lần bạn mở, có biểu đồ.
+- **Lịch sử giá**: mở search đã bookmark rồi chọn menu `•••` → Capture giá để lưu giá hiện tại và theo dõi trên biểu đồ.
 - **Seller bán nhiều**: đánh dấu listing của seller có từ 2 item trong kết quả để mua gộp.
 - **Chia sẻ folder**: chia sẻ trực tiếp đồng bộ hai chiều hoặc gửi bản chụp một lần, chỉ cần một share key, không tài khoản. Mỗi key kèm một hotlink mở được bằng trình duyệt thường, không cần cài extension để xem.
 - **Import build**: dán link character poe.ninja, link pobb.in hoặc code Path of Building; gear, jewel, flask thành các search trong folder, mod được map sang stat filter của trade.

@@ -109,7 +109,7 @@ describe('Poteitik (POE1 Champion): họ section, (Local), damage range, text tr
 
   it('"Adds 3 to 7 Physical Damage to Attacks" lấy trung bình 5; implicit cùng text tách id theo section', () => {
     expect(filterOf(query, 'explicit.stat_3032590688')).toMatchObject({ value: { min: 5 } })
-    expect(filterOf(query, 'implicit.stat_3032590688')).toMatchObject({ value: { min: 6.5 } })
+    expect(filterOf(query, 'implicit.stat_3032590688')).toMatchObject({ value: { min: 6 } })
   })
 
   it('"18% increased Attack Speed" trùng text Local/global → một group count min 1 chứa cả hai id', () => {

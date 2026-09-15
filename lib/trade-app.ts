@@ -13,6 +13,16 @@ export interface CurrencyCatalogEntry {
   image: string
 }
 
+export interface TradeActiveSearch {
+  id: string | null
+  type: string | null
+  realm: string | null
+  league: string | null
+  query?: Record<string, unknown> | null
+  results: unknown[]
+  dirty: boolean
+}
+
 export interface TradeApp {
   static_?: {
     knownItems?: KnownItemGroup[]
@@ -24,11 +34,15 @@ export interface TradeApp {
   $store: {
     state: {
       persistent: TradeQuery
+      transient?: {
+        search?: { active?: TradeActiveSearch | null }
+      }
     }
     commit: (type: string, payload?: unknown) => void
     watch: (getter: (state: TradeApp['$store']['state']) => unknown, cb: () => void, opts?: { deep?: boolean }) => () => void
   }
   $refs: { toastr?: { Add: (toast: { msg: string; progressbar: boolean; timeout: number }) => void } }
+  searchRequest?: { abort: () => void } | null
   save: (dirty?: boolean) => void
 }
 

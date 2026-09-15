@@ -52,7 +52,7 @@ export function resolvePropertyGroup(field: string, isPoe2: boolean): string | n
 // "Armour: 331" · "Quality: +20%" · "Level 33" · "54 Str".
 export function parsePropertyValue(text: string): number | null {
   const match = text.match(/-?\d+(?:\.\d+)?/)
-  return match ? Number(match[0]) : null
+  return match ? Math.floor(Number(match[0])) : null
 }
 
 // Quick buttons replace both bounds so switching direction clears the previous constraint.

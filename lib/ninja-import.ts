@@ -407,7 +407,7 @@ function emptyQuery(): TradeQuery {
 // "càng thấp càng tốt": min = -7 sẽ nhận cả -6, -5 và mọi roll dương. Đặt vào max để giữ đúng chiều.
 function rollBound(value: number | null, percent: number): { min?: number; max?: number } {
   if (value === null || percent === 0) return {}
-  const threshold = Math.round(value * percent) / 100
+  const threshold = Math.floor(value * percent / 100)
   return value < 0 ? { max: threshold } : { min: threshold }
 }
 

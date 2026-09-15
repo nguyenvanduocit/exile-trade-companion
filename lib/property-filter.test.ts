@@ -64,6 +64,16 @@ describe('parsePropertyValue', () => {
     expect(parsePropertyValue('Block chance: 25%')).toBe(25)
   })
 
+  it.each([
+    ['Physical DPS: 346.5', 346],
+    ['Elemental DPS: 186.9', 186],
+    ['Attacks per Second: 1.40', 1],
+    ['Reload Time: 0.9', 0],
+    ['Quality: -1.5%', -2],
+  ])('làm tròn xuống giá trị %s', (label, expected) => {
+    expect(parsePropertyValue(label)).toBe(expected)
+  })
+
   it('trả về null khi không có số', () => {
     expect(parsePropertyValue('Identified')).toBeNull()
   })

@@ -3,6 +3,8 @@ import { reactive } from 'vue'
 import { orderedFolders, orderedSearches } from './bookmark-order'
 import { diffSearchesForFolder, toSharedSearchFields } from './folder-sync'
 import type { TradeQuery, TradeState } from '@/types/trading'
+import urls from './__fixtures__/price-capture-urls.json'
+import { snapshotQueryId } from './price-search-match'
 
 const storage = vi.hoisted(() => ({
   value: {} as Record<string, unknown>,
@@ -96,6 +98,24 @@ describe('legacy settings', () => {
 })
 
 describe('folder storage actions', () => {
+  it('reuses an imported bookmark after GGG rewrites its URL and keeps its price history key', async () => {
+    const state = makeState()
+    const query: TradeQuery = {
+      status: 'available', type: 'Emerald', name: null, term: null, disc: null,
+      stats: [{ type: 'and', filters: [{ id: 'explicit.life', value: { min: 15 }, disabled: false }] }],
+      filters: {}, exchange: { want: {}, have: {} },
+    }
+    const bookmark = { ...state.searches[0]!, game: 'poe2' as const, league: 'Forbidden Rites', url: urls.imported, query }
+    state.searches = [bookmark]
+    storage.value[STORAGE_KEY] = state
+    const saved = await saveSearch({ ...bookmark, url: urls.opened, queryId: 'rewritten-id', query: {
+      ...query, stats: [{ type: 'and', filters: [{ id: 'explicit.life', value: { min: 15 } }] }],
+    } })
+    expect(saved.searches).toHaveLength(1)
+    expect(saved.searches[0]?.id).toBe(bookmark.id)
+    expect(snapshotQueryId(saved.searches[0]!)).toBe(snapshotQueryId(bookmark))
+  })
+
   it('persists a multiline folder note without modifying bookmarks or other folders', async () => {
     const before = await readState()
     await updateFolder('gear', { note: '  Budget: 20 div\nPrioritize boots  ' })
@@ -155,23 +175,103 @@ describe('folder storage actions', () => {
     expect(nextFolderColor(FOLDER_COLORS.length)).toBe(FOLDER_COLORS[0])
   })
 
-  it('moves bookmarks to the default folder before deleting a folder', async () => {
+  it('deletes a folder together with its bookmarks', async () => {
     const state = await removeFolder('gear')
     expect(state.folders.map((folder) => folder.id)).toEqual([DEFAULT_FOLDER_ID])
-    expect(state.searches[0]?.folderId).toBe(DEFAULT_FOLDER_ID)
+    expect(state.searches).toEqual([])
     expect(state.settings.collapsedFolderIds).toEqual([])
+    expect(await readState()).toEqual(state)
   })
 
-  it('keeps the last folder', async () => {
-    storage.value = {
-      [STORAGE_KEY]: {
-        ...makeState(),
-        folders: [makeState().folders[0]],
-      },
-    }
+  it.each(['gear', DEFAULT_FOLDER_ID])('deletes only contents and hidden IDs belonging to %s', async (folderId) => {
+    const initial = makeState()
+    const otherFolderId = folderId === 'gear' ? DEFAULT_FOLDER_ID : 'gear'
+    const bookmark = initial.searches[0]!
+    initial.folders.push({ id: 'bulk', name: 'Bulk', color: '#ccc', order: 2 })
+    initial.searches = [
+      { ...bookmark, id: 'deleted-visible', folderId, order: 0 },
+      { ...bookmark, id: 'deleted-hidden', folderId, order: 1 },
+      { ...bookmark, id: 'kept-first', folderId: otherFolderId, order: 0, note: 'Keep me', purchased: true },
+      { ...bookmark, id: 'kept-second', folderId: otherFolderId, order: 1 },
+      { ...bookmark, id: 'kept-hidden', folderId: 'bulk', order: 0 },
+    ]
+    initial.hiddenSearchIds = ['deleted-hidden', 'kept-hidden']
+    initial.settings.collapsedFolderIds = [folderId, 'bulk']
+    storage.value[STORAGE_KEY] = initial
+    const before = await readState()
 
-    const state = await removeFolder(DEFAULT_FOLDER_ID)
-    expect(state.folders).toHaveLength(1)
+    const state = await removeFolder(folderId)
+
+    expect(state.folders).toEqual(before.folders.filter(folder => folder.id !== folderId)
+      .map((folder, order) => ({ ...folder, order })))
+    expect(state.searches).toEqual(before.searches.filter(search => search.folderId !== folderId))
+    expect(state.hiddenSearchIds).toEqual(['kept-hidden'])
+    expect(state.settings.collapsedFolderIds).toEqual(['bulk'])
+    expect(await readState()).toEqual(state)
+  })
+
+  it('ignores deletion of a missing folder', async () => {
+    const before = await readState()
+    expect(await removeFolder('missing')).toEqual(before)
+    expect(await readState()).toEqual(before)
+  })
+
+  it('keeps a surviving shared copy hidden when its ID also belongs to the deleted folder', async () => {
+    await setFolderShareKey('gear', 'share_gear')
+    const original = (await readState()).searches[0]!
+    await addSharedFolder({ id: 'fork', name: 'Fork', color: '#ccc', order: 2 }, [
+      { ...original, folderId: 'fork' },
+    ])
+    await removeSearch(original.id)
+    const before = await readState()
+    const copy = before.searches.find(search => search.folderId === 'fork')!
+    expect(isSearchVisible(before, copy)).toBe(false)
+
+    const after = await removeFolder('gear')
+
+    expect(after.searches).toEqual([copy])
+    expect(after.hiddenSearchIds).toEqual([original.id])
+    expect(isSearchVisible(after, after.searches[0]!)).toBe(false)
+    expect(await readState()).toEqual(after)
+
+    expect((await removeFolder('fork')).hiddenSearchIds).toEqual([])
+  })
+
+  it.each(['gear', DEFAULT_FOLDER_ID])('deletes the last folder %s and persists its empty state', async (folderId) => {
+    const initial = makeState()
+    initial.folders = initial.folders.filter(folder => folder.id === folderId)
+    initial.searches[0]!.folderId = folderId
+    initial.hiddenSearchIds = ['search-1']
+    initial.settings.collapsedFolderIds = [folderId]
+    storage.value[STORAGE_KEY] = initial
+
+    const state = await removeFolder(folderId)
+
+    expect(state.folders).toEqual([])
+    expect(state.searches).toEqual([])
+    expect(state.hiddenSearchIds).toEqual([])
+    expect(state.settings.collapsedFolderIds).toEqual([])
+    expect(await readState()).toEqual(state)
+  })
+
+  it('preserves an empty folder list through backup import and reload', async () => {
+    const backup = { ...makeState(), folders: [], searches: [] }
+
+    expect((await importState(backup)).folders).toEqual([])
+    expect((await readState()).folders).toEqual([])
+  })
+
+  it('creates a new folder after deleting all folders without restoring defaults', async () => {
+    await removeFolder('gear')
+    await removeFolder(DEFAULT_FOLDER_ID)
+
+    const state = await createFolder({ name: 'New build', color: '#aaa' })
+
+    expect(state.folders).toEqual([
+      { id: expect.stringMatching(/^folder-/), name: 'New build', color: '#aaa', order: 0 },
+    ])
+    expect(state.searches).toEqual([])
+    expect(await readState()).toEqual(state)
   })
 })
 
@@ -201,6 +301,23 @@ describe('removeSearch', () => {
 })
 
 describe('saveSearch', () => {
+  it.each([false, true])('saves a new bookmark after deleting all folders (new folder: %s)', async (createNewFolder) => {
+    await removeFolder('gear')
+    await removeFolder(DEFAULT_FOLDER_ID)
+    if (createNewFolder) await createFolder({ name: 'New build', color: '#aaa' })
+
+    await saveSearch({
+      url: 'https://www.pathofexile.com/trade/search/Standard/new',
+      title: 'New boots', game: 'poe1', league: 'Standard', mode: 'search',
+    })
+    const state = await readState()
+
+    expect(state.folders).toHaveLength(1)
+    expect(state.folders[0]?.name).toBe(createNewFolder ? 'New build' : 'Theo dõi')
+    expect(state.searches).toHaveLength(1)
+    expect(state.searches[0]).toMatchObject({ title: 'New boots', folderId: state.folders[0]!.id })
+  })
+
   it('keeps independent bookmarks when the same URL is saved in two folders', async () => {
     await updateSearch('search-1', { note: 'For build A' })
     await setSearchPurchased('search-1', true)
@@ -267,9 +384,9 @@ describe('saveSearch', () => {
     await removeFolder(folderId)
     const after = await readState()
     expect(after.folders.some((folder) => folder.id === folderId)).toBe(false)
-    expect(after.searches).toHaveLength(2)
+    expect(after.searches).toHaveLength(1)
     expect(after.searches.find((search) => search.id === original.id)).toEqual(original)
-    expect(after.searches.find((search) => search.id === copy.id)).toEqual({ ...copy, folderId: DEFAULT_FOLDER_ID, order: 0 })
+    expect(after.searches.some((search) => search.id === copy.id)).toBe(false)
   })
 
   it('un-hide lại khi lưu đè đúng URL đã bị ẩn trước đó', async () => {

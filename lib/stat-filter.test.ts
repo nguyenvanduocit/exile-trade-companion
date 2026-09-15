@@ -7,8 +7,11 @@ describe('modifier values', () => {
     ['+40 to maximum Life', 40],
     ['26% increased Damage', 26],
     ['-12% to Fire Resistance', -12],
-    ['−1.5% to Critical Hit Chance', -1.5],
+    ['−1.5% to Critical Hit Chance', -2],
+    ['1.9% increased Damage', 1],
+    ['0.9% increased Damage', 0],
     ['Adds 12 to 24 Physical Damage', 18],
+    ['Adds 12 to 25 Physical Damage', 18],
     ['When you kill a Rare monster, gain its Modifiers', null],
     ['10% chance to gain a charge for 4 seconds', null],
   ])('reads %s', (label, value) => {
@@ -21,6 +24,7 @@ describe('modifier values', () => {
     })).toBe(10)
     expect(parseStatValue('+21 to Strength', { text: '+# to Strength' })).toBe(21)
     expect(parseStatValue('Adds 12 to 24 Physical Damage', { text: 'Adds # to # Physical Damage' })).toBe(18)
+    expect(parseStatValue('Adds 12 to 25 Physical Damage', { text: 'Adds # to # Physical Damage' })).toBe(18)
   })
 
   it('does not put fixed or option values into numeric filters', () => {
@@ -32,6 +36,7 @@ describe('modifier values', () => {
   it('converts reduced rolls to negative values for increased catalog stats', () => {
     expect(parseStatValue('30% reduced Charges per use', { text: '#% increased Charges per use' })).toBe(-30)
     expect(parseStatValue('12% less Damage', { text: '#% more Damage' })).toBe(-12)
+    expect(parseStatValue('1.5% reduced Charges per use', { text: '#% increased Charges per use' })).toBe(-2)
   })
 
   it('preserves a weighted filter while replacing its bounds', () => {

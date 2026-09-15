@@ -79,6 +79,12 @@ Mỗi tính năng và quyết định trong tài liệu được gắn tag sessi
 |---|---|---|---|
 | `<code:01a07b58-68ad-7eb2-86e8-d7e1cb7b4015>` | 18:00 → | Hoàn tất share hotlink: shared package, landing page, join hash, CI và tài liệu | packages/shared, packages/web, share/join UI, deploy-web.yml |
 
+## 2026-09-14
+
+| Session | Giờ | Việc | File chính |
+|---|---|---|---|
+| `<code:01a09f6c-4a4a-7350-8d74-85bf84895e44>` | 17:20 | Làm tròn xuống số nguyên cho min/max và roll import; đồng bộ tooltip và kiểm tra số âm, damage trung bình | stat-filter, property-filter, ninja-import, test và docs/features |
+
 ## Session không tạo code
 
 Bỏ dở hoặc chỉ hỏi đáp, giữ để truy vết: `<claude:8288652f-2fb7-4e90-a4bd-f7990252d2e3>`, `<claude:442251a8-610e-4c2e-855f-94af9bae3c48>`, `<code:01a067c4-3a8e-7260-a5bf-a61ba3fe512b>`, `<code:01a067c6-1891-78d1-aa39-f8d7b914133d>`, `<code:01a067ce-dacc-7100-8f3b-e0a51c271695>` (ý tưởng nút thêm từng thuộc tính vào search, ngày 09-03), `<claude:9a8d70e9-9fc4-4ffd-a9c8-f772852c50d9>` (commit all), `<claude:8b25fb0e-b1c1-4e62-b6c2-de5ae53b0b2b>` (hỏi về auto update ngoài store), `<code:01a07177-063e-7e40-9f80-32c2441366e9>` (reviewer phê duyệt lệnh cho session Codex khác).

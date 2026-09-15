@@ -20,7 +20,7 @@ Mỗi mục: quyết định, lý do, và session đã đưa ra nó (`<claude:id
 
 **D7. Khác biệt PoE1/PoE2 xử lý bằng resolver nhỏ đúng điểm khác, không tách module theo game.** Điểm khác duy nhất đã gặp: PoE2 gộp `equipment_filters`, PoE1 tách `weapon_filters`/`armour_filters`. Phần còn lại của site (stat, category, rarity, DOM class) generic. `<claude:f621d05f-1660-46bd-a6fc-c329087bab54>`
 
-**D8. Snapshot giá lấy median trên toàn bộ listing đọc được, không bỏ N listing rẻ nhất.** GGG không expose loại giao dịch trên listing (DOM, `listing.method`, `listing.price.type` giống nhau) nên không lọc scam theo loại được. Chỉ chụp khi người dùng mở trang, throttle 1 giờ, tối thiểu 3 mẫu, giữ 90. Không `alarms`/`tabs`. `<claude:b31926ae-253f-43d5-9a1e-84c45fe4b94e>`
+**D8. Snapshot giá lấy median trên toàn bộ listing đọc được, không bỏ N listing rẻ nhất.** GGG không expose loại giao dịch trên listing (DOM, `listing.method`, `listing.price.type` giống nhau) nên không lọc scam theo loại được. Tối thiểu 3 mẫu, giữ 90. Không `alarms`/`tabs`. Từ 2026-09-14, chỉ chụp khi người dùng chọn Capture giá trong menu bookmark; thay cơ chế tự chụp khi mở trang và bỏ throttle 1 giờ. `<claude:b31926ae-253f-43d5-9a1e-84c45fe4b94e>`
 
 **D9. Tỷ giá lấy từ API economy của poe.ninja, cache 6 giờ theo game và league.** Cập nhật 2026-09-09: bỏ median của tin rao bulk exchange. League phải khớp danh sách economy của poe.ninja; thiếu dữ liệu thì bỏ quy đổi. Cache cũ bị bỏ qua. `<claude:b31926ae-253f-43d5-9a1e-84c45fe4b94e>` `<claude:9d5ec176-ba3b-4912-aaa5-68ccdc9e7fa0>`
 
@@ -50,7 +50,7 @@ Mỗi mục: quyết định, lý do, và session đã đưa ra nó (`<claude:id
 
 **D21. Bỏ popup; sidebar là UI duy nhất, Settings nằm trong sidebar; khai `action: {}` tay để `browser.action` tồn tại.** `<claude:9d5ec176-ba3b-4912-aaa5-68ccdc9e7fa0>`
 
-**D22. Mỗi tính năng chèn vào trang có công tắc riêng và gỡ retroactive khi tắt.** Snapshot giá và ghi lịch sử luôn bật vì không chèn gì và không gửi request mới. `<claude:9d5ec176-ba3b-4912-aaa5-68ccdc9e7fa0>`
+**D22. Mỗi tính năng chèn vào trang có công tắc riêng và gỡ retroactive khi tắt.** Ghi lịch sử luôn bật. Snapshot giá từng luôn bật; từ 2026-09-14 chuyển sang capture thủ công qua menu bookmark (D8). `<claude:9d5ec176-ba3b-4912-aaa5-68ccdc9e7fa0>`
 
 **D23. Không dùng `CustomEvent` để nói chuyện giữa MAIN và isolated world.** Chrome null hoá `detail` không phải primitive qua ranh giới world. Sau đó chuẩn hoá toàn bộ sang `@webext-core/messaging`: `defineExtensionMessaging` cho background ↔ isolated, `defineWindowMessaging` cho MAIN ↔ isolated; namespace request/response tách khỏi namespace broadcast; `toRaw` mọi payload reactive. `<claude:9d5ec176-ba3b-4912-aaa5-68ccdc9e7fa0>` `<claude:ad766582-047f-4228-9ced-d0c190d36270>`
 

@@ -104,7 +104,7 @@ continued flavour text`)!
     expect(parseCopiedItem(input)).toBeNull()
   })
 
-  it('đưa mod của mẫu qua catalog PoE2 và query builder với đúng roll', () => {
+  it('đưa mod của mẫu qua catalog PoE2 và làm tròn xuống roll trong query', () => {
     const item = parseCopiedItem(copied)!
     const catalog = poe2Stats.result.flatMap((group) => group.entries)
     const matches = matchStatLines(catalog, item.lines)
@@ -116,8 +116,9 @@ continued flavour text`)!
     expect(query.name).toBeNull()
     expect(query.filters).toEqual({ type_filters: { filters: { rarity: { option: 'nonunique' } } } })
     const filters = query.stats.flatMap((group) => group.filters)
-    for (const match of matches.slice(1)) {
-      for (const id of match!.ids) expect(filters).toContainEqual({ id, value: { min: match!.value }, disabled: false })
+    const minimums = [44, 19, 74, 11, 18, 18, 32]
+    for (const [index, match] of matches.slice(1).entries()) {
+      for (const id of match!.ids) expect(filters).toContainEqual({ id, value: { min: minimums[index] }, disabled: false })
     }
     expect(buildImportQuery(resolved, 0).stats.flatMap((group) => group.filters).every((filter) => Object.keys(filter.value ?? {}).length === 0)).toBe(true)
   })

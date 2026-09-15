@@ -18,7 +18,7 @@ Mở một search bất kỳ trên trade, panel nhận ra search đó và hiện
 
 Tên bookmark được suy ra từ nội dung search theo thứ tự: tên unique hoặc item, base type, rarity cộng item category, stat filter đầu tiên, cặp currency đang exchange. Bạn đổi tên được bất cứ lúc nào.
 
-Cách khác: chuột phải lên trang trade, chọn "Lưu vào Trade Companion". Search vào folder mặc định "Theo dõi".
+Cách khác: chuột phải lên trang trade, chọn "Lưu vào Trade Companion". Search mới vào "Theo dõi" nếu còn, hoặc folder đầu tiên. Nếu bạn đã xoá hết folder, thao tác lưu tạo một folder "Theo dõi".
 
 Bookmark lưu kèm toàn bộ nội dung query, không chỉ link. Search ID của GGG hết hạn sau vài tháng, nhưng khi bạn mở lại bookmark, extension dựng lại URL từ query đã lưu nên bookmark cũ vẫn mở đúng bộ lọc.
 
@@ -27,7 +27,7 @@ Bookmark lưu kèm toàn bộ nội dung query, không chỉ link. Search ID c�
 Ba folder có sẵn: Theo dõi, Nâng cấp đồ, Mua số lượng. Bấm "Folder mới" ở header panel để tạo thêm, chọn tên, màu (8 màu có sẵn hoặc màu tuỳ chọn) và ghi chú. Menu `•••` của folder có:
 
 - Sửa folder: đổi tên, màu, ghi chú. Ghi chú hiện dưới tên folder khi mở.
-- Xóa: có bước xác nhận; bookmark bên trong chuyển sang folder Theo dõi (hoặc folder còn lại), không mất. Không xoá được folder cuối cùng.
+- Xóa: có bước xác nhận; xoá toàn bộ bookmark bên trong trên thiết bị này, kể cả bookmark đã ẩn. Bookmark ở folder khác được giữ nguyên. Có thể xoá cả folder cuối cùng; tải lại trang vẫn giữ danh sách rỗng. Bấm "Folder mới" để tạo lại khi cần.
 - Chia sẻ: xem phần Chia sẻ folder.
 - Import build: xem phần Import build.
 
@@ -40,7 +40,7 @@ Bấm vào tên bookmark để mở search trong tab hiện tại. Khi rê chu�
 - Ghi đè bằng search hiện tại: thay nội dung bookmark bằng search đang mở (chỉ hiện khi search đang mở khác bookmark).
 - Đổi tên.
 - Xóa.
-- Menu `•••`: thêm hoặc sửa ghi chú, đánh dấu đã mua, lịch sử giá, sao chép link.
+- Menu `•••`: thêm hoặc sửa ghi chú, đánh dấu đã mua, capture giá, lịch sử giá, sao chép link.
 
 Đánh dấu đã mua gạch ngang tên bookmark; bấm lại để bỏ. Kéo tay nắm để sắp xếp bookmark trong folder hoặc thả vào folder khác. Bên phải bookmark hiện giá trung vị mới nhất và phần trăm thay đổi so với snapshot trước, nếu có dữ liệu.
 
@@ -71,9 +71,9 @@ Cạnh giá của mỗi listing hiện giá quy đổi: listing tính bằng cha
 
 ## Lịch sử giá
 
-Với search đã bookmark, mỗi lần bạn mở trang kết quả, extension đọc giá các listing đang hiển thị, quy đổi ra chaos và lưu một snapshot gồm trung vị, trung bình và số mẫu. Tối đa một snapshot mỗi giờ cho mỗi search, cần ít nhất 3 listing có tỷ giá, giữ 90 snapshot gần nhất. Bookmark hiện trung vị mới nhất; menu `•••` → "Lịch sử giá" mở biểu đồ khi có từ 2 snapshot.
+Mở search đã bookmark, chờ kết quả tải xong rồi chọn menu `•••` → **Capture giá** trên bookmark đó. Mục này chỉ dùng được khi trang đang mở khớp search đã lưu. Extension đọc giá các listing hiện có, quy đổi ra chaos và lưu trung vị, trung bình cùng số mẫu. Cần ít nhất 3 listing quy đổi được ra chaos, giữ 90 snapshot gần nhất. Bạn có thể capture nhiều lần trong một giờ. Bookmark hiện trung vị mới nhất; menu `•••` → "Lịch sử giá" mở biểu đồ khi có từ 2 snapshot.
 
-Extension không tự chạy search ở nền; snapshot chỉ được chụp khi chính bạn mở trang.
+Snapshot chỉ được lưu khi bạn bấm Capture giá. Mở trang hoặc tải thêm kết quả không tự lưu giá.
 
 ## Đánh dấu seller bán nhiều item
 

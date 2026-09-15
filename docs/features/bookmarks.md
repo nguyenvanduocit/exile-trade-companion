@@ -4,9 +4,9 @@ Lõi của extension: lưu search đang mở vào folder, sắp xếp, ghi chú,
 
 ## Hành vi
 
-- Panel nhận diện search đang mở qua URL và query trong Vuex của site. Nút bookmark ở đầu mỗi folder lưu search vào folder đó; menu chuột phải "Lưu vào Trade Companion" lưu vào folder mặc định. Site hiện toast xác nhận.
+- Panel nhận diện search đang mở qua URL và query trong Vuex của site. Nút bookmark ở đầu mỗi folder lưu search vào folder đó; menu chuột phải "Lưu vào Trade Companion" lưu search mới vào Theo dõi nếu còn, hoặc folder đầu tiên. Nếu không còn folder, thao tác lưu tạo một folder Theo dõi. Site hiện toast xác nhận.
 - Tên bookmark suy từ query: tên item/unique → base type → rarity + category → stat filter đầu tiên (`+N` nếu nhiều) → cặp currency exchange.
-- Ba folder mặc định: Theo dõi (`watchlist`), Nâng cấp đồ (`gear`), Mua số lượng (`bulk`). Tạo/sửa folder qua modal với tên, 8 màu hoặc màu tuỳ chọn, ghi chú. Xoá folder chuyển bookmark sang Theo dõi, không xoá được folder cuối.
+- Ba folder mặc định: Theo dõi (`watchlist`), Nâng cấp đồ (`gear`), Mua số lượng (`bulk`). Tạo/sửa folder qua modal với tên, 8 màu hoặc màu tuỳ chọn, ghi chú. Xoá folder có bước xác nhận và xoá toàn bộ bookmark bên trong trên thiết bị này, kể cả bookmark đã ẩn. Có thể xoá folder cuối; danh sách vẫn rỗng sau khi tải lại hoặc nhập bản sao lưu rỗng.
 - Bookmark: mở trong tab hiện tại, đổi tên (autofocus, Enter lưu, Esc huỷ), ghi chú, đánh dấu đã mua (gạch ngang), ghi đè bằng search hiện tại, sao chép link, xoá. Kéo thả để sắp xếp trong folder, đổi folder, sắp xếp folder.
 - Lịch sử: mỗi URL trade mới được ghi một lần, dedupe theo URL, giữ 50, hiện 15. Nhãn đẹp tới sau (cần `window.app`) thì entry vừa ghi được vá lại.
 - Panel nhớ trạng thái mở/đóng và tab trong `sessionStorage`; lần đầu cài tự mở.
@@ -16,7 +16,7 @@ Lõi của extension: lưu search đang mở vào folder, sắp xếp, ghi chú,
 
 - `entrypoints/trade.content/App.vue`: `syncCurrentPage` poll `location.href` mỗi 1.2 giây (site là SPA, không có event điều hướng tin cậy), ghi lịch sử; `onQueryState` nhận nhãn và query từ MAIN world.
 - `entrypoints/trade-query.content.ts`: đọc `state.persistent` và DOM filter, `lib/query-label.ts` suy nhãn.
-- `lib/storage.ts`: mọi mutate; `saveSearch` cập nhật URL trùng trong folder được chọn, lưu cùng URL vào folder khác tạo bản riêng. Khi không truyền folder, cập nhật bản đầu tiên khớp URL hoặc tạo trong folder mặc định nếu chưa có. `removeFolder` dồn bookmark; `moveSearch`/`moveFolder` dùng `lib/bookmark-order.ts` (`insertRelative`, `normalizeSearchOrder`).
+- `lib/storage.ts`: mọi mutate; `saveSearch` cập nhật URL trùng trong folder được chọn, lưu cùng URL vào folder khác tạo bản riêng. Khi không truyền folder, cập nhật bản đầu tiên khớp URL; bookmark mới ưu tiên Theo dõi, rồi folder đầu theo thứ tự, hoặc tạo một Theo dõi nếu danh sách rỗng. `removeFolder` xoá folder cùng bookmark bên trong, dọn các ID vừa xoá khỏi `hiddenSearchIds` nếu không còn bản sao ở folder khác; `moveSearch`/`moveFolder` dùng `lib/bookmark-order.ts` (`insertRelative`, `normalizeSearchOrder`).
 - `composables/useBookmarkDrag.ts` + `components/BookmarkDragHandle.vue`: HTML5 drag & drop, MIME `application/x-exile-bookmark`, tự cuộn khi kéo sát mép.
 - `components/FolderSection.vue`, `SearchCard.vue`, `FolderFormModal.vue`.
 - Mở bookmark: `buildDurableUrl(search) ?? search.url` rồi `openUrl` qua background, background `tabs.update` tab hiện tại (xem [durable-url.md](durable-url.md)).
@@ -36,7 +36,7 @@ Lõi của extension: lưu search đang mở vào folder, sắp xếp, ghi chú,
 - Tạo folder bằng modal (tên, màu, ghi chú) thay vì inline; ghi chú folder và ghi chú bookmark dùng cùng kiểu nút nhỏ. `<claude:2a8f7624-937d-4a11-a058-521a45221fcc>` `<code:01a07174-9a17-76e1-b96a-de769265d3e2>`
 - Bỏ mũi tên thu gọn ở folder, bấm tên là đủ. `<claude:32a9abf3-bbc2-4820-aa4a-1c7111356f2f>`
 - Menu ngữ cảnh dùng dropdown reka-ui nổi thay vì hàng nút inline. `<claude:a9ae0a94-e37a-4ac3-bf6c-3bf1b6b568fa>`
-- Folder rename/delete với xác nhận, không xoá folder cuối. `<code:01a067b8-d05e-7211-9501-321ac8151acc>`
+- Folder rename/delete với xác nhận. `<code:01a067b8-d05e-7211-9501-321ac8151acc>`
 - Live search/watchlist từng được thêm rồi gỡ hẳn (xem [decisions.md](../decisions.md)). `<claude:adc732e5-d22e-4d18-aba0-e7040d016a0f>`
 
 ## Giới hạn

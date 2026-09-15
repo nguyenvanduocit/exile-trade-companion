@@ -4,7 +4,8 @@
 // Đồng thời nghe chiều ngược lại: sidebar (isolated world) bắn message 'saveToast' khi lưu search,
 // script này hiện toast bằng toastr có sẵn của site thay vì tự vẽ UI thông báo.
 import { buildQueryLabel } from '@/lib/query-label'
-import { onMessage, sendMessage, type QueryStateDetail } from '@/lib/window-messaging'
+import { readTradePriceSearch } from '@/lib/trade-price-search'
+import { onMessage, onPriceSearchMessage, sendMessage, type QueryStateDetail } from '@/lib/window-messaging'
 import type { TradeApp } from '@/lib/trade-app'
 import type { TradeQuery } from '@/types/trading'
 
@@ -81,6 +82,7 @@ export default defineContentScript({
   runAt: 'document_idle',
 
   async main() {
+    onPriceSearchMessage('getPriceSearch', () => readTradePriceSearch(window.app, window.location.href))
     const app = await waitForApp()
     let pending: number | undefined
     let lastSerialized: string | undefined

@@ -12,13 +12,13 @@ import FolderFormModal from '@/components/FolderFormModal.vue'
 import JoinFolderModal from '@/components/JoinFolderModal.vue'
 import { useFolderSync } from '@/composables/useFolderSync'
 import { useTradeStore } from '@/composables/useTradeStore'
-import { usePriceSnapshot } from '@/composables/usePriceSnapshot'
 import { usePriceLabels } from '@/composables/usePriceLabels'
 import { useSellerGrouping } from '@/composables/useSellerGrouping'
 import { pageLabel, relativeTime } from '@/lib/relative-time'
 import { nextFolderColor, recordHistory } from '@/lib/storage'
 import { parseJoinHash } from '@/lib/join-hash'
 import { buildDurableUrl, parseTradeUrl } from '@/lib/trade-url'
+import { matchesTradePage } from '@/lib/price-search-match'
 import { onMessage as onExtensionMessage, sendMessage as sendExtensionMessage } from '@/lib/extension-messaging'
 import { onMessage as onWindowMessage, sendMessage as sendWindowMessage, type QueryStateDetail } from '@/lib/window-messaging'
 import { track } from '@/lib/track'
@@ -44,7 +44,6 @@ const props = defineProps<{ ctx: ContentScriptContext }>()
 const uiState = loadUiState()
 const store = useTradeStore()
 const folderSync = useFolderSync()
-const priceSnapshot = usePriceSnapshot(props.ctx)
 const priceLabels = usePriceLabels(props.ctx)
 const sellerGrouping = useSellerGrouping(props.ctx)
 const open = ref(uiState.open)
@@ -60,7 +59,6 @@ const joinModalInitialKey = ref<string | undefined>(undefined)
 const panelRef = ref<HTMLElement | null>(null)
 let lastRecordedUrl = ''
 let locationTimer: number | undefined
-let stopWatchingResults: (() => void) | undefined
 let stopWatchingLabels: (() => void) | undefined
 let stopWatchingSellerGrouping: (() => void) | undefined
 let pushObserver: ResizeObserver | undefined
@@ -121,24 +119,19 @@ function onQueryState(detail: QueryStateDetail) {
   }
 }
 
-// Recent chỉ giữ những search chưa nằm trong bookmark: URL đã lưu (và còn hiển thị) thì đã có chỗ
+// Recent chỉ giữ những search chưa nằm trong bookmark: query đã lưu (và còn hiển thị) thì đã có chỗ
 // ở tab Saved rồi. Lọc lúc hiển thị chứ không lúc ghi để bỏ bookmark là entry tự quay lại Recent.
 const history = computed(() => {
-  const savedUrls = new Set(store.visibleSearches.value.map((search) => search.url))
-  return store.state.value.history.filter((entry) => !savedUrls.has(entry.url)).slice(0, 15)
+  return store.state.value.history.filter((entry) =>
+    !store.visibleSearches.value.some((search) => matchesTradePage(search, entry))).slice(0, 15)
 })
 const savedCount = computed(() => store.visibleSearches.value.length)
 const currentSavedFolderIds = computed(() => new Set(store.visibleSearches.value
-  .filter((item) => item.url === currentPage.value?.url)
+  .filter((item) => currentPage.value && matchesTradePage(item, currentPage.value))
   .map((item) => item.folderId)))
 
 function searchesForFolder(folderId: string) {
   return orderedSearches(store.visibleSearches.value, folderId)
-}
-
-function deleteTargetName(folderId: string) {
-  return store.state.value.folders.find((folder) => folder.id === 'watchlist' && folder.id !== folderId)?.name
-    ?? store.state.value.folders.find((folder) => folder.id !== folderId)?.name
 }
 
 function isFolderOpen(folderId: string) {
@@ -279,7 +272,6 @@ onMounted(async () => {
   removeGetCurrentPageListener = onExtensionMessage('getCurrentPage', () => currentPage.value)
   removeFeatureUsedListener = onWindowMessage('featureUsed', ({ data: feature }) => track('feature.use', { feature }))
   removeQueryStateListener = onWindowMessage('queryStateChanged', ({ data }) => onQueryState(data))
-  stopWatchingResults = priceSnapshot.watchResultsForSnapshot(() => currentPage.value)
   stopWatchingLabels = priceLabels.watchResultsForLabels(() => currentPage.value)
   stopWatchingSellerGrouping = sellerGrouping.watchResultsForGrouping(() => currentPage.value)
   void priceLabels.applyLabels(currentPage.value)
@@ -294,7 +286,6 @@ onBeforeUnmount(() => {
   removeGetCurrentPageListener?.()
   removeFeatureUsedListener?.()
   removeQueryStateListener?.()
-  stopWatchingResults?.()
   stopWatchingLabels?.()
   stopWatchingSellerGrouping?.()
   stopPagePush()
@@ -379,8 +370,6 @@ onBeforeUnmount(() => {
             :folder="folder"
             :searches="searchesForFolder(folder.id)"
             :open="isFolderOpen(folder.id)"
-            :can-delete="store.state.value.folders.length > 1"
-            :delete-target-name="deleteTargetName(folder.id)"
             :current-page="currentPage"
             :is-current-page-saved="currentSavedFolderIds.has(folder.id)"
             @update:open="setFolderOpen(folder.id, $event)"

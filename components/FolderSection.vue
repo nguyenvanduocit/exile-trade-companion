@@ -16,8 +16,6 @@ const props = defineProps<{
   folder: SearchFolder
   searches: SavedSearch[]
   open: boolean
-  canDelete: boolean
-  deleteTargetName?: string
   currentPage?: TradePage | null
   isCurrentPageSaved?: boolean
 }>()
@@ -48,7 +46,6 @@ const shareStatusLabel = computed(() => {
 })
 
 function confirmDelete() {
-  if (!props.canDelete) return
   emit('delete', props.folder.id)
   confirmingDelete.value = false
 }
@@ -108,11 +105,7 @@ function confirmDelete() {
           <DropdownMenuItem @select="showEditModal = true">
             <Pencil class="size-4 text-tan" /> {{ i18n.t('folder.edit') }}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            :disabled="!canDelete"
-            :title="canDelete ? undefined : i18n.t('folder.deleteDisabledTitle')"
-            @select="confirmingDelete = true"
-          >
+          <DropdownMenuItem @select="confirmingDelete = true">
             <Trash2 class="size-4 text-tan" /> {{ i18n.t('folder.delete') }}
           </DropdownMenuItem>
           <DropdownMenuItem @select="showShareModal = true">
@@ -128,9 +121,7 @@ function confirmDelete() {
     <div v-if="confirmingDelete" class="border-t border-rule bg-raised px-3 py-3">
       <p class="text-[13px] leading-5 text-grey">
         {{ i18n.t('folder.confirmDeleteText', { folder: folder.name }) }}
-        <template v-if="searches.length">
-          {{ i18n.t('folder.moveBookmarksText', { count: searches.length, target: deleteTargetName ?? '' }) }}
-        </template>
+        {{ i18n.t('folder.deleteBookmarksText') }}
       </p>
       <div class="mt-3 flex justify-end gap-2">
         <button class="poe-btn" type="button" @click="confirmingDelete = false">{{ i18n.t('folder.keep') }}</button>

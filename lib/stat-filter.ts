@@ -66,10 +66,10 @@ export function parseStatValue(text: string, definition?: StatDefinition): numbe
   } else {
     values = (normalized.match(/[+-]?\d+(?:\.\d+)?/g) ?? []).map(Number)
   }
-  if (values.length === 1) return values[0]!
+  if (values.length === 1) return Math.floor(values[0]!)
   // Trade compares flat damage ranges using the average of the two rolls.
   if (values.length === 2 && /[\d#]\s+to\s+[+\-]?[\d#].*\bdamage\b/i.test(normalized)) {
-    return (values[0]! + values[1]!) / 2
+    return Math.floor((values[0]! + values[1]!) / 2)
   }
   return null
 }
@@ -92,14 +92,20 @@ export function planAddStat(groups: StatGroup[], id: string, bounds?: StatFilter
 
 // Nút "-" trên dòng mod: thêm vào group "not" ĐẦU TIÊN tìm thấy trong danh sách group hiện tại,
 // tự tạo group "not" mới nếu chưa có group nào cùng type.
-export function planAddStatNot(groups: StatGroup[], id: string): AddStatPlan {
-  const value: StatFilterValue = { id, value: {}, disabled: false }
+export function planAddStatNot(groups: StatGroup[], id: string, bounds?: StatFilterValue['value']): AddStatPlan {
+  const value: StatFilterValue = { id, value: bounds ?? {}, disabled: false }
   const group = groups.find((group) => group.type === 'not')
   if (!group) return { action: 'add-group', value }
 
   const groupIndex = groups.indexOf(group)
   const index = group.filters.findIndex((filter) => filter.id === id)
-  if (index >= 0) return { action: 'exists', group: groupIndex, index }
+  if (index >= 0) {
+    if (!bounds) return { action: 'exists', group: groupIndex, index }
+    const preserved = { ...group.filters[index]?.value }
+    delete preserved.min
+    delete preserved.max
+    return { action: 'update', group: groupIndex, index, value: { ...group.filters[index], ...value, value: { ...preserved, ...bounds } } }
+  }
   return { action: 'add', group: groupIndex, value }
 }
 

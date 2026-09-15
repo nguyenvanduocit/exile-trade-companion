@@ -123,9 +123,8 @@
     "importNinjaPobLine": "{className} · {ascendancy} Lv{level} · Path of Building",
     "importNinjaErrorPobNotFound": "pobb.in không có build ở link này.",
     "importNinjaErrorInvalidCode": "Không giải mã được code PoB này.",
-    "deleteDisabledTitle": "Cần giữ lại ít nhất một folder",
     "confirmDeleteText": "Xóa folder {folder}?",
-    "moveBookmarksText": "{count} bookmark bên trong sẽ chuyển sang {target}.",
+    "deleteBookmarksText": "Toàn bộ bookmark trong folder này sẽ bị xóa khỏi thiết bị này.",
     "keep": "Giữ lại",
     "deleteFolder": "Xóa folder",
     "empty": "Folder trống. Mở một search rồi chọn folder này để lưu.",
@@ -163,6 +162,13 @@
     "clear": "Xóa lịch sử"
   },
   "priceHistory": {
+    "capture": "Capture giá",
+    "checkingCapture": "Đang kiểm tra search…",
+    "capturing": "Đang capture giá…",
+    "captured": "Đã capture giá.",
+    "captureUnavailable": "Mở bookmark này, chạy search và chờ kết quả tải xong để capture giá.",
+    "captureInsufficientListings": "Cần ít nhất 3 listing có giá quy đổi được ra chaos. Chờ kết quả tải xong rồi thử lại.",
+    "captureFailed": "Không capture được giá. Vui lòng thử lại.",
     "menuItem": "Lịch sử giá",
     "title": "Lịch sử giá",
     "notEnoughData": "Chưa đủ dữ liệu để vẽ biểu đồ — cần ít nhất 2 snapshot.",
@@ -207,7 +213,7 @@
       },
       "save": {
         "title": "Lưu search đang mở vào folder",
-        "body": "Mở một tìm kiếm trên pathofexile.com/trade, bấm icon extension rồi chọn folder muốn lưu — search được ghim lại kèm giá trung vị, mở lại bất cứ lúc nào chỉ với một click."
+        "body": "Mở một tìm kiếm trên pathofexile.com/trade, bấm icon extension rồi chọn folder muốn lưu. Search được ghim lại để bạn mở lại chỉ với một click."
       },
       "panel": {
         "title": "Panel nổi ngay trên trang trade",
@@ -223,7 +229,7 @@
       },
       "priceHistory": {
         "title": "Theo dõi lịch sử giá",
-        "body": "Mỗi lần search được mở lại, giá trung vị được chụp lại một snapshot. Biểu đồ lịch sử giá cho thấy xu hướng lên xuống của thị trường theo thời gian, ngay trong search đã lưu."
+        "body": "Mở search đã lưu, chờ kết quả tải xong rồi chọn Capture giá trong menu dấu ba chấm của bookmark. Mỗi lần bấm sẽ lưu giá hiện tại để bạn theo dõi thay đổi trên biểu đồ lịch sử giá."
       },
       "shareFolder": {
         "title": "Chia sẻ folder với bạn bè",

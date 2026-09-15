@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 import { i18n } from '#i18n'
-import { Check, ChartLine, Copy, MoreHorizontal, Pencil, Replace, StickyNote, Trash2, X } from 'lucide-vue-next'
+import { Camera, Check, ChartLine, Copy, LoaderCircle, MoreHorizontal, Pencil, Replace, StickyNote, Trash2, X } from 'lucide-vue-next'
 import { endBookmarkDrag, startBookmarkDrag, useBookmarkDrop } from '@/composables/useBookmarkDrag'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import PriceHistoryModal from '@/components/PriceHistoryModal.vue'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { isExchangeRateCacheFresh } from '@/composables/useExchangeRates'
+import { usePriceSnapshot } from '@/composables/usePriceSnapshot'
+import { matchesTradePage, snapshotQueryId } from '@/lib/price-search-match'
 import { resolveEditedTitle } from '@/lib/edit-title'
 import { formatChaosWithDivine, formatDelta } from '@/lib/format-price'
 import { buildDurableUrl } from '@/lib/trade-url'
@@ -29,14 +31,19 @@ const noteSaveError = ref(false)
 const editValue = ref(props.search.title)
 const editInputRef = ref<HTMLInputElement | null>(null)
 const showHistoryModal = ref(false)
+const capturingPrice = ref(false)
+const captureMessage = ref('')
+const actionsOpen = ref(false)
+const checkingCapture = ref(false)
+const canCapture = ref(false)
 const store = useTradeStore()
+const { canCaptureSnapshot, captureSnapshot } = usePriceSnapshot()
 const dropTarget = useBookmarkDrop('search', () => props.search.id)
+const historyQueryId = computed(() => snapshotQueryId(props.search))
 
-const querySnapshots = computed(() => props.search.queryId
-  ? store.state.value.snapshots
-    .filter((snapshot) => snapshot.queryId === props.search.queryId)
-    .sort((a, b) => b.capturedAt - a.capturedAt)
-  : [])
+const querySnapshots = computed(() => store.state.value.snapshots
+  .filter((snapshot) => snapshot.queryId === historyQueryId.value)
+  .sort((a, b) => b.capturedAt - a.capturedAt))
 
 const priceLine = computed(() => {
   const latest = querySnapshots.value[0]
@@ -55,6 +62,44 @@ const priceLine = computed(() => {
 watch(() => props.search.title, (title) => {
   editValue.value = title
 })
+
+watch([() => props.search.queryId, () => props.currentPage?.url], () => {
+  captureMessage.value = ''
+})
+
+watch([actionsOpen, () => props.currentPage?.url], async ([open], _, onCleanup) => {
+  let active = true
+  onCleanup(() => { active = false })
+  canCapture.value = false
+  checkingCapture.value = open
+  if (!open) return
+  try {
+    const available = await canCaptureSnapshot(props.search)
+    if (active) canCapture.value = available
+  } catch {
+    if (active) canCapture.value = false
+  } finally {
+    if (active) checkingCapture.value = false
+  }
+})
+
+async function capturePrice() {
+  if (capturingPrice.value || !canCapture.value) return
+  capturingPrice.value = true
+  captureMessage.value = ''
+  try {
+    const result = await captureSnapshot(props.search)
+    captureMessage.value = result === 'captured'
+      ? i18n.t('priceHistory.captured')
+      : result === 'insufficient-listings'
+        ? i18n.t('priceHistory.captureInsufficientListings')
+        : i18n.t('priceHistory.captureUnavailable')
+  } catch {
+    captureMessage.value = i18n.t('priceHistory.captureFailed')
+  } finally {
+    capturingPrice.value = false
+  }
+}
 
 function startEditTitle() {
   editValue.value = props.search.title
@@ -168,6 +213,9 @@ async function overwriteWithCurrent() {
     <button v-else class="min-w-0 flex-1 py-0.5 text-left" type="button" :title="search.url" :aria-label="search.purchased ? i18n.t('search.markPurchased', { title: search.title }) : undefined" @click="openSearch">
       <span class="line-clamp-2 font-display text-[12px] leading-4 text-cream" :class="search.purchased ? 'line-through decoration-tan' : ''">{{ search.title }}</span>
       <span v-if="search.note" class="mt-0.5 line-clamp-2 whitespace-pre-wrap break-words text-[11px] leading-[14px] text-dim" :title="search.note">{{ search.note }}</span>
+      <span v-if="capturingPrice || captureMessage" role="status" class="mt-0.5 block text-[11px] leading-[14px] text-tan">
+        {{ capturingPrice ? i18n.t('priceHistory.capturing') : captureMessage }}
+      </span>
     </button>
 
     <div v-if="!isEditingTitle && !isEditingNote" class="relative flex min-h-6 shrink-0 items-center">
@@ -182,7 +230,7 @@ async function overwriteWithCurrent() {
       </span>
       <div class="absolute inset-y-0 right-0 flex items-center bg-row opacity-0 group-hover:bg-hover group-hover:opacity-100 focus-within:bg-hover focus-within:opacity-100">
         <button
-          v-if="currentPage && currentPage.url !== search.url"
+          v-if="currentPage && !matchesTradePage(currentPage, search)"
           class="icon-btn"
           type="button"
           :aria-label="overwritten ? i18n.t('search.overwritten') : i18n.t('search.overwrite')"
@@ -208,7 +256,7 @@ async function overwriteWithCurrent() {
         >
           <Trash2 />
         </button>
-        <DropdownMenu>
+        <DropdownMenu v-model:open="actionsOpen">
           <DropdownMenuTrigger as-child>
             <button
               class="icon-btn"
@@ -227,6 +275,19 @@ async function overwriteWithCurrent() {
               <Check class="size-4" :class="search.purchased ? 'text-tan' : 'text-dim'" />
               {{ search.purchased ? i18n.t('search.markUnpurchased') : i18n.t('search.purchased') }}
             </DropdownMenuItem>
+            <DropdownMenuItem
+              :disabled="checkingCapture || !canCapture || capturingPrice"
+              @select="capturePrice"
+            >
+              <LoaderCircle v-if="checkingCapture || capturingPrice" class="size-4 animate-spin text-tan" />
+              <Camera v-else class="size-4 text-tan" />
+              <span class="max-w-60">
+                {{ checkingCapture ? i18n.t('priceHistory.checkingCapture') : capturingPrice ? i18n.t('priceHistory.capturing') : i18n.t('priceHistory.capture') }}
+                <span v-if="!checkingCapture && !canCapture" class="mt-1 block font-body text-[11px] leading-4">
+                  {{ i18n.t('priceHistory.captureUnavailable') }}
+                </span>
+              </span>
+            </DropdownMenuItem>
             <DropdownMenuItem :disabled="!querySnapshots.length" @select="showHistoryModal = true">
               <ChartLine class="size-4 text-tan" />
               {{ i18n.t('priceHistory.menuItem') }}
@@ -243,9 +304,8 @@ async function overwriteWithCurrent() {
   </article>
 
   <PriceHistoryModal
-    v-if="search.queryId"
     :open="showHistoryModal"
-    :query-id="search.queryId"
+    :query-id="historyQueryId"
     @update:open="showHistoryModal = $event"
   />
 </template>

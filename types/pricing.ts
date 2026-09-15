@@ -2,6 +2,14 @@ import type { Game } from './trading'
 
 export type CurrencyId = string
 
+export interface TradePriceSearch {
+  url: string
+  queryId: string
+  game: Game
+  league: string
+  query: Record<string, unknown>
+}
+
 export interface PriceSnapshot {
   id: string
   queryId: string

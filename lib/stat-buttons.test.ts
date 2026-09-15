@@ -78,16 +78,30 @@ function setup(text: string, groups: StatGroup[], field = 'stat.explicit.strengt
 afterEach(() => vi.unstubAllGlobals())
 
 describe('modifier filter button clicks', () => {
-  it.each(['plus', 'minus'] as const)('switches bounds in both directions starting with %s', (first) => {
+  it.each([
+    ['+21.9 to Strength', 'stat.explicit.strength', 21],
+    ['−1.5% to Critical Hit Chance', 'stat.explicit.crit', -2],
+    ['0.9% increased Damage', 'stat.explicit.damage', 0],
+    ['Adds 12 to 25 Physical Damage', 'stat.explicit.damage', 18],
+  ])('điền giá trị làm tròn xuống và hiện đúng tooltip cho %s', (label, field, expected) => {
+    const ui = setup(label, [{ type: 'and', filters: [] }], field)
+    expect(ui.plus.title).toBe(`Set min "${label}" = ${expected}`)
+    expect(ui.minus.title).toBe(`Add "${label}" to Not group (min = ${expected})`)
+    ui.plus.click()
+    ui.minus.click()
+    expect(ui.groups).toEqual(['and', 'not'].map(type => ({
+      type, filters: [{ id: field.slice('stat.'.length), value: { min: expected }, disabled: false }],
+    })))
+  })
+
+  it.each(['plus', 'minus'] as const)('updates the matching group without duplicates starting with %s', (first) => {
     const ui = setup('+21 to Strength', [{ type: 'and', filters: [] }])
     const second = first === 'plus' ? 'minus' : 'plus'
 
-    for (const button of [first, second, first] as const) {
-      ui[button].click()
-      expect(ui.groups).toEqual([{ type: 'and', filters: [
-        { id: 'explicit.strength', value: { [button === 'plus' ? 'min' : 'max']: 21 }, disabled: false },
-      ] }])
-    }
+    for (const button of [first, second, first] as const) ui[button].click()
+    expect(ui.groups).toEqual(['and', 'not'].map(type => ({
+      type, filters: [{ id: 'explicit.strength', value: { min: 21 }, disabled: false }],
+    })))
     expect(ui.save).toHaveBeenCalledTimes(3)
   })
 
@@ -97,7 +111,7 @@ describe('modifier filter button clicks', () => {
     expect(ui[button].dataset.added).toBeUndefined()
   })
 
-  it('replaces an existing maximum with the current roll, then switches to a maximum without duplication', () => {
+  it('updates the positive minimum and adds a separate exclusion with the current roll', () => {
     const id = 'explicit.strength'
     const ui = setup('+21 to Strength', [{ type: 'and', filters: [
       { id: 'explicit.life', value: { min: 40 }, disabled: false },
@@ -114,28 +128,53 @@ describe('modifier filter button clicks', () => {
       group: 0, index: 1, value: { id, value: { min: 21 }, disabled: false },
     })
 
-    ui.line.textContent = '+26 to Strength'
+    ui.line.textContent = '+26.9 to Strength'
     ui.minus.click()
 
     expect(ui.groups).toEqual([{ type: 'and', filters: [
       { id: 'explicit.life', value: { min: 40 }, disabled: false },
-      { id, value: { max: 26 }, disabled: false },
-    ] }])
-    expect(ui.commit).toHaveBeenCalledWith('setStatFilter', {
-      group: 0, index: 1, value: { id, value: { max: 26 }, disabled: false },
+      { id, value: { min: 21 }, disabled: false },
+    ] }, { type: 'not', filters: [{ id, value: { min: 26 }, disabled: false }] }])
+    expect(ui.commit).toHaveBeenCalledWith('pushStatGroup', {
+      type: 'not', filters: [{ id, value: { min: 26 }, disabled: false }],
     })
     expect(ui.commit).toHaveBeenCalledWith('showAdvancedSearch', true)
     expect(ui.save).toHaveBeenCalledTimes(2)
     expect(ui.save).toHaveBeenLastCalledWith(true)
   })
 
-  it('adds a numeric minus as a maximum in the first group', () => {
+  it('adds a numeric minus as a minimum in a new Not group', () => {
     const ui = setup('+21 to Strength', [{ type: 'and', filters: [] }])
     ui.minus.click()
-    expect(ui.groups).toEqual([{ type: 'and', filters: [
-      { id: 'explicit.strength', value: { max: 21 }, disabled: false },
+    expect(ui.groups).toEqual([{ type: 'and', filters: [] }, { type: 'not', filters: [
+      { id: 'explicit.strength', value: { min: 21 }, disabled: false },
     ] }])
     expect(ui.save).toHaveBeenCalledOnce()
+  })
+
+  it('replaces bounds in the first Not group and refreshes its minimum on repeated clicks', () => {
+    const id = 'explicit.strength'
+    const ui = setup('+21 to Strength', [
+      { type: 'and', filters: [] },
+      { type: 'not', filters: [
+        { id: 'explicit.life', value: { min: 40 }, disabled: false },
+        { id, value: { min: 10, max: 50 }, disabled: true },
+      ] },
+      { type: 'not', filters: [{ id, value: { min: 99 }, disabled: false }] },
+    ])
+    ui.minus.click()
+    expect(ui.groups[1]!.filters[1]).toEqual({ id, value: { min: 21 }, disabled: false })
+    ui.line.textContent = '+26.9 to Strength'
+    ui.minus.click()
+    expect(ui.groups).toEqual([
+      { type: 'and', filters: [] },
+      { type: 'not', filters: [
+        { id: 'explicit.life', value: { min: 40 }, disabled: false },
+        { id, value: { min: 26 }, disabled: false },
+      ] },
+      { type: 'not', filters: [{ id, value: { min: 99 }, disabled: false }] },
+    ])
+    expect(ui.save).toHaveBeenCalledTimes(2)
   })
 
   it('keeps a modifier without a numeric value in the Not group when minus is clicked', () => {

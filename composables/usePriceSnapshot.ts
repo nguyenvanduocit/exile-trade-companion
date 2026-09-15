@@ -1,56 +1,46 @@
-import type { ContentScriptContext } from 'wxt/utils/content-script-context'
 import { useExchangeRates } from './useExchangeRates'
 import { computeSnapshot, readListingPrices } from '@/lib/price-snapshot'
 import { useTradeStore } from '@/composables/useTradeStore'
 import { isSearchVisible } from '@/lib/storage'
-import type { TradePage } from '@/types/trading'
+import { parseTradeUrl } from '@/lib/trade-url'
+import { matchesPriceSearch, snapshotQueryId } from '@/lib/price-search-match'
+import { sendPriceSearchMessage } from '@/lib/window-messaging'
+import type { SavedSearch } from '@/types/trading'
 
-const SNAPSHOT_THROTTLE_MS = 60 * 60 * 1000
-const OBSERVER_DEBOUNCE_MS = 800
-
-export function usePriceSnapshot(ctx: ContentScriptContext) {
+export function usePriceSnapshot() {
   const store = useTradeStore()
   const { ensureRates } = useExchangeRates()
 
-  async function maybeCaptureSnapshot(page: TradePage | null) {
-    if (!page || page.mode !== 'search' || !page.queryId) return
+  async function capturePage(search: SavedSearch) {
+    const page = parseTradeUrl(window.location.href)
+    if (!page?.queryId || page.mode !== 'search' || search.game !== page.game || search.league !== page.league) return null
+    const result = await sendPriceSearchMessage('getPriceSearch')
+    const saved = store.state.value.searches.find((item) => item.id === search.id && isSearchVisible(store.state.value, item))
+    if (!result || !saved || result.url !== page.url
+      || parseTradeUrl(window.location.href)?.url !== page.url || !matchesPriceSearch(saved, result)) return null
+    return { page: result, historyQueryId: snapshotQueryId(saved) }
+  }
 
-    const queryId = page.queryId
-    const isBookmarked = store.state.value.searches
-      .some((search) => search.queryId === queryId && isSearchVisible(store.state.value, search))
-    if (!isBookmarked) return
+  async function canCaptureSnapshot(search: SavedSearch) {
+    return await capturePage(search) !== null
+  }
 
+  async function captureSnapshot(search: SavedSearch) {
+    const capture = await capturePage(search)
+    if (!capture) return 'unavailable'
+    const { page, historyQueryId } = capture
     const now = Date.now()
-    const lastForQuery = store.state.value.snapshots
-      .filter((snapshot) => snapshot.queryId === queryId)
-      .reduce<number>((latest, snapshot) => Math.max(latest, snapshot.capturedAt), 0)
-    if (now - lastForQuery < SNAPSHOT_THROTTLE_MS) return
-
     const listings = readListingPrices()
-    if (!listings.length) return
+    if (!listings.length) return 'insufficient-listings'
 
     const rates = await ensureRates(page)
 
     const result = computeSnapshot(listings, rates)
-    if (!result) return
+    if (!result) return 'insufficient-listings'
 
-    await store.recordSnapshot({ queryId, capturedAt: now, ...result })
+    await store.recordSnapshot({ queryId: historyQueryId, capturedAt: now, ...result })
+    return 'captured'
   }
 
-  function watchResultsForSnapshot(getPage: () => TradePage | null) {
-    let debounceTimer: number | undefined
-    const observer = new MutationObserver(() => {
-      window.clearTimeout(debounceTimer)
-      debounceTimer = ctx.setTimeout(() => void maybeCaptureSnapshot(getPage()), OBSERVER_DEBOUNCE_MS)
-    })
-    observer.observe(document.body, { childList: true, subtree: true })
-    ctx.onInvalidated(() => observer.disconnect())
-
-    return () => {
-      window.clearTimeout(debounceTimer)
-      observer.disconnect()
-    }
-  }
-
-  return { maybeCaptureSnapshot, watchResultsForSnapshot }
+  return { canCaptureSnapshot, captureSnapshot }
 }

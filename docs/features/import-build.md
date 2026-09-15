@@ -4,7 +4,8 @@ Biến gear, jewel, flask của một build thành các bookmark trong folder. B
 
 ## Hành vi
 
-- Menu folder → Import build → modal ba trạng thái: nhập, loading, danh sách item theo slot với checkbox và `N/M mod` (đỏ khi thiếu). Mặc định chọn gear và jewel, bỏ flask và đồ không đeo. Tuỳ chọn Roll: Đúng roll (mặc định, min = roll) hoặc Roll bất kỳ.
+- Menu folder → Import build → modal ba trạng thái: nhập, loading, danh sách item theo slot với checkbox và `N/M mod` (đỏ khi thiếu). Mặc định chọn gear và jewel, bỏ flask và đồ không đeo. Thanh Roll từ 0–100%, mặc định 90%; 0% chỉ yêu cầu có mod, không đặt ngưỡng.
+- Min/max luôn làm tròn xuống số nguyên sau khi tính phần trăm roll: `105 × 90% → 94`, `-7 × 90% → -7`. Áp dụng cả khi chọn 100% và khi giá trị gốc là trung bình khoảng damage.
 - Mỗi item chọn → một bookmark: `type` = base; unique thêm `name`; rare/magic thêm `rarity: nonunique`; mọi mod map được thành stat filter; `status` luôn `available`. Ghi chú bookmark ghi nguồn (`Từ poe.ninja: <tên> (<class> Lv<n>)` hoặc `Từ PoB: …`). League lấy từ character (poe.ninja) hoặc tab đang mở (PoB). Lưu tuần tự để không ghi đè state.
 - Lỗi phân loại: link sai, code không giải mã được, pobb.in không có build, khác game với tab, league không có trên poe.ninja, character không trên ladder, catalog chưa load, mạng.
 
@@ -43,7 +44,7 @@ Query: mod một id vào group `and`; mod nhiều id (Local/global, hai stat GGG
 - poe.ninja không có contract công khai; đổi API là gãy riêng tính năng này, lỗi có message.
 - Mod nhiều dòng trong PoB chỉ tag dòng đầu; dòng sau có thể không map, hiện trong N/M.
 - Text catalog cũ hơn item (Trigger Socketed Spell "when you Use a Skill" vs "on Using a Skill") không xử lý generic được.
-- Bookmark import không có `queryId` nên chưa có lịch sử giá.
+- Bookmark import không có `queryId`; capture giá dùng query để nhận diện kết quả và ID bookmark làm khóa lịch sử.
 
 ## Test
 

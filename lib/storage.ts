@@ -1,5 +1,6 @@
 import { browser } from 'wxt/browser'
 import { i18n } from '#i18n'
+import { matchesTradePage } from '@/lib/price-search-match'
 import { insertRelative, normalizeSearchOrder, orderedFolders, orderedSearches, type Placement } from '@/lib/bookmark-order'
 import type {
   HistoryEntry,
@@ -60,7 +61,7 @@ function sanitizeState(value: unknown): TradeState {
 
   return {
     version: 1,
-    folders: Array.isArray(candidate.folders) && candidate.folders.length
+    folders: Array.isArray(candidate.folders)
       ? candidate.folders
       : fallback.folders,
     searches: Array.isArray(candidate.searches)
@@ -100,11 +101,13 @@ export async function writeState(state: TradeState) {
 export async function saveSearch(input: SaveSearchInput) {
   const state = await readState()
   const now = Date.now()
-  const existing = state.searches.find((search) => search.url === input.url
+  const existing = state.searches.find((search) => matchesTradePage(search, input)
     && (input.folderId === undefined || search.folderId === input.folderId))
 
   if (existing) {
     Object.assign(existing, input, {
+      // Preserve the history key when GGG rewrites the URL of the same search.
+      queryId: existing.queryId,
       folderId: input.folderId ?? existing.folderId,
       note: input.note ?? existing.note,
       updatedAt: now,
@@ -112,10 +115,19 @@ export async function saveSearch(input: SaveSearchInput) {
     // Lưu lại đúng URL vừa "xoá" (ẩn) trước đó — coi như người dùng chủ động mang nó trở lại.
     state.hiddenSearchIds = state.hiddenSearchIds.filter((id) => id !== existing.id)
   } else {
+    let folderId = input.folderId
+    if (folderId === undefined) {
+      let folder = state.folders.find((entry) => entry.id === DEFAULT_FOLDER_ID) ?? orderedFolders(state.folders)[0]
+      if (!folder) {
+        folder = defaultFolders()[0]!
+        state.folders.push(folder)
+      }
+      folderId = folder.id
+    }
     state.searches.unshift({
       ...input,
       id: uid('search'),
-      folderId: input.folderId ?? DEFAULT_FOLDER_ID,
+      folderId,
       note: input.note ?? '',
       order: -1,
       createdAt: now,
@@ -273,14 +285,14 @@ export async function replaceFolderContents(name: string, searches: SaveSearchIn
 export async function removeFolder(id: string) {
   const state = await readState()
   const folder = state.folders.find((entry) => entry.id === id)
-  const fallbackFolder = state.folders.find((entry) => entry.id === DEFAULT_FOLDER_ID && entry.id !== id)
-    ?? state.folders.find((entry) => entry.id !== id)
 
-  if (!folder || !fallbackFolder) return state
+  if (!folder) return state
 
-  for (const search of state.searches) {
-    if (search.folderId === id) search.folderId = fallbackFolder.id
-  }
+  const removedIds = new Set(state.searches.filter((search) => search.folderId === id).map((search) => search.id))
+  state.searches = state.searches.filter((search) => search.folderId !== id)
+  // Forked shared folders can retain the same search IDs.
+  const remainingIds = new Set(state.searches.map((search) => search.id))
+  state.hiddenSearchIds = state.hiddenSearchIds.filter((searchId) => !removedIds.has(searchId) || remainingIds.has(searchId))
 
   state.folders = state.folders
     .filter((entry) => entry.id !== id)

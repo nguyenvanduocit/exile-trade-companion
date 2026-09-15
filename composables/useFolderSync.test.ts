@@ -60,6 +60,41 @@ afterEach(async () => {
 })
 
 describe('folder note sync', () => {
+  it.each([false, true])('deletes a shared folder locally without changing its remote contents (last folder: %s)', async (lastFolder) => {
+    const item = {
+      url: 'https://www.pathofexile.com/trade/search/Standard/boots', title: 'Boots',
+      game: 'poe1' as const, league: 'Standard', mode: 'search' as const,
+    }
+    await store.saveSearch({ ...item, folderId: 'gear' })
+    await store.saveSearch({ ...item, folderId: 'watchlist' })
+    await store.saveSearch({ ...item, url: 'https://www.pathofexile.com/trade/search/Standard/ring', title: 'Ring', folderId: 'gear' })
+    await sync.shareFolderLive('gear')
+    const hiddenId = store.state.value.searches.find(search => search.title === 'Ring')!.id
+    await store.removeSearch(hiddenId)
+    if (lastFolder) {
+      await store.removeFolder('watchlist')
+      await store.removeFolder('bulk')
+    }
+    const remoteBefore = root.toJSON()
+    const otherSearches = store.state.value.searches.filter(search => search.folderId !== 'gear')
+
+    await store.removeFolder('gear')
+
+    expect(store.state.value.folders.some(folder => folder.id === 'gear')).toBe(false)
+    if (lastFolder) expect(store.state.value.folders).toEqual([])
+    expect(store.state.value.searches).toEqual(otherSearches)
+    expect(store.state.value.hiddenSearchIds).toEqual([])
+    expect(leave).toHaveBeenCalledOnce()
+    expect(root.toJSON()).toEqual(remoteBefore)
+    expect(sync.syncStatus.gear).toBeUndefined()
+
+    notifyRemoteChange()
+    await vi.waitFor(() => expect(sync.syncStatus.gear).not.toBe('syncing'))
+    expect(store.state.value.folders.some(folder => folder.id === 'gear')).toBe(false)
+    expect(store.state.value.searches).toEqual(otherSearches)
+    expect(root.toJSON()).toEqual(remoteBefore)
+  })
+
   it('publishes replaced character gear to the same live room while preserving folder metadata', async () => {
     const item = {
       url: 'https://www.pathofexile.com/trade2/search/Standard/test', title: 'Old ring', game: 'poe2' as const, league: 'Standard', mode: 'search' as const,

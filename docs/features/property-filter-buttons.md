@@ -6,6 +6,8 @@ Content script `entrypoints/trade-properties.content.ts` (MAIN world). Cùng hì
 
 Các dòng Armour, Evasion, Energy Shield, Ward, Block, Spirit, Rune Sockets, Quality, Item Level, Damage, APS, Crit, DPS/pDPS/eDPS, Reload Time, Requirements (Level, Str, Dex, Int), gem level/sockets, area level, stack size có nút `+` (min = giá trị) và `−` (max = giá trị). Bấm nút nào thì ngưỡng đối diện bị xoá. Toast xác nhận, `app.save(true)`. Nút thu lại khi rời chuột; vẫn hiện khi focus bằng bàn phím.
 
+Min/max luôn làm tròn xuống số nguyên: `346.5 → 346`, `1.4 → 1`, `-1.5 → -2`. Tooltip và toast dùng cùng giá trị đã làm tròn.
+
 Physical Damage dùng bộ lọc Physical DPS; các dòng damage nguyên tố (ví dụ Lightning Damage) dùng Elemental DPS. Giá trị lấy từ dòng DPS hiển thị của cùng item, gồm điều chỉnh max Quality nếu có. Tooltip và toast ghi tên bộ lọc DPS. Elemental DPS là tổng DPS nguyên tố của item. Nếu item không hiển thị DPS tương ứng, dòng damage không có nút.
 
 ## Cách hoạt động

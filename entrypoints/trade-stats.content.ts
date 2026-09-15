@@ -1,5 +1,5 @@
 // Chạy trong MAIN world để với tới window.app (Vue 2 + Vuex của trade site).
-// Numeric mods: "+" sets min, "-" sets max. Mods without a numeric roll use AND/NOT.
+// Modifier buttons add to AND/NOT, using the numeric roll as min when available.
 import { activeStatIds, parseStatField, parseStatValue, planAddStat, planAddStatNot, type AddStatPlan } from '@/lib/stat-filter'
 import { onMessage, sendMessage } from '@/lib/window-messaging'
 import type { TradeApp } from '@/lib/trade-app'
@@ -11,6 +11,7 @@ const MESSAGES = {
     statAdded: (label: string) => `Đã thêm "${label}" vào Stat Filters`,
     addTitle: (label: string) => `Thêm "${label}" vào Stat Filters`,
     addNotTitle: (label: string) => `Thêm "${label}" vào group Not`,
+    notMinSet: (label: string, value: number) => `Thêm "${label}" vào group Not (min = ${value})`,
     boundSet: (label: string, bound: 'min' | 'max', value: number) => `Đặt ${bound} "${label}" = ${value}`,
   },
   en: {
@@ -18,6 +19,7 @@ const MESSAGES = {
     statAdded: (label: string) => `Added "${label}" to Stat Filters`,
     addTitle: (label: string) => `Add "${label}" to Stat Filters`,
     addNotTitle: (label: string) => `Add "${label}" to Not group`,
+    notMinSet: (label: string, value: number) => `Add "${label}" to Not group (min = ${value})`,
     boundSet: (label: string, bound: 'min' | 'max', value: number) => `Set ${bound} "${label}" = ${value}`,
   },
 } as const
@@ -79,16 +81,17 @@ function applyPlan(app: TradeApp, plan: AddStatPlan, groupType: 'and' | 'not', l
   toast(app, message)
 }
 
-function setStatBound(app: TradeApp, line: HTMLElement, id: string, bound: 'min' | 'max') {
+function addStatFilter(app: TradeApp, line: HTMLElement, id: string, groupType: 'and' | 'not') {
   const label = line.textContent?.trim() ?? id
   const value = id.startsWith('statgroup.') ? null : parseStatValue(label, app.static_?.knownStatsFlat?.[id])
   const groups = app.$store.state.persistent.stats
-  if (value !== null) {
-    applyPlan(app, planAddStat(groups, id, { [bound]: value }), 'and', label, t.boundSet(label, bound, value))
-  } else if (bound === 'min') {
-    applyPlan(app, planAddStat(groups, id), 'and', label)
+  const bounds = value === null ? undefined : { min: value }
+  if (groupType === 'not') {
+    applyPlan(app, planAddStatNot(groups, id, bounds), 'not', label,
+      value === null ? t.statAdded(label) : t.notMinSet(label, value))
   } else {
-    applyPlan(app, planAddStatNot(groups, id), 'not', label)
+    applyPlan(app, planAddStat(groups, id, bounds), 'and', label,
+      value === null ? t.statAdded(label) : t.boundSet(label, 'min', value))
   }
 }
 
@@ -123,13 +126,13 @@ function decorate(line: HTMLElement) {
     className: BUTTON_CLASS,
     symbol: '+',
     title: value === null ? t.addTitle(label) : t.boundSet(label, 'min', value),
-    onClick: (app) => setStatBound(app, line, id, 'min'),
+    onClick: (app) => addStatFilter(app, line, id, 'and'),
   })
   const notButton = makeButton({
     className: BUTTON_NOT_CLASS,
     symbol: '−',
-    title: value === null ? t.addNotTitle(label) : t.boundSet(label, 'max', value),
-    onClick: (app) => setStatBound(app, line, id, 'max'),
+    title: value === null ? t.addNotTitle(label) : t.notMinSet(label, value),
+    onClick: (app) => addStatFilter(app, line, id, 'not'),
   })
 
   host.classList.add(LINE_CLASS)
@@ -198,7 +201,7 @@ export default defineContentScript({
 
     // Subsystem highlight tách riêng khỏi start()/stop() của nút +/− ở trên — hai setting độc lập
     // nhau, bật/tắt cái này không được đổi hành vi cái kia. Cùng convention "mỗi feature một
-    // MutationObserver riêng" đã dùng ở usePriceLabels/usePriceSnapshot.
+    // MutationObserver riêng" đã dùng ở usePriceLabels/useSellerGrouping.
     let highlightObserver: MutationObserver | undefined
     let unwatchStats: (() => void) | undefined
 
