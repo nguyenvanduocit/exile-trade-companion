@@ -98,60 +98,79 @@ export async function writeState(state: TradeState) {
   return state
 }
 
+// Mọi hàm export bên dưới đều là chu trình readState() → mutate → writeState() trên cùng một
+// key browser.storage.local. Không có transact() thì hai lời gọi chồng lấn (vd: user sửa search
+// đúng lúc room subscription của folder-sync bắn applyRemoteFolderState) sẽ cùng đọc snapshot cũ
+// như nhau rồi cùng ghi đè nhau — ai ghi sau thắng, thay đổi của người ghi trước mất trắng. Đây
+// chính là "conflict" khiến item trong folder share liên tục đổi qua đổi lại. transact() xâu chuỗi
+// mọi transaction thành một hàng đợi tuần tự, đảm bảo readState() của transaction sau luôn thấy
+// writeState() của transaction trước đã hoàn tất.
+let writeQueue: Promise<unknown> = Promise.resolve()
+
+function transact<T>(fn: () => Promise<T>): Promise<T> {
+  const result = writeQueue.then(fn, fn)
+  writeQueue = result.then(() => undefined, () => undefined)
+  return result
+}
+
 export async function saveSearch(input: SaveSearchInput) {
-  const state = await readState()
-  const now = Date.now()
-  const existing = state.searches.find((search) => matchesTradePage(search, input)
-    && (input.folderId === undefined || search.folderId === input.folderId))
+  return transact(async () => {
+    const state = await readState()
+    const now = Date.now()
+    const existing = state.searches.find((search) => matchesTradePage(search, input)
+      && (input.folderId === undefined || search.folderId === input.folderId))
 
-  if (existing) {
-    Object.assign(existing, input, {
-      // Preserve the history key when GGG rewrites the URL of the same search.
-      queryId: existing.queryId,
-      folderId: input.folderId ?? existing.folderId,
-      note: input.note ?? existing.note,
-      updatedAt: now,
-    })
-    // Lưu lại đúng URL vừa "xoá" (ẩn) trước đó — coi như người dùng chủ động mang nó trở lại.
-    state.hiddenSearchIds = state.hiddenSearchIds.filter((id) => id !== existing.id)
-  } else {
-    let folderId = input.folderId
-    if (folderId === undefined) {
-      let folder = state.folders.find((entry) => entry.id === DEFAULT_FOLDER_ID) ?? orderedFolders(state.folders)[0]
-      if (!folder) {
-        folder = defaultFolders()[0]!
-        state.folders.push(folder)
+    if (existing) {
+      Object.assign(existing, input, {
+        // Preserve the history key when GGG rewrites the URL of the same search.
+        queryId: existing.queryId,
+        folderId: input.folderId ?? existing.folderId,
+        note: input.note ?? existing.note,
+        updatedAt: now,
+      })
+      // Lưu lại đúng URL vừa "xoá" (ẩn) trước đó — coi như người dùng chủ động mang nó trở lại.
+      state.hiddenSearchIds = state.hiddenSearchIds.filter((id) => id !== existing.id)
+    } else {
+      let folderId = input.folderId
+      if (folderId === undefined) {
+        let folder = state.folders.find((entry) => entry.id === DEFAULT_FOLDER_ID) ?? orderedFolders(state.folders)[0]
+        if (!folder) {
+          folder = defaultFolders()[0]!
+          state.folders.push(folder)
+        }
+        folderId = folder.id
       }
-      folderId = folder.id
+      state.searches.unshift({
+        ...input,
+        id: uid('search'),
+        folderId,
+        note: input.note ?? '',
+        order: -1,
+        createdAt: now,
+        updatedAt: now,
+      })
     }
-    state.searches.unshift({
-      ...input,
-      id: uid('search'),
-      folderId,
-      note: input.note ?? '',
-      order: -1,
-      createdAt: now,
-      updatedAt: now,
-    })
-  }
 
-  return writeState(state)
+    return writeState(state)
+  })
 }
 
 export async function removeSearch(id: string) {
-  const state = await readState()
-  const search = state.searches.find((entry) => entry.id === id)
-  const folder = search ? state.folders.find((entry) => entry.id === search.folderId) : undefined
+  return transact(async () => {
+    const state = await readState()
+    const search = state.searches.find((entry) => entry.id === id)
+    const folder = search ? state.folders.find((entry) => entry.id === search.folderId) : undefined
 
-  if (folder?.shareKey) {
-    // Folder đang share-live: xoá thật khỏi `searches` sẽ bị diff đẩy lên room và xoá luôn ở máy
-    // người khác. Chỉ ẩn cục bộ — search vẫn còn trong storage, chỉ không hiển thị nữa.
-    if (!state.hiddenSearchIds.includes(id)) state.hiddenSearchIds = [...state.hiddenSearchIds, id]
+    if (folder?.shareKey) {
+      // Folder đang share-live: xoá thật khỏi `searches` sẽ bị diff đẩy lên room và xoá luôn ở máy
+      // người khác. Chỉ ẩn cục bộ — search vẫn còn trong storage, chỉ không hiển thị nữa.
+      if (!state.hiddenSearchIds.includes(id)) state.hiddenSearchIds = [...state.hiddenSearchIds, id]
+      return writeState(state)
+    }
+
+    state.searches = state.searches.filter((entry) => entry.id !== id)
     return writeState(state)
-  }
-
-  state.searches = state.searches.filter((entry) => entry.id !== id)
-  return writeState(state)
+  })
 }
 
 export function isSearchVisible(state: TradeState, search: SavedSearch): boolean {
@@ -159,66 +178,78 @@ export function isSearchVisible(state: TradeState, search: SavedSearch): boolean
 }
 
 export async function updateSearch(id: string, patch: Partial<SaveSearchInput>) {
-  const state = await readState()
-  const search = state.searches.find((entry) => entry.id === id)
-  if (search) Object.assign(search, patch, { updatedAt: Date.now() })
-  return writeState(state)
+  return transact(async () => {
+    const state = await readState()
+    const search = state.searches.find((entry) => entry.id === id)
+    if (search) Object.assign(search, patch, { updatedAt: Date.now() })
+    return writeState(state)
+  })
 }
 
 export async function moveFolder(id: string, targetId: string, placement: Placement = 'before') {
-  const state = await readState()
-  const folder = state.folders.find((entry) => entry.id === id)
-  if (!folder || id === targetId || !state.folders.some((entry) => entry.id === targetId)) return state
-  state.folders = insertRelative(orderedFolders(state.folders), folder, targetId, placement)
-    .map((entry, order) => ({ ...entry, order }))
-  return writeState(state)
+  return transact(async () => {
+    const state = await readState()
+    const folder = state.folders.find((entry) => entry.id === id)
+    if (!folder || id === targetId || !state.folders.some((entry) => entry.id === targetId)) return state
+    state.folders = insertRelative(orderedFolders(state.folders), folder, targetId, placement)
+      .map((entry, order) => ({ ...entry, order }))
+    return writeState(state)
+  })
 }
 
 export async function moveSearch(id: string, folderId: string, targetId?: string, placement: Placement = 'before') {
-  const state = await readState()
-  let search = state.searches.find((entry) => entry.id === id && isSearchVisible(state, entry))
-  if (!search || id === targetId || !state.folders.some((folder) => folder.id === folderId)) return state
-  const destination = orderedSearches(state.searches.filter((entry) => isSearchVisible(state, entry)), folderId)
-  if (targetId && !destination.some((entry) => entry.id === targetId)) return state
+  return transact(async () => {
+    const state = await readState()
+    let search = state.searches.find((entry) => entry.id === id && isSearchVisible(state, entry))
+    if (!search || id === targetId || !state.folders.some((folder) => folder.id === folderId)) return state
+    const destination = orderedSearches(state.searches.filter((entry) => isSearchVisible(state, entry)), folderId)
+    if (targetId && !destination.some((entry) => entry.id === targetId)) return state
 
-  const source = state.folders.find((folder) => folder.id === search!.folderId)
-  if (source?.shareKey && source.id !== folderId) {
-    // Moving out of a shared folder keeps the original for other participants, like local deletion.
-    state.hiddenSearchIds.push(search.id)
-    search = { ...search, id: uid('search') }
-    state.searches.push(search)
-  }
-  search.folderId = folderId
-  insertRelative(destination, search, targetId, placement).forEach((entry, order) => { entry.order = order })
-  state.settings.collapsedFolderIds = state.settings.collapsedFolderIds.filter((id) => id !== folderId)
-  return writeState(state)
+    const source = state.folders.find((folder) => folder.id === search!.folderId)
+    if (source?.shareKey && source.id !== folderId) {
+      // Moving out of a shared folder keeps the original for other participants, like local deletion.
+      state.hiddenSearchIds.push(search.id)
+      search = { ...search, id: uid('search') }
+      state.searches.push(search)
+    }
+    search.folderId = folderId
+    insertRelative(destination, search, targetId, placement).forEach((entry, order) => { entry.order = order })
+    state.settings.collapsedFolderIds = state.settings.collapsedFolderIds.filter((id) => id !== folderId)
+    return writeState(state)
+  })
 }
 
 export async function setSearchPurchased(id: string, purchased: boolean) {
-  const state = await readState()
-  const search = state.searches.find((entry) => entry.id === id)
-  if (!search) return state
-  search.purchased = purchased
-  return writeState(state)
+  return transact(async () => {
+    const state = await readState()
+    const search = state.searches.find((entry) => entry.id === id)
+    if (!search) return state
+    search.purchased = purchased
+    return writeState(state)
+  })
 }
 
 export async function recordHistory(page: TradePage) {
-  const state = await readState()
+  return transact(async () => {
+    const state = await readState()
 
-  const entry: HistoryEntry = {
-    ...page,
-    id: uid('history'),
-    visitedAt: Date.now(),
-  }
-  state.history = [entry, ...state.history.filter((item) => item.url !== page.url)]
-    .slice(0, state.settings.maxHistory)
-  return writeState(state)
+    const entry: HistoryEntry = {
+      ...page,
+      id: uid('history'),
+      visitedAt: Date.now(),
+    }
+    state.history = [entry, ...state.history.filter((item) => item.url !== page.url)]
+      .slice(0, state.settings.maxHistory)
+    return writeState(state)
+  })
 }
 
 export async function clearHistory() {
-  const state = await readState()
-  state.history = []
-  return writeState(state)
+  return transact(async () => {
+    const state = await readState()
+    state.history = []
+    return writeState(state)
+  })
 }
 
 export const FOLDER_COLORS = ['#d4a64a', '#70a5dc', '#8ccf7e', '#d290e4', '#e67e80', '#e0a458', '#5fbfb0', '#a8a29e'] as const
@@ -234,28 +265,32 @@ export interface FolderInput {
 }
 
 export async function createFolder(input: FolderInput) {
-  const state = await readState()
-  const note = input.note?.trim()
-  state.folders.push({
-    id: uid('folder'),
-    name: input.name.trim(),
-    color: input.color,
-    order: state.folders.length,
-    ...(note ? { note } : {}),
+  return transact(async () => {
+    const state = await readState()
+    const note = input.note?.trim()
+    state.folders.push({
+      id: uid('folder'),
+      name: input.name.trim(),
+      color: input.color,
+      order: state.folders.length,
+      ...(note ? { note } : {}),
+    })
+    return writeState(state)
   })
-  return writeState(state)
 }
 
 export async function updateFolder(id: string, patch: Partial<FolderInput>) {
-  const state = await readState()
-  const folder = state.folders.find((entry) => entry.id === id)
-  if (!folder) return state
+  return transact(async () => {
+    const state = await readState()
+    const folder = state.folders.find((entry) => entry.id === id)
+    if (!folder) return state
 
-  const nextName = patch.name?.trim()
-  if (nextName) folder.name = nextName
-  if (patch.color) folder.color = patch.color
-  if (patch.note !== undefined) folder.note = patch.note.trim()
-  return writeState(state)
+    const nextName = patch.name?.trim()
+    if (nextName) folder.name = nextName
+    if (patch.color) folder.color = patch.color
+    if (patch.note !== undefined) folder.note = patch.note.trim()
+    return writeState(state)
+  })
 }
 
 export async function replaceFolderContents(name: string, searches: SaveSearchInput[]) {
@@ -263,110 +298,126 @@ export async function replaceFolderContents(name: string, searches: SaveSearchIn
   if (!folderName || !searches.length || searches.some((search) => !search.url || !search.query)) {
     throw new Error('invalid-folder-import')
   }
-  const state = await readState()
-  let folder = state.folders.find((entry) => entry.name === folderName)
-  if (!folder) {
-    folder = { id: uid('folder'), name: folderName, color: nextFolderColor(state.folders.length), order: state.folders.length }
-    state.folders.push(folder)
-  }
-  const removedIds = new Set(state.searches.filter((search) => search.folderId === folder.id).map((search) => search.id))
-  const now = Date.now()
-  // Replace the shared content itself; removeSearch only hides shared items locally.
-  state.searches = [
-    ...state.searches.filter((search) => search.folderId !== folder.id),
-    ...searches.map((search, order) => ({
-      ...search, id: uid('search'), folderId: folder.id, note: search.note ?? '', order, createdAt: now, updatedAt: now,
-    })),
-  ]
-  state.hiddenSearchIds = state.hiddenSearchIds.filter((id) => !removedIds.has(id))
-  return writeState(state)
+  return transact(async () => {
+    const state = await readState()
+    let folder = state.folders.find((entry) => entry.name === folderName)
+    if (!folder) {
+      folder = { id: uid('folder'), name: folderName, color: nextFolderColor(state.folders.length), order: state.folders.length }
+      state.folders.push(folder)
+    }
+    const removedIds = new Set(state.searches.filter((search) => search.folderId === folder.id).map((search) => search.id))
+    const now = Date.now()
+    // Replace the shared content itself; removeSearch only hides shared items locally.
+    state.searches = [
+      ...state.searches.filter((search) => search.folderId !== folder.id),
+      ...searches.map((search, order) => ({
+        ...search, id: uid('search'), folderId: folder.id, note: search.note ?? '', order, createdAt: now, updatedAt: now,
+      })),
+    ]
+    state.hiddenSearchIds = state.hiddenSearchIds.filter((id) => !removedIds.has(id))
+    return writeState(state)
+  })
 }
 
 export async function removeFolder(id: string) {
-  const state = await readState()
-  const folder = state.folders.find((entry) => entry.id === id)
+  return transact(async () => {
+    const state = await readState()
+    const folder = state.folders.find((entry) => entry.id === id)
 
-  if (!folder) return state
+    if (!folder) return state
 
-  const removedIds = new Set(state.searches.filter((search) => search.folderId === id).map((search) => search.id))
-  state.searches = state.searches.filter((search) => search.folderId !== id)
-  // Forked shared folders can retain the same search IDs.
-  const remainingIds = new Set(state.searches.map((search) => search.id))
-  state.hiddenSearchIds = state.hiddenSearchIds.filter((searchId) => !removedIds.has(searchId) || remainingIds.has(searchId))
+    const removedIds = new Set(state.searches.filter((search) => search.folderId === id).map((search) => search.id))
+    state.searches = state.searches.filter((search) => search.folderId !== id)
+    // Forked shared folders can retain the same search IDs.
+    const remainingIds = new Set(state.searches.map((search) => search.id))
+    state.hiddenSearchIds = state.hiddenSearchIds.filter((searchId) => !removedIds.has(searchId) || remainingIds.has(searchId))
 
-  state.folders = state.folders
-    .filter((entry) => entry.id !== id)
-    .map((entry, order) => ({ ...entry, order }))
-  state.settings.collapsedFolderIds = state.settings.collapsedFolderIds.filter((folderId) => folderId !== id)
-  return writeState(state)
+    state.folders = state.folders
+      .filter((entry) => entry.id !== id)
+      .map((entry, order) => ({ ...entry, order }))
+    state.settings.collapsedFolderIds = state.settings.collapsedFolderIds.filter((folderId) => folderId !== id)
+    return writeState(state)
+  })
 }
 
 export async function updateSettings(patch: Partial<TradeSettings>) {
-  const state = await readState()
-  state.settings = { ...state.settings, ...patch }
-  return writeState(state)
+  return transact(async () => {
+    const state = await readState()
+    state.settings = { ...state.settings, ...patch }
+    return writeState(state)
+  })
 }
 
 export async function importState(value: unknown) {
-  return writeState(sanitizeState(value))
+  return transact(async () => writeState(sanitizeState(value)))
 }
 
 export const MAX_SNAPSHOTS_PER_QUERY = 90
 
 export async function recordSnapshot(input: Omit<PriceSnapshot, 'id'>) {
-  const state = await readState()
-  const entry: PriceSnapshot = { ...input, id: uid('snapshot') }
-  const others = state.snapshots.filter((snapshot) => snapshot.queryId !== input.queryId)
-  const nextForQuery = [...state.snapshots.filter((snapshot) => snapshot.queryId === input.queryId), entry]
-    .sort((a, b) => b.capturedAt - a.capturedAt)
-    .slice(0, MAX_SNAPSHOTS_PER_QUERY)
-  state.snapshots = [...others, ...nextForQuery]
-  return writeState(state)
+  return transact(async () => {
+    const state = await readState()
+    const entry: PriceSnapshot = { ...input, id: uid('snapshot') }
+    const others = state.snapshots.filter((snapshot) => snapshot.queryId !== input.queryId)
+    const nextForQuery = [...state.snapshots.filter((snapshot) => snapshot.queryId === input.queryId), entry]
+      .sort((a, b) => b.capturedAt - a.capturedAt)
+      .slice(0, MAX_SNAPSHOTS_PER_QUERY)
+    state.snapshots = [...others, ...nextForQuery]
+    return writeState(state)
+  })
 }
 
 export async function setExchangeRateCache(cache: ExchangeRateCache) {
-  const state = await readState()
-  state.exchangeRate = cache
-  return writeState(state)
+  return transact(async () => {
+    const state = await readState()
+    state.exchangeRate = cache
+    return writeState(state)
+  })
 }
 
 export async function setFolderShareKey(id: string, shareKey: string | undefined) {
-  const state = await readState()
-  const folder = state.folders.find((entry) => entry.id === id)
-  if (!folder) return state
+  return transact(async () => {
+    const state = await readState()
+    const folder = state.folders.find((entry) => entry.id === id)
+    if (!folder) return state
 
-  if (shareKey) folder.shareKey = shareKey
-  else delete folder.shareKey
+    if (shareKey) folder.shareKey = shareKey
+    else delete folder.shareKey
 
-  return writeState(state)
+    return writeState(state)
+  })
 }
 
 export async function addSharedFolder(folder: SearchFolder, searches: SavedSearch[]) {
-  const state = await readState()
-  state.folders.push(folder)
-  state.searches.push(...searches)
-  return writeState(state)
+  return transact(async () => {
+    const state = await readState()
+    state.folders.push(folder)
+    state.searches.push(...searches)
+    return writeState(state)
+  })
 }
 
 export async function applyRemoteFolderState(folderId: string, meta: Pick<SharedFolderMeta, 'name' | 'color' | 'note'>, searches: SavedSearch[]) {
-  const state = await readState()
-  const folder = state.folders.find((entry) => entry.id === folderId)
-  if (!folder) return state
+  return transact(async () => {
+    const state = await readState()
+    const folder = state.folders.find((entry) => entry.id === folderId)
+    if (!folder) return state
 
-  folder.name = meta.name
-  folder.color = meta.color
-  folder.note = meta.note ?? ''
-  state.searches = [
-    ...state.searches.filter((search) => search.folderId !== folderId),
-    ...searches.map((search, index) => {
-      const local = state.searches.find((entry) => entry.id === search.id && entry.folderId === folderId)
-      return {
-        ...search,
-        order: local?.order ?? state.searches.length + index,
-        purchased: local?.purchased ?? false,
-      }
-    }),
-  ]
+    folder.name = meta.name
+    folder.color = meta.color
+    folder.note = meta.note ?? ''
+    state.searches = [
+      ...state.searches.filter((search) => search.folderId !== folderId),
+      ...searches.map((search, index) => {
+        const local = state.searches.find((entry) => entry.id === search.id && entry.folderId === folderId)
+        return {
+          ...search,
+          order: local?.order ?? state.searches.length + index,
+          purchased: local?.purchased ?? false,
+        }
+      }),
+    ]
 
-  return writeState(state)
+    return writeState(state)
+  })
 }

@@ -53,7 +53,17 @@ const STYLE = `
 }
 .${BUTTON_CLASS}:hover, .${BUTTON_CLASS}:focus-visible { border-color: #a38d6d; background: #2c2011; outline: none; z-index: 6; }
 .${BUTTON_NOT_CLASS}:hover, .${BUTTON_NOT_CLASS}:focus-visible { border-color: #af5a4a; background: #2c1111; outline: none; z-index: 6; }
-.${HIGHLIGHT_CLASS} { background: rgba(163, 141, 109, 0.22); box-shadow: inset 0 0 0 1px rgba(138, 106, 58, 0.65); border-radius: 2px; }
+.${HIGHLIGHT_CLASS} { position: relative; isolation: isolate; }
+.${HIGHLIGHT_CLASS}::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  border-image-source: url('https://web.poecdn.com/protected/image/item/popup2/mod-decorator-abyss.webp?v=1755058882408&key=P7lo6UMIBNlQ9qClPdHjFw');
+  /* Stretch the textured strip (x=8..32) as one continuous fill, excluding the asset's fade. */
+  border-image-slice: 2 249 2 8 fill;
+  border-image-width: 2px 1px;
+  border-image-repeat: stretch;
+  filter: hue-rotate(-35deg) saturate(1.8) brightness(2);
+  opacity: 0.5;
+}
 `
 
 function injectStyle() {

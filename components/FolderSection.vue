@@ -10,6 +10,10 @@ import ShareFolderModal from '@/components/ShareFolderModal.vue'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useFolderSync } from '@/composables/useFolderSync'
+import { useTradeStore } from '@/composables/useTradeStore'
+import { isExchangeRateCacheFresh } from '@/composables/useExchangeRates'
+import { formatChaos, formatDivine } from '@/lib/format-price'
+import { snapshotQueryId } from '@/lib/price-search-match'
 import type { SavedSearch, SearchFolder, TradePage } from '@/types/trading'
 
 const props = defineProps<{
@@ -31,7 +35,27 @@ const showEditModal = ref(false)
 const showShareModal = ref(false)
 const showImportModal = ref(false)
 const folderSync = useFolderSync()
+const store = useTradeStore()
 const dropTarget = useBookmarkDrop('folder', () => props.folder.id)
+
+const totalPrice = computed(() => {
+  const snapshots = [...store.state.value.snapshots].sort((a, b) => b.capturedAt - a.capturedAt)
+  const pricedSearches = props.searches.flatMap((search) => {
+    const snapshot = snapshots.find((item) => item.queryId === snapshotQueryId(search))
+    return snapshot ? [{ search, snapshot }] : []
+  })
+  if (!pricedSearches.length) return null
+
+  const totalChaos = pricedSearches.reduce((total, { snapshot }) => total + snapshot.medianChaos, 0)
+  const cache = store.state.value.exchangeRate
+  const divineRate = pricedSearches.every(({ search }) => isExchangeRateCacheFresh(cache, search))
+    ? cache?.rates.divine
+    : undefined
+  if (divineRate && divineRate > 0) {
+    return `${Number(formatDivine(totalChaos / divineRate))} div`
+  }
+  return `${formatChaos(totalChaos)}c`
+})
 
 const shareStatus = computed(() => (props.folder.shareKey ? folderSync.syncStatus[props.folder.id] ?? 'idle' : undefined))
 
@@ -67,6 +91,9 @@ function confirmDelete() {
         <button class="flex h-8 min-w-0 flex-1 items-center gap-2 pl-1 text-left hover:bg-hover" type="button">
           <span class="size-2 shrink-0" :style="{ backgroundColor: folder.color }" />
           <span class="min-w-0 flex-1 truncate font-display text-[14px] text-cream">{{ folder.name }}</span>
+          <span v-if="totalPrice" class="shrink-0 whitespace-nowrap pr-1 text-[11px] leading-4 text-tan">
+            {{ totalPrice }}
+          </span>
         </button>
       </CollapsibleTrigger>
       <button

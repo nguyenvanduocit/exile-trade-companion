@@ -14,7 +14,10 @@ vi.mock('wxt/browser', () => ({
   browser: {
     storage: {
       local: {
-        get: vi.fn(async (key: string) => ({ [key]: storage.value[key] })),
+        // structuredClone mô phỏng đúng chrome.storage.local.get() thật (đi qua IPC nên luôn trả
+        // bản deep-clone) — không clone sẽ khiến các lời gọi readState() chồng lấn vô tình share
+        // chung reference và che mất race điều kiện đang test ở describe('concurrent writes').
+        get: vi.fn(async (key: string) => ({ [key]: structuredClone(storage.value[key]) })),
         set: vi.fn(async (value: Record<string, unknown>) => Object.assign(storage.value, value)),
       },
     },
@@ -731,5 +734,22 @@ describe('bookmark organization', () => {
     expect(visible[0]).toMatchObject({ folderId: DEFAULT_FOLDER_ID, title: 'Boots' })
     expect(visible[0]?.id).not.toBe('search-1')
     expect(diffSearchesForFolder('gear', before.searches, after.searches).removedIds).toEqual([])
+  })
+})
+
+describe('concurrent writes', () => {
+  it('không mất thay đổi ở folder khác khi race với applyRemoteFolderState (readState/writeState race)', async () => {
+    // Đây chính là bug "share folder xong item liên tục đổi qua đổi lại": folder-sync gọi
+    // applyRemoteFolderState() mỗi khi room Liveblocks bắn deep-storage event (kể cả echo của
+    // chính client này), song song với thao tác khác của người dùng — cả hai đều đi qua
+    // readState()/writeState() trên cùng key browser.storage.local. Không serialize thì hai lời
+    // gọi đọc cùng snapshot cũ, ai ghi sau thắng toàn bộ state — đổi tên một folder KHÔNG LIÊN
+    // QUAN đến folder đang share cũng bị âm thầm revert theo.
+    await Promise.all([
+      updateFolder(DEFAULT_FOLDER_ID, { name: 'Renamed locally' }),
+      applyRemoteFolderState('gear', { name: 'Đổi tên từ xa', color: '#123456' }, makeState().searches),
+    ])
+    const result = await readState()
+    expect(result.folders.find((folder) => folder.id === DEFAULT_FOLDER_ID)?.name).toBe('Renamed locally')
   })
 })

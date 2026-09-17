@@ -10,9 +10,10 @@ import { isExchangeRateCacheFresh } from '@/composables/useExchangeRates'
 import { usePriceSnapshot } from '@/composables/usePriceSnapshot'
 import { matchesTradePage, snapshotQueryId } from '@/lib/price-search-match'
 import { resolveEditedTitle } from '@/lib/edit-title'
-import { formatChaosWithDivine, formatDelta } from '@/lib/format-price'
+import { formatChaos, formatDivine, formatDelta } from '@/lib/format-price'
 import { buildDurableUrl } from '@/lib/trade-url'
 import { sendMessage } from '@/lib/extension-messaging'
+import { sendMessage as sendWindowMessage } from '@/lib/window-messaging'
 import type { SavedSearch, TradePage } from '@/types/trading'
 
 const props = defineProps<{
@@ -32,7 +33,6 @@ const editValue = ref(props.search.title)
 const editInputRef = ref<HTMLInputElement | null>(null)
 const showHistoryModal = ref(false)
 const capturingPrice = ref(false)
-const captureMessage = ref('')
 const actionsOpen = ref(false)
 const checkingCapture = ref(false)
 const canCapture = ref(false)
@@ -54,17 +54,15 @@ const priceLine = computed(() => {
   const previous = querySnapshots.value[1]
 
   return {
-    median: formatChaosWithDivine(latest.medianChaos, divineRate),
+    median: divineRate && divineRate > 0
+      ? `${Number(formatDivine(latest.medianChaos / divineRate))} div`
+      : `${formatChaos(latest.medianChaos)}c`,
     delta: previous ? formatDelta(latest.medianChaos, previous.medianChaos) : null,
   }
 })
 
 watch(() => props.search.title, (title) => {
   editValue.value = title
-})
-
-watch([() => props.search.queryId, () => props.currentPage?.url], () => {
-  captureMessage.value = ''
 })
 
 watch([actionsOpen, () => props.currentPage?.url], async ([open], _, onCleanup) => {
@@ -86,19 +84,20 @@ watch([actionsOpen, () => props.currentPage?.url], async ([open], _, onCleanup) 
 async function capturePrice() {
   if (capturingPrice.value || !canCapture.value) return
   capturingPrice.value = true
-  captureMessage.value = ''
+  let message: string
   try {
     const result = await captureSnapshot(props.search)
-    captureMessage.value = result === 'captured'
+    message = result === 'captured'
       ? i18n.t('priceHistory.captured')
       : result === 'insufficient-listings'
         ? i18n.t('priceHistory.captureInsufficientListings')
         : i18n.t('priceHistory.captureUnavailable')
   } catch {
-    captureMessage.value = i18n.t('priceHistory.captureFailed')
+    message = i18n.t('priceHistory.captureFailed')
   } finally {
     capturingPrice.value = false
   }
+  void sendWindowMessage('saveToast', message).catch(() => undefined)
 }
 
 function startEditTitle() {
@@ -213,17 +212,14 @@ async function overwriteWithCurrent() {
     <button v-else class="min-w-0 flex-1 py-0.5 text-left" type="button" :title="search.url" :aria-label="search.purchased ? i18n.t('search.markPurchased', { title: search.title }) : undefined" @click="openSearch">
       <span class="line-clamp-2 font-display text-[12px] leading-4 text-cream" :class="search.purchased ? 'line-through decoration-tan' : ''">{{ search.title }}</span>
       <span v-if="search.note" class="mt-0.5 line-clamp-2 whitespace-pre-wrap break-words text-[11px] leading-[14px] text-dim" :title="search.note">{{ search.note }}</span>
-      <span v-if="capturingPrice || captureMessage" role="status" class="mt-0.5 block text-[11px] leading-[14px] text-tan">
-        {{ capturingPrice ? i18n.t('priceHistory.capturing') : captureMessage }}
-      </span>
     </button>
 
     <div v-if="!isEditingTitle && !isEditingNote" class="relative flex min-h-6 shrink-0 items-center">
       <span v-if="priceLine" class="whitespace-nowrap pr-1 text-[11px] leading-4 text-dim">
         {{ priceLine.median }}
         <span
-          v-if="priceLine.delta"
-          :class="priceLine.delta.startsWith('+') ? 'text-danger' : priceLine.delta === '0%' ? 'text-dim' : 'text-tan'"
+          v-if="priceLine.delta && priceLine.delta !== '0%'"
+          :class="priceLine.delta.startsWith('+') ? 'text-danger' : 'text-tan'"
         >
           {{ priceLine.delta }}
         </span>
@@ -244,6 +240,7 @@ async function overwriteWithCurrent() {
           class="icon-btn"
           type="button"
           :aria-label="i18n.t('search.editTitle')"
+          :title="i18n.t('search.editTitle')"
           @click="startEditTitle"
         >
           <Pencil />
@@ -252,6 +249,7 @@ async function overwriteWithCurrent() {
           class="icon-btn hover:text-danger"
           type="button"
           :aria-label="i18n.t('search.deleteBookmark')"
+          :title="i18n.t('search.deleteBookmark')"
           @click="store.removeSearch(search.id)"
         >
           <Trash2 />
@@ -262,6 +260,7 @@ async function overwriteWithCurrent() {
               class="icon-btn"
               type="button"
               :aria-label="i18n.t('search.actionsLabel')"
+              :title="i18n.t('search.actionsLabel')"
             >
               <MoreHorizontal />
             </button>
