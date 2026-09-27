@@ -34,7 +34,7 @@ Mỗi mục: quyết định, lý do, và session đã đưa ra nó (`<claude:id
 
 **D14. Panel đẩy trang thay vì che.** `<claude:886e65a7-b331-43b8-9837-ae941998dc20>`
 
-**D15. Mã nguồn mở Apache-2.0 trên GitHub; release qua git tag, workflow chỉ upload draft, Submit for review luôn thủ công; publisher trên Chrome Web Store là account AI Ocean, không phải account cá nhân.** Quy trình chi tiết trong skill `.claude/skills/release-extension/SKILL.md`. `<claude:f1c2d922-3847-4bd8-9838-4f64cc30fb11>` `<claude:27b684a9-0cd4-4266-bee1-7d63d763c385>`
+**D15. Mã nguồn mở Apache-2.0 trên GitHub; release khi bump version trên main (D37), workflow chỉ upload draft, Submit for review luôn thủ công; publisher trên Chrome Web Store là account AI Ocean, không phải account cá nhân.** Quy trình chi tiết trong skill `.claude/skills/release-extension/SKILL.md`. `<claude:f1c2d922-3847-4bd8-9838-4f64cc30fb11>` `<claude:27b684a9-0cd4-4266-bee1-7d63d763c385>`
 
 **D16. Onboarding bằng ảnh thật của UI, mở khi cài; badge Discord ở header làm điểm vào cộng đồng.** `<claude:73cc0021-301b-450d-9f66-a024a7a07e62>` `<claude:2a11bb18-985f-4e5e-9cc2-5120c3799616>`
 
@@ -81,6 +81,10 @@ Mỗi mục: quyết định, lý do, và session đã đưa ra nó (`<claude:id
 **D34. Telemetry ẩn danh qua Datadog, background là proxy duy nhất, mặc định bật và tắt được, gửi text mod không map được, không gửi account/query/bookmark; công bố trong PRIVACY.md.** `<claude:6be7b849-abef-4a77-ab7b-dfbc31f17faf>`
 
 **D35. Tài liệu gắn tag session cho mỗi quyết định và tính năng.** Format `<claude:session-id>` và `<code:session-id>` để truy được cuộc hội thoại đã sinh ra quyết định. Spec và plan cũ trong `docs/superpowers/` được gộp vào đây và xoá vì mô tả trạng thái đã qua (tab Price Analysis, popup). `<claude:7efb3403-e37e-4a92-9e10-91769a2a9fc7>`
+
+## 2026-09-27
+
+**D37. Release bằng cách push lên main một commit bump `version` trong `package.json`; tag `v<version>` do workflow tạo và là dấu đã release.** Đảo phần "release qua git tag" của D15: bump version là bước duy nhất người làm. Workflow tạo tag trong cùng run qua `GITHUB_TOKEN`, vì tag do `GITHUB_TOKEN` push không kích hoạt workflow khác; upload CWS fail thì chưa có tag và lần chạy sau thử lại. OAuth app cấp refresh token cho CI ở trạng thái In production, vì ở Testing Google cho token hạn 7 ngày — nguyên nhân upload CWS fail từ 0.3.4 đến 0.3.7. `<claude:fc791b2d-f62c-4054-aa97-3f4f5182b347>`
 
 ## Chưa quyết
 

@@ -7,7 +7,7 @@ description: Dùng khi user gõ /release-extension, hoặc yêu cầu "publish l
 
 **Bạn là agent release.** Extension build bằng WXT + Vue3. Hai đường release tồn tại song song — chọn đúng đường theo việc cần làm, đừng trộn lẫn:
 
-- **Build + upload draft** (bump version, zip, đẩy lên CWS làm draft) → **tự động hoá được** qua GitHub Actions khi push git tag. Xem `## 0. Release tự động qua git tag`.
+- **Build + upload draft** (zip, đẩy lên CWS làm draft, tạo tag + GitHub Release) → **tự động** qua GitHub Actions khi push lên main một commit bump `version` trong `package.json`. Xem `## 0. Release tự động khi bump version`.
 - **Screenshot / icon / store listing / Submit for review** → vẫn **thủ công** qua Chrome Web Store Developer Dashboard bằng ego-browser (Google không có API public cho các bước này). Xem `## 1-4`.
 
 ## Project state — verify trước khi action
@@ -26,16 +26,19 @@ Icon slot:         public/icon/{16,32,48,96,128}.png — WXT tự detect, không
 
 `/u/3/` trong URL là account index 3 trong Chrome profile của ego-browser task space — không phải publisher ID, đừng nhầm sang account khác nếu profile đổi thứ tự đăng nhập. Nếu URL trên trỏ nhầm project khác (đã từng xảy ra — trỏ nhầm sang "AI Annotator") → STOP, xác nhận lại với user trước khi làm gì, đừng tự suy đoán item nào đúng.
 
-## 0. Release tự động qua git tag
+## 0. Release tự động khi bump version
 
 ```bash
-git tag v0.2.0
-git push origin v0.2.0
+# sửa "version" trong package.json, vd 0.3.8
+git commit -am "release: 0.3.8"
+git push origin main
 ```
 
-Push tag `v*.*.*` kích hoạt `.github/workflows/release.yml`: bump `package.json` version theo tag → `bun run test` + `bun run typecheck` → `bun run zip` (build lại nên version trong manifest đúng tag) → upload **draft** lên Chrome Web Store qua action `mnao305/chrome-extension-upload@v6.0.0` (`publish: false` — KHÔNG tự Submit for review) → tạo GitHub Release đính kèm zip.
+`.github/workflows/release.yml` chạy khi push main có đổi `package.json` (hoặc đổi chính workflow). Job `version` đọc `version` trong `package.json` và tra tag `v<version>` trên remote: tag có rồi → bỏ qua (push đổi dependency không bump version không release lại). Tag chưa có → job `release`: `bun run test` + `bun run typecheck` → `bun run zip` → upload **draft** lên Chrome Web Store qua action `mnao305/chrome-extension-upload@v6.0.0` (`publish: false` — KHÔNG tự Submit for review) → tạo GitHub Release đính kèm zip, bước này tạo luôn tag `v<version>` ở commit vừa push.
 
-`wxt.config.ts` **không hardcode `manifest.version`** — cố tình bỏ để WXT tự lấy version từ `package.json`; đừng thêm lại field này vào manifest config, sẽ làm version tag bơm vào vô nghĩa (build sẽ luôn dùng số hardcode thay vì version thật của tag).
+Tag là dấu "đã release": job fail thì chưa có tag, sửa xong chạy `gh workflow run release.yml` (chạy trên main mới nhất; `gh run rerun` chỉ chạy lại đúng commit cũ, commit sửa không đụng `package.json` thì không tự trigger). Workflow tự tạo tag qua `GITHUB_TOKEN` chứ không trigger theo tag, vì tag do `GITHUB_TOKEN` tạo không kích hoạt workflow khác. Push tag bằng tay không làm gì cả.
+
+`wxt.config.ts` **không hardcode `manifest.version`** — cố tình bỏ để WXT tự lấy version từ `package.json`; đừng thêm lại field này vào manifest config, build sẽ luôn dùng số hardcode thay vì version vừa bump.
 
 **7 GitHub Secrets bắt buộc** (repo Settings → Secrets and variables → Actions), toàn bộ đã set sẵn — chỉ cần biết để debug khi action fail:
 
@@ -51,18 +54,19 @@ VITE_DATADOG_SITE           datadoghq.com
 
 Ba secret `VITE_*` được truyền vào bước "Build + zip extension" qua `env:` trong workflow. Đổi key ở `.env` thì phải `gh secret set` lại, không có sync tự động. Verify bản CI build có key: tải zip từ GitHub Release, `grep -c pk_dev content-scripts/trade.js` phải ra 1.
 
-Trước khi tag, bump `package.json` version lên đúng số tag và commit — CI tự `npm version` theo tag nên build không lệch, nhưng repo và tag phải kể cùng một số. Tag `v0.2.0` đang trỏ commit cũ (CI upload CWS fail vì item pending review) và không có release nào, đừng tái dùng số 0.2.0.
+Bản trước còn **Pending review** thì CWS từ chối upload bản mới (`ITEM_NOT_UPDATABLE`), job đỏ, chưa có tag — chờ duyệt xong rồi `gh workflow run release.yml`. Tag `v0.2.0` đang trỏ commit cũ và không có release nào, đừng tái dùng số 0.2.0.
 
-Credentials sống ở Google Cloud project `aiocean-fns` (project chung, không tách riêng — đã đụng project-limit lúc tạo nên dùng project có sẵn). OAuth consent screen ở chế độ **Testing** (External), test user gồm cả `nguyenvanduocit@gmail.com` lẫn `essievaill2013u@gmail.com`. Client type là **Web application** với Authorized redirect URI `https://developers.google.com/oauthplayground` — **không phải Desktop app**: Desktop app chỉ chấp nhận loopback redirect nên OAuth Playground báo `redirect_uri_mismatch`, đã tốn một vòng debug vì việc này.
+Credentials sống ở Google Cloud project `aiocean-fns` (project chung, không tách riêng — đã đụng project-limit lúc tạo nên dùng project có sẵn). OAuth consent screen (Google Auth Platform → Audience) ở trạng thái **In production**, user type External, app chưa verify (consent hiện cảnh báo "hasn't verified this app", cap 100 user — đủ cho CI). Branding trỏ home page về repo GitHub, privacy về `PRIVACY.md`, authorized domain `github.com`. **Giữ In production**: ở trạng thái Testing, Google cấp refresh token hạn 7 ngày ([doc](https://developers.google.com/identity/protocols/oauth2#expiration)) và CI upload sẽ chết một tuần sau mỗi lần tạo token. Client type là **Web application** với Authorized redirect URI `https://developers.google.com/oauthplayground` — **không phải Desktop app**: Desktop app chỉ chấp nhận loopback redirect nên báo `redirect_uri_mismatch`.
 
-**Refresh token có thể hết hạn/bị revoke** (Google âm thầm revoke refresh token không dùng >6 tháng, hoặc app OAuth bị đổi cấu hình). Regenerate khi action báo lỗi 401/invalid_grant ở bước upload:
+**Triệu chứng token chết**: step "Upload draft to Chrome Web Store" fail ngay đầu step với `HTTPError: Response code 400 (Bad Request)` và `error: undefined` — đó là request đổi refresh token (`oauth2.googleapis.com/token` trả `invalid_grant`), action không in body lỗi. Regenerate:
 
-1. Google Cloud Console → project `aiocean-fns` → APIs & Services → Google Auth Platform → Clients → mở client `exile-trade-companion-ci` lấy lại Client ID/Secret (hoặc tạo Web application client mới với đúng redirect URI trên nếu client cũ bị xoá).
-2. `https://developers.google.com/oauthplayground/` → gear icon (góc phải) → tick "Use your own OAuth credentials" → điền Client ID/Secret → Close.
-3. Ô scope → `https://www.googleapis.com/auth/chromewebstore` → Authorize APIs → **chọn đúng account `essievaill2013u@gmail.com`** (màn hình chọn account dễ mặc định sang account khác đang login sẵn — verify kỹ trước khi bấm) → Continue qua cảnh báo "hasn't verified this app" (bình thường vì app ở Testing mode) → Continue cấp quyền.
-4. Step 2 "Exchange authorization code for tokens" → copy `refresh_token`.
-5. `gh secret set CWS_REFRESH_TOKEN --repo nguyenvanduocit/exile-trade-companion --body "<token>"`.
-6. Verify trước khi coi là xong (đừng chỉ tin dialog Playground):
+1. Google Cloud Console → project `aiocean-fns` → Google Auth Platform → Clients → client Web application `exile-trade-companion-ci`. Secret cũ không xem lại được (Google hash secret) → bấm **Add secret**, lấy giá trị từ nút copy của dòng `NEW` (chỉ có lúc vừa tạo). Secret cũ vẫn Enabled, disable nó sau khi CI xanh với secret mới.
+2. Mở authorization URL (ego-browser), redirect thẳng về Playground nên không cần cấu hình Playground:
+   `https://accounts.google.com/o/oauth2/v2/auth?client_id=$CLIENT_ID&redirect_uri=https://developers.google.com/oauthplayground&response_type=code&scope=https://www.googleapis.com/auth/chromewebstore&access_type=offline&prompt=consent%20select_account&login_hint=essievaill2013u@gmail.com`
+3. **Chọn đúng account `essievaill2013u@gmail.com`** (verify email trên màn consent trước khi bấm) → Advanced → Go to Exile Trade Companion CI (unsafe) → trang consent có nút mũi tên cuộn che nút Continue, cuộn xuống cuối rồi mới bấm Continue.
+4. Lấy `code` từ URL redirect `developers.google.com/oauthplayground?code=...`, đổi token: `POST https://oauth2.googleapis.com/token` với `code`, `client_id`, `client_secret`, `redirect_uri=https://developers.google.com/oauthplayground`, `grant_type=authorization_code`. Response không có field `refresh_token_expires_in` nghĩa là token không có hạn cố định (có field đó = app đang ở Testing).
+5. Set cả ba secret cùng lúc để client id/secret/token luôn cùng một cặp, pipe qua stdin cho giá trị không nằm trong shell history: `gh secret set CWS_CLIENT_ID|CWS_CLIENT_SECRET|CWS_REFRESH_TOKEN --repo nguyenvanduocit/exile-trade-companion`.
+6. Verify trước khi coi là xong:
    ```bash
    curl -s -X POST https://oauth2.googleapis.com/token \
      -d "client_id=$CLIENT_ID" -d "client_secret=$CLIENT_SECRET" \
@@ -191,6 +195,6 @@ Sau khi Save draft, nút "Submit for review" chuyển từ xám sang xanh khi h�
 Khi user gõ `/release-extension` không kèm chi tiết cụ thể, default action:
 
 1. Chạy `bun run check`, báo pass/fail.
-2. Hỏi user: chỉ bump version (không đổi icon/screenshot/listing) → đề xuất đi đường `git tag` ở `## 0` (nhanh, tự động, không cần ego-browser); có đổi icon/screenshot/listing → đi đường thủ công `## 1-4`.
-3. Đường tag: sau khi push tag và action chạy xanh, báo user draft đã lên CWS, hỏi có muốn mở Dev Console kiểm tra + Submit for review luôn không.
+2. Hỏi user: chỉ bump version (không đổi icon/screenshot/listing) → đề xuất đi đường bump version trên main ở `## 0` (nhanh, tự động, không cần ego-browser); có đổi icon/screenshot/listing → đi đường thủ công `## 1-4`.
+3. Đường bump version: sau khi push main và action chạy xanh, báo user draft đã lên CWS, hỏi có muốn mở Dev Console kiểm tra + Submit for review luôn không.
 4. Đường thủ công: build+upload+điền listing xong → Save draft, báo user tóm tắt đã đổi gì, dừng chờ xác nhận trước khi Submit for review.

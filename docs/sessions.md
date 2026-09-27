@@ -85,6 +85,12 @@ Mỗi tính năng và quyết định trong tài liệu được gắn tag sessi
 |---|---|---|---|
 | `<code:01a09f6c-4a4a-7350-8d74-85bf84895e44>` | 17:20 | Làm tròn xuống số nguyên cho min/max và roll import; đồng bộ tooltip và kiểm tra số âm, damage trung bình | stat-filter, property-filter, ninja-import, test và docs/features |
 
+## 2026-09-27
+
+| Session | Giờ | Việc | File chính |
+|---|---|---|---|
+| `<claude:fc791b2d-f62c-4054-aa97-3f4f5182b347>` | 18:37 | Release 0.3.7: sửa token CWS hết hạn (OAuth app sang In production), release tự động khi bump version trên main (D37) | release.yml, release-extension skill, docs |
+
 ## Session không tạo code
 
 Bỏ dở hoặc chỉ hỏi đáp, giữ để truy vết: `<claude:8288652f-2fb7-4e90-a4bd-f7990252d2e3>`, `<claude:442251a8-610e-4c2e-855f-94af9bae3c48>`, `<code:01a067c4-3a8e-7260-a5bf-a61ba3fe512b>`, `<code:01a067c6-1891-78d1-aa39-f8d7b914133d>`, `<code:01a067ce-dacc-7100-8f3b-e0a51c271695>` (ý tưởng nút thêm từng thuộc tính vào search, ngày 09-03), `<claude:9a8d70e9-9fc4-4ffd-a9c8-f772852c50d9>` (commit all), `<claude:8b25fb0e-b1c1-4e62-b6c2-de5ae53b0b2b>` (hỏi về auto update ngoài store), `<code:01a07177-063e-7e40-9f80-32c2441366e9>` (reviewer phê duyệt lệnh cho session Codex khác).

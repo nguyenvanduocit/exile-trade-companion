@@ -110,7 +110,7 @@ Panel là `position: fixed` nên đẩy trang bằng `margin-right !important` t
 - `host_permissions`: `api.liveblocks.io` (https và wss) cho chia sẻ folder; `poe.ninja` cho tỷ giá và import, `pobb.in` cho import (hai site không trả CORS nên phải fetch từ background); `browser-intake-datadoghq.com` cho telemetry.
 - `commands.toggle-trade-companion`: `Alt+Shift+B`.
 - `action: {}` khai tay vì không có popup entrypoint; thiếu nó `browser.action` là `undefined`. Background chọn `browser.action ?? browser.browserAction` để chạy cả MV3 Chrome lẫn MV2 Firefox.
-- Không hardcode `manifest.version`; WXT lấy từ `package.json`, và workflow release bơm version từ git tag vào đó.
+- Không hardcode `manifest.version`; WXT lấy từ `package.json`, và workflow release đọc chính số đó để quyết định có release không.
 
 Không xin `tabs`, `alarms`, `notifications`. Extension không có background polling.
 

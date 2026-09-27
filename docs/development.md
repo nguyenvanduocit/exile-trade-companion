@@ -57,16 +57,17 @@ Account đã từng bị GGG flag. Khi thao tác DOM trên trade site bằng aut
 
 ## Phát hành
 
-### Chrome Web Store qua git tag
+### Chrome Web Store khi bump version
 
 ```bash
-git tag v0.2.0
-git push origin v0.2.0
+# sửa "version" trong package.json, vd 0.3.8
+git commit -am "release: 0.3.8"
+git push origin main
 ```
 
-`.github/workflows/release.yml` chạy khi push tag `v*.*.*`: đặt version trong `package.json` theo tag, `bun run test`, `bun run typecheck`, `bun run zip`, upload **draft** lên Chrome Web Store (action `mnao305/chrome-extension-upload`, `publish: false`), tạo GitHub Release đính kèm zip. Sau đó vào Developer Dashboard kiểm tra listing và bấm Submit for review thủ công.
+`.github/workflows/release.yml` chạy khi push main có đổi `package.json`. Nếu tag `v<version>` chưa có trên remote: `bun run test`, `bun run typecheck`, `bun run zip`, upload **draft** lên Chrome Web Store (action `mnao305/chrome-extension-upload`, `publish: false`), tạo GitHub Release đính kèm zip và tạo luôn tag. Tag có rồi thì workflow bỏ qua. Job fail (test đỏ, hoặc bản trước còn pending review nên CWS từ chối upload) thì chưa có tag; sửa xong chạy `gh workflow run release.yml`. Sau đó vào Developer Dashboard kiểm tra listing và bấm Submit for review thủ công.
 
-Bốn secret trong repo: `CWS_EXTENSION_ID`, `CWS_CLIENT_ID`, `CWS_CLIENT_SECRET`, `CWS_REFRESH_TOKEN`. Extension đăng dưới publisher AI Ocean, item id `lmdfepkngckhbmcjbaijloakinneodfd`. Refresh token có thể bị Google revoke; cách tạo lại, layout Dev Console, upload screenshot và điền tab Privacy nằm trong skill `.claude/skills/release-extension/SKILL.md`.
+Bốn secret trong repo: `CWS_EXTENSION_ID`, `CWS_CLIENT_ID`, `CWS_CLIENT_SECRET`, `CWS_REFRESH_TOKEN`. Extension đăng dưới publisher AI Ocean, item id `lmdfepkngckhbmcjbaijloakinneodfd`. OAuth app trong GCP project `aiocean-fns` phải ở trạng thái In production, vì ở Testing refresh token hết hạn sau 7 ngày và step upload CWS fail với HTTP 400. Cách tạo lại token, layout Dev Console, upload screenshot và điền tab Privacy nằm trong skill `.claude/skills/release-extension/SKILL.md`.
 
 Khi release bản có telemetry: listing Chrome Web Store phải khai thu thập "User activity" và có link privacy policy (nội dung ở `PRIVACY.md`).
 
